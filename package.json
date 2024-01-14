@@ -7,10 +7,10 @@
     "site"
   ],
   "scripts": {
-    "casualties-daily": "bun run scripts/casualties-daily.ts",
-    "docs-start": "pushd site && bun run start",
-    "docs-build": "pushd site && bun run build && popd && ./scripts/pre-deploy.sh",
-    "docs-serve": "pushd site && bun run serve"
+    "casualties-daily": "yarn scripts/casualties-daily.ts",
+    "docs-start": "pushd site && yarn start",
+    "docs-build": "pushd site && yarn build && popd && ./scripts/pre-deploy.sh",
+    "docs-serve": "pushd site && yarn serve"
   },
   "devDependencies": {
     "@types/node": "^20.11.0"
