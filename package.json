@@ -9,7 +9,7 @@
   "scripts": {
     "casualties-daily": "bun run scripts/casualties-daily.ts",
     "docs-start": "pushd site && bun run start",
-    "docs-build": "pushd site && bun run build && popd && ./scripts/copy-json.sh",
+    "docs-build": "pushd site && bun run build && popd && ./scripts/pre-deploy.sh",
     "docs-serve": "pushd site && bun run serve"
   },
   "devDependencies": {
