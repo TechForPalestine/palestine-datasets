@@ -64,7 +64,7 @@ function DataSummaryCard({ value, label }: DataSummaryCardProps) {
 
 export default function DatasetPreview(): JSX.Element {
   return (
-    <section className={styles.features}>
+    <section className={styles.previewContainer}>
       <div className="container">
         <div className="row">
           {DataSummaries.map((props, idx) => (
