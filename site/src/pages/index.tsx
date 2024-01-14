@@ -6,6 +6,7 @@ import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
 import Translate from "@docusaurus/Translate";
+import DatasetPreview from "../components/DatasetPreview";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -23,6 +24,8 @@ function HomepageHeader() {
   );
 }
 
+const Spacer = () => <div className={styles.spacer} />;
+
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -33,6 +36,8 @@ export default function Home(): JSX.Element {
       <HomepageHeader />
       <main>
         <HomepageFeatures />
+        <Spacer />
+        <DatasetPreview />
       </main>
     </Layout>
   );

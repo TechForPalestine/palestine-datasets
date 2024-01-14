@@ -9,7 +9,7 @@
   "scripts": {
     "casualties-daily": "yarn scripts/casualties-daily.ts",
     "docs-start": "cd site && yarn start",
-    "docs-build": "cd site && yarn build && cd .. && ./scripts/pre-deploy.sh",
+    "docs-build": "./scripts/pre-build.sh && cd site && yarn build && cd .. && ./scripts/pre-deploy.sh",
     "docs-serve": "cd site && yarn serve"
   },
   "devDependencies": {

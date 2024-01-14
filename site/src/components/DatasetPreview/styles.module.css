@@ -1,0 +1,18 @@
+.cardContainer {
+  margin-bottom: 10px;
+}
+
+.cardContentWrapper {
+  background-color: #f6f6f6;
+}
+
+.previewDataValue {
+  font-size: 34px;
+  font-weight: 800;
+  color: #007a3d;
+}
+
+.previewDataLabel {
+  font-size: 20px;
+  font-weight: 700;
+}
