@@ -71,7 +71,12 @@ const config: Config = {
     },
     footer: {
       style: "dark",
-      links: [],
+      links: [
+        {
+          label: "Tech For Palestine",
+          href: "https://techforpalestine.org/",
+        },
+      ],
       copyright: `An open source initiative of the Tech For Palestine collective`,
     },
     prism: {

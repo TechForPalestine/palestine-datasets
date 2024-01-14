@@ -2,31 +2,36 @@ import clsx from "clsx";
 import Heading from "@theme/Heading";
 import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
+import Translate from "@docusaurus/Translate";
 
 type FeatureItem = {
-  title: string;
+  title: string | JSX.Element;
   Svg: React.ComponentType<React.ComponentProps<"svg">>;
   svgClassName: string;
   description: JSX.Element;
-  buttonLabel: string;
+  buttonLabel: string | JSX.Element;
   buttonPath: string;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: "Martyr Names",
+    title: <Translate>Martyr Names</Translate>,
     Svg: require("@site/static/img/undraw_family_vg76.svg").default,
     svgClassName: styles.featureSvgMartyr,
-    description: <>JSON list of Martyrs with some identifying details</>,
-    buttonLabel: "Get martyrs.json",
+    description: (
+      <Translate>JSON list of Martyrs with some identifying details</Translate>
+    ),
+    buttonLabel: <Translate>View Martyrs List</Translate>,
     buttonPath: "/docs/martyrs",
   },
   {
-    title: "Daily Casualty Reports",
+    title: <Translate>Daily Casualty Reports</Translate>,
     Svg: require("@site/static/img/undraw_data_reports_706v.svg").default,
     svgClassName: styles.featureSvg,
-    description: <>JSON list of official martyr & injury numbers</>,
-    buttonLabel: "Get casualties_daily.json",
+    description: (
+      <Translate>JSON list of official martyr & injury numbers</Translate>
+    ),
+    buttonLabel: <Translate>View Casualties Reports</Translate>,
     buttonPath: "/docs/casualties-daily",
   },
 ];
