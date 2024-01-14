@@ -3,8 +3,14 @@
   "private": true,
   "repository": "https://github.com/TechForPalestine/palestine-numbers",
   "license": "MIT",
+  "workspaces": [
+    "site"
+  ],
   "scripts": {
-    "casualties-daily": "bun run scripts/casualties-daily.ts"
+    "casualties-daily": "bun run scripts/casualties-daily.ts",
+    "docs-start": "pushd site && bun run start",
+    "docs-build": "pushd site && bun run build && popd && ./scripts/copy-json.sh",
+    "docs-serve": "pushd site && bun run serve"
   },
   "devDependencies": {
     "@types/node": "^20.11.0"

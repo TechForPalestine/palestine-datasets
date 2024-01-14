@@ -1,0 +1,7 @@
+.buttonText {
+  display: inline-block;
+}
+
+.buttonText > p {
+  margin: 0;
+}
