@@ -1358,5 +1358,19 @@
     "med_martyred_cum": 337,
     "ext_med_martyred_cum": 337,
     "ext_press_martyred_cum": 117
+  },
+  {
+    "report_date": "2024-01-15",
+    "report_source": "mohtel",
+    "martyred": 132,
+    "martyred_cum": 24100,
+    "ext_martyred": 132,
+    "ext_martyred_cum": 24100,
+    "injured": 252,
+    "injured_cum": 60834,
+    "ext_injured": 252,
+    "ext_injured_cum": 60834,
+    "ext_med_martyred_cum": 337,
+    "ext_press_martyred_cum": 118
   }
 ]
