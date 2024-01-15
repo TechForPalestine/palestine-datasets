@@ -1,3 +1,14 @@
+:root {
+  --card-bg-color: #f6f6f6;
+  --card-value-color: #007a3d;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme="dark"] {
+  --card-bg-color: #342d26;
+  --card-value-color: #9df2b0;
+}
+
 .previewContainer {
   margin-bottom: 50px;
 }
@@ -7,13 +18,13 @@
 }
 
 .cardContentWrapper {
-  background-color: #f6f6f6;
+  background-color: var(--card-bg-color);
 }
 
 .previewDataValue {
   font-size: 34px;
   font-weight: 800;
-  color: #007a3d;
+  color: var(--card-value-color);
 }
 
 .previewDataLabel {
