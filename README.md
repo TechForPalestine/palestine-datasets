@@ -1,3 +1,5 @@
+[![Ceasefire Now](https://badge.techforpalestine.org/default)](https://techforpalestine.org/learn-more)
+
 # PALESTINE NUMBERS
 The aim here is the provide open source data set for all martyrs of Palestine. 
 
