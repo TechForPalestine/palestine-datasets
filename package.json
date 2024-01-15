@@ -1,0 +1,12 @@
+{
+  "name": "palestine-numbers",
+  "private": true,
+  "repository": "https://github.com/TechForPalestine/palestine-numbers",
+  "license": "MIT",
+  "scripts": {
+    "casualties-daily": "bun run scripts/casualties-daily.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0"
+  }
+}
