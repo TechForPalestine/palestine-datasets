@@ -1,3 +1,5 @@
+[![Ceasefire Now](https://badge.techforpalestine.org/default)](https://techforpalestine.org/learn-more)
+
 # PALESTINE NUMBERS
 
 This repo provides an open source dataset intended to show the human toll of the 2023/2024 Gaza Nakba. This is not limited to Gaza and may include the West Bank. There are two primary datasets:
