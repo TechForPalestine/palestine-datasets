@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpalestine_numbers=self.webpackChunkpalestine_numbers||[]).push([[546],{3769:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"default"}')}}]);
