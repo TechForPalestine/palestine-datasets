@@ -39,6 +39,29 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
   );
 };
 
+/**
+ * our docs claim fields prefixed with ext_ are non-optional, so we should assert that
+ */
+const validateJson = (json: Array<Record<string, number | string>>) => {
+  const uniqueFieldNames = new Set<string>();
+  json.forEach((record) =>
+    Object.keys(record).forEach((key) => uniqueFieldNames.add(key))
+  );
+  const extKeys = Array.from(uniqueFieldNames).filter((key) =>
+    key.startsWith("ext_")
+  );
+  json.forEach((record) => {
+    extKeys.forEach((expectedKey) => {
+      const value = record[expectedKey];
+      if (typeof value !== "string" && typeof value !== "number") {
+        throw new Error(
+          `Record for ${record.report_date} is missing expected key: ${expectedKey}`
+        );
+      }
+    });
+  });
+};
+
 const writeJson = (json: string) => {
   const fs = require("fs");
   fs.writeFileSync(jsonFileName, json);
@@ -54,6 +77,7 @@ const generateJsonFromGSheet = async () => {
   // drop the first two rows which are for sheet admin only
   const [_, __, headerKeys, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
+  validateJson(jsonArray);
   writeJson(JSON.stringify(jsonArray, null, jsonTabWidth));
   console.log(`generated JSON file: ${jsonFileName}`);
 };
