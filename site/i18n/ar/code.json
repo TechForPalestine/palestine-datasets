@@ -1,0 +1,24 @@
+{
+  "Palestine Datasets": { "message": "مجموعة بيانات فلسطين" },
+  "The human toll of the 2023/2024 Gaza Nakba in names & numbers": {
+    "message": "حصيلة نكبة غزة 2023/2024 الإنسانية بالأسماء والأرقام"
+  },
+  "Daily Casualty Reports": {
+    "message": "تقارير الضحايا اليومية"
+  },
+  "Martyr Names": {
+    "message": "اسماء الشهداء"
+  },
+  "JSON list of official martyr & injury numbers": {
+    "message": "قائمة JSON بأرقام الشهداء والجرحى الرسمية"
+  },
+  "JSON list of Martyrs with some identifying details": {
+    "message": "قائمة JSON للشهداء مع بعض التفاصيل التعريفية"
+  },
+  "View Martyrs List": {
+    "message": "عرض قائمة الشهداء"
+  },
+  "View Casualties Reports": {
+    "message": "عرض تقارير الضحايا"
+  }
+}
