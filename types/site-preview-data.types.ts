@@ -11,6 +11,9 @@ export type PreviewData = {
   lastDailyUpdate: string;
   martyred: {
     total: number;
+    children: number;
+    civilDefence: number;
+    women: number;
     press: number;
     medical: number;
   };

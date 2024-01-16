@@ -18,12 +18,24 @@ const DataSummaries: DataSummaryCardProps[] = [
     label: <Translate>Total Martyred</Translate>,
   },
   {
+    value: previewData.martyred.children,
+    label: <Translate>Children Martyred</Translate>,
+  },
+  {
+    value: previewData.martyred.women,
+    label: <Translate>Women Martyred</Translate>,
+  },
+  {
     value: previewData.martyred.medical,
     label: <Translate>Medical Personnel Martyred</Translate>,
   },
   {
     value: previewData.martyred.press,
     label: <Translate>Journalists Martyred</Translate>,
+  },
+  {
+    value: previewData.martyred.civilDefence,
+    label: <Translate>Emergency Personnel Martyred</Translate>,
   },
   {
     value: previewData.injured.total,

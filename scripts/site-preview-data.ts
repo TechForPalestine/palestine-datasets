@@ -17,6 +17,9 @@ const previewData: PreviewData = {
   martyrListCount,
   martyred: {
     total: lastDailyReport.ext_martyred_cum,
+    children: lastDailyReport.ext_martyred_children_cum,
+    women: lastDailyReport.ext_martyred_women_cum,
+    civilDefence: lastDailyReport.ext_civdef_martyred_cum,
     press: lastDailyReport.ext_press_martyred_cum,
     medical: lastDailyReport.ext_med_martyred_cum,
   },

@@ -2,11 +2,17 @@ export type CasualtyDailyReport = {
   report_date: string;
   report_source: "mohtel" | "gmotel" | "unocha" | "missing";
   martyred_cum?: number;
+  martyred_children_cum?: number;
+  martyred_women_cum?: number;
   ext_martyred: number;
   ext_martyred_cum: number;
+  ext_martyred_children_cum: number;
+  ext_martyred_women_cum: number;
   injured_cum?: number;
   ext_injured: number;
   ext_injured_cum: number;
+  civdef_martyred_cum?: number;
+  ext_civdef_martyred_cum: number;
   med_martyred_cum?: number;
   ext_med_martyred_cum: number;
   press_martyred_cum?: number;
