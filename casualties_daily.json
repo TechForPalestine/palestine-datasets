@@ -558,6 +558,7 @@
     "report_date": "2023-11-17",
     "report_source": "gmotel",
     "martyred_cum": 12000,
+    "ext_martyred": 0,
     "ext_martyred_cum": 12000,
     "injured_cum": 30000,
     "ext_injured": 100,
@@ -694,37 +695,36 @@
   },
   {
     "report_date": "2023-11-28",
-    "report_source": "unocha",
+    "report_source": "gmotel",
     "martyred_cum": 15000,
     "ext_martyred": 0,
     "ext_martyred_cum": 15000,
+    "injured_cum": 36000,
     "ext_injured_cum": 36000,
-    "med_martyred_cum": 198,
-    "ext_med_martyred_cum": 198,
+    "med_martyred_cum": 207,
+    "ext_med_martyred_cum": 207,
     "press_martyred_cum": 70,
     "ext_press_martyred_cum": 70
   },
   {
     "report_date": "2023-11-29",
-    "report_source": "unocha",
+    "report_source": "missing",
     "martyred_cum": 15000,
     "ext_martyred": 0,
     "ext_martyred_cum": 15000,
     "ext_injured_cum": 36000,
-    "med_martyred_cum": 198,
-    "ext_med_martyred_cum": 198,
+    "ext_med_martyred_cum": 207,
     "press_martyred_cum": 70,
     "ext_press_martyred_cum": 70
   },
   {
     "report_date": "2023-11-30",
-    "report_source": "unocha",
+    "report_source": "missing",
     "martyred_cum": 15000,
     "ext_martyred": 0,
     "ext_martyred_cum": 15000,
     "ext_injured_cum": 36000,
-    "med_martyred_cum": 198,
-    "ext_med_martyred_cum": 198,
+    "ext_med_martyred_cum": 207,
     "press_martyred_cum": 70,
     "ext_press_martyred_cum": 70
   },
@@ -827,6 +827,7 @@
     "ext_injured_cum": 46000,
     "med_martyred_cum": 290,
     "ext_med_martyred_cum": 290,
+    "press_martyred_cum": 81,
     "ext_press_martyred_cum": 81
   },
   {
@@ -900,7 +901,8 @@
     "ext_injured_cum": 50100,
     "med_martyred_cum": 300,
     "ext_med_martyred_cum": 300,
-    "ext_press_martyred_cum": 81
+    "press_martyred_cum": 86,
+    "ext_press_martyred_cum": 86
   },
   {
     "report_date": "2023-12-13",
@@ -915,7 +917,7 @@
     "ext_injured_cum": 50594,
     "med_martyred_cum": 300,
     "ext_med_martyred_cum": 300,
-    "ext_press_martyred_cum": 81
+    "ext_press_martyred_cum": 86
   },
   {
     "report_date": "2023-12-14",
@@ -930,7 +932,7 @@
     "ext_injured_cum": 50897,
     "med_martyred_cum": 300,
     "ext_med_martyred_cum": 300,
-    "ext_press_martyred_cum": 81
+    "ext_press_martyred_cum": 86
   },
   {
     "report_date": "2023-12-15",
@@ -993,7 +995,8 @@
     "ext_injured_cum": 52586,
     "med_martyred_cum": 310,
     "ext_med_martyred_cum": 310,
-    "ext_press_martyred_cum": 89
+    "press_martyred_cum": 97,
+    "ext_press_martyred_cum": 97
   },
   {
     "report_date": "2023-12-20",
@@ -1003,7 +1006,7 @@
     "ext_injured": 245,
     "ext_injured_cum": 52831,
     "ext_med_martyred_cum": 310,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 97
   },
   {
     "report_date": "2023-12-21",
@@ -1013,7 +1016,7 @@
     "ext_injured": 244,
     "ext_injured_cum": 53075,
     "ext_med_martyred_cum": 310,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 97
   },
   {
     "report_date": "2023-12-22",
@@ -1027,7 +1030,7 @@
     "ext_injured": 245,
     "ext_injured_cum": 53320,
     "ext_med_martyred_cum": 310,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 97
   },
   {
     "report_date": "2023-12-23",
@@ -1041,7 +1044,7 @@
     "ext_injured": 368,
     "ext_injured_cum": 53688,
     "ext_med_martyred_cum": 310,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 97
   },
   {
     "report_date": "2023-12-24",
@@ -1055,7 +1058,7 @@
     "ext_injured": 348,
     "ext_injured_cum": 54036,
     "ext_med_martyred_cum": 310,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 97
   },
   {
     "report_date": "2023-12-25",
@@ -1070,7 +1073,8 @@
     "ext_injured_cum": 54536,
     "med_martyred_cum": 311,
     "ext_med_martyred_cum": 311,
-    "ext_press_martyred_cum": 89
+    "press_martyred_cum": 103,
+    "ext_press_martyred_cum": 103
   },
   {
     "report_date": "2023-12-26",
@@ -1084,7 +1088,7 @@
     "ext_injured": 382,
     "ext_injured_cum": 54918,
     "ext_med_martyred_cum": 311,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 103
   },
   {
     "report_date": "2023-12-27",
@@ -1097,8 +1101,10 @@
     "injured_cum": 55243,
     "ext_injured": 325,
     "ext_injured_cum": 55243,
+    "med_martyred_cum": 311,
     "ext_med_martyred_cum": 311,
-    "ext_press_martyred_cum": 89
+    "press_martyred_cum": 103,
+    "ext_press_martyred_cum": 103
   },
   {
     "report_date": "2023-12-28",
@@ -1112,7 +1118,7 @@
     "ext_injured": 360,
     "ext_injured_cum": 55603,
     "ext_med_martyred_cum": 311,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 103
   },
   {
     "report_date": "2023-12-29",
@@ -1126,7 +1132,7 @@
     "ext_injured": 312,
     "ext_injured_cum": 55915,
     "ext_med_martyred_cum": 311,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 103
   },
   {
     "report_date": "2023-12-30",
@@ -1141,7 +1147,8 @@
     "ext_injured_cum": 56165,
     "med_martyred_cum": 312,
     "ext_med_martyred_cum": 312,
-    "ext_press_martyred_cum": 89
+    "press_martyred_cum": 106,
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2023-12-31",
@@ -1154,8 +1161,10 @@
     "injured_cum": 56451,
     "ext_injured": 286,
     "ext_injured_cum": 56451,
+    "med_martyred_cum": 312,
     "ext_med_martyred_cum": 312,
-    "ext_press_martyred_cum": 89
+    "press_martyred_cum": 106,
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-01",
@@ -1170,7 +1179,7 @@
     "ext_injured_cum": 56697,
     "med_martyred_cum": 326,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-02",
@@ -1184,7 +1193,7 @@
     "ext_injured": 338,
     "ext_injured_cum": 57035,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-03",
@@ -1198,7 +1207,7 @@
     "ext_injured": 261,
     "ext_injured_cum": 57296,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-04",
@@ -1213,7 +1222,7 @@
     "ext_injured_cum": 57614,
     "med_martyred_cum": 326,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-05",
@@ -1227,7 +1236,7 @@
     "ext_injured": 296,
     "ext_injured_cum": 57910,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-06",
@@ -1241,7 +1250,7 @@
     "ext_injured": 256,
     "ext_injured_cum": 58166,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-07",
@@ -1255,7 +1264,7 @@
     "ext_injured": 250,
     "ext_injured_cum": 58416,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-08",
@@ -1269,7 +1278,7 @@
     "ext_injured": 510,
     "ext_injured_cum": 58926,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-09",
@@ -1283,7 +1292,7 @@
     "ext_injured": 241,
     "ext_injured_cum": 59167,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-10",
@@ -1297,7 +1306,7 @@
     "ext_injured": 243,
     "ext_injured_cum": 59410,
     "ext_med_martyred_cum": 326,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-11",
@@ -1312,7 +1321,7 @@
     "ext_injured_cum": 59604,
     "med_martyred_cum": 337,
     "ext_med_martyred_cum": 337,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-12",
@@ -1326,7 +1335,7 @@
     "ext_injured": 401,
     "ext_injured_cum": 60005,
     "ext_med_martyred_cum": 337,
-    "ext_press_martyred_cum": 89
+    "ext_press_martyred_cum": 106
   },
   {
     "report_date": "2024-01-13",
@@ -1370,6 +1379,21 @@
     "injured_cum": 60834,
     "ext_injured": 252,
     "ext_injured_cum": 60834,
+    "ext_med_martyred_cum": 337,
+    "press_martyred_cum": 118,
+    "ext_press_martyred_cum": 118
+  },
+  {
+    "report_date": "2024-01-16",
+    "report_source": "mohtel",
+    "martyred": 158,
+    "martyred_cum": 24285,
+    "ext_martyred": 158,
+    "ext_martyred_cum": 24285,
+    "injured": 320,
+    "injured_cum": 61154,
+    "ext_injured": 320,
+    "ext_injured_cum": 61154,
     "ext_med_martyred_cum": 337,
     "ext_press_martyred_cum": 118
   }
