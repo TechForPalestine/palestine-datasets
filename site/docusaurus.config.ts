@@ -10,7 +10,7 @@ const config: Config = {
   tagline: "The human toll of the 2023/2024 Gaza Nakba in names & numbers",
   favicon: "img/favicon.svg",
 
-  url: "https://palidata.swj.io",
+  url: "https://data.techforpalestine.org",
   baseUrl: "/",
   trailingSlash: true,
 

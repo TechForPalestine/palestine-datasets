@@ -7,10 +7,12 @@
     "site"
   ],
   "scripts": {
-    "casualties-daily": "bun run scripts/casualties-daily.ts",
+    "gen-daily": "bun run scripts/data/casualties-daily.ts",
+    "flightcheck": "bun run reset-manifest && bun run gen-daily && bun run docs-build && bun run docs-serve",
     "docs-start": "cd site && bun run start",
-    "docs-build": "./scripts/pre-build.sh && cd site && bun run build && cd .. && ./scripts/pre-deploy.sh",
-    "docs-serve": "cd site && bun run serve"
+    "docs-build": "./scripts/build/pre-build.sh && cd site && bun run build && cd .. && ./scripts/build/pre-deploy.sh",
+    "docs-serve": "cd site && bun run serve",
+    "reset-manifest": "echo '{}' > site/src/generated/manifest.json"
   },
   "devDependencies": {
     "@types/node": "^20.11.0"

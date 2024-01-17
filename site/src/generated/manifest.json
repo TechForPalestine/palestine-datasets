@@ -1,0 +1,38 @@
+{
+  "CasualtiesDaily_V1": {
+    "minified": {
+      "file": "casualties_daily.min.json",
+      "name": "casualties_daily.min.json",
+      "apiPath": "api/v1"
+    },
+    "unminified": {
+      "file": "casualties_daily.json",
+      "name": "casualties_daily.json",
+      "apiPath": "api/v1"
+    }
+  },
+  "Summary_V1": {
+    "minified": {
+      "file": "site/src/generated/summary.min.json",
+      "name": "summary.min.json",
+      "apiPath": "api/v1"
+    },
+    "unminified": {
+      "file": "site/src/generated/summary.json",
+      "name": "summary.json",
+      "apiPath": "api/v1"
+    }
+  },
+  "MartyrsList_V1": {
+    "minified": {
+      "file": "martyrs.min.json",
+      "name": "martyrs.min.json",
+      "apiPath": "api/v1"
+    },
+    "unminified": {
+      "file": "martyrs.json",
+      "name": "martyrs.json",
+      "apiPath": "api/v1"
+    }
+  }
+}

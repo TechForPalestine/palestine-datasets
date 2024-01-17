@@ -1,0 +1,31 @@
+# Summary Data
+
+## Usage
+
+The dataset is available as a JSON object showing the latest cumulative values from the other datasets.
+
+import { JSONFileLinks } from "@site/src/components";
+
+<JSONFileLinks resource="Summary_V1" />
+
+---
+
+The file is updated whenever the other datasets are updated (typically daily).
+
+## Report Fields
+
+Each daily report in this JSON array will have the following fields:
+
+(optional fields will be omitted from the JSON if there is no value reported)
+
+| field name            | value                                                                             |
+| --------------------- | --------------------------------------------------------------------------------- |
+| martyrListCount       | number of records in the [martyrs](/docs/martyrs) dataset                         |
+| martyred.total        | cumulative number of people killed in Gaza since Oct 7                            |
+| martyred.children     | cumulative number of children killed in Gaza since Oct 7                          |
+| martyred.women        | cumulative number of women killed in Gaza since Oct 7                             |
+| martyred.civilDefence | cumulative number of emergency personnel killed in Gaza since Oct 7               |
+| martyred.press        | cumulative number of press killed in Gaza since Oct 7                             |
+| martyred.medical      | cumulative number of medical personnel killed in Gaza since Oct 7                 |
+| injured.total         | cumulative number of people injured in Gaza since Oct 7                           |
+| lastDailyUpdate       | most recent report date in the [casualties_daily](/docs/casualties-daily) dataset |
