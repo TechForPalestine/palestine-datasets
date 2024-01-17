@@ -6,7 +6,7 @@
   "Daily Casualty Reports": {
     "message": "تقارير الضحايا اليومية"
   },
-  "Martyr Names": {
+  "Killed Names": {
     "message": "اسماء الشهداء"
   },
   "Summary Data": {
@@ -28,12 +28,12 @@
     "message": "عرض تقارير الضحايا"
   },
   "View Summary Data": { "message": "عرض البيانات الموجزة" },
-  "Children Martyred": { "message": "اطفال استشهدوا" },
-  "Total Martyred": { "message": "إجمالي الشهداء" },
-  "Journalists Martyred": { "message": "استشهد الصحفيون" },
-  "Medical Personnel Martyred": { "message": "استشهاد الكوادر الطبية" },
-  "Women Martyred": { "message": "نساء شهيدات" },
+  "Children Killed": { "message": "اطفال استشهدوا" },
+  "Total Killed": { "message": "إجمالي الشهداء" },
+  "Journalists Killed": { "message": "استشهد الصحفيون" },
+  "Medical Personnel Killed": { "message": "استشهاد الكوادر الطبية" },
+  "Women Killed": { "message": "نساء شهيدات" },
   "Last Daily Update": { "message": "آخر تحديث يومي" },
   "Total Injured": { "message": "إجمالي المصابين" },
-  "Emergency Personnel Martyred": { "message": "استشهاد أفراد الطوارئ" }
+  "Emergency Personnel Killed": { "message": "استشهاد أفراد الطوارئ" }
 }

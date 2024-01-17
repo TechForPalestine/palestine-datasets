@@ -15,23 +15,19 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: <Translate>Martyr Names</Translate>,
+    title: <Translate>Killed in Gaza</Translate>,
     Svg: require("@site/static/img/undraw_family_vg76.svg").default,
     svgClassName: styles.featureSvgMartyr,
-    description: (
-      <Translate>JSON list of Martyrs with some identifying details</Translate>
-    ),
-    buttonLabel: <Translate>View Martyrs List</Translate>,
+    description: <Translate>JSON list of known names killed in Gaza</Translate>,
+    buttonLabel: <Translate>View List</Translate>,
     buttonPath: "/docs/martyrs",
   },
   {
     title: <Translate>Daily Casualty Reports</Translate>,
     Svg: require("@site/static/img/undraw_data_reports_706v.svg").default,
     svgClassName: styles.featureSvg,
-    description: (
-      <Translate>JSON list of official martyr & injury numbers</Translate>
-    ),
-    buttonLabel: <Translate>View Casualties Reports</Translate>,
+    description: <Translate>JSON list of official casualty numbers</Translate>,
+    buttonLabel: <Translate>View Reports</Translate>,
     buttonPath: "/docs/casualties-daily",
   },
   {
@@ -41,7 +37,7 @@ const FeatureList: FeatureItem[] = [
     description: (
       <Translate>JSON object with the numbers shown below</Translate>
     ),
-    buttonLabel: <Translate>View Summary Data</Translate>,
+    buttonLabel: <Translate>View Summary</Translate>,
     buttonPath: "/docs/summary",
   },
 ];
