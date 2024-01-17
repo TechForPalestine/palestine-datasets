@@ -7,10 +7,10 @@
     "site"
   ],
   "scripts": {
-    "casualties-daily": "yarn scripts/casualties-daily.ts",
-    "docs-start": "cd site && yarn start",
-    "docs-build": "./scripts/pre-build.sh && cd site && yarn build && cd .. && ./scripts/pre-deploy.sh",
-    "docs-serve": "cd site && yarn serve"
+    "casualties-daily": "npm scripts/casualties-daily.ts",
+    "docs-start": "cd site && npm start",
+    "docs-build": "./scripts/pre-build.sh && cd site && npm run build && cd .. && ./scripts/pre-deploy.sh",
+    "docs-serve": "cd site && npm serve"
   },
   "devDependencies": {
     "@types/node": "^20.11.0"
