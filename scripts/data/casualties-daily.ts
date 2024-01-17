@@ -1,10 +1,8 @@
 import { ApiResource } from "../../types/api.types";
 import { writeJson } from "../utils/fs";
+import { SheetTab, fetchGoogleSheet } from "../utils/gsheets";
 
-const gsheetsKey = process.env.GSHEETS_KEY;
-const sheetTab = "casualties_daily";
-const jsonFileName = `${sheetTab}.json`;
-const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/1UuWRD602kUFyYbw-e6eJ3PaOGlyfMvwMBJW9zdGOO8g/values/${sheetTab}?alt=json&key=${gsheetsKey}`;
+const jsonFileName = "casualties_daily.json";
 
 const formatValue = (colValue: string) => {
   // not empty string, coerce into int
@@ -41,13 +39,8 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
   );
 };
 
-type GSheetsResponse = {
-  values: string[][]; // array of rows with array of column values
-};
-
 const generateJsonFromGSheet = async () => {
-  const sheetResponse = await fetch(sheetUrl);
-  const sheetJson: GSheetsResponse = await sheetResponse.json();
+  const sheetJson = await fetchGoogleSheet(SheetTab.CasualtiesDaily);
   // drop the first two rows which are for sheet admin only
   const [_, __, headerKeys, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);

@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "gen-daily": "bun run scripts/data/casualties-daily.ts",
+    "gen-martyrs": "bun run scripts/data/martyrs.ts",
     "flightcheck": "bun run reset-manifest && bun run gen-daily && bun run docs-build && bun run docs-serve",
     "docs-start": "cd site && bun run start",
     "docs-build": "./scripts/build/pre-build.sh && cd site && bun run build && cd .. && ./scripts/build/pre-deploy.sh",
@@ -18,6 +19,7 @@
     "@types/node": "^20.11.0"
   },
   "dependencies": {
+    "arabic-name-to-en": "^1.0.6",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
   }
 }

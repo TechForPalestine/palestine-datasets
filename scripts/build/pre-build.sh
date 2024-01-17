@@ -5,4 +5,3 @@
 #
 
 bun run scripts/data/summary.ts
-bun run scripts/data/martyrs.ts
