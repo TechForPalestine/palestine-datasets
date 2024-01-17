@@ -9,16 +9,31 @@
   "Martyr Names": {
     "message": "اسماء الشهداء"
   },
+  "Summary Data": {
+    "message": "بيانات ملخصة"
+  },
   "JSON list of official martyr & injury numbers": {
     "message": "قائمة JSON بأرقام الشهداء والجرحى الرسمية"
   },
   "JSON list of Martyrs with some identifying details": {
     "message": "قائمة JSON للشهداء مع بعض التفاصيل التعريفية"
   },
+  "JSON object with the numbers shown below": {
+    "message": "كائن JSON بالأرقام الموضحة أدناه"
+  },
   "View Martyrs List": {
     "message": "عرض قائمة الشهداء"
   },
   "View Casualties Reports": {
     "message": "عرض تقارير الضحايا"
-  }
+  },
+  "View Summary Data": { "message": "عرض البيانات الموجزة" },
+  "Children Martyred": { "message": "اطفال استشهدوا" },
+  "Total Martyred": { "message": "إجمالي الشهداء" },
+  "Journalists Martyred": { "message": "استشهد الصحفيون" },
+  "Medical Personnel Martyred": { "message": "استشهاد الكوادر الطبية" },
+  "Women Martyred": { "message": "نساء شهيدات" },
+  "Last Daily Update": { "message": "آخر تحديث يومي" },
+  "Total Injured": { "message": "إجمالي المصابين" },
+  "Emergency Personnel Martyred": { "message": "استشهاد أفراد الطوارئ" }
 }

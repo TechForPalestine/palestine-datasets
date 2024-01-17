@@ -34,6 +34,16 @@ const FeatureList: FeatureItem[] = [
     buttonLabel: <Translate>View Casualties Reports</Translate>,
     buttonPath: "/docs/casualties-daily",
   },
+  {
+    title: <Translate>Summary Data</Translate>,
+    Svg: require("@site/static/img/undraw_pie_chart_re_bgs8.svg").default,
+    svgClassName: styles.featureSvg,
+    description: (
+      <Translate>JSON object with the numbers shown below</Translate>
+    ),
+    buttonLabel: <Translate>View Summary Data</Translate>,
+    buttonPath: "/docs/summary",
+  },
 ];
 
 function Feature({
@@ -45,7 +55,7 @@ function Feature({
   buttonPath,
 }: FeatureItem) {
   return (
-    <div className={clsx("col col--6")}>
+    <div className={clsx("col col--4")}>
       <div className="text--center">
         <Link to={buttonPath}>
           <Svg className={svgClassName} role="img" />
