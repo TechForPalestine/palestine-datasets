@@ -1841,5 +1841,22 @@
     "ext_civdef_martyred_cum": 45,
     "ext_med_martyred_cum": 337,
     "ext_press_martyred_cum": 118
+  },
+  {
+    "report_date": "2024-01-17",
+    "report_source": "mohtel",
+    "martyred": 163,
+    "martyred_cum": 24448,
+    "ext_martyred": 163,
+    "ext_martyred_cum": 24448,
+    "ext_martyred_children_cum": 10600,
+    "ext_martyred_women_cum": 7200,
+    "injured": 350,
+    "injured_cum": 61504,
+    "ext_injured": 350,
+    "ext_injured_cum": 61504,
+    "ext_civdef_martyred_cum": 45,
+    "ext_med_martyred_cum": 337,
+    "ext_press_martyred_cum": 118
   }
 ]
