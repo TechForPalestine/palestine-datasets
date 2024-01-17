@@ -1,7 +1,9 @@
+import { ApiResource } from "../../types/api.types";
+import { writeJson } from "../utils/fs";
+
 const gsheetsKey = process.env.GSHEETS_KEY;
 const sheetTab = "casualties_daily";
 const jsonFileName = `${sheetTab}.json`;
-const jsonTabWidth = 2;
 const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/1UuWRD602kUFyYbw-e6eJ3PaOGlyfMvwMBJW9zdGOO8g/values/${sheetTab}?alt=json&key=${gsheetsKey}`;
 
 const formatValue = (colValue: string) => {
@@ -39,34 +41,6 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
   );
 };
 
-/**
- * our docs claim fields prefixed with ext_ are non-optional, so we should assert that
- */
-const validateJson = (json: Array<Record<string, number | string>>) => {
-  const uniqueFieldNames = new Set<string>();
-  json.forEach((record) =>
-    Object.keys(record).forEach((key) => uniqueFieldNames.add(key))
-  );
-  const extKeys = Array.from(uniqueFieldNames).filter((key) =>
-    key.startsWith("ext_")
-  );
-  json.forEach((record) => {
-    extKeys.forEach((expectedKey) => {
-      const value = record[expectedKey];
-      if (typeof value !== "string" && typeof value !== "number") {
-        throw new Error(
-          `Record for ${record.report_date} is missing expected key: ${expectedKey}`
-        );
-      }
-    });
-  });
-};
-
-const writeJson = (json: string) => {
-  const fs = require("fs");
-  fs.writeFileSync(jsonFileName, json);
-};
-
 type GSheetsResponse = {
   values: string[][]; // array of rows with array of column values
 };
@@ -77,8 +51,7 @@ const generateJsonFromGSheet = async () => {
   // drop the first two rows which are for sheet admin only
   const [_, __, headerKeys, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
-  validateJson(jsonArray);
-  writeJson(JSON.stringify(jsonArray, null, jsonTabWidth));
+  writeJson(ApiResource.CasualtiesDailyV1, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
 };
 

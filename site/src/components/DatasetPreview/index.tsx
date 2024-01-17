@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import styles from "./styles.module.css";
 import Translate from "@docusaurus/Translate";
-import previewData from "../../generated/preview-data.json";
+import previewData from "../../generated/summary.json";
 
 type DataSummaryCardProps = {
   value: string | number;

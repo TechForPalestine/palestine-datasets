@@ -4,11 +4,9 @@
 
 The dataset is available as a single JSON array with an object for each report date since Oct 7, 2023:
 
-import { ExternalLinkButton } from "@site/src/components";
+import { JSONFileLinks } from "@site/src/components";
 
-<ExternalLinkButton to="/data/casualties_daily.json">
-  casualties_daily.json
-</ExternalLinkButton>
+<JSONFileLinks resource="CasualtiesDaily_V1" />
 
 ---
 
@@ -16,7 +14,7 @@ The file is updated in the morning (eastern time).
 
 ## Report Fields
 
-Each daily report in this JSON array will have the following fields:
+Each daily report in this JSON array will have the following fields for Gaza since Oct 7, 2023.
 
 (optional fields will be omitted from the JSON if there is no value reported)
 

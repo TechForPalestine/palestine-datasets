@@ -15,9 +15,9 @@ See sub readmes for more info on data sources in [english](site/docs) or [arabic
 
 ### Documentation Site
 
-To run the site locally use `yarn docs-start`
+To run the site locally use `bun run docs-start`
 
-To run the site locally in Arabic use `yarn docs-start --locale ar`
+To run the site locally in Arabic use `bun run docs-start --locale ar`
 
 # DETAILS
 
