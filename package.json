@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.0"
+  },
+  "dependencies": {
+    "@docusaurus/react-loadable": "^5.5.2"
   }
 }
