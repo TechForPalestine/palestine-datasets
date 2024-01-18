@@ -1,6 +1,8 @@
 export type CasualtyDailyReport = {
   report_date: string;
   report_source: "mohtel" | "gmotel" | "unocha" | "missing";
+  massacres_cum?: number;
+  ext_massacres_cum: number;
   martyred_cum?: number;
   martyred_children_cum?: number;
   martyred_women_cum?: number;
