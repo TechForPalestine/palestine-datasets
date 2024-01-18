@@ -16,6 +16,7 @@ const [lastDailyReport]: CasualtyDailyReport[] = dailies.slice().reverse();
 
 const previewData: PreviewData = {
   martyrListCount,
+  massacres: lastDailyReport.ext_massacres_cum,
   martyred: {
     total: lastDailyReport.ext_martyred_cum,
     children: lastDailyReport.ext_martyred_children_cum,
