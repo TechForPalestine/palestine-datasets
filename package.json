@@ -19,7 +19,6 @@
     "@types/node": "^20.11.0"
   },
   "dependencies": {
-    "@docusaurus/plugin-client-redirects": "^3.1.0",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
   }
 }

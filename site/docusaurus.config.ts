@@ -48,20 +48,6 @@ const config: Config = {
     ],
   ],
 
-  plugins: [
-    [
-      "@docusaurus/plugin-client-redirects",
-      {
-        redirects: [
-          {
-            to: "/docs/martyrs",
-            from: "/docs/known-victims",
-          },
-        ],
-      },
-    ],
-  ],
-
   themeConfig: {
     // Replace with your project's social card
     // image: "img/docusaurus-social-card.jpg",
