@@ -11,7 +11,7 @@ type DataSummaryCardProps = {
 const DataSummaries: DataSummaryCardProps[] = [
   {
     value: previewData.martyrListCount,
-    label: <Translate>Killed Names</Translate>,
+    label: <Translate>Known Victims</Translate>,
   },
   {
     value: previewData.martyred.total,

@@ -7,7 +7,7 @@ const repoUrl = "https://github.com/TechForPalestine/palestine-numbers";
 
 const config: Config = {
   title: siteTitle,
-  tagline: "The human toll of the 2023/2024 Gaza Nakba in names & numbers",
+  tagline: "The human toll of Israel's ongoing war on Gaza in names & numbers",
   favicon: "img/favicon.svg",
 
   url: "https://data.techforpalestine.org",

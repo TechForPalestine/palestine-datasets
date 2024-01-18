@@ -18,7 +18,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate>Killed in Gaza</Translate>,
     Svg: require("@site/static/img/undraw_family_vg76.svg").default,
     svgClassName: styles.featureSvgMartyr,
-    description: <Translate>JSON list of known names killed in Gaza</Translate>,
+    description: <Translate>JSON list of known victims</Translate>,
     buttonLabel: <Translate>View List</Translate>,
     buttonPath: "/docs/martyrs",
   },
