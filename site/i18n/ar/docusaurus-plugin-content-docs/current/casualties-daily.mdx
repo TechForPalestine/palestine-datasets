@@ -22,6 +22,8 @@ Each daily report in this JSON array will have the following fields:
 | ------------------------- | ---------------------------------------------------------------- | -------- |
 | report_date               | date in YYYY-MM-DD                                               | no       |
 | report_source             | one of `mohtel`, `gmotel`, `unocha` or `missing` (see below)     | no       |
+| massacres_cum             | cumulative number of multiple fatality events                    | yes      |
+| ext_massacres_cum         | same as `massacres_cum` but extrapolated (see below)             | no       |
 | martyred                  | killed persons on the given report date                          | yes      |
 | martyred_cum              | cumulative number of killed persons to the report date           | yes      |
 | martyred_children_cum     | cumulative number of children killed to the report date          | yes      |

@@ -4,7 +4,7 @@
 
 [data.techforpalestine.org](https://data.techforpalestine.org)
 
-This repo provides an open source dataset intended to show the human toll of the 2023/2024 Gaza Nakba. This is not limited to Gaza and may include the West Bank. There are two primary datasets:
+This repo provides an open source dataset intended to show the human toll of Israel's war on Gaza. This is not limited to Gaza and may include the West Bank. There are two primary datasets:
 
 - `known-victims.json` has a list of known fatalities in Gaza with their name, age, sex
 - `casualties_daily.json` has daily reports of aggregate martyr & injury counts from October 7th to the latest reported day

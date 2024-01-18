@@ -17,14 +17,11 @@ export const JSONFileLinks = ({ resource }: { resource: ApiResource }) => {
   }
 
   const { unminified, minified } = files;
-  const unminifiedUrl = unminified
-    ? `${docCtx.siteConfig.url}/${unminified.apiPath}/${unminified.name}`
-    : "";
 
   return (
     <div>
       {unminified && (
-        <ExternalLinkButton to={unminifiedUrl}>
+        <ExternalLinkButton to={`/${unminified.apiPath}/${unminified.name}`}>
           {unminified.name}
         </ExternalLinkButton>
       )}
@@ -38,7 +35,7 @@ export const JSONFileLinks = ({ resource }: { resource: ApiResource }) => {
         {unminified && (
           <>
             <h3>Unminified </h3>
-            <CodeBlock>{unminifiedUrl}</CodeBlock>
+            <CodeBlock>{`${docCtx.siteConfig.url}/${unminified.apiPath}/${unminified.name}`}</CodeBlock>
           </>
         )}
       </div>

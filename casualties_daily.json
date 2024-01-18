@@ -2,6 +2,7 @@
   {
     "report_date": "2023-10-07",
     "report_source": "mohtel",
+    "ext_massacres_cum": 0,
     "martyred_cum": 198,
     "ext_martyred": 198,
     "ext_martyred_cum": 198,
@@ -19,6 +20,7 @@
   {
     "report_date": "2023-10-08",
     "report_source": "mohtel",
+    "ext_massacres_cum": 0,
     "martyred_cum": 256,
     "martyred_children_cum": 20,
     "ext_martyred": 58,
@@ -36,6 +38,7 @@
   {
     "report_date": "2023-10-09",
     "report_source": "mohtel",
+    "ext_massacres_cum": 8,
     "martyred_cum": 436,
     "martyred_children_cum": 91,
     "martyred_women_cum": 61,
@@ -55,6 +58,7 @@
   {
     "report_date": "2023-10-10",
     "report_source": "mohtel",
+    "ext_massacres_cum": 8,
     "martyred_cum": 765,
     "martyred_children_cum": 260,
     "martyred_women_cum": 230,
@@ -73,6 +77,7 @@
   {
     "report_date": "2023-10-11",
     "report_source": "gmotel",
+    "ext_massacres_cum": 23,
     "martyred": 225,
     "martyred_cum": 1055,
     "ext_martyred": 290,
@@ -91,6 +96,7 @@
   {
     "report_date": "2023-10-12",
     "report_source": "mohtel",
+    "ext_massacres_cum": 23,
     "martyred": 148,
     "martyred_cum": 1203,
     "martyred_children_cum": 500,
@@ -111,6 +117,7 @@
   {
     "report_date": "2023-10-13",
     "report_source": "missing",
+    "ext_massacres_cum": 23,
     "ext_martyred": 506,
     "ext_martyred_cum": 1709,
     "ext_martyred_children_cum": 500,
@@ -125,6 +132,7 @@
   {
     "report_date": "2023-10-14",
     "report_source": "gmotel",
+    "ext_massacres_cum": 23,
     "martyred_cum": 2215,
     "ext_martyred": 506,
     "ext_martyred_cum": 2215,
@@ -141,6 +149,7 @@
   {
     "report_date": "2023-10-15",
     "report_source": "gmotel",
+    "ext_massacres_cum": 23,
     "martyred": 357,
     "martyred_cum": 2450,
     "ext_martyred": 235,
@@ -158,6 +167,8 @@
   {
     "report_date": "2023-10-16",
     "report_source": "gmotel",
+    "massacres_cum": 371,
+    "ext_massacres_cum": 371,
     "martyred": 254,
     "martyred_cum": 2808,
     "martyred_children_cum": 853,
@@ -179,6 +190,8 @@
   {
     "report_date": "2023-10-17",
     "report_source": "gmotel",
+    "massacres_cum": 394,
+    "ext_massacres_cum": 394,
     "martyred": 198,
     "martyred_cum": 3006,
     "martyred_children_cum": 940,
@@ -199,6 +212,7 @@
   {
     "report_date": "2023-10-18",
     "report_source": "mohtel",
+    "ext_massacres_cum": 394,
     "martyred_cum": 3478,
     "ext_martyred": 472,
     "ext_martyred_cum": 3478,
@@ -214,6 +228,7 @@
   {
     "report_date": "2023-10-19",
     "report_source": "mohtel",
+    "ext_massacres_cum": 394,
     "martyred_cum": 3785,
     "ext_martyred": 307,
     "ext_martyred_cum": 3785,
@@ -230,6 +245,7 @@
   {
     "report_date": "2023-10-20",
     "report_source": "mohtel",
+    "ext_massacres_cum": 431,
     "martyred": 352,
     "martyred_cum": 4137,
     "ext_martyred": 352,
@@ -248,6 +264,7 @@
   {
     "report_date": "2023-10-21",
     "report_source": "mohtel",
+    "ext_massacres_cum": 460,
     "martyred": 248,
     "martyred_cum": 4385,
     "ext_martyred": 248,
@@ -266,6 +283,7 @@
   {
     "report_date": "2023-10-22",
     "report_source": "mohtel",
+    "ext_massacres_cum": 484,
     "martyred": 266,
     "martyred_cum": 4651,
     "ext_martyred": 266,
@@ -283,6 +301,7 @@
   {
     "report_date": "2023-10-23",
     "report_source": "mohtel",
+    "ext_massacres_cum": 507,
     "martyred": 436,
     "martyred_cum": 5087,
     "ext_martyred": 436,
@@ -300,6 +319,7 @@
   {
     "report_date": "2023-10-24",
     "report_source": "mohtel",
+    "ext_massacres_cum": 554,
     "martyred": 704,
     "martyred_cum": 5791,
     "ext_martyred": 704,
@@ -316,6 +336,7 @@
   {
     "report_date": "2023-10-25",
     "report_source": "mohtel",
+    "ext_massacres_cum": 598,
     "martyred": 756,
     "martyred_cum": 6546,
     "ext_martyred": 755,
@@ -334,6 +355,7 @@
   {
     "report_date": "2023-10-26",
     "report_source": "mohtel",
+    "ext_massacres_cum": 731,
     "martyred_cum": 7028,
     "ext_martyred": 482,
     "ext_martyred_cum": 7028,
@@ -350,6 +372,8 @@
   {
     "report_date": "2023-10-27",
     "report_source": "mohtel",
+    "massacres_cum": 772,
+    "ext_massacres_cum": 772,
     "martyred": 298,
     "martyred_cum": 7326,
     "martyred_children_cum": 3038,
@@ -369,6 +393,7 @@
   {
     "report_date": "2023-10-28",
     "report_source": "missing",
+    "ext_massacres_cum": 772,
     "ext_martyred": 377,
     "ext_martyred_cum": 7703,
     "ext_martyred_children_cum": 3038,
@@ -382,6 +407,8 @@
   {
     "report_date": "2023-10-29",
     "report_source": "mohtel",
+    "massacres_cum": 881,
+    "ext_massacres_cum": 881,
     "martyred": 302,
     "martyred_cum": 8005,
     "martyred_children_cum": 3324,
@@ -401,6 +428,8 @@
   {
     "report_date": "2023-10-30",
     "report_source": "gmotel",
+    "massacres_cum": 908,
+    "ext_massacres_cum": 908,
     "martyred_cum": 8306,
     "martyred_children_cum": 3457,
     "martyred_women_cum": 2136,
@@ -421,6 +450,8 @@
   {
     "report_date": "2023-10-31",
     "report_source": "mohtel",
+    "massacres_cum": 926,
+    "ext_massacres_cum": 926,
     "martyred": 216,
     "martyred_cum": 8525,
     "martyred_children_cum": 3542,
@@ -440,6 +471,8 @@
   {
     "report_date": "2023-11-01",
     "report_source": "mohtel",
+    "massacres_cum": 950,
+    "ext_massacres_cum": 950,
     "martyred_cum": 8805,
     "martyred_children_cum": 3650,
     "martyred_women_cum": 2252,
@@ -458,6 +491,8 @@
   {
     "report_date": "2023-11-02",
     "report_source": "mohtel",
+    "massacres_cum": 965,
+    "ext_massacres_cum": 965,
     "martyred_cum": 9061,
     "martyred_children_cum": 3760,
     "martyred_women_cum": 2326,
@@ -476,6 +511,8 @@
   {
     "report_date": "2023-11-03",
     "report_source": "mohtel",
+    "massacres_cum": 997,
+    "ext_massacres_cum": 997,
     "martyred": 196,
     "martyred_cum": 9257,
     "martyred_children_cum": 3826,
@@ -495,6 +532,8 @@
   {
     "report_date": "2023-11-04",
     "report_source": "mohtel",
+    "massacres_cum": 1006,
+    "ext_massacres_cum": 1006,
     "martyred": 231,
     "martyred_cum": 9488,
     "martyred_children_cum": 3900,
@@ -514,6 +553,8 @@
   {
     "report_date": "2023-11-05",
     "report_source": "mohtel",
+    "massacres_cum": 1031,
+    "ext_massacres_cum": 1031,
     "martyred": 243,
     "martyred_cum": 9770,
     "martyred_children_cum": 4008,
@@ -533,6 +574,7 @@
   {
     "report_date": "2023-11-06",
     "report_source": "gmotel",
+    "ext_massacres_cum": 1031,
     "martyred_cum": 10000,
     "ext_martyred": 230,
     "ext_martyred_cum": 10000,
@@ -549,6 +591,8 @@
   {
     "report_date": "2023-11-07",
     "report_source": "mohtel",
+    "massacres_cum": 1071,
+    "ext_massacres_cum": 1071,
     "martyred": 548,
     "martyred_cum": 10328,
     "martyred_children_cum": 4327,
@@ -568,6 +612,8 @@
   {
     "report_date": "2023-11-08",
     "report_source": "mohtel",
+    "massacres_cum": 1098,
+    "ext_massacres_cum": 1098,
     "martyred": 241,
     "martyred_cum": 10569,
     "martyred_children_cum": 4324,
@@ -587,6 +633,8 @@
   {
     "report_date": "2023-11-09",
     "report_source": "mohtel",
+    "massacres_cum": 1118,
+    "ext_massacres_cum": 1118,
     "martyred": 249,
     "martyred_cum": 10818,
     "martyred_children_cum": 4412,
@@ -606,6 +654,7 @@
   {
     "report_date": "2023-11-10",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1130,
     "martyred": 260,
     "martyred_cum": 11078,
     "martyred_children_cum": 4506,
@@ -625,6 +674,7 @@
   {
     "report_date": "2023-11-11",
     "report_source": "missing",
+    "ext_massacres_cum": 1130,
     "ext_martyred": 51,
     "ext_martyred_cum": 11129,
     "ext_martyred_children_cum": 4506,
@@ -638,6 +688,8 @@
   {
     "report_date": "2023-11-12",
     "report_source": "gmotel",
+    "massacres_cum": 1142,
+    "ext_massacres_cum": 1142,
     "martyred_cum": 11180,
     "martyred_children_cum": 4609,
     "martyred_women_cum": 3100,
@@ -658,6 +710,8 @@
   {
     "report_date": "2023-11-13",
     "report_source": "gmotel",
+    "massacres_cum": 1153,
+    "ext_massacres_cum": 1153,
     "martyred_cum": 11240,
     "martyred_children_cum": 4630,
     "martyred_women_cum": 3130,
@@ -678,6 +732,8 @@
   {
     "report_date": "2023-11-14",
     "report_source": "gmotel",
+    "massacres_cum": 1165,
+    "ext_massacres_cum": 1165,
     "martyred_cum": 11320,
     "martyred_children_cum": 4650,
     "martyred_women_cum": 3145,
@@ -698,6 +754,8 @@
   {
     "report_date": "2023-11-15",
     "report_source": "gmotel",
+    "massacres_cum": 1200,
+    "ext_massacres_cum": 1200,
     "martyred_cum": 11500,
     "martyred_children_cum": 4710,
     "martyred_women_cum": 3160,
@@ -718,6 +776,7 @@
   {
     "report_date": "2023-11-16",
     "report_source": "missing",
+    "ext_massacres_cum": 1200,
     "ext_martyred": 500,
     "ext_martyred_cum": 12000,
     "ext_martyred_children_cum": 4710,
@@ -731,6 +790,8 @@
   {
     "report_date": "2023-11-17",
     "report_source": "gmotel",
+    "massacres_cum": 1270,
+    "ext_massacres_cum": 1270,
     "martyred_cum": 12000,
     "martyred_children_cum": 5000,
     "martyred_women_cum": 3300,
@@ -751,6 +812,8 @@
   {
     "report_date": "2023-11-18",
     "report_source": "gmotel",
+    "massacres_cum": 1300,
+    "ext_massacres_cum": 1300,
     "martyred_cum": 12300,
     "martyred_children_cum": 5000,
     "martyred_women_cum": 3300,
@@ -771,6 +834,8 @@
   {
     "report_date": "2023-11-19",
     "report_source": "gmotel",
+    "massacres_cum": 1330,
+    "ext_massacres_cum": 1330,
     "martyred_cum": 13000,
     "martyred_children_cum": 5500,
     "martyred_women_cum": 3500,
@@ -791,6 +856,8 @@
   {
     "report_date": "2023-11-20",
     "report_source": "gmotel",
+    "massacres_cum": 1340,
+    "ext_massacres_cum": 1340,
     "martyred_cum": 13300,
     "martyred_children_cum": 5600,
     "martyred_women_cum": 3550,
@@ -811,6 +878,8 @@
   {
     "report_date": "2023-11-21",
     "report_source": "gmotel",
+    "massacres_cum": 1354,
+    "ext_massacres_cum": 1354,
     "martyred_cum": 14128,
     "martyred_children_cum": 5840,
     "martyred_women_cum": 3920,
@@ -829,6 +898,8 @@
   {
     "report_date": "2023-11-22",
     "report_source": "gmotel",
+    "massacres_cum": 1384,
+    "ext_massacres_cum": 1384,
     "martyred_cum": 14532,
     "martyred_children_cum": 6000,
     "martyred_women_cum": 4000,
@@ -849,6 +920,8 @@
   {
     "report_date": "2023-11-23",
     "report_source": "gmotel",
+    "massacres_cum": 1400,
+    "ext_massacres_cum": 1400,
     "martyred_cum": 14854,
     "martyred_children_cum": 6150,
     "martyred_women_cum": 4000,
@@ -869,6 +942,7 @@
   {
     "report_date": "2023-11-24",
     "report_source": "missing",
+    "ext_massacres_cum": 1400,
     "martyred_cum": 15000,
     "ext_martyred": 146,
     "ext_martyred_cum": 15000,
@@ -883,6 +957,7 @@
   {
     "report_date": "2023-11-25",
     "report_source": "missing",
+    "ext_massacres_cum": 1400,
     "martyred_cum": 15000,
     "ext_martyred": 0,
     "ext_martyred_cum": 15000,
@@ -898,6 +973,7 @@
   {
     "report_date": "2023-11-26",
     "report_source": "missing",
+    "ext_massacres_cum": 1400,
     "martyred_cum": 15000,
     "ext_martyred": 0,
     "ext_martyred_cum": 15000,
@@ -912,6 +988,8 @@
   {
     "report_date": "2023-11-27",
     "report_source": "gmotel",
+    "massacres_cum": 1400,
+    "ext_massacres_cum": 1400,
     "martyred_cum": 15000,
     "martyred_children_cum": 6150,
     "martyred_women_cum": 4000,
@@ -932,6 +1010,8 @@
   {
     "report_date": "2023-11-28",
     "report_source": "gmotel",
+    "massacres_cum": 1400,
+    "ext_massacres_cum": 1400,
     "martyred_cum": 15000,
     "martyred_children_cum": 6150,
     "martyred_women_cum": 4000,
@@ -952,6 +1032,7 @@
   {
     "report_date": "2023-11-29",
     "report_source": "missing",
+    "ext_massacres_cum": 1400,
     "martyred_cum": 15000,
     "martyred_children_cum": 6150,
     "martyred_women_cum": 4000,
@@ -969,6 +1050,7 @@
   {
     "report_date": "2023-11-30",
     "report_source": "missing",
+    "ext_massacres_cum": 1400,
     "martyred_cum": 15000,
     "martyred_children_cum": 6150,
     "martyred_women_cum": 4000,
@@ -986,6 +1068,7 @@
   {
     "report_date": "2023-12-01",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1400,
     "martyred": 110,
     "martyred_cum": 15110,
     "martyred_children_cum": 6150,
@@ -1006,6 +1089,8 @@
   {
     "report_date": "2023-12-02",
     "report_source": "mohtel",
+    "massacres_cum": 1450,
+    "ext_massacres_cum": 1450,
     "martyred": 193,
     "martyred_cum": 15207,
     "martyred_children_cum": 6387,
@@ -1028,6 +1113,8 @@
   {
     "report_date": "2023-12-03",
     "report_source": "mohtel",
+    "massacres_cum": 1473,
+    "ext_massacres_cum": 1473,
     "martyred": 316,
     "martyred_cum": 15523,
     "martyred_children_cum": 6600,
@@ -1050,6 +1137,7 @@
   {
     "report_date": "2023-12-04",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1473,
     "martyred": 349,
     "martyred_cum": 15899,
     "ext_martyred": 376,
@@ -1068,6 +1156,8 @@
   {
     "report_date": "2023-12-05",
     "report_source": "gmotel",
+    "massacres_cum": 1550,
+    "ext_massacres_cum": 1550,
     "martyred_cum": 16248,
     "ext_martyred": 349,
     "ext_martyred_cum": 16248,
@@ -1086,6 +1176,7 @@
   {
     "report_date": "2023-12-06",
     "report_source": "missing",
+    "ext_massacres_cum": 1550,
     "ext_martyred": 579,
     "ext_martyred_cum": 16827,
     "ext_martyred_children_cum": 6835,
@@ -1099,6 +1190,8 @@
   {
     "report_date": "2023-12-07",
     "report_source": "mohtel",
+    "massacres_cum": 1576,
+    "ext_massacres_cum": 1576,
     "martyred": 350,
     "martyred_cum": 17177,
     "martyred_children_cum": 7729,
@@ -1121,6 +1214,7 @@
   {
     "report_date": "2023-12-08",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1576,
     "martyred": 313,
     "martyred_cum": 17487,
     "ext_martyred": 310,
@@ -1138,6 +1232,7 @@
   {
     "report_date": "2023-12-09",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1596,
     "martyred": 210,
     "martyred_cum": 17700,
     "ext_martyred": 213,
@@ -1156,6 +1251,7 @@
   {
     "report_date": "2023-12-10",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1617,
     "martyred": 297,
     "martyred_cum": 17997,
     "ext_martyred": 297,
@@ -1174,6 +1270,7 @@
   {
     "report_date": "2023-12-11",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1636,
     "martyred": 208,
     "martyred_cum": 18205,
     "ext_martyred": 208,
@@ -1191,6 +1288,8 @@
   {
     "report_date": "2023-12-12",
     "report_source": "mohtel",
+    "massacres_cum": 1644,
+    "ext_massacres_cum": 1644,
     "martyred": 207,
     "martyred_cum": 18412,
     "martyred_children_cum": 8000,
@@ -1213,6 +1312,7 @@
   {
     "report_date": "2023-12-13",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1660,
     "martyred": 196,
     "martyred_cum": 18608,
     "ext_martyred": 196,
@@ -1231,6 +1331,7 @@
   {
     "report_date": "2023-12-14",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1678,
     "martyred": 179,
     "martyred_cum": 18787,
     "ext_martyred": 179,
@@ -1249,6 +1350,8 @@
   {
     "report_date": "2023-12-15",
     "report_source": "gmotel",
+    "massacres_cum": 1680,
+    "ext_massacres_cum": 1680,
     "martyred_cum": 18800,
     "martyred_children_cum": 8000,
     "martyred_women_cum": 6200,
@@ -1269,6 +1372,7 @@
   {
     "report_date": "2023-12-16",
     "report_source": "missing",
+    "ext_massacres_cum": 1680,
     "ext_martyred": 217,
     "ext_martyred_cum": 19017,
     "ext_martyred_children_cum": 8000,
@@ -1282,6 +1386,7 @@
   {
     "report_date": "2023-12-17",
     "report_source": "missing",
+    "ext_massacres_cum": 1680,
     "ext_martyred": 218,
     "ext_martyred_cum": 19235,
     "ext_martyred_children_cum": 8000,
@@ -1295,6 +1400,7 @@
   {
     "report_date": "2023-12-18",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1696,
     "martyred": 151,
     "martyred_cum": 19453,
     "ext_martyred": 218,
@@ -1312,6 +1418,8 @@
   {
     "report_date": "2023-12-19",
     "report_source": "mohtel",
+    "massacres_cum": 1697,
+    "ext_massacres_cum": 1697,
     "martyred": 214,
     "martyred_cum": 19667,
     "martyred_children_cum": 8000,
@@ -1334,6 +1442,7 @@
   {
     "report_date": "2023-12-20",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1697,
     "ext_martyred": 130,
     "ext_martyred_cum": 19797,
     "ext_martyred_children_cum": 8000,
@@ -1347,6 +1456,7 @@
   {
     "report_date": "2023-12-21",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1697,
     "ext_martyred": 130,
     "ext_martyred_cum": 19927,
     "ext_martyred_children_cum": 8000,
@@ -1360,6 +1470,7 @@
   {
     "report_date": "2023-12-22",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1697,
     "martyred": 390,
     "martyred_cum": 20057,
     "ext_martyred": 130,
@@ -1377,6 +1488,7 @@
   {
     "report_date": "2023-12-23",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1697,
     "martyred": 201,
     "martyred_cum": 20258,
     "ext_martyred": 201,
@@ -1394,6 +1506,7 @@
   {
     "report_date": "2023-12-24",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1697,
     "martyred": 166,
     "martyred_cum": 20424,
     "ext_martyred": 166,
@@ -1411,6 +1524,8 @@
   {
     "report_date": "2023-12-25",
     "report_source": "mohtel",
+    "massacres_cum": 1745,
+    "ext_massacres_cum": 1745,
     "martyred": 250,
     "martyred_cum": 20674,
     "martyred_children_cum": 8500,
@@ -1433,6 +1548,7 @@
   {
     "report_date": "2023-12-26",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1763,
     "martyred": 241,
     "martyred_cum": 20915,
     "ext_martyred": 241,
@@ -1450,6 +1566,8 @@
   {
     "report_date": "2023-12-27",
     "report_source": "mohtel",
+    "massacres_cum": 1779,
+    "ext_massacres_cum": 1779,
     "martyred": 195,
     "martyred_cum": 21110,
     "martyred_children_cum": 8800,
@@ -1472,6 +1590,7 @@
   {
     "report_date": "2023-12-28",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1799,
     "martyred": 210,
     "martyred_cum": 21320,
     "ext_martyred": 210,
@@ -1489,6 +1608,7 @@
   {
     "report_date": "2023-12-29",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1799,
     "martyred": 187,
     "martyred_cum": 21507,
     "ext_martyred": 187,
@@ -1506,6 +1626,8 @@
   {
     "report_date": "2023-12-30",
     "report_source": "mohtel",
+    "massacres_cum": 1813,
+    "ext_massacres_cum": 1813,
     "martyred": 165,
     "martyred_cum": 21672,
     "martyred_children_cum": 9000,
@@ -1528,6 +1650,8 @@
   {
     "report_date": "2023-12-31",
     "report_source": "mohtel",
+    "massacres_cum": 1825,
+    "ext_massacres_cum": 1825,
     "martyred": 150,
     "martyred_cum": 21822,
     "martyred_children_cum": 9100,
@@ -1550,6 +1674,8 @@
   {
     "report_date": "2024-01-01",
     "report_source": "mohtel",
+    "massacres_cum": 1838,
+    "ext_massacres_cum": 1838,
     "martyred": 156,
     "martyred_cum": 21978,
     "ext_martyred": 156,
@@ -1568,6 +1694,7 @@
   {
     "report_date": "2024-01-02",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1853,
     "martyred": 207,
     "martyred_cum": 22185,
     "ext_martyred": 207,
@@ -1585,6 +1712,7 @@
   {
     "report_date": "2024-01-03",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1863,
     "martyred": 128,
     "martyred_cum": 22313,
     "ext_martyred": 128,
@@ -1602,6 +1730,7 @@
   {
     "report_date": "2024-01-04",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1876,
     "martyred": 125,
     "martyred_cum": 22438,
     "martyred_children_cum": 9730,
@@ -1622,6 +1751,7 @@
   {
     "report_date": "2024-01-05",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1891,
     "martyred": 162,
     "martyred_cum": 22600,
     "ext_martyred": 162,
@@ -1639,6 +1769,7 @@
   {
     "report_date": "2024-01-06",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1903,
     "martyred": 122,
     "martyred_cum": 22722,
     "martyred_children_cum": 10000,
@@ -1658,6 +1789,7 @@
   {
     "report_date": "2024-01-07",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1915,
     "martyred": 113,
     "martyred_cum": 22835,
     "martyred_children_cum": 10000,
@@ -1677,6 +1809,7 @@
   {
     "report_date": "2024-01-08",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1932,
     "martyred": 249,
     "martyred_cum": 23084,
     "ext_martyred": 249,
@@ -1694,6 +1827,7 @@
   {
     "report_date": "2024-01-09",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1944,
     "martyred": 126,
     "martyred_cum": 23210,
     "martyred_children_cum": 10000,
@@ -1713,6 +1847,7 @@
   {
     "report_date": "2024-01-10",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1958,
     "martyred": 147,
     "martyred_cum": 23357,
     "ext_martyred": 147,
@@ -1730,6 +1865,8 @@
   {
     "report_date": "2024-01-11",
     "report_source": "mohtel",
+    "massacres_cum": 1968,
+    "ext_massacres_cum": 1968,
     "martyred": 112,
     "martyred_cum": 23469,
     "martyred_children_cum": 10300,
@@ -1750,6 +1887,7 @@
   {
     "report_date": "2024-01-12",
     "report_source": "mohtel",
+    "ext_massacres_cum": 1981,
     "martyred": 151,
     "martyred_cum": 23708,
     "ext_martyred": 239,
@@ -1767,6 +1905,8 @@
   {
     "report_date": "2024-01-13",
     "report_source": "mohtel",
+    "massacres_cum": 1993,
+    "ext_massacres_cum": 1993,
     "martyred": 135,
     "martyred_cum": 23843,
     "martyred_children_cum": 10400,
@@ -1789,6 +1929,8 @@
   {
     "report_date": "2024-01-14",
     "report_source": "mohtel",
+    "massacres_cum": 2000,
+    "ext_massacres_cum": 2004,
     "martyred": 125,
     "martyred_cum": 23968,
     "martyred_children_cum": 10600,
@@ -1810,6 +1952,7 @@
   {
     "report_date": "2024-01-15",
     "report_source": "mohtel",
+    "ext_massacres_cum": 2016,
     "martyred": 132,
     "martyred_cum": 24100,
     "ext_martyred": 132,
@@ -1828,9 +1971,10 @@
   {
     "report_date": "2024-01-16",
     "report_source": "mohtel",
+    "ext_massacres_cum": 2031,
     "martyred": 158,
     "martyred_cum": 24285,
-    "ext_martyred": 158,
+    "ext_martyred": 185,
     "ext_martyred_cum": 24285,
     "ext_martyred_children_cum": 10600,
     "ext_martyred_women_cum": 7200,
@@ -1845,6 +1989,7 @@
   {
     "report_date": "2024-01-17",
     "report_source": "mohtel",
+    "ext_massacres_cum": 2031,
     "martyred": 163,
     "martyred_cum": 24448,
     "ext_martyred": 163,
