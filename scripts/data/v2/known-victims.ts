@@ -1,9 +1,9 @@
 import toEnName from "arabic-name-to-en";
-import { writeJson } from "../utils/fs";
-import { ApiResource } from "../../types/api.types";
-import { SheetTab, fetchGoogleSheet } from "../utils/gsheets";
+import { writeJson } from "../../utils/fs";
+import { ApiResource } from "../../../types/api.types";
+import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
 
-const jsonFileName = "martyrs.json";
+const jsonFileName = "known-victims.json";
 
 const formatAge = (colValue: string) => {
   let numericValue = -1;
@@ -62,11 +62,11 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
 };
 
 const generateJsonFromGSheet = async () => {
-  const sheetJson = await fetchGoogleSheet(SheetTab.MartyrsList);
+  const sheetJson = await fetchGoogleSheet(SheetTab.KnownVictimsList);
   // first row: english keys, second row: arabic keys, third row: first martyr
   const [headerKeys, __, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
-  writeJson(ApiResource.MartyrsListV1, jsonFileName, jsonArray);
+  writeJson(ApiResource.KnownVictimsV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
 };
 

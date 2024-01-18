@@ -5,7 +5,7 @@ const sheetId = "1UuWRD602kUFyYbw-e6eJ3PaOGlyfMvwMBJW9zdGOO8g";
 
 export enum SheetTab {
   CasualtiesDaily = "casualties_daily",
-  MartyrsList = "martyrs",
+  KnownVictimsList = "martyrs",
 }
 
 type GSheetsResponse = {

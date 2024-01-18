@@ -1,6 +1,6 @@
-import { ApiResource } from "../../types/api.types";
-import { writeJson } from "../utils/fs";
-import { SheetTab, fetchGoogleSheet } from "../utils/gsheets";
+import { ApiResource } from "../../../types/api.types";
+import { writeJson } from "../../utils/fs";
+import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
 
 const jsonFileName = "casualties_daily.json";
 
