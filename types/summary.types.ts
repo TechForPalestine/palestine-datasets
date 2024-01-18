@@ -9,6 +9,7 @@
 export type PreviewData = {
   martyrListCount: number;
   lastDailyUpdate: string;
+  massacres: number;
   martyred: {
     total: number;
     children: number;

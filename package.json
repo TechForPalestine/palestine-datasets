@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "gen-daily": "bun run scripts/data/casualties-daily.ts",
+    "gen-summary": "bun run scripts/data/summary.ts",
     "flightcheck": "bun run reset-manifest && bun run gen-daily && bun run docs-build && bun run docs-serve",
     "docs-start": "cd site && bun run start",
     "docs-build": "./scripts/build/pre-build.sh && cd site && bun run build && cd .. && ./scripts/build/pre-deploy.sh",
