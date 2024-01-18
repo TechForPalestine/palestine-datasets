@@ -21,6 +21,11 @@ const formatAge = (colValue: string) => {
 
 const expectedFields = ["name", "id", "dob", "sex", "age"];
 
+const sexMapping = {
+  ذكر: "m",
+  انثى: "f",
+};
+
 const addRecordField = (fieldKey: string, fieldValue: string) => {
   if (expectedFields.includes(fieldKey) === false) {
     return; // omit unexpected field
@@ -33,7 +38,7 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
       value = formatAge(fieldValue);
       break;
     case "sex":
-      value = fieldValue === "ذكر" ? "m" : fieldValue === "انثى" ? "f" : "";
+      value = sexMapping[fieldValue] ?? "";
       break;
   }
 
