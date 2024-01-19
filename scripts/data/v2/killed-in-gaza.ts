@@ -66,11 +66,41 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
   );
 };
 
+/**
+ * our docs claim the IDs will be unique so we should verify that claim
+ */
+const validateJson = (json: Array<Record<string, number | string>>) => {
+  const uniqueIds = new Set<string>();
+  const duplicateIds = new Set<string>();
+  json.forEach((record, index) => {
+    if (typeof record.id !== "string") {
+      throw new Error(
+        `Encountered record with non-string ID at index=${index}`
+      );
+    }
+
+    if (uniqueIds.has(record.id)) {
+      duplicateIds.add(record.id);
+    }
+
+    uniqueIds.add(record.id);
+  });
+
+  if (duplicateIds.size) {
+    throw new Error(
+      `Encountered the following duplicate IDs: ${Array.from(duplicateIds).join(
+        ", "
+      )}`
+    );
+  }
+};
+
 const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.KilledInGaza);
   // first row: english keys, second row: arabic keys, third row: first martyr
   const [__, headerKeys, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
+  validateJson(jsonArray);
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
 };
