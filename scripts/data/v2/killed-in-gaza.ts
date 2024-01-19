@@ -69,7 +69,7 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
 const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.KilledInGaza);
   // first row: english keys, second row: arabic keys, third row: first martyr
-  const [headerKeys, __, ...rows] = sheetJson.values;
+  const [__, headerKeys, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
