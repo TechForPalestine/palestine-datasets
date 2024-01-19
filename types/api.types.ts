@@ -1,6 +1,7 @@
 // underscore separator for version suffix required for manifest logic
 export enum ApiResource {
   CasualtiesDailyV1 = "CasualtiesDaily_V1",
+  CasualtiesDailyV2 = "CasualtiesDaily_V2",
   KilledInGazaV1 = "KilledInGaza_V1",
   KilledInGazaV2 = "KilledInGaza_V2",
   SummaryV1 = "Summary_V1",
