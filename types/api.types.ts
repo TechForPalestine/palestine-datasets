@@ -5,6 +5,7 @@ export enum ApiResource {
   KilledInGazaV1 = "KilledInGaza_V1",
   KilledInGazaV2 = "KilledInGaza_V2",
   SummaryV1 = "Summary_V1",
+  SummaryV2 = "Summary_V2",
 }
 export type ResourceFormat = "minified" | "unminified";
 

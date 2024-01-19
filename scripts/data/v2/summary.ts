@@ -1,4 +1,4 @@
-import type { PreviewDataV1 } from "../../../types/summary.types";
+import type { PreviewDataV2 } from "../../../types/summary.types";
 import type { CasualtyDailyReportV2 } from "../../../types/casualties-daily.types";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
@@ -14,10 +14,10 @@ const dailies = require("../../../casualties_daily.json");
 const martyrListCount = martyrs.length;
 const [lastDailyReport]: CasualtyDailyReportV2[] = dailies.slice().reverse();
 
-const previewData: PreviewDataV1 = {
+const previewData: PreviewDataV2 = {
   martyrListCount,
   massacres: lastDailyReport.ext_massacres_cum,
-  martyred: {
+  killed: {
     total: lastDailyReport.ext_killed_cum,
     children: lastDailyReport.ext_killed_children_cum,
     women: lastDailyReport.ext_killed_women_cum,
@@ -31,4 +31,8 @@ const previewData: PreviewDataV1 = {
   lastDailyUpdate: lastDailyReport.report_date,
 };
 
-writeJson(ApiResource.SummaryV1, "old/summary.json", previewData);
+writeJson(
+  ApiResource.SummaryV2,
+  "site/src/generated/summary.json",
+  previewData
+);
