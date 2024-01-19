@@ -8,14 +8,14 @@ import { ApiResource } from "../../../types/api.types";
  * on the homepage, without loading all of the JSON
  */
 
-const martyrs = require("../../../killed-in-gaza.json");
+const killedPersons = require("../../../killed-in-gaza.json");
 const dailies = require("../../../casualties_daily.json");
 
-const martyrListCount = martyrs.length;
+const killedInGazaListCount = killedPersons.length;
 const [lastDailyReport]: CasualtyDailyReportV2[] = dailies.slice().reverse();
 
 const previewData: PreviewDataV2 = {
-  martyrListCount,
+  killedInGazaListCount,
   massacres: lastDailyReport.ext_massacres_cum,
   killed: {
     total: lastDailyReport.ext_killed_cum,

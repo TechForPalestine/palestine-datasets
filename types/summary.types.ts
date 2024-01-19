@@ -24,7 +24,7 @@ export type PreviewDataV1 = {
 };
 
 export type PreviewDataV2 = {
-  martyrListCount: number;
+  killedInGazaListCount: number;
   lastDailyUpdate: string;
   massacres: number;
   killed: {
