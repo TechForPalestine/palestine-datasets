@@ -34,15 +34,20 @@ const expectedFields = [
   "age",
 ];
 
-interface MappedRecord {
+interface MappedRecord extends Record<string, string | number> {
   name: string;
-  [ManualNameFields.LibraryTranslation]?: string;
-  [ManualNameFields.HumanOverride]?: string;
+  [ManualNameFields.LibraryTranslation]: string;
+  [ManualNameFields.HumanOverride]: string;
   en_name: string;
   dob: string;
   sex: string;
   age: number;
 }
+
+type NamedRecord = Omit<
+  MappedRecord,
+  ManualNameFields.HumanOverride | ManualNameFields.LibraryTranslation
+>;
 
 const sexMapping = {
   ذكر: "m",
@@ -86,25 +91,92 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
       {} as MappedRecord
     );
 
+    const namedRecord: NamedRecord = mappedRecord;
+
     if (mappedRecord[ManualNameFields.HumanOverride]) {
-      delete mappedRecord[ManualNameFields.LibraryTranslation];
-      mappedRecord.en_name = mappedRecord[ManualNameFields.HumanOverride];
-      delete mappedRecord[ManualNameFields.HumanOverride];
-      return mappedRecord;
+      delete namedRecord[ManualNameFields.LibraryTranslation];
+      namedRecord.en_name = namedRecord[ManualNameFields.HumanOverride];
+      delete namedRecord[ManualNameFields.HumanOverride];
+      return namedRecord;
     }
 
-    delete mappedRecord[ManualNameFields.HumanOverride];
+    delete namedRecord[ManualNameFields.HumanOverride];
 
-    if (mappedRecord[ManualNameFields.LibraryTranslation]) {
-      delete mappedRecord[ManualNameFields.LibraryTranslation];
-      mappedRecord.en_name = mappedRecord[ManualNameFields.LibraryTranslation];
-      return mappedRecord;
+    if (namedRecord[ManualNameFields.LibraryTranslation]) {
+      delete namedRecord[ManualNameFields.LibraryTranslation];
+      namedRecord.en_name = namedRecord[ManualNameFields.LibraryTranslation];
+      return namedRecord;
     }
 
-    delete mappedRecord[ManualNameFields.LibraryTranslation];
-    mappedRecord.en_name = toEnName(mappedRecord.name);
-    return mappedRecord;
+    delete namedRecord[ManualNameFields.LibraryTranslation];
+    namedRecord.en_name = toEnName(namedRecord.name);
+    return namedRecord;
   });
+};
+
+/**
+ * our docs claim the IDs will be unique so we should verify that claim
+ */
+const validateJson = (json: Array<Record<string, number | string>>) => {
+  const uniqueIds = new Set<string>();
+  const duplicateIds = new Set<string>();
+  const uniqueSexValues = new Set<string>();
+  let minAgeValue = -1;
+  let maxAgeValue = 105;
+
+  json.forEach((record, index) => {
+    if (typeof record.id !== "string") {
+      throw new Error(
+        `Encountered record with non-string ID at index=${index}`
+      );
+    }
+
+    if (uniqueIds.has(record.id)) {
+      duplicateIds.add(record.id);
+    }
+
+    uniqueIds.add(record.id);
+
+    if (typeof record.sex === "string") {
+      uniqueSexValues.add(record.sex);
+    } else {
+      throw new Error(`Unexpected "sex" value for record with id=${record.id}`);
+    }
+
+    if (typeof record.age === "number") {
+      if (maxAgeValue < record.age) {
+        maxAgeValue = record.age;
+      } else if (minAgeValue > record.age) {
+        minAgeValue = record.age;
+      }
+    } else {
+      throw new Error(`Unexpected "age" value for record with id=${record.id}`);
+    }
+  });
+
+  if (duplicateIds.size) {
+    throw new Error(
+      `Encountered the following duplicate IDs: ${Array.from(duplicateIds).join(
+        ", "
+      )}`
+    );
+  }
+
+  if (!uniqueSexValues.has("m") || !uniqueSexValues.has("f")) {
+    throw new Error(
+      `Unexpected "sex" value(s) found: ${Array.from(uniqueSexValues).join(
+        ", "
+      )}`
+    );
+  }
+
+  if (minAgeValue < -1) {
+    throw new Error(`Unexpected low-end age value found: ${minAgeValue}`);
+  }
+
+  if (maxAgeValue > 105) {
+    throw new Error(`Unexpected high-end age value found: ${maxAgeValue}`);
+  }
 };
 
 const generateJsonFromGSheet = async () => {
@@ -112,6 +184,7 @@ const generateJsonFromGSheet = async () => {
   // first row: english keys, second row: arabic keys, third row: first martyr
   const [__, headerKeys, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
+  validateJson(jsonArray);
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
 };
