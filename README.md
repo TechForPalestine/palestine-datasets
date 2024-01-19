@@ -30,3 +30,17 @@ To run the site locally in Arabic use `bun run docs-start --locale ar`
 The team uses [Discord](https://discord.com/channels/1186702814341234740/1193636245784494222) to discuss this project. View the channel description & pinned messages to get started.
 
 **Note**: You may want to use a separate / anonymous Github account for your safety. Assess your personal/work situation accordingly.
+
+### Roadmap
+
+We commit to maintaining this dataset for the duration of Israel's attack on Palestinians in Gaza and the West Bank, and for so long as our sources are reporting those figures / lists.
+
+- [ ] Finish killed journalist list / merge with main list & annotate
+- [ ] Review / finish Arabic site translations
+- [ ] Improve readmes (guide to build workflow, dataset source(s) of truth)
+- [ ] Allow for anyone to trigger a GSheet fetch job
+- [ ] Process for automatically getting updates from Gaza telegram channels
+- [ ] Process for cleaning / validating the Killed in Gaza list as it'll grow
+- [ ] Add West Bank "attack by IDF/Settlers" numbers to daily dataset (since Oct 7)
+- [ ] Add infrastructure impact dataset (housing, ambulances / hospitals, etc.)
+- [ ] Add displacement estimates to daily dataset
