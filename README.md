@@ -7,7 +7,7 @@
 This repo provides an open source dataset intended to show the human toll of Israel's war on Gaza. This is not limited to Gaza and may include the West Bank. There are two primary datasets:
 
 - `killed-in-gaza.json` has a list of known fatalities in Gaza with their name, age, sex
-- `casualties_daily.json` has daily reports of aggregate martyr & injury counts from October 7th to the latest reported day
+- `casualties_daily.json` has daily reports of aggregate killed & injury counts from October 7th to the latest reported day
 
 There's also the source for the static documentation site.
 
