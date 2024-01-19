@@ -34,15 +34,20 @@ const expectedFields = [
   "age",
 ];
 
-interface MappedRecord {
+interface MappedRecord extends Record<string, string | number> {
   name: string;
-  [ManualNameFields.LibraryTranslation]?: string;
-  [ManualNameFields.HumanOverride]?: string;
+  [ManualNameFields.LibraryTranslation]: string;
+  [ManualNameFields.HumanOverride]: string;
   en_name: string;
   dob: string;
   sex: string;
   age: number;
 }
+
+type NamedRecord = Omit<
+  MappedRecord,
+  ManualNameFields.HumanOverride | ManualNameFields.LibraryTranslation
+>;
 
 const sexMapping = {
   ذكر: "m",
@@ -86,24 +91,26 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
       {} as MappedRecord
     );
 
+    const namedRecord: NamedRecord = mappedRecord;
+
     if (mappedRecord[ManualNameFields.HumanOverride]) {
-      delete mappedRecord[ManualNameFields.LibraryTranslation];
-      mappedRecord.en_name = mappedRecord[ManualNameFields.HumanOverride];
-      delete mappedRecord[ManualNameFields.HumanOverride];
-      return mappedRecord;
+      delete namedRecord[ManualNameFields.LibraryTranslation];
+      namedRecord.en_name = namedRecord[ManualNameFields.HumanOverride];
+      delete namedRecord[ManualNameFields.HumanOverride];
+      return namedRecord;
     }
 
-    delete mappedRecord[ManualNameFields.HumanOverride];
+    delete namedRecord[ManualNameFields.HumanOverride];
 
-    if (mappedRecord[ManualNameFields.LibraryTranslation]) {
-      delete mappedRecord[ManualNameFields.LibraryTranslation];
-      mappedRecord.en_name = mappedRecord[ManualNameFields.LibraryTranslation];
-      return mappedRecord;
+    if (namedRecord[ManualNameFields.LibraryTranslation]) {
+      delete namedRecord[ManualNameFields.LibraryTranslation];
+      namedRecord.en_name = namedRecord[ManualNameFields.LibraryTranslation];
+      return namedRecord;
     }
 
-    delete mappedRecord[ManualNameFields.LibraryTranslation];
-    mappedRecord.en_name = toEnName(mappedRecord.name);
-    return mappedRecord;
+    delete namedRecord[ManualNameFields.LibraryTranslation];
+    namedRecord.en_name = toEnName(namedRecord.name);
+    return namedRecord;
   });
 };
 
@@ -113,6 +120,10 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
 const validateJson = (json: Array<Record<string, number | string>>) => {
   const uniqueIds = new Set<string>();
   const duplicateIds = new Set<string>();
+  const uniqueSexValues = new Set<string>();
+  let minAgeValue = -1;
+  let maxAgeValue = 105;
+
   json.forEach((record, index) => {
     if (typeof record.id !== "string") {
       throw new Error(
@@ -125,6 +136,22 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
     }
 
     uniqueIds.add(record.id);
+
+    if (typeof record.sex === "string") {
+      uniqueSexValues.add(record.sex);
+    } else {
+      throw new Error(`Unexpected "sex" value for record with id=${record.id}`);
+    }
+
+    if (typeof record.age === "number") {
+      if (maxAgeValue < record.age) {
+        maxAgeValue = record.age;
+      } else if (minAgeValue > record.age) {
+        minAgeValue = record.age;
+      }
+    } else {
+      throw new Error(`Unexpected "age" value for record with id=${record.id}`);
+    }
   });
 
   if (duplicateIds.size) {
@@ -133,6 +160,22 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
         ", "
       )}`
     );
+  }
+
+  if (!uniqueSexValues.has("m") || !uniqueSexValues.has("f")) {
+    throw new Error(
+      `Unexpected "sex" value(s) found: ${Array.from(uniqueSexValues).join(
+        ", "
+      )}`
+    );
+  }
+
+  if (minAgeValue < -1) {
+    throw new Error(`Unexpected low-end age value found: ${minAgeValue}`);
+  }
+
+  if (maxAgeValue > 105) {
+    throw new Error(`Unexpected high-end age value found: ${maxAgeValue}`);
   }
 };
 
