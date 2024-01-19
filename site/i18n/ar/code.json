@@ -58,5 +58,8 @@
   },
   "Emergency Personnel Killed": {
     "message": "استشهاد أفراد الطوارئ"
+  },
+  "killed-in-gaza-names-count": {
+    "message": "اسمًا {count}"
   }
 }
