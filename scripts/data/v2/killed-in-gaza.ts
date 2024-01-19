@@ -181,7 +181,7 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
 
 const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.KilledInGaza);
-  // first row: english keys, second row: arabic keys, third row: first martyr
+  // first row: english keys, second row: arabic keys, third row: first person
   const [__, headerKeys, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
   validateJson(jsonArray);

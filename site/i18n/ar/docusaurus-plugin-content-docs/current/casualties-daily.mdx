@@ -6,7 +6,7 @@
 
 import { JSONFileLinks } from "@site/src/components";
 
-<JSONFileLinks resource="CasualtiesDaily_V1" />
+<JSONFileLinks resource="CasualtiesDaily_V2" />
 
 ---
 
@@ -18,30 +18,30 @@ Each daily report in this JSON array will have the following fields:
 
 (optional fields will be omitted from the JSON if there is no value reported)
 
-| field name                | value                                                            | optional |
-| ------------------------- | ---------------------------------------------------------------- | -------- |
-| report_date               | date in YYYY-MM-DD                                               | no       |
-| report_source             | one of `mohtel`, `gmotel`, `unocha` or `missing` (see below)     | no       |
-| massacres_cum             | cumulative number of multiple fatality events                    | yes      |
-| ext_massacres_cum         | same as `massacres_cum` but extrapolated (see below)             | no       |
-| martyred                  | killed persons on the given report date                          | yes      |
-| martyred_cum              | cumulative number of killed persons to the report date           | yes      |
-| martyred_children_cum     | cumulative number of children killed to the report date          | yes      |
-| martyred_women_cum        | cumulative number of women killed to the report date             | yes      |
-| ext_martyred              | same as `martyred` but extrapolated (see below)                  | no       |
-| ext_martyred_cum          | same as `martyred_cum` but extrapolated (see below)              | no       |
-| ext_martyred_children_cum | same as `martyred_children_cum` but extrapolated (see below)     | no       |
-| ext_martyred_women_cum    | same as `martyred_women_cum` but extrapolated (see below)        | no       |
-| injured                   | injured persons on the given report date                         | yes      |
-| injured_cum               | cumulative number of injured persons to the report date          | yes      |
-| ext_injured               | injured persons on the given report date                         | no       |
-| ext_injured_cum           | cumulative number of injured persons to the report date          | no       |
-| civdef_martyred_cum       | cumulative number of emergency services killed to date           | yes      |
-| ext_civdef_martyred_cum   | same as `civdef_martyred_cum` but extrapolated (see below)       | no       |
-| med_martyred_cum          | cumulative number of medical personnel killed to the report date | yes      |
-| ext_med_martyred_cum      | same as `med_martyed_cum` but extrapolated (see below)           | no       |
-| press_martyred_cum        | cumulative number of journalists killed to the report date       | yes      |
-| ext_press_martyred_cum    | same as `press_martyed_cum` but extrapolated (see below)         | no       |
+| field name              | value                                                            | optional |
+| ----------------------- | ---------------------------------------------------------------- | -------- |
+| report_date             | date in YYYY-MM-DD                                               | no       |
+| report_source           | one of `mohtel`, `gmotel`, `unocha` or `missing` (see below)     | no       |
+| massacres_cum           | cumulative number of multiple fatality events                    | yes      |
+| ext_massacres_cum       | same as `massacres_cum` but extrapolated (see below)             | no       |
+| killed                  | killed persons on the given report date                          | yes      |
+| killed_cum              | cumulative number of killed persons to the report date           | yes      |
+| killed_children_cum     | cumulative number of children killed to the report date          | yes      |
+| killed_women_cum        | cumulative number of women killed to the report date             | yes      |
+| ext_killed              | same as `killed` but extrapolated (see below)                    | no       |
+| ext_killed_cum          | same as `killed_cum` but extrapolated (see below)                | no       |
+| ext_killed_children_cum | same as `killed_children_cum` but extrapolated (see below)       | no       |
+| ext_killed_women_cum    | same as `killed_women_cum` but extrapolated (see below)          | no       |
+| injured                 | injured persons on the given report date                         | yes      |
+| injured_cum             | cumulative number of injured persons to the report date          | yes      |
+| ext_injured             | injured persons on the given report date                         | no       |
+| ext_injured_cum         | cumulative number of injured persons to the report date          | no       |
+| civdef_killed_cum       | cumulative number of emergency services killed to date           | yes      |
+| ext_civdef_killed_cum   | same as `civdef_killed_cum` but extrapolated (see below)         | no       |
+| med_killed_cum          | cumulative number of medical personnel killed to the report date | yes      |
+| ext_med_killed_cum      | same as `med_martyed_cum` but extrapolated (see below)           | no       |
+| press_killed_cum        | cumulative number of journalists killed to the report date       | yes      |
+| ext_press_killed_cum    | same as `press_martyed_cum` but extrapolated (see below)         | no       |
 
 ## Daily Sources
 
@@ -58,6 +58,6 @@ Our methodology is to prioritize official sources for this dataset in order to b
 
 Since official numbers weren't always available, and it can be useful to have a timeseries where all dates have values, we're providing the same official fields in extrapolated form using the following methodology:
 
-- if the missing field was a cumulative one and we had an official report for a daily martyr or injury count, we calculate the cumulative using the daily increment
+- if the missing field was a cumulative one and we had an official report for a daily killed or injury count, we calculate the cumulative using the daily increment
 - if the missing field was a daily increment and we had cumulative counts, we subtracted the reported cumulative count from the prior period for the missing daily count
 - if we were missing both sets of numbers for a given reporting period we average the difference between surrounding periods

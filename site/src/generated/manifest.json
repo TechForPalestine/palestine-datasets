@@ -1,12 +1,12 @@
 {
   "CasualtiesDaily_V1": {
     "minified": {
-      "file": "casualties_daily.min.json",
+      "file": "old/casualties_daily.min.json",
       "name": "casualties_daily.min.json",
       "apiPath": "api/v1"
     },
     "unminified": {
-      "file": "casualties_daily.json",
+      "file": "old/casualties_daily.json",
       "name": "casualties_daily.json",
       "apiPath": "api/v1"
     }
@@ -37,14 +37,38 @@
   },
   "Summary_V1": {
     "minified": {
-      "file": "site/src/generated/summary.min.json",
+      "file": "old/summary.min.json",
       "name": "summary.min.json",
       "apiPath": "api/v1"
     },
     "unminified": {
-      "file": "site/src/generated/summary.json",
+      "file": "old/summary.json",
       "name": "summary.json",
       "apiPath": "api/v1"
+    }
+  },
+  "CasualtiesDaily_V2": {
+    "minified": {
+      "file": "casualties_daily.min.json",
+      "name": "casualties_daily.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "casualties_daily.json",
+      "name": "casualties_daily.json",
+      "apiPath": "api/v2"
+    }
+  },
+  "Summary_V2": {
+    "minified": {
+      "file": "site/src/generated/summary.min.json",
+      "name": "summary.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "site/src/generated/summary.json",
+      "name": "summary.json",
+      "apiPath": "api/v2"
     }
   }
 }
