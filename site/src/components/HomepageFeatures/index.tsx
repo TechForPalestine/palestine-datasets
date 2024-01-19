@@ -17,7 +17,7 @@ const FeatureList: FeatureItem[] = [
   {
     title: <Translate>Killed in Gaza</Translate>,
     Svg: require("@site/static/img/undraw_family_vg76.svg").default,
-    svgClassName: styles.featureSvgMartyr,
+    svgClassName: styles.featureSvgKilled,
     description: <Translate>JSON list of known victims</Translate>,
     buttonLabel: <Translate>View List</Translate>,
     buttonPath: "/docs/killed-in-gaza",
@@ -25,18 +25,16 @@ const FeatureList: FeatureItem[] = [
   {
     title: <Translate>Daily Casualty Reports</Translate>,
     Svg: require("@site/static/img/undraw_data_reports_706v.svg").default,
-    svgClassName: styles.featureSvg,
-    description: <Translate>JSON list of official casualty numbers</Translate>,
+    svgClassName: styles.featureSvgDailies,
+    description: <Translate>JSON list of casualty numbers by day</Translate>,
     buttonLabel: <Translate>View Reports</Translate>,
     buttonPath: "/docs/casualties-daily",
   },
   {
     title: <Translate>Summary Data</Translate>,
     Svg: require("@site/static/img/undraw_pie_chart_re_bgs8.svg").default,
-    svgClassName: styles.featureSvg,
-    description: (
-      <Translate>JSON object with the numbers shown below</Translate>
-    ),
+    svgClassName: styles.featureSvgSummary,
+    description: <Translate>JSON object with the latest numbers</Translate>,
     buttonLabel: <Translate>View Summary</Translate>,
     buttonPath: "/docs/summary",
   },
@@ -52,7 +50,7 @@ function Feature({
 }: FeatureItem) {
   return (
     <div className={clsx("col col--4")}>
-      <div className="text--center">
+      <div className={`text--center ${styles.featureButtonImage}`}>
         <Link to={buttonPath}>
           <Svg className={svgClassName} role="img" />
         </Link>
