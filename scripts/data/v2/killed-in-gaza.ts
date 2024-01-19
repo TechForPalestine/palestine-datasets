@@ -3,7 +3,7 @@ import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
 
-const jsonFileName = "known-victims.json";
+const jsonFileName = "killed-in-gaza.json";
 
 const formatAge = (colValue: string) => {
   let numericValue = -1;
@@ -67,11 +67,11 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
 };
 
 const generateJsonFromGSheet = async () => {
-  const sheetJson = await fetchGoogleSheet(SheetTab.KnownVictimsList);
+  const sheetJson = await fetchGoogleSheet(SheetTab.KilledInGaza);
   // first row: english keys, second row: arabic keys, third row: first martyr
   const [headerKeys, __, ...rows] = sheetJson.values;
   const jsonArray = formatToJson(headerKeys, rows);
-  writeJson(ApiResource.KnownVictimsV2, jsonFileName, jsonArray);
+  writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
 };
 

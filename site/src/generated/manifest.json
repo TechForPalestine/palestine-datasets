@@ -11,19 +11,19 @@
       "apiPath": "api/v1"
     }
   },
-  "KnownVictims_V2": {
+  "KilledInGaza_V2": {
     "minified": {
-      "file": "known-victims.min.json",
-      "name": "known-victims.min.json",
+      "file": "killed-in-gaza.min.json",
+      "name": "killed-in-gaza.min.json",
       "apiPath": "api/v2"
     },
     "unminified": {
-      "file": "known-victims.json",
-      "name": "known-victims.json",
+      "file": "killed-in-gaza.json",
+      "name": "killed-in-gaza.json",
       "apiPath": "api/v2"
     }
   },
-  "KnownVictims_V1": {
+  "KilledInGaza_V1": {
     "minified": {
       "file": "old/martyrs.min.json",
       "name": "martyrs.min.json",

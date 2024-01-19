@@ -8,7 +8,7 @@ import { ApiResource } from "../../../types/api.types";
  * on the homepage, without loading all of the JSON
  */
 
-const martyrs = require("../../../known-victims.json");
+const martyrs = require("../../../killed-in-gaza.json");
 const dailies = require("../../../casualties_daily.json");
 
 const martyrListCount = martyrs.length;
