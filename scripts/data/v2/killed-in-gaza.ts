@@ -19,7 +19,30 @@ const formatAge = (colValue: string) => {
   return numericValue;
 };
 
-const expectedFields = ["name", "id", "dob", "sex", "age"];
+enum ManualNameFields {
+  LibraryTranslation = "library english translation",
+  HumanOverride = "english translation override",
+}
+
+const expectedFields = [
+  "name",
+  ManualNameFields.LibraryTranslation,
+  ManualNameFields.HumanOverride,
+  "id",
+  "dob",
+  "sex",
+  "age",
+];
+
+interface MappedRecord {
+  name: string;
+  [ManualNameFields.LibraryTranslation]?: string;
+  [ManualNameFields.HumanOverride]?: string;
+  en_name: string;
+  dob: string;
+  sex: string;
+  age: number;
+}
 
 const sexMapping = {
   ذكر: "m",
@@ -44,7 +67,6 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
 
   return {
     [fieldKey]: value,
-    ...(fieldKey === "name" ? { en_name: toEnName(fieldValue) } : {}),
   };
 };
 
@@ -55,15 +77,34 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
  * @returns array of daily report objects
  */
 const formatToJson = (headerKeys: string[], rows: string[][]) => {
-  return rows.map((rowColumns) =>
-    rowColumns.reduce(
+  return rows.map((rowColumns) => {
+    const mappedRecord = rowColumns.reduce(
       (dayRecord, colValue, colIndex) => ({
         ...dayRecord,
         ...addRecordField(headerKeys[colIndex], colValue),
       }),
-      {}
-    )
-  );
+      {} as MappedRecord
+    );
+
+    if (mappedRecord[ManualNameFields.HumanOverride]) {
+      delete mappedRecord[ManualNameFields.LibraryTranslation];
+      mappedRecord.en_name = mappedRecord[ManualNameFields.HumanOverride];
+      delete mappedRecord[ManualNameFields.HumanOverride];
+      return mappedRecord;
+    }
+
+    delete mappedRecord[ManualNameFields.HumanOverride];
+
+    if (mappedRecord[ManualNameFields.LibraryTranslation]) {
+      delete mappedRecord[ManualNameFields.LibraryTranslation];
+      mappedRecord.en_name = mappedRecord[ManualNameFields.LibraryTranslation];
+      return mappedRecord;
+    }
+
+    delete mappedRecord[ManualNameFields.LibraryTranslation];
+    mappedRecord.en_name = toEnName(mappedRecord.name);
+    return mappedRecord;
+  });
 };
 
 const generateJsonFromGSheet = async () => {
