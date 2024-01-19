@@ -15,7 +15,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Datasets",
-      items: ["known-victims", "casualties-daily", "summary"],
+      items: ["killed-in-gaza", "casualties-daily", "summary"],
     },
   ],
 };

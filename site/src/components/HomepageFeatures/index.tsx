@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
     svgClassName: styles.featureSvgMartyr,
     description: <Translate>JSON list of known victims</Translate>,
     buttonLabel: <Translate>View List</Translate>,
-    buttonPath: "/docs/known-victims",
+    buttonPath: "/docs/killed-in-gaza",
   },
   {
     title: <Translate>Daily Casualty Reports</Translate>,

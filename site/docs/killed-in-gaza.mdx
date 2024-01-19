@@ -1,0 +1,40 @@
+# Killed in Gaza
+
+## Usage
+
+The dataset is available as a single JSON array with an object for each person killed in Gaza:
+
+import { JSONFileLinks } from "@site/src/components";
+
+<JSONFileLinks resource="KilledInGaza_V2" />
+
+---
+
+## Fields
+
+Each record will have the following fields:
+
+| Key     | Value                                                                        |
+| ------- | ---------------------------------------------------------------------------- |
+| name    | original arabic name from the source list                                    |
+| en_name | english name translation                                                     |
+| id      | unique string (do not depend on format, it may change)                       |
+| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available |
+| sex     | string of one of `m` for male or `f` for female                              |
+| age     | age as a number or `-1` if unavailable                                       |
+
+---
+
+## Source
+
+The file is updated when a new list is released by Gaza's Ministry of Health.
+
+Last updated as of January 5th for hospitals reporting in the South and November 2nd for the North.
+
+Additional details about the list provided by the ministry:
+
+1. The missing persons and the bodies of those trapped under the rubble were not counted.
+2. The unidentified people who arrived at hospitals were not counted.
+3. The unidentified persons whose bodies were handed over by the occupation were not counted.
+4. Those who were buried by their families without passing through hospitals were not counted.
+5. The victims in Gaza and North Gaza were not counted after the date of stopping the information system in November.

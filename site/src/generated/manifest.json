@@ -11,6 +11,30 @@
       "apiPath": "api/v1"
     }
   },
+  "KilledInGaza_V2": {
+    "minified": {
+      "file": "killed-in-gaza.min.json",
+      "name": "killed-in-gaza.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "killed-in-gaza.json",
+      "name": "killed-in-gaza.json",
+      "apiPath": "api/v2"
+    }
+  },
+  "KilledInGaza_V1": {
+    "minified": {
+      "file": "old/martyrs.min.json",
+      "name": "martyrs.min.json",
+      "apiPath": "api/v1"
+    },
+    "unminified": {
+      "file": "old/martyrs.json",
+      "name": "martyrs.json",
+      "apiPath": "api/v1"
+    }
+  },
   "Summary_V1": {
     "minified": {
       "file": "site/src/generated/summary.min.json",
@@ -20,18 +44,6 @@
     "unminified": {
       "file": "site/src/generated/summary.json",
       "name": "summary.json",
-      "apiPath": "api/v1"
-    }
-  },
-  "MartyrsList_V1": {
-    "minified": {
-      "file": "martyrs.min.json",
-      "name": "martyrs.min.json",
-      "apiPath": "api/v1"
-    },
-    "unminified": {
-      "file": "martyrs.json",
-      "name": "martyrs.json",
       "apiPath": "api/v1"
     }
   }
