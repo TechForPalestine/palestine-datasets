@@ -1,5 +1,8 @@
 {
   "killed-in-gaza-names-count": {
     "message": "{count} names"
+  },
+  "daily-report-stats-label": {
+    "message": "{count} days of reports from 2023-10-07 to {lastDate}, updated daily."
   }
 }

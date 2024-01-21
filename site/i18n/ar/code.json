@@ -61,5 +61,8 @@
   },
   "killed-in-gaza-names-count": {
     "message": "اسمًا {count}"
+  },
+  "daily-report-stats-label": {
+    "message": "{count} أيام من التقارير من 2023-10-07 إلى {lastDate}، يتم تحديثها يوميًا"
   }
 }

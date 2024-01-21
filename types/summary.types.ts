@@ -25,6 +25,7 @@ export type PreviewDataV1 = {
 
 export type PreviewDataV2 = {
   killedInGazaListCount: number;
+  dailyReportCount: number;
   lastDailyUpdate: string;
   massacres: number;
   killed: {

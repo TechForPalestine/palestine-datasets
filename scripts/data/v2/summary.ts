@@ -28,6 +28,7 @@ const previewData: PreviewDataV2 = {
   injured: {
     total: lastDailyReport.ext_injured_cum,
   },
+  dailyReportCount: dailies.length,
   lastDailyUpdate: lastDailyReport.report_date,
 };
 
