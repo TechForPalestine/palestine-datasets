@@ -1,8 +1,3 @@
-const gsheetsKey = process.env.GSHEETS_KEY;
-
-// worksheet currently owned by @sterlingwes
-const sheetId = "1UuWRD602kUFyYbw-e6eJ3PaOGlyfMvwMBJW9zdGOO8g";
-
 export enum SheetTab {
   CasualtiesDaily = "casualties_daily",
   KilledInGaza = "martyrs",
@@ -12,8 +7,17 @@ type GSheetsResponse = {
   values: string[][]; // array of rows with array of column values
 };
 
+const token = process.env.TFP_SHEET_KEY ?? "";
+
 export const fetchGoogleSheet = async (sheetTab: SheetTab) => {
-  const sheetUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetTab}?alt=json&key=${gsheetsKey}`;
-  const response = await fetch(sheetUrl);
+  const sheetUrl = `https://tfp.fediship.workers.dev/?tab=${sheetTab}`;
+  if (!token) {
+    throw new Error(
+      "fetchGoogleSheet requires TFP_SHEET_KEY to be defined (which it should be in CI)"
+    );
+  }
+  const response = await fetch(sheetUrl, {
+    headers: { "x-token": token },
+  });
   return response.json() as Promise<GSheetsResponse>;
 };
