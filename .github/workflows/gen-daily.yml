@@ -1,0 +1,46 @@
+on: workflow_dispatch
+
+jobs:
+  datasets_gen_daily:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: oven-sh/setup-bun@v1
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      - name: install dependencies
+        run: bun install
+
+      - name: generate daily datasets
+        run: bun run gen-daily
+        env:
+          TFP_SHEET_KEY: ${{ secrets.TFP_SHEET_KEY }}
+
+      - name: commit vars
+        id: commitvars
+        run: |
+          echo "currentdate=$(date '+%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+          echo "branchname=ci-workflow-$(date '+%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        name: commit changes
+        env:
+          CURRENT_DATE: ${{ steps.commitvars.outputs.currentdate }}
+          NEW_BRANCH: ${{ steps.commitvars.outputs.branchname }}
+        with:
+          message: "daily: update for $CURRENT_DATE"
+          new_branch: "$NEW_BRANCH"
+          push: true
+
+      - name: create PR for review
+        env:
+          CURRENT_DATE: ${{ steps.commitvars.outputs.currentdate }}
+          NEW_BRANCH: ${{ steps.commitvars.outputs.branchname }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            -B main \
+            -H "$NEW_BRANCH" \
+            --title "daily: update for $CURRENT_DATE" \
+            --body 'Pulling new values from google sheet, triggered from CI workflow for review.'
