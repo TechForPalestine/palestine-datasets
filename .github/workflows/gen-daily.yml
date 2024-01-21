@@ -3,9 +3,7 @@ on: workflow_dispatch
 jobs:
   datasets_gen_daily:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
+    permissions: write-all
     steps:
       - uses: actions/checkout@v4
 
