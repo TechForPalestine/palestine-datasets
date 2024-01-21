@@ -1,8 +1,8 @@
 {
   "martyrListCount": 14121,
-  "massacres": 2072,
+  "massacres": 2087,
   "martyred": {
-    "total": 24927,
+    "total": 25105,
     "children": 10800,
     "women": 7250,
     "civilDefence": 45,
@@ -10,7 +10,7 @@
     "medical": 337
   },
   "injured": {
-    "total": 62388
+    "total": 62681
   },
-  "lastDailyUpdate": "2024-01-20"
+  "lastDailyUpdate": "2024-01-21"
 }
