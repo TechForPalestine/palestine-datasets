@@ -4,6 +4,8 @@ jobs:
   datasets_gen_daily:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - uses: oven-sh/setup-bun@v1
         name: setup bun
         with:
