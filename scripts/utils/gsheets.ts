@@ -19,5 +19,12 @@ export const fetchGoogleSheet = async (sheetTab: SheetTab) => {
   const response = await fetch(sheetUrl, {
     headers: { "x-token": token },
   });
+
+  if (!response.ok || response.status !== 200) {
+    throw new Error(
+      `Failed to fetch worksheet "${sheetTab}", received ${response.status}`
+    );
+  }
+
   return response.json() as Promise<GSheetsResponse>;
 };
