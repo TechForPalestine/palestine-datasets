@@ -29,10 +29,10 @@ The basic flow from start to finish of our dataset generation & build process is
 
 1. source data gets pulled from the spreadsheet, manipulated, checked for consistency, and written to disk in our data scripts (under `scripts/data`)
 2. the manifest.json under `site/src/generated` gets updated with the written file paths which is both referenced in website code and by the pre-deploy step, below
-3. run data scripts for derivate datasets (see `scripts/build/pre-build`, this also leads to manifest updates)
-4. build the website (`bun run docs-build`)
-5. move the API json files from their repo locations to the folder we're deploying (see `scripts/build/pre-deploy`, which relies on the manifest noted above)
-6. deploy the website (our repo's Cloudflare integration handles this on `main` for the live website and on each branch for a preview website)
+3. data scripts run for derivative datasets (see `scripts/build/pre-build`, this also leads to manifest updates)
+4. the website gets built (`bun run docs-build`)
+5. the API json files get moved from their repo source locations to the folder we're deploying (see `scripts/build/pre-deploy`, which relies on the manifest noted above)
+6. the website gets deployed (our repo's Cloudflare integration handles this on `main` for the live website and on each branch for a preview website)
 
 Our build process in CI handles steps 3 to 6.
 
