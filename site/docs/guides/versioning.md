@@ -1,3 +1,7 @@
+---
+description: Guidelines for keeping our APIs stable
+---
+
 # Versioning
 
 Our site provides versioned links to our JSON so that we have room for making breaking changes. We consider breaking changes to be:

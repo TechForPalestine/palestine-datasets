@@ -1,3 +1,7 @@
+---
+description: Tips on how to get involved or get in touch
+---
+
 # Contributing
 
 We welcome anyone to contribute to any part of this repository on Github. We've provided some answers to hypothetical questions you might have, below. If you can't find an answer here, please ask in one of the following places:

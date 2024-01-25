@@ -1,3 +1,7 @@
+---
+description: Overview of how our repo & API build is setup
+---
+
 # Architecture
 
 We've opted to host our API as a static website, moving what would traditionally be served by a backend API server & database combo towards a CI build process pulling from a spreadsheet API as our "database". This keeps our infra overhead low and benefits from CDN edge speed & reliability.
