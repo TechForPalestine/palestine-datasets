@@ -60,10 +60,6 @@ const config: Config = {
       },
       items: [
         {
-          type: "localeDropdown",
-          position: "right",
-        },
-        {
           href: repoUrl,
           label: "GitHub",
           position: "right",
