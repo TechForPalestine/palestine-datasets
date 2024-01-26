@@ -30,22 +30,7 @@ jobs:
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         name: commit changes
-        env:
-          CURRENT_DATE: ${{ steps.commitvars.outputs.currentdate }}
-          NEW_BRANCH: ${{ steps.commitvars.outputs.branchname }}
         with:
-          message: "daily: update for $CURRENT_DATE"
-          new_branch: "$NEW_BRANCH"
+          message: "daily: update for ${{ steps.commitvars.outputs.currentdate }}"
+          new_branch: ${{ steps.commitvars.outputs.branchname }}
           push: true
-
-      - name: create PR for review
-        env:
-          CURRENT_DATE: ${{ steps.commitvars.outputs.currentdate }}
-          NEW_BRANCH: ${{ steps.commitvars.outputs.branchname }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr create \
-            -B main \
-            -H "$NEW_BRANCH" \
-            --title "daily: update for $CURRENT_DATE" \
-            --body 'Pulling new values from google sheet, triggered from CI workflow for review.'
