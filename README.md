@@ -11,7 +11,7 @@ This repo provides an open source dataset intended to show the human toll of Isr
 
 There's also the source for the static documentation website under `site/`.
 
-See sub readmes for more info on data sources in [english](site/docs) or [arabic](site/i18n/ar/docusaurus-plugin-content-docs) which are also published on the site.
+See sub readmes for more info on data sources in [site/docs](site/docs).
 
 ## Contributing
 

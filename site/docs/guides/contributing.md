@@ -30,10 +30,10 @@ Navigation links are managed in two locations:
 
 ### I've spotted a problem / I can offer a correction
 
-If the issue is with one of our source datasets and it's a specific change to a single record or small subset of the data you can (based on your ability):
+If the issue is with one of our source datasets and it's a specific change to a single record or small subset of the data you can do one of the following, based on your ability:
 
-- open an issue in this repo with directions on how we can make the change you're seeking
-- open a PR with the change to one of the JSON files in the root of the repo that contains the issue
+- open an issue in this repo with directions on how we can make the change you're seeking; or
+- open a PR with the change to one of the JSON files in the root of the repo that contains the issue; or
 - let us know what's wrong in our Discord channel if you're already there.
 
 ### All other ideas / suggestions / issues
