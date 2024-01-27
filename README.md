@@ -9,11 +9,19 @@ This repo provides an open source dataset intended to show the human toll of Isr
 - `killed-in-gaza.json` has a list of known fatalities in Gaza with their name, age, sex
 - `casualties_daily.json` has daily reports of aggregate killed & injury counts from October 7th to the latest reported day
 
-There's also the source for the static documentation site.
+There's also the source for the static documentation website under `site/`.
 
 See sub readmes for more info on data sources in [english](site/docs) or [arabic](site/i18n/ar/docusaurus-plugin-content-docs) which are also published on the site.
 
 ## Contributing
+
+Reading:
+
+- [Contributing](https://data.techforpalestine.org/docs/guides/contributing)
+- [Architecture](https://data.techforpalestine.org/docs/guides/architecture)
+- [Versioning](https://data.techforpalestine.org/docs/guides/versioning)
+
+### Development Environment
 
 Prerequisites:
 

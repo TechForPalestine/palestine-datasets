@@ -60,6 +60,14 @@ const config: Config = {
       },
       items: [
         {
+          to: "docs/category/datasets/",
+          label: "Datasets",
+        },
+        {
+          to: "docs/guides/contributing/",
+          label: "Contributing",
+        },
+        {
           href: repoUrl,
           label: "GitHub",
           position: "right",

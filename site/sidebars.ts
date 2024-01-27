@@ -15,7 +15,24 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Datasets",
+      link: {
+        type: "generated-index",
+        title: "Datasets",
+      },
       items: ["killed-in-gaza", "casualties-daily", "summary"],
+    },
+    {
+      type: "category",
+      label: "Guides",
+      link: {
+        type: "generated-index",
+        title: "Guides",
+      },
+      items: [
+        "guides/contributing",
+        "guides/architecture",
+        "guides/versioning",
+      ],
     },
   ],
 };
