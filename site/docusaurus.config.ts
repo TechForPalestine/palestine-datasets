@@ -68,10 +68,6 @@ const config: Config = {
           label: "Contributing",
         },
         {
-          type: "localeDropdown",
-          position: "right",
-        },
-        {
           href: repoUrl,
           label: "GitHub",
           position: "right",

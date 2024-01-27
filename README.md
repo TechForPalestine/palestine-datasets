@@ -44,7 +44,6 @@ The team uses [Discord](https://discord.com/channels/1186702814341234740/1193636
 We commit to maintaining this dataset for the duration of Israel's attack on Palestinians in Gaza and the West Bank, and for so long as our sources are reporting those figures / lists.
 
 - [ ] Finish killed journalist list / merge with main list & annotate
-- [ ] Review / finish Arabic site translations
 - [ ] Improve readmes (guide to build workflow, dataset source(s) of truth)
 - [ ] Allow for anyone to trigger a GSheet fetch job
 - [ ] Process for automatically getting updates from Gaza telegram channels
