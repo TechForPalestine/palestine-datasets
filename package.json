@@ -1,7 +1,7 @@
 {
-  "name": "palestine-datasets",
+  "name": "palestine-numbers",
   "private": true,
-  "repository": "https://github.com/TechForPalestine/palestine-datasets",
+  "repository": "https://github.com/TechForPalestine/palestine-numbers",
   "license": "MIT",
   "workspaces": [
     "site"
