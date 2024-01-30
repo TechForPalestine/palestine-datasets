@@ -68,10 +68,6 @@ const config: Config = {
           label: "Contributing",
         },
         {
-          to: "docs/examples/",
-          label: "Examples",
-        },
-        {
           href: repoUrl,
           label: "GitHub",
           position: "right",

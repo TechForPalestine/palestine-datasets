@@ -22,11 +22,6 @@ const sidebars: SidebarsConfig = {
       items: ["killed-in-gaza", "casualties-daily", "summary"],
     },
     {
-      type: "link",
-      label: "Example Usage",
-      href: "/docs/examples",
-    },
-    {
       type: "category",
       label: "Guides",
       link: {
