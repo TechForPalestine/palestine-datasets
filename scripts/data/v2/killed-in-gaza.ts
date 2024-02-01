@@ -1,7 +1,6 @@
-import toEnName from "arabic-name-to-en";
+import fs from "fs";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
-import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
 
 const jsonFileName = "killed-in-gaza.json";
 
@@ -12,46 +11,26 @@ const formatAge = (colValue: string) => {
     numericValue = Number(colValue);
   }
 
-  if (numericValue > 120) {
+  if (!numericValue || numericValue > 120) {
     numericValue = -1;
   }
 
   return numericValue;
 };
 
-enum ManualNameFields {
-  LibraryTranslation = "library english translation",
-  HumanOverride = "english translation override",
-}
-
-const expectedFields = [
-  "name",
-  ManualNameFields.LibraryTranslation,
-  ManualNameFields.HumanOverride,
-  "id",
-  "dob",
-  "sex",
-  "age",
-];
+const expectedFields = ["id", "name_ar_raw", "dob", "sex", "age", "name_en"];
 
 interface MappedRecord extends Record<string, string | number> {
   name: string;
-  [ManualNameFields.LibraryTranslation]: string;
-  [ManualNameFields.HumanOverride]: string;
   en_name: string;
   dob: string;
   sex: string;
   age: number;
 }
 
-type NamedRecord = Omit<
-  MappedRecord,
-  ManualNameFields.HumanOverride | ManualNameFields.LibraryTranslation
->;
-
 const sexMapping = {
-  ذكر: "m",
-  انثى: "f",
+  M: "m",
+  F: "f",
 };
 
 const addRecordField = (fieldKey: string, fieldValue: string) => {
@@ -83,34 +62,13 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
  */
 const formatToJson = (headerKeys: string[], rows: string[][]) => {
   return rows.map((rowColumns) => {
-    const mappedRecord = rowColumns.reduce(
+    return rowColumns.reduce(
       (dayRecord, colValue, colIndex) => ({
         ...dayRecord,
         ...addRecordField(headerKeys[colIndex], colValue),
       }),
       {} as MappedRecord
     );
-
-    const namedRecord: NamedRecord = mappedRecord;
-
-    if (mappedRecord[ManualNameFields.HumanOverride]) {
-      delete namedRecord[ManualNameFields.LibraryTranslation];
-      namedRecord.en_name = namedRecord[ManualNameFields.HumanOverride];
-      delete namedRecord[ManualNameFields.HumanOverride];
-      return namedRecord;
-    }
-
-    delete namedRecord[ManualNameFields.HumanOverride];
-
-    if (namedRecord[ManualNameFields.LibraryTranslation]) {
-      delete namedRecord[ManualNameFields.LibraryTranslation];
-      namedRecord.en_name = namedRecord[ManualNameFields.LibraryTranslation];
-      return namedRecord;
-    }
-
-    delete namedRecord[ManualNameFields.LibraryTranslation];
-    namedRecord.en_name = toEnName(namedRecord.name);
-    return namedRecord;
   });
 };
 
@@ -125,6 +83,11 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
   let maxAgeValue = 105;
 
   json.forEach((record, index) => {
+    if (!record.id) {
+      console.log("skipped record with no id:", record);
+      return;
+    }
+
     if (typeof record.id !== "string") {
       throw new Error(
         `Encountered record with non-string ID at index=${index}`
@@ -140,7 +103,9 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
     if (typeof record.sex === "string") {
       uniqueSexValues.add(record.sex);
     } else {
-      throw new Error(`Unexpected "sex" value for record with id=${record.id}`);
+      throw new Error(
+        `Unexpected "sex" value for record with id=${record.id} (${record.sex})`
+      );
     }
 
     if (typeof record.age === "number") {
@@ -179,14 +144,20 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
   }
 };
 
-const generateJsonFromGSheet = async () => {
-  const sheetJson = await fetchGoogleSheet(SheetTab.KilledInGaza);
-  // first row: english keys, second row: arabic keys, third row: first person
-  const [__, headerKeys, ...rows] = sheetJson.values;
+const readCsv = () => {
+  const rawCsv = fs
+    .readFileSync("scripts/data/common/killed-in-gaza/output/result.csv")
+    .toString();
+  const rows = rawCsv.split("\n");
+  return rows.map((row) => row.split(","));
+};
+
+const generateJsonFromTranslatedCsv = async () => {
+  const [headerKeys, ...rows] = readCsv();
   const jsonArray = formatToJson(headerKeys, rows);
   validateJson(jsonArray);
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
 };
 
-generateJsonFromGSheet();
+generateJsonFromTranslatedCsv();
