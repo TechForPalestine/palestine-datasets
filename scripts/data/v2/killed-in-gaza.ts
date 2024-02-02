@@ -55,6 +55,12 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
     };
   }
 
+  if (fieldKey === "name_en") {
+    return {
+      en_name: fieldValue.toLowerCase(),
+    };
+  }
+
   return {
     [fieldKey]: value,
   };
@@ -67,15 +73,17 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
  * @returns array of daily report objects
  */
 const formatToJson = (headerKeys: string[], rows: string[][]) => {
-  return rows.map((rowColumns) => {
-    return rowColumns.reduce(
-      (dayRecord, colValue, colIndex) => ({
-        ...dayRecord,
-        ...addRecordField(headerKeys[colIndex], colValue),
-      }),
-      {} as MappedRecord
-    );
-  });
+  return rows
+    .map((rowColumns) => {
+      return rowColumns.reduce(
+        (dayRecord, colValue, colIndex) => ({
+          ...dayRecord,
+          ...addRecordField(headerKeys[colIndex], colValue),
+        }),
+        {} as MappedRecord
+      );
+    })
+    .filter((row) => !!row.id);
 };
 
 /**
