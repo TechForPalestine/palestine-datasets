@@ -49,6 +49,12 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
       break;
   }
 
+  if (fieldKey === "name_ar_raw") {
+    return {
+      name: fieldValue,
+    };
+  }
+
   return {
     [fieldKey]: value,
   };
