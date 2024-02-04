@@ -43,7 +43,8 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
 
   if (fieldKey === "name_en") {
     return {
-      en_name: fieldValue.toLowerCase(),
+      // split & rejoin to remove duplicate spaces
+      en_name: fieldValue.split(/\s+/).join(" ").toLowerCase(),
     };
   }
 
