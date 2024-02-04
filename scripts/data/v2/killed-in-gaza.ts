@@ -1,22 +1,9 @@
 import fs from "fs";
+import { differenceInMonths } from "date-fns";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 
 const jsonFileName = "killed-in-gaza.json";
-
-const formatAge = (colValue: string) => {
-  let numericValue = -1;
-
-  if (colValue) {
-    numericValue = Number(colValue);
-  }
-
-  if (!numericValue || numericValue > 120) {
-    numericValue = -1;
-  }
-
-  return numericValue;
-};
 
 const expectedFields = ["id", "name_ar_raw", "dob", "sex", "age", "name_en"];
 
@@ -33,7 +20,9 @@ const sexMapping = {
   F: "f",
 };
 
-const addRecordField = (fieldKey: string, fieldValue: string) => {
+const ageReferenceDate = new Date(2024, 0, 5, 0, 0, 0);
+
+const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   if (expectedFields.includes(fieldKey) === false) {
     return; // omit unexpected field
   }
@@ -41,9 +30,6 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
   let value: string | number = fieldValue;
 
   switch (fieldKey) {
-    case "age":
-      value = formatAge(fieldValue);
-      break;
     case "sex":
       value = sexMapping[fieldValue] ?? "";
       break;
@@ -66,6 +52,35 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
   };
 };
 
+let dobHeaderIndex;
+
+const handleColumn = (
+  headerKeys: string[],
+  rowValues: string[],
+  currentColValue: string,
+  currentColIndex: number
+) => {
+  const currentKey = headerKeys[currentColIndex];
+
+  if (currentKey === "age") {
+    if (!dobHeaderIndex) {
+      dobHeaderIndex = headerKeys.findIndex((head) => head === "dob");
+    }
+
+    // calc age using dob and static reference date for consistency
+    // source spreadsheet used a formula using "today" as reference date
+    // which led to drift
+    const dob = rowValues[dobHeaderIndex];
+    if (!dob) {
+      return { age: -1 };
+    }
+    const age = Math.round(differenceInMonths(ageReferenceDate, dob) / 12);
+    return { age };
+  }
+
+  return addSingleRecordField(currentKey, currentColValue);
+};
+
 /**
  * turns spreadsheet row / col arrays into an array of objects for each report date
  * @param headerKeys the row with valid json object keys in the spreadsheet header
@@ -78,7 +93,7 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
       return rowColumns.reduce(
         (dayRecord, colValue, colIndex) => ({
           ...dayRecord,
-          ...addRecordField(headerKeys[colIndex], colValue),
+          ...handleColumn(headerKeys, rowColumns, colValue, colIndex),
         }),
         {} as MappedRecord
       );
