@@ -41,13 +41,4 @@ The team uses [Discord](https://discord.com/channels/1186702814341234740/1193636
 
 ### Roadmap
 
-We commit to maintaining this dataset for the duration of Israel's attack on Palestinians in Gaza and the West Bank, and for so long as our sources are reporting those figures / lists.
-
-- [ ] Finish killed journalist list / merge with main list & annotate
-- [ ] Improve readmes (guide to build workflow, dataset source(s) of truth)
-- [ ] Allow for anyone to trigger a GSheet fetch job
-- [ ] Process for automatically getting updates from Gaza telegram channels
-- [ ] Process for cleaning / validating the Killed in Gaza list as it'll grow
-- [ ] Add West Bank "attack by IDF/Settlers" numbers to daily dataset (since Oct 7)
-- [ ] Add infrastructure impact dataset (housing, ambulances / hospitals, etc.)
-- [ ] Add displacement estimates to daily dataset
+We commit to maintaining this dataset for the duration of Israel's attack on Palestinians in Gaza and the West Bank, and for so long as our sources are reporting those figures / lists. See [github issues](https://github.com/TechForPalestine/palestine-datasets/issues) and our [project board](https://github.com/orgs/TechForPalestine/projects/4) for in-process work or ideas for how you can contribute.
