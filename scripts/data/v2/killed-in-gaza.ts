@@ -1,4 +1,5 @@
 import fs from "fs";
+import toEnName from "arabic-name-to-en";
 import { differenceInMonths } from "date-fns";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
@@ -22,6 +23,8 @@ const sexMapping = {
 
 const ageReferenceDate = new Date(2024, 0, 5, 0, 0, 0);
 
+const namesFallbackTranslated = new Map<string, number>();
+
 const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   if (expectedFields.includes(fieldKey) === false) {
     return; // omit unexpected field
@@ -44,7 +47,18 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   if (fieldKey === "name_en") {
     return {
       // split & rejoin to remove duplicate spaces
-      en_name: fieldValue.split(/\s+/).join(" ").toLowerCase(),
+      en_name: fieldValue
+        .split(/\s+/)
+        .map((namePart) => {
+          if (/[\u{0600}-\u{06FF}]+/u.test(namePart)) {
+            const existingCount = namesFallbackTranslated.get(namePart) ?? 0;
+            namesFallbackTranslated.set(namePart, existingCount + 1);
+            return toEnName(namePart);
+          }
+          return namePart;
+        })
+        .join(" ")
+        .toLowerCase(),
     };
   }
 
@@ -188,6 +202,15 @@ const generateJsonFromTranslatedCsv = async () => {
   validateJson(jsonArray);
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
+
+  if (namesFallbackTranslated.size) {
+    console.warn(
+      `\n\n⚠️ ${namesFallbackTranslated.size} were translated using the fallback library (namePart,occurrences):\n`
+    );
+    namesFallbackTranslated.forEach((count, namePart) => {
+      console.log(`${namePart},${count}`);
+    });
+  }
 };
 
 generateJsonFromTranslatedCsv();
