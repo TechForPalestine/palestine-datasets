@@ -112,7 +112,8 @@ jobs:
 
             // delete prior comments
             const comments = await github.rest.issues.listComments(commonInputs)
-            const idsToDelete = comments
+            console.log('>>', comments)
+            const idsToDelete = comments.data
               .filter(comment => comment.user.login.includes('github-action'))
               .map(comment => comment.id)
 
