@@ -93,9 +93,9 @@ jobs:
             const missStart = '💨'
 
             if (process.env.COMMITTED === 'true') {
-              body += '${changesStart} The JSON build scripts ran and produced JSON changes, please review them.\n\n'
+              body += `${changesStart} The JSON build scripts ran and produced JSON changes, please review them.\n\n`
             } else {
-              body += '${missStart} The JSON build scripts ran and did not produce any changes to commit.\n\n'
+              body += `${missStart} The JSON build scripts ran and did not produce any changes to commit.\n\n`
             }
 
             if (process.env.HASLOGS || process.env.HASDIFF) {
