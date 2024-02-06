@@ -55,10 +55,12 @@ The list before this change can be found on Github:
 Here are some additional details about the current list & the latest revision:
 
 - there are 14,138 names
-- 92 records (0.65%) had age changes from the prior release (all 1 year less than before)
-- using levenshtein distance in comparing the prior english translations to new:
-  - 97.7% of names had differences of less than 10 edits
+- english name changes between this and the last published list, using Levenshtein distance:
+  - 24% of names had no change
+  - 60% of names had differences of between 1-4 edits, inclusive
+  - 15% of names had differences of between 5-9 edits, inclusive
   - 1.9% of names had differences of 10 or more edits
-- there are 29 names with "unknown" for part or all of the name, and those are now represented in the english translation as `?`
+- 92 records (0.65%) had age changes from the prior release (all 1 year less than before)
+- 29 names have "unknown" for part or all of the name, and those are now represented in the english translation as `?`
 
 We're continually working to improve translations and the list in general. If you have ideas or want to contribute a change, please see our [contributing guide](/docs/guides/contributing).
