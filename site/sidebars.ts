@@ -23,6 +23,11 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "link",
+      label: "Updates",
+      href: "/updates",
+    },
+    {
+      type: "link",
       label: "Example Usage",
       href: "/docs/examples",
     },
