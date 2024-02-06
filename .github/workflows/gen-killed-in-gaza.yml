@@ -1,4 +1,8 @@
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
 
 jobs:
   datasets_gen_daily:
@@ -29,17 +33,25 @@ jobs:
       - name: run scripts & diff
         run: |
           python scripts/data/common/killed-in-gaza/generate_killed_list.py
+          mkdir -p ci-tmp
           bun run gen-killed
+          git diff killed-in-gaza.json > ci-tmp/killed-in-gaza.diff
 
-      - name: commit vars
-        id: commitvars
-        run: |
-          echo "currentdate=$(date '+%Y-%m-%d')" >> "$GITHUB_OUTPUT"
-          echo "branchname=ci-workflow-$(date '+%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+      - name: upload log artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: killed-in-gaza-log
+          path: ci-tmp/killed-in-gaza-log.txt
+
+      - name: upload diff artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: killed-in-gaza-diff
+          path: ci-tmp/killed-in-gaza.diff
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         name: commit changes
         with:
           message: "daily: update for ${{ steps.commitvars.outputs.currentdate }}"
-          new_branch: ${{ steps.commitvars.outputs.branchname }}
+          add: '["killed-in-gaza.json", "killed-in-gaza.min.json"]'
           push: true

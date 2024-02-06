@@ -222,7 +222,7 @@ const generateJsonFromTranslatedCsv = async () => {
   }
 
   if (process.env.CI) {
-    fs.writeFileSync("gen-killed-result", logLines.join("\n"));
+    fs.writeFileSync("ci-tmp/killed-in-gaza-log.txt", logLines.join("\n"));
   } else {
     console.warn(logLines.join("\n"));
   }
