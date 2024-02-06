@@ -44,7 +44,7 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: killed-in-gaza-zip
+          name: GAZA-LIST-REVIEW-ITEMS
           path: ci-tmp/*
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
