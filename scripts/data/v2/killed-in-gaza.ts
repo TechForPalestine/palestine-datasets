@@ -9,6 +9,7 @@ const jsonFileName = "killed-in-gaza.json";
 const expectedFields = ["id", "name_ar_raw", "dob", "sex", "name_en"];
 
 interface MappedRecord extends Record<string, string | number> {
+  id: string;
   name: string;
   en_name: string;
   dob: string;
@@ -192,7 +193,10 @@ const generateJsonFromTranslatedCsv = async () => {
   const [headerKeys, ...rows] = readCsv();
   const jsonArray = formatToJson(headerKeys, rows);
   validateJson(jsonArray);
+  // sort by descending ID
+  jsonArray.sort((a, b) => b.id.localeCompare(a.id));
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
+
   console.log(
     `generated JSON file with ${jsonArray.length} records: ${jsonFileName}`
   );
