@@ -4,7 +4,7 @@ on:
       - "**"
       - "!main"
     paths:
-      - "scripts/data/common/killed-in-gaza/*"
+      - "scripts/data/common/killed-in-gaza/**"
       - "scripts/data/v2/killed-in-gaza.ts"
       - ".github/workflows/gen-killed-in-gaza.yml"
 
