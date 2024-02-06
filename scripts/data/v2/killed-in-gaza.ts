@@ -201,22 +201,30 @@ const generateJsonFromTranslatedCsv = async () => {
     `generated JSON file with ${jsonArray.length} records: ${jsonFileName}`
   );
 
+  const logLines: string[] = [];
+
   if (namesFallbackTranslated.size) {
-    console.warn(
+    logLines.push(
       `\n\n⚠️ ${namesFallbackTranslated.size} were translated using the fallback library (namePart,occurrences):\n`
     );
     namesFallbackTranslated.forEach((count, namePart) => {
-      console.log(`${namePart},${count}`);
+      logLines.push(`${namePart},${count}`);
     });
   }
 
   if (duplicateIds.size) {
-    console.warn(
+    logLines.push(
       `\n\n⚠️ ${duplicateIds.size} record ID conflicts were encountered:\n`
     );
     duplicateIds.forEach((id) => {
-      console.log(id);
+      logLines.push(id);
     });
+  }
+
+  if (process.env.CI) {
+    fs.writeFileSync("gen-killed-result", logLines.join("\n"));
+  } else {
+    console.warn(logLines.join("\n"));
   }
 };
 
