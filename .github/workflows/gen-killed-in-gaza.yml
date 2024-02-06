@@ -51,7 +51,7 @@ jobs:
         name: commit changes
         id: commit
         with:
-          message: "daily: update for ${{ steps.commitvars.outputs.currentdate }}"
+          message: "killed-in-gaza: json update"
           add: '["killed-in-gaza.json", "killed-in-gaza.min.json"]'
           push: true
 
@@ -89,11 +89,13 @@ jobs:
         with:
           script: |
             let body = ''
+            const changesStart = '✅'
+            const missStart = '💨'
 
             if (process.env.COMMITTED === 'true') {
-              body += '✅ The JSON build scripts ran and produced JSON changes, please review them.\n\n'
+              body += '${changesStart} The JSON build scripts ran and produced JSON changes, please review them.\n\n'
             } else {
-              body += '💨 The JSON build scripts ran and did not produce any changes to commit.\n\n'
+              body += '${missStart} The JSON build scripts ran and did not produce any changes to commit.\n\n'
             }
 
             if (process.env.HASLOGS || process.env.HASDIFF) {
@@ -119,6 +121,19 @@ jobs:
             const idsToDelete = comments.data
               .filter(comment => comment.user.login.includes('github-action'))
               .map(comment => comment.id)
+
+            // check if a recent commit had changes to review
+            let recentChanges = false
+            const lastCommentBody = comments.data
+              .sort((a, b) => b.created_at.localeCompare(a.created_at))[0]?.body ?? ''
+
+            if (lastCommentBody.startsWith(changesStart)) {
+              recentChanges = true
+            }
+
+            if (recentChanges && body.startsWith(missStart)) {
+              return; // keep last comment if commit leads to no change
+            }
 
             console.log(`found ${idsToDelete.length} comments to delete: ${idsToDelete.join(',')}`)
 
