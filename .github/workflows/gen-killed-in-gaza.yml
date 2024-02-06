@@ -68,10 +68,10 @@ jobs:
         run: |
           # if our log output has lines there's issues worth noting
           if [[ $(wc -l <ci-tmp/killed-in-gaza-log.txt) -ge 2 ]]; then
-            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-            echo "scriptlog<<$EOF" >> $GITHUB_OUTPUT
-            echo $(cat ci-tmp/killed-in-gaza-log.txt) >> "$GITHUB_OUTPUT"
-            echo "$EOF" >> $GITHUB_OUTPUT
+            echo "logs=1" >> "" >> "$GITHUB_OUTPUT"
+          fi
+          if [[ $(wc -l <ci-tmp/killed-in-gaza-json.diff) -ge 1 ]]; then
+            echo "diff=1" >> "" >> "$GITHUB_OUTPUT"
           fi
 
       - uses: actions/github-script@v7
@@ -79,13 +79,34 @@ jobs:
         name: add pr comment
         env:
           COMMITTED: ${{ steps.commit.outputs.committed }}
-          SCRIPTLOG: ${{ steps.report.outputs.scriptlog }}
+          HASLOGS: ${{ steps.report.outputs.logs }}
+          HASDIFF: ${{ steps.report.outputs.diff }}
           PRNUM: ${{ steps.PR.outputs.number }}
         with:
           script: |
+            let body = ''
+
+            if (process.env.COMMITTED === 'true') {
+              body += 'The JSON build scripts ran and added a commit to this PR with the updated JSON, please review it.\n\n'
+            } else {
+              body += 'The JSON build scripts ran and did not result in any changes to commit.\n\n'
+            }
+
+            if (process.env.HASLOGS || process.env.HASDIFF) {
+              body += `The CI workflow artifacts have items you can [download and review](https://github.com/TechForPalestine/palestine-datasets/actions/runs/${context.runId}):\n`
+            }
+
+            if (process.env.HASLOGS) {
+              body += '- [ ] logs detailing potential issues to resolve\n'
+            }
+
+            if (process.env.HASDIFF) {
+              body += '- [ ] a diff of the JSON file changes for review\n'
+            }
+
             github.rest.issues.createComment({
               issue_number: process.env.PRNUM,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `${process.env.COMMITTED === 'true' ? 'Added a commit to this PR with the updated JSON, please review it (if there are many changes, the diff will be in build artifacts)' : 'No JSON change committed.'}${process.env.SCRIPTLOG ? '\n\n': ''}${process.env.SCRIPTLOG.replace('\\n', '\n')}\n\nhttps://github.com/TechForPalestine/palestine-datasets/actions/runs/${context.runId}`
+              body
             })
