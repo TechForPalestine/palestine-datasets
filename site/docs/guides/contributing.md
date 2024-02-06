@@ -4,7 +4,7 @@ description: Tips on how to get involved or get in touch
 
 # Contributing
 
-We welcome anyone to contribute to any part of this repository on Github. We've provided some answers to hypothetical questions you might have, below. If you can't find an answer here, please ask in one of the following places:
+We welcome anyone to contribute to any part of this repository on Github. We've provided some answers to questions you might have, below. If you can't find an answer here, please ask in one of the following places:
 
 - [Github Issues](https://github.com/TechForPalestine/palestine-datasets/issues)
 - [Tech For Palestine Discord in #tfp-oss-palestine-dataset](https://discord.com/channels/1186702814341234740/1193636245784494222).
@@ -27,6 +27,10 @@ Navigation links are managed in two locations:
 - `site/docusaurus.config.js` for the header nav under `themeConfig.navbar.items`
 
 ## Working on Datasets
+
+### I have a correction to the english name translation in the Killed in Gaza list
+
+To correct a translation, open a PR with your change for the matching name part in [dict_ar_env.csv](https://github.com/TechForPalestine/palestine-datasets/blob/main/scripts/data/common/killed-in-gaza/data/dict_ar_en.csv). Our PR workflow will run the script needed to carry these changes through to the JSON file that makes up our API and you can review the change in the PR diff which will receive that automatic commit.
 
 ### I've spotted a problem / I can offer a correction
 
