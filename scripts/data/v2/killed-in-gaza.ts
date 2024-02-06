@@ -6,7 +6,7 @@ import { ApiResource } from "../../../types/api.types";
 
 const jsonFileName = "killed-in-gaza.json";
 
-const expectedFields = ["id", "name_ar_raw", "dob", "sex", "age", "name_en"];
+const expectedFields = ["id", "name_ar_raw", "dob", "sex", "name_en"];
 
 interface MappedRecord extends Record<string, string | number> {
   name: string;
@@ -24,6 +24,8 @@ const sexMapping = {
 const ageReferenceDate = new Date(2024, 0, 5, 0, 0, 0);
 
 const namesFallbackTranslated = new Map<string, number>();
+const idsEncountered = new Set<string>();
+const duplicateIds = new Set<string>();
 
 const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   if (expectedFields.includes(fieldKey) === false) {
@@ -33,6 +35,12 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   let value: string | number = fieldValue;
 
   switch (fieldKey) {
+    case "id":
+      if (idsEncountered.has(fieldValue)) {
+        duplicateIds.add(fieldValue);
+      }
+      idsEncountered.add(fieldValue);
+      break;
     case "sex":
       value = sexMapping[fieldValue] ?? "";
       break;
@@ -67,8 +75,6 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   };
 };
 
-let dobHeaderIndex;
-
 const handleColumn = (
   headerKeys: string[],
   rowValues: string[],
@@ -77,20 +83,16 @@ const handleColumn = (
 ) => {
   const currentKey = headerKeys[currentColIndex];
 
-  if (currentKey === "age") {
-    if (!dobHeaderIndex) {
-      dobHeaderIndex = headerKeys.findIndex((head) => head === "dob");
-    }
-
+  if (currentKey === "dob") {
     // calc age using dob and static reference date for consistency
     // source spreadsheet used a formula using "today" as reference date
     // which led to drift
-    const dob = rowValues[dobHeaderIndex];
+    const dob = rowValues[currentColIndex];
     if (!dob) {
-      return { age: -1 };
+      return { age: -1, dob };
     }
     const age = Math.round(differenceInMonths(ageReferenceDate, dob) / 12);
-    return { age };
+    return { age, dob };
   }
 
   return addSingleRecordField(currentKey, currentColValue);
@@ -151,16 +153,6 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
         `Unexpected "sex" value for record with id=${record.id} (${record.sex})`
       );
     }
-
-    if (typeof record.age === "number") {
-      if (maxAgeValue < record.age) {
-        maxAgeValue = record.age;
-      } else if (minAgeValue > record.age) {
-        minAgeValue = record.age;
-      }
-    } else {
-      throw new Error(`Unexpected "age" value for record with id=${record.id}`);
-    }
   });
 
   if (duplicateIds.size) {
@@ -201,7 +193,9 @@ const generateJsonFromTranslatedCsv = async () => {
   const jsonArray = formatToJson(headerKeys, rows);
   validateJson(jsonArray);
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
-  console.log(`generated JSON file: ${jsonFileName}`);
+  console.log(
+    `generated JSON file with ${jsonArray.length} records: ${jsonFileName}`
+  );
 
   if (namesFallbackTranslated.size) {
     console.warn(
@@ -209,6 +203,15 @@ const generateJsonFromTranslatedCsv = async () => {
     );
     namesFallbackTranslated.forEach((count, namePart) => {
       console.log(`${namePart},${count}`);
+    });
+  }
+
+  if (duplicateIds.size) {
+    console.warn(
+      `\n\n⚠️ ${duplicateIds.size} record ID conflicts were encountered:\n`
+    );
+    duplicateIds.forEach((id) => {
+      console.log(id);
     });
   }
 };
