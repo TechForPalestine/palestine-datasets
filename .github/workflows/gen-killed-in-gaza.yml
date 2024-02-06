@@ -70,7 +70,7 @@ jobs:
           if [[ $(wc -l <ci-tmp/killed-in-gaza-log.txt) -ge 2 ]]; then
             EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
             echo "scriptlog<<$EOF" >> $GITHUB_OUTPUT
-            echo "scriptlog=$(cat ci-tmp/killed-in-gaza-log.txt)" >> "$GITHUB_OUTPUT"
+            cat ci-tmp/killed-in-gaza-log.txt >> "$GITHUB_OUTPUT"
             echo "$EOF" >> $GITHUB_OUTPUT
           fi
 
@@ -80,10 +80,11 @@ jobs:
         env:
           COMMITTED: ${{ steps.commit.outputs.committed }}
           SCRIPTLOG: ${{ steps.report.outputs.scriptlog }}
+          PRNUM: ${{ steps.PR.outputs.number }}
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: process.env.PRNUM,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `${process.env.COMMITTED === 'true' ? 'Added a commit to this PR with the updated JSON, please review it (if there are many changes, the diff will be in build artifacts)' : 'No JSON change committed.'}${process.env.SCRIPTLOG ? '\n\n': ''}${process.env.SCRIPTLOG}\n\nhttps://github.com/TechForPalestine/palestine-datasets/actions/runs/${context.runId}`
