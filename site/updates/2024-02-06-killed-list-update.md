@@ -54,7 +54,7 @@ The list before this change can be found on Github:
 
 Here are some additional details about the current list & the latest revision:
 
-- there are 14,138 names
+- there are 14,140 names
 - english name changes between this and the last published list, using Levenshtein distance:
   - 24% of names had no change
   - 60% of names had differences of between 1-4 edits, inclusive
