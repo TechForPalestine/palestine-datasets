@@ -58,13 +58,9 @@ jobs:
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
         with:
-          # Authetication token to access GitHub APIs. (Can be omitted by default.)
           github-token: ${{ github.token }}
-          # Verbose setting SHA when using Pull_Request event trigger to fix #16. (For push even trigger this is not necessary.)
           sha: ${{ github.event.pull_request.head.sha }}
-          # Only return if PR is still open. (By default it returns PRs in any state.)
           filterOutClosed: true
-          # Only return if PR is not in draft state. (By default it returns PRs in any state.)
           filterOutDraft: false
 
       - name: build report
