@@ -132,6 +132,7 @@ jobs:
             }
 
             if (recentChanges && body.startsWith(missStart)) {
+              console.log('skipping comment, recent changes')
               return; // keep last comment if commit leads to no change
             }
 
