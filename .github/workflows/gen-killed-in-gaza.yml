@@ -70,7 +70,7 @@ jobs:
           if [[ $(wc -l <ci-tmp/killed-in-gaza-log.txt) -ge 2 ]]; then
             EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
             echo "scriptlog<<$EOF" >> $GITHUB_OUTPUT
-            cat ci-tmp/killed-in-gaza-log.txt >> "$GITHUB_OUTPUT"
+            echo $(cat ci-tmp/killed-in-gaza-log.txt) >> "$GITHUB_OUTPUT"
             echo "$EOF" >> $GITHUB_OUTPUT
           fi
 
