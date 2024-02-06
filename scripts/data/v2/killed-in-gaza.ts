@@ -1,60 +1,34 @@
+import fs from "fs";
 import toEnName from "arabic-name-to-en";
+import { differenceInMonths } from "date-fns";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
-import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
 
 const jsonFileName = "killed-in-gaza.json";
 
-const formatAge = (colValue: string) => {
-  let numericValue = -1;
-
-  if (colValue) {
-    numericValue = Number(colValue);
-  }
-
-  if (numericValue > 120) {
-    numericValue = -1;
-  }
-
-  return numericValue;
-};
-
-enum ManualNameFields {
-  LibraryTranslation = "library english translation",
-  HumanOverride = "english translation override",
-}
-
-const expectedFields = [
-  "name",
-  ManualNameFields.LibraryTranslation,
-  ManualNameFields.HumanOverride,
-  "id",
-  "dob",
-  "sex",
-  "age",
-];
+const expectedFields = ["id", "name_ar_raw", "dob", "sex", "name_en"];
 
 interface MappedRecord extends Record<string, string | number> {
+  id: string;
   name: string;
-  [ManualNameFields.LibraryTranslation]: string;
-  [ManualNameFields.HumanOverride]: string;
   en_name: string;
   dob: string;
   sex: string;
   age: number;
 }
 
-type NamedRecord = Omit<
-  MappedRecord,
-  ManualNameFields.HumanOverride | ManualNameFields.LibraryTranslation
->;
-
 const sexMapping = {
-  ذكر: "m",
-  انثى: "f",
+  M: "m",
+  F: "f",
 };
 
-const addRecordField = (fieldKey: string, fieldValue: string) => {
+const ageReferenceDate = new Date(2024, 0, 5, 0, 0, 0);
+
+const namesFallbackTranslated = new Map<string, number>();
+const idsEncountered = new Set<string>();
+const duplicateIds = new Set<string>();
+
+const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   if (expectedFields.includes(fieldKey) === false) {
     return; // omit unexpected field
   }
@@ -62,17 +36,67 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
   let value: string | number = fieldValue;
 
   switch (fieldKey) {
-    case "age":
-      value = formatAge(fieldValue);
+    case "id":
+      if (idsEncountered.has(fieldValue)) {
+        duplicateIds.add(fieldValue);
+      }
+      idsEncountered.add(fieldValue);
       break;
     case "sex":
       value = sexMapping[fieldValue] ?? "";
       break;
   }
 
+  if (fieldKey === "name_ar_raw") {
+    return {
+      name: fieldValue,
+    };
+  }
+
+  if (fieldKey === "name_en") {
+    return {
+      // split & rejoin to remove duplicate spaces
+      en_name: fieldValue
+        .split(/\s+/)
+        .map((namePart) => {
+          if (/[\u{0600}-\u{06FF}]+/u.test(namePart)) {
+            const existingCount = namesFallbackTranslated.get(namePart) ?? 0;
+            namesFallbackTranslated.set(namePart, existingCount + 1);
+            return toEnName(namePart);
+          }
+          return namePart;
+        })
+        .join(" ")
+        .toLowerCase(),
+    };
+  }
+
   return {
     [fieldKey]: value,
   };
+};
+
+const handleColumn = (
+  headerKeys: string[],
+  rowValues: string[],
+  currentColValue: string,
+  currentColIndex: number
+) => {
+  const currentKey = headerKeys[currentColIndex];
+
+  if (currentKey === "dob") {
+    // calc age using dob and static reference date for consistency
+    // source spreadsheet used a formula using "today" as reference date
+    // which led to drift
+    const dob = rowValues[currentColIndex];
+    if (!dob) {
+      return { age: -1, dob };
+    }
+    const age = Math.round(differenceInMonths(ageReferenceDate, dob) / 12);
+    return { age, dob };
+  }
+
+  return addSingleRecordField(currentKey, currentColValue);
 };
 
 /**
@@ -82,36 +106,17 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
  * @returns array of daily report objects
  */
 const formatToJson = (headerKeys: string[], rows: string[][]) => {
-  return rows.map((rowColumns) => {
-    const mappedRecord = rowColumns.reduce(
-      (dayRecord, colValue, colIndex) => ({
-        ...dayRecord,
-        ...addRecordField(headerKeys[colIndex], colValue),
-      }),
-      {} as MappedRecord
-    );
-
-    const namedRecord: NamedRecord = mappedRecord;
-
-    if (mappedRecord[ManualNameFields.HumanOverride]) {
-      delete namedRecord[ManualNameFields.LibraryTranslation];
-      namedRecord.en_name = namedRecord[ManualNameFields.HumanOverride];
-      delete namedRecord[ManualNameFields.HumanOverride];
-      return namedRecord;
-    }
-
-    delete namedRecord[ManualNameFields.HumanOverride];
-
-    if (namedRecord[ManualNameFields.LibraryTranslation]) {
-      delete namedRecord[ManualNameFields.LibraryTranslation];
-      namedRecord.en_name = namedRecord[ManualNameFields.LibraryTranslation];
-      return namedRecord;
-    }
-
-    delete namedRecord[ManualNameFields.LibraryTranslation];
-    namedRecord.en_name = toEnName(namedRecord.name);
-    return namedRecord;
-  });
+  return rows
+    .map((rowColumns) => {
+      return rowColumns.reduce(
+        (dayRecord, colValue, colIndex) => ({
+          ...dayRecord,
+          ...handleColumn(headerKeys, rowColumns, colValue, colIndex),
+        }),
+        {} as MappedRecord
+      );
+    })
+    .filter((row) => !!row.id);
 };
 
 /**
@@ -125,6 +130,11 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
   let maxAgeValue = 105;
 
   json.forEach((record, index) => {
+    if (!record.id) {
+      console.log("skipped record with no id:", record);
+      return;
+    }
+
     if (typeof record.id !== "string") {
       throw new Error(
         `Encountered record with non-string ID at index=${index}`
@@ -140,17 +150,9 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
     if (typeof record.sex === "string") {
       uniqueSexValues.add(record.sex);
     } else {
-      throw new Error(`Unexpected "sex" value for record with id=${record.id}`);
-    }
-
-    if (typeof record.age === "number") {
-      if (maxAgeValue < record.age) {
-        maxAgeValue = record.age;
-      } else if (minAgeValue > record.age) {
-        minAgeValue = record.age;
-      }
-    } else {
-      throw new Error(`Unexpected "age" value for record with id=${record.id}`);
+      throw new Error(
+        `Unexpected "sex" value for record with id=${record.id} (${record.sex})`
+      );
     }
   });
 
@@ -179,14 +181,43 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
   }
 };
 
-const generateJsonFromGSheet = async () => {
-  const sheetJson = await fetchGoogleSheet(SheetTab.KilledInGaza);
-  // first row: english keys, second row: arabic keys, third row: first person
-  const [__, headerKeys, ...rows] = sheetJson.values;
-  const jsonArray = formatToJson(headerKeys, rows);
-  validateJson(jsonArray);
-  writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
-  console.log(`generated JSON file: ${jsonFileName}`);
+const readCsv = () => {
+  const rawCsv = fs
+    .readFileSync("scripts/data/common/killed-in-gaza/output/result.csv")
+    .toString();
+  const rows = rawCsv.split("\n");
+  return rows.map((row) => row.split(","));
 };
 
-generateJsonFromGSheet();
+const generateJsonFromTranslatedCsv = async () => {
+  const [headerKeys, ...rows] = readCsv();
+  const jsonArray = formatToJson(headerKeys, rows);
+  validateJson(jsonArray);
+  // sort by descending ID
+  jsonArray.sort((a, b) => b.id.localeCompare(a.id));
+  writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
+
+  console.log(
+    `generated JSON file with ${jsonArray.length} records: ${jsonFileName}`
+  );
+
+  if (namesFallbackTranslated.size) {
+    console.warn(
+      `\n\n⚠️ ${namesFallbackTranslated.size} were translated using the fallback library (namePart,occurrences):\n`
+    );
+    namesFallbackTranslated.forEach((count, namePart) => {
+      console.log(`${namePart},${count}`);
+    });
+  }
+
+  if (duplicateIds.size) {
+    console.warn(
+      `\n\n⚠️ ${duplicateIds.size} record ID conflicts were encountered:\n`
+    );
+    duplicateIds.forEach((id) => {
+      console.log(id);
+    });
+  }
+};
+
+generateJsonFromTranslatedCsv();
