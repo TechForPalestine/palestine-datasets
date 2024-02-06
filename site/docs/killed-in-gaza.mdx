@@ -22,14 +22,14 @@ import { JSONFileLinks } from "@site/src/components";
 
 Each record will have the following fields:
 
-| Key     | Value                                                                        |
-| ------- | ---------------------------------------------------------------------------- |
-| name    | original arabic name from the source list                                    |
-| en_name | english name translation                                                     |
-| id      | unique string (do not depend on format, it may change)                       |
-| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available |
-| sex     | string of one of `m` for male or `f` for female                              |
-| age     | age as a number or `-1` if unavailable                                       |
+| Key     | Value                                                                                            |
+| ------- | ------------------------------------------------------------------------------------------------ |
+| name    | original arabic name from the source list                                                        |
+| en_name | english name translation<br/>(`?` indicates part of the name was "unknown" in the arabic source) |
+| id      | unique string (do not depend on format, it may change)                                           |
+| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                     |
+| sex     | string of one of `m` for male or `f` for female                                                  |
+| age     | age as a number or `-1` if unavailable                                                           |
 
 ---
 
