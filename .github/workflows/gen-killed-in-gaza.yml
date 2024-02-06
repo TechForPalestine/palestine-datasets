@@ -5,7 +5,7 @@ on:
       - "!main"
 
 jobs:
-  datasets_gen_daily:
+  datasets_gen_killed:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -68,7 +68,10 @@ jobs:
         run: |
           # if our log output has lines there's issues worth noting
           if [[ $(wc -l <ci-tmp/killed-in-gaza-log.txt) -ge 2 ]]; then
+            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+            echo "scriptlog<<$EOF" >> $GITHUB_OUTPUT
             echo "scriptlog=$(cat ci-tmp/killed-in-gaza-log.txt)" >> "$GITHUB_OUTPUT"
+            echo "$EOF" >> $GITHUB_OUTPUT
           fi
 
       - uses: actions/github-script@v7
