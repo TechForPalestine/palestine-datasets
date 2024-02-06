@@ -23,7 +23,7 @@ The final step includes a fallback step to rely on the old library for remaining
 
 ## Notable Changes
 
-We've avoided what we believe would have been breaking changes to the dataset per our [versioning guide](/docs/versioning), but we did add 21 new records from the original official list released in November 2023. The IDs that were introduced from that November list include:
+We've avoided what we believe would have been breaking changes to the dataset per our [versioning guide](/docs/guides/versioning), but we did add 21 new records from the original official list released in November 2023. The IDs that were introduced from that November list include:
 
 - 401771530
 - 401844790
