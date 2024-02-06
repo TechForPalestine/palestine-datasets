@@ -35,23 +35,53 @@ jobs:
           python scripts/data/common/killed-in-gaza/generate_killed_list.py
           mkdir -p ci-tmp
           bun run gen-killed
-          git diff killed-in-gaza.json > ci-tmp/killed-in-gaza.diff
+          git diff killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
 
-      - name: upload log artifact
+      - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: killed-in-gaza-log
-          path: ci-tmp/killed-in-gaza-log.txt
-
-      - name: upload diff artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: killed-in-gaza-diff
-          path: ci-tmp/killed-in-gaza.diff
+          name: killed-in-gaza-zip
+          path: ci-tmp/*
 
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         name: commit changes
+        id: commit
         with:
           message: "daily: update for ${{ steps.commitvars.outputs.currentdate }}"
           add: '["killed-in-gaza.json", "killed-in-gaza.min.json"]'
           push: true
+
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+        with:
+          # Authetication token to access GitHub APIs. (Can be omitted by default.)
+          github-token: ${{ github.token }}
+          # Verbose setting SHA when using Pull_Request event trigger to fix #16. (For push even trigger this is not necessary.)
+          sha: ${{ github.event.pull_request.head.sha }}
+          # Only return if PR is still open. (By default it returns PRs in any state.)
+          filterOutClosed: true
+          # Only return if PR is not in draft state. (By default it returns PRs in any state.)
+          filterOutDraft: true
+
+      - name: build report
+        id: report
+        run: |
+          # if our log output has lines there's issues worth noting
+          if [[ $(wc -l <ci-tmp/killed-in-gaza-log.txt) -ge 2 ]]; then
+            echo "scriptlog=$(cat ci-tmp/killed-in-gaza-log.txt)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/github-script@v7
+        if: steps.PR.outputs.pr_found == 'true'
+        name: add pr comment
+        env:
+          COMMITTED: ${{ steps.commit.outputs.committed }}
+          SCRIPTLOG: ${{ steps.report.outputs.scriptlog }}
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${process.env.COMMITTED === 'true' ? 'Added a commit to this PR with the updated JSON, please review it (if there are many changes, the diff will be in build artifacts)' : 'No JSON change committed.'}${process.env.SCRIPTLOG ? '\n\n': ''}${process.env.SCRIPTLOG}\n\nhttps://github.com/TechForPalestine/palestine-datasets/actions/runs/${context.runId}`
+            })
