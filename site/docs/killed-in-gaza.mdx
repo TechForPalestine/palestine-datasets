@@ -22,22 +22,26 @@ import { JSONFileLinks } from "@site/src/components";
 
 Each record will have the following fields:
 
-| Key     | Value                                                                        |
-| ------- | ---------------------------------------------------------------------------- |
-| name    | original arabic name from the source list                                    |
-| en_name | english name translation                                                     |
-| id      | unique string (do not depend on format, it may change)                       |
-| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available |
-| sex     | string of one of `m` for male or `f` for female                              |
-| age     | age as a number or `-1` if unavailable                                       |
+| Key     | Value                                                                                            |
+| ------- | ------------------------------------------------------------------------------------------------ |
+| name    | original arabic name from the source list                                                        |
+| en_name | english name translation<br/>(`?` indicates part of the name was "unknown" in the arabic source) |
+| id      | unique string (do not depend on format, it may change)                                           |
+| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                     |
+| sex     | string of one of `m` for male or `f` for female                                                  |
+| age     | age as a number or `-1` if unavailable                                                           |
 
 ---
+
+## English Name Translation
+
+For a discussion of our translation methodology, [see our February update](/updates/killed-in-gaza-update-1).
 
 ## Source
 
 The file is updated when a new list is released by Gaza's Ministry of Health.
 
-Last updated as of January 5th for hospitals reporting in the South and November 2nd for the North.
+Last updated as of January 5th for hospitals reporting in the South and November 2nd for the North. Additionally, 21 records were included from an earlier release as [noted in our Feburary update](/updates/killed-in-gaza-update-1#notable-changes).
 
 Additional details about the list provided by the ministry:
 
