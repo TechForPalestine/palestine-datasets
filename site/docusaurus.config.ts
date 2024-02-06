@@ -45,6 +45,11 @@ const config: Config = {
         theme: {
           customCss: "./src/css/custom.css",
         },
+        blog: {
+          path: "updates",
+          routeBasePath: "updates",
+          blogSidebarTitle: "Recent Updates",
+        },
       } satisfies Preset.Options,
     ],
   ],
@@ -70,6 +75,10 @@ const config: Config = {
         {
           to: "docs/examples/",
           label: "Examples",
+        },
+        {
+          to: "updates/",
+          label: "Updates",
         },
         {
           href: repoUrl,
