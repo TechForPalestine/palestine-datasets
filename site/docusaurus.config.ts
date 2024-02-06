@@ -48,6 +48,7 @@ const config: Config = {
         blog: {
           path: "updates",
           routeBasePath: "updates",
+          blogTitle: "Updates",
           blogSidebarTitle: "Recent Updates",
         },
       } satisfies Preset.Options,

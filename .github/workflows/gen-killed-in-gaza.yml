@@ -3,6 +3,10 @@ on:
     branches:
       - "**"
       - "!main"
+    paths:
+      - "scripts/data/common/killed-in-gaza/*"
+      - "scripts/data/v2/killed-in-gaza.ts"
+      - ".github/workflows/gen-killed-in-gaza.yml"
 
 jobs:
   datasets_gen_killed:
@@ -87,9 +91,9 @@ jobs:
             let body = ''
 
             if (process.env.COMMITTED === 'true') {
-              body += 'The JSON build scripts ran and added a commit to this PR with the updated JSON, please review it.\n\n'
+              body += '✅ The JSON build scripts ran and produced JSON changes, please review them.\n\n'
             } else {
-              body += 'The JSON build scripts ran and did not result in any changes to commit.\n\n'
+              body += '💨 The JSON build scripts ran and did not produce any changes to commit.\n\n'
             }
 
             if (process.env.HASLOGS || process.env.HASDIFF) {
@@ -112,7 +116,6 @@ jobs:
 
             // delete prior comments
             const comments = await github.rest.issues.listComments(commonInputs)
-            console.log('>>', comments)
             const idsToDelete = comments.data
               .filter(comment => comment.user.login.includes('github-action'))
               .map(comment => comment.id)
