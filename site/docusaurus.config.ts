@@ -3,7 +3,7 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const siteTitle = "Palestine Datasets";
-const repoUrl = "https://github.com/TechForPalestine/palestine-numbers";
+const repoUrl = "https://github.com/TechForPalestine/palestine-datasets";
 
 const config: Config = {
   title: siteTitle,
@@ -48,6 +48,7 @@ const config: Config = {
         blog: {
           path: "updates",
           routeBasePath: "updates",
+          blogTitle: "Updates",
           blogSidebarTitle: "Recent Updates",
         },
       } satisfies Preset.Options,

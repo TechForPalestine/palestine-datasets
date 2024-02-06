@@ -1,0 +1,150 @@
+on:
+  push:
+    branches:
+      - "**"
+      - "!main"
+    paths:
+      - "scripts/data/common/killed-in-gaza/**"
+      - "scripts/data/v2/killed-in-gaza.ts"
+      - ".github/workflows/gen-killed-in-gaza.yml"
+
+jobs:
+  datasets_gen_killed:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - uses: oven-sh/setup-bun@v1
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      - name: install python dependencies
+        run: pip install -r scripts/data/common/killed-in-gaza/requirements.txt
+
+      - name: install dependencies
+        run: bun install
+
+      - name: run scripts & diff
+        run: |
+          python scripts/data/common/killed-in-gaza/generate_killed_list.py
+          mkdir -p ci-tmp
+          bun run gen-killed
+          git diff killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: GAZA-LIST-REVIEW-ITEMS
+          path: ci-tmp/*
+
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        name: commit changes
+        id: commit
+        with:
+          message: "killed-in-gaza: json update"
+          add: '["killed-in-gaza.json", "killed-in-gaza.min.json"]'
+          push: true
+
+      - uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+        with:
+          github-token: ${{ github.token }}
+          sha: ${{ github.event.pull_request.head.sha }}
+          filterOutClosed: true
+          filterOutDraft: false
+
+      - name: build report
+        id: report
+        run: |
+          # if our log output has lines there's issues worth noting
+          if [[ $(wc -l <ci-tmp/killed-in-gaza-log.txt) -ge 2 ]]; then
+            echo "logs=1" >> "$GITHUB_OUTPUT"
+          fi
+          if [[ $(wc -l <ci-tmp/killed-in-gaza-json.diff) -ge 1 ]]; then
+            echo "diff=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/github-script@v7
+        if: steps.PR.outputs.pr_found == 'true'
+        name: add pr comment
+        env:
+          COMMITTED: ${{ steps.commit.outputs.committed }}
+          HASLOGS: ${{ steps.report.outputs.logs }}
+          HASDIFF: ${{ steps.report.outputs.diff }}
+          PRNUM: ${{ steps.PR.outputs.number }}
+        with:
+          script: |
+            let body = ''
+            const changesStart = '✅'
+            const missStart = '💨'
+
+            if (process.env.COMMITTED === 'true') {
+              body += `${changesStart} The JSON build scripts ran and produced JSON changes, please review them.\n\n`
+            } else {
+              body += `${missStart} The JSON build scripts ran and did not produce any changes to commit.\n\n`
+            }
+
+            if (process.env.HASLOGS || process.env.HASDIFF) {
+              body += `The CI workflow artifacts have items you can [download and review](https://github.com/TechForPalestine/palestine-datasets/actions/runs/${context.runId}):\n`
+            }
+
+            if (process.env.HASLOGS) {
+              body += '- [ ] logs detailing potential issues to resolve\n'
+            }
+
+            if (process.env.HASDIFF) {
+              body += '- [ ] a diff of the JSON file changes for review\n'
+            }
+
+            const commonInputs = {
+              issue_number: process.env.PRNUM,
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            }
+
+            // delete prior comments
+            const comments = await github.rest.issues.listComments(commonInputs)
+            const idsToDelete = comments.data
+              .filter(comment => comment.user.login.includes('github-action'))
+              .map(comment => comment.id)
+
+            // check if a recent commit had changes to review
+            let recentChanges = false
+            const lastCommentBody = comments.data
+              .sort((a, b) => b.created_at.localeCompare(a.created_at))[0]?.body ?? ''
+
+            if (lastCommentBody.startsWith(changesStart)) {
+              recentChanges = true
+            }
+
+            if (recentChanges && body.startsWith(missStart)) {
+              console.log('skipping comment, recent changes')
+              return; // keep last comment if commit leads to no change
+            }
+
+            console.log(`found ${idsToDelete.length} comments to delete: ${idsToDelete.join(',')}`)
+
+            if (idsToDelete.length) {
+              await idsToDelete.reduce(async (chain, comment_id) => {
+                await chain;
+                await github.rest.issues.deleteComment({
+                  ...commonInputs,
+                  comment_id
+                })
+              }, Promise.resolve())
+            }
+
+            await github.rest.issues.createComment({
+              ...commonInputs,
+              body
+            })
