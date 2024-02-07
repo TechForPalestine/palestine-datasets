@@ -17,10 +17,10 @@
   "Summary Data": {
     "message": "بيانات ملخصة"
   },
-  "JSON list of casualty numbers by day": {
+  "List of casualty numbers by day": {
     "message": "قائمة JSON بأرقام الشهداء والجرحى الرسمية"
   },
-  "JSON list of known victims": {
+  "List of known victims": {
     "message": "قائمة JSON للشهداء مع بعض التفاصيل التعريفية"
   },
   "JSON object with the latest numbers": {

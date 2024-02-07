@@ -4,7 +4,7 @@ description: Overview of how our repo & API build is setup
 
 # Architecture
 
-We've opted to host our API as a static website, moving what would traditionally be served by a backend API server & database combo towards a CI build process pulling from a spreadsheet API as our "database". This keeps our infra overhead low and benefits from CDN edge speed & reliability.
+We've opted to host our API as a static website, moving what would traditionally be served by a backend API server & database combo towards a CI build process pulling from a spreadsheet API or from source control as our "database". This keeps our infra overhead low and benefits from CDN edge speed & reliability.
 
 ## Dataset Source of Truth
 
@@ -24,6 +24,7 @@ They're collected from various official sources as documented on our website.
 Currently this includes:
 
 - Summary of latest values from daily or aggregate numbers from Source Datasets
+- CSV formats for the two main datasets, above
 
 To the extent we need to accomplish better developer ergonomics in our APIs (for example: searching an index or fetching individual records), that work belongs here under derivative datasets.
 
