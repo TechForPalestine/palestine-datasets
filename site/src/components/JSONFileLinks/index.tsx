@@ -16,13 +16,21 @@ export const JSONFileLinks = ({ resource }: { resource: ApiResource }) => {
     );
   }
 
-  const { unminified, minified } = files;
+  const { unminified, minified, csv } = files;
 
   return (
     <div>
       {unminified && (
-        <ExternalLinkButton to={`/${unminified.apiPath}/${unminified.name}`}>
+        <ExternalLinkButton
+          to={`/${unminified.apiPath}/${unminified.name}`}
+          style={csv ? { marginRight: 20 } : undefined}
+        >
           {unminified.name}
+        </ExternalLinkButton>
+      )}
+      {csv && (
+        <ExternalLinkButton to={`/${csv.apiPath}/${csv.name}`}>
+          {csv.name}
         </ExternalLinkButton>
       )}
       <div className={styles.codeBlocks}>

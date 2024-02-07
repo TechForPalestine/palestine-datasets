@@ -7,6 +7,17 @@ const manifestPath = "site/src/generated/manifest.json";
 // strip any file path prefix
 const baseFileName = (filePath: string) => filePath.split("/").pop();
 
+const getManifestAndPath = (resource: ApiResource) => {
+  const manifest = JSON.parse(fs.readFileSync(manifestPath).toString());
+  const version = resource.split("_").pop()?.toLowerCase();
+  if (!version) {
+    throw new Error(`Could parse version from resource: ${resource}`);
+  }
+
+  const apiPath = `${publicBasePath}/${version}`;
+  return { manifest, apiPath };
+};
+
 /**
  * register the json file in the manifest so that the doc site can reference
  * it by the name we're using
@@ -15,19 +26,15 @@ const baseFileName = (filePath: string) => filePath.split("/").pop();
  */
 export const addToManifest = (
   resource: ApiResource,
-  files: Record<ResourceFormat, string>
+  files: Partial<Record<ResourceFormat, string>>
 ) => {
-  const manifest = JSON.parse(fs.readFileSync(manifestPath).toString());
-  const version = resource.split("_").pop()?.toLowerCase();
-  if (!version) {
-    throw new Error(`Could parse version from resource: ${resource}`);
-  }
-
-  const apiPath = `${publicBasePath}/${version}`;
-
+  const { manifest, apiPath } = getManifestAndPath(resource);
   const types = Object.keys(files) as ResourceFormat[];
   types.forEach((resourceType) => {
     const file = files[resourceType];
+    if (!file) {
+      return;
+    }
     const name = baseFileName(file);
     manifest[resource] = {
       ...manifest[resource],

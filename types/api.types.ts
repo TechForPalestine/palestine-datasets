@@ -7,16 +7,18 @@ export enum ApiResource {
   SummaryV1 = "Summary_V1",
   SummaryV2 = "Summary_V2",
 }
-export type ResourceFormat = "minified" | "unminified";
+export type ResourceFormat = "minified" | "unminified" | "csv";
 
 export type Manifest = Record<
   ApiResource,
-  Record<
-    ResourceFormat,
-    {
-      file: string;
-      name: string;
-      apiPath: string;
-    }
+  Partial<
+    Record<
+      ResourceFormat,
+      {
+        file: string;
+        name: string;
+        apiPath: string;
+      }
+    >
   >
 >;

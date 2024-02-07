@@ -1,6 +1,15 @@
+import React from "react";
 import styles from "./styles.module.css";
 
-export const ExternalLinkButton = ({ children, to }) => {
+export const ExternalLinkButton = ({
+  children,
+  to,
+  style,
+}: {
+  children: any;
+  to: string;
+  style?: React.CSSProperties;
+}) => {
   const externalWindowIcon = (
     <svg
       width="13.5"
@@ -17,8 +26,11 @@ export const ExternalLinkButton = ({ children, to }) => {
   );
 
   return (
-    <a href={to} target="_blank">
-      <span className="button button--primary button--lg">
+    <a href={to} target="_blank" style={style}>
+      <span
+        className="button button--primary button--lg"
+        style={{ marginBottom: 10 }}
+      >
         <span className={styles.buttonText}>{children}</span>{" "}
         {externalWindowIcon}
       </span>
