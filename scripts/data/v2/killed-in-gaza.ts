@@ -43,7 +43,7 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
       idsEncountered.add(fieldValue);
       break;
     case "sex":
-      value = sexMapping[fieldValue] ?? "";
+      value = sexMapping[fieldValue as keyof typeof sexMapping] ?? "";
       break;
   }
 

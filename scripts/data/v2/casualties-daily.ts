@@ -29,7 +29,9 @@ const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.CasualtiesDaily);
   // drop the first two rows which are for sheet admin only
   const [_, __, headerKeys, ...rows] = sheetJson.values;
-  const renamedKeys = headerKeys.map((key) => fieldKeyRemap[key] ?? key);
+  const renamedKeys = headerKeys.map(
+    (key) => fieldKeyRemap[key as keyof typeof fieldKeyRemap] ?? key
+  );
   const jsonArray = formatDailiesJson(renamedKeys, rows);
   validateDailiesJson(jsonArray);
   writeJson(ApiResource.CasualtiesDailyV2, jsonFileName, jsonArray);
