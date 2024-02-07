@@ -80,5 +80,29 @@
       "name": "summary.json",
       "apiPath": "api/v1"
     }
+  },
+  "KilledInGazaIndexArV2": {
+    "minified": {
+      "file": "site/src/generated/killed-in-gaza/name-index-ar.min.json",
+      "name": "name-index-ar.min.json",
+      "apiPath": "api/killedingazaindexarv2"
+    },
+    "unminified": {
+      "file": "site/src/generated/killed-in-gaza/name-index-ar.json",
+      "name": "name-index-ar.json",
+      "apiPath": "api/killedingazaindexarv2"
+    }
+  },
+  "KilledInGazaIndexEnV2": {
+    "minified": {
+      "file": "site/src/generated/killed-in-gaza/name-index-en.min.json",
+      "name": "name-index-en.min.json",
+      "apiPath": "api/killedingazaindexenv2"
+    },
+    "unminified": {
+      "file": "site/src/generated/killed-in-gaza/name-index-en.json",
+      "name": "name-index-en.json",
+      "apiPath": "api/killedingazaindexenv2"
+    }
   }
 }
