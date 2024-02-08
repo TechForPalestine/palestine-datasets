@@ -18,10 +18,10 @@
   align-items: flex-end;
   padding-bottom: 20px;
   flex-direction: column;
+}
 
-  > div:first-of-type {
-    flex-grow: 1;
-  }
+.chartColumn > div:first-of-type {
+  flex-grow: 1;
 }
 
 .chartLabel {
