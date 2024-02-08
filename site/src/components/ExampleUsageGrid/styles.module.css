@@ -17,16 +17,16 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+  div {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
 }
 
 [data-theme="dark"] {
   .exampleCard {
     background-color: var(--ifm-navbar-background-color);
   }
-}
-
-.exampleCardBody {
-  padding: 10px;
-  text-align: center;
-  font-weight: bold;
 }

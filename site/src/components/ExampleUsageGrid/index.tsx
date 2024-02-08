@@ -30,9 +30,7 @@ export const ExampleUsageGrid = (props: Props) => {
               <a href={col.link} target="_blank">
                 <div className={styles.exampleCard}>
                   <img src={col.image} alt={col.description} />
-                  <div className={styles.exampleCardBody}>
-                    {col.description}
-                  </div>
+                  <div>{col.description}</div>
                 </div>
               </a>
             </div>
