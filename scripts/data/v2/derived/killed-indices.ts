@@ -1,6 +1,8 @@
 import { execSync } from "child_process";
 import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import { writeOffManifestJson } from "../../../utils/fs";
+import { addFolderToManifest } from "../../../utils/manifest";
+import { ApiResource } from "../../../../types/api.types";
 
 const generate = () => {
   const killedPersons: KilledInGaza[] = require("../../../../killed-in-gaza.json");
@@ -72,6 +74,8 @@ const generate = () => {
     index: Array.from(enPartMap.keys()),
     names: indices.english,
   });
+
+  addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
 };
 
 // const zipFiles = () => {
