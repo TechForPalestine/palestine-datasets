@@ -19,7 +19,7 @@
   padding-bottom: 20px;
   flex-direction: column;
 
-  > div.spacer {
+  > div:first-of-type {
     flex-grow: 1;
   }
 }

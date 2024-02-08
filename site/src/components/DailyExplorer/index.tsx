@@ -62,7 +62,7 @@ export const DailyExplorer = () => {
           </ul>
         </div>
         <div className={[clsx("col col--6"), styles.chartColumn].join(" ")}>
-          <div className={styles.spacer} />
+          <div />
           <div className={styles.chartLabel}>
             {num.format(dayData.killed)} killed
           </div>
