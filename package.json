@@ -17,7 +17,7 @@
     "gen-summaries": "bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts",
     "gen-all": "bun run gen-daily && bun run gen-daily-v1 && bun run gen-killed && bun run gen-killed-v1 && bun run gen-derived",
-    "flightcheck": "bun run reset-manifest && bun run gen-all && bun run docs-build && bun run docs-serve",
+    "flightcheck": "bun run types && bun run reset-manifest && bun run gen-all && bun run docs-build && bun run docs-serve",
     "docs-start": "cd site && bun run start",
     "docs-build": "./scripts/build/pre-build.sh && cd site && bun run build && cd .. && ./scripts/build/pre-deploy.sh",
     "docs-serve": "cd site && bun run serve",

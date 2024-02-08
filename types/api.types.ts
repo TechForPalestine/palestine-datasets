@@ -11,16 +11,18 @@ export enum ApiResource {
 }
 export type ResourceFormat = "minified" | "unminified" | "csv";
 
-export type Manifest = Record<
-  ApiResource,
-  Partial<
-    Record<
-      ResourceFormat,
-      {
-        file: string;
-        name: string;
-        apiPath: string;
-      }
+export type Manifest = Partial<
+  Record<
+    ApiResource,
+    Partial<
+      Record<
+        ResourceFormat,
+        {
+          file: string;
+          name: string;
+          apiPath: string;
+        }
+      >
     >
   >
 >;

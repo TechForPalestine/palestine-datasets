@@ -12,7 +12,7 @@ const manifest: Manifest = require("../../site/src/generated/manifest.json");
 const resources = Object.keys(manifest) as Array<keyof Manifest>;
 
 resources.forEach((resource) => {
-  const { minified, unminified, csv } = manifest[resource];
+  const { minified, unminified, csv } = manifest[resource] ?? {};
   if (!minified || !unminified) {
     throw new Error(`Resource ${resource} has no minified or unminified path`);
   }
