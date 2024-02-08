@@ -101,10 +101,12 @@ const render = async () => {
       return y(d.value);
     });
 
+  const pathId = "chartpath";
+
   svg
     .append("path")
     .datum(data.chart)
-    .attr("id", "chartpath")
+    .attr("id", pathId)
     .attr("fill", "rgba(100,40,40,1)")
     .attr("stroke", "rgba(168, 44, 44, 1)")
     .attr("stroke-width", 1)
@@ -112,7 +114,7 @@ const render = async () => {
     .attr("d", pathData);
 
   svg.append("style").text(`
-path {
+#${pathId} {
   stroke: var(--ifm-color-primary-light);
   fill: var(--ifm-color-primary-lightest);
 }
