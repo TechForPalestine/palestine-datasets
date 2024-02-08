@@ -4,8 +4,6 @@ export enum ApiResource {
   CasualtiesDailyV2 = "CasualtiesDaily_V2",
   KilledInGazaV1 = "KilledInGaza_V1",
   KilledInGazaV2 = "KilledInGaza_V2",
-  KilledInGazaIndexArV2 = "KilledInGazaIndexArV2",
-  KilledInGazaIndexEnV2 = "KilledInGazaIndexEnV2",
   SummaryV1 = "Summary_V1",
   SummaryV2 = "Summary_V2",
 }
