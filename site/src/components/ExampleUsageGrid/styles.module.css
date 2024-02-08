@@ -9,7 +9,7 @@
     box-shadow: 0px 0px 5px rgba(10, 10, 10, 0.1);
   }
 
-  img {
+  > img {
     max-width: 100%;
     aspect-ratio: 4/2;
     width: 100%;
@@ -18,7 +18,7 @@
     background-size: cover;
   }
 
-  div {
+  > div {
     padding: 10px;
     text-align: center;
     font-weight: bold;
