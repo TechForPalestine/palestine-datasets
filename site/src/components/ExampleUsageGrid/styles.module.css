@@ -1,0 +1,32 @@
+.exampleCard {
+  background-color: rgb(245, 245, 245);
+  box-shadow: 0px 0px 10px rgba(10, 10, 10, 0.2);
+  margin-bottom: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0px 0px 5px rgba(10, 10, 10, 0.1);
+  }
+
+  img {
+    max-width: 100%;
+    aspect-ratio: 4/2;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+[data-theme="dark"] {
+  .exampleCard {
+    background-color: var(--ifm-navbar-background-color);
+  }
+}
+
+.exampleCardBody {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+}
