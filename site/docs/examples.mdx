@@ -8,7 +8,29 @@ If you've used our data and are willing to share your usage, please [submit a PR
 
 ## Daily Casualties / Summary Dataset
 
-- Latest total killed label on avatar maker ([View](https://ppm.techforpalestine.org/))
-- Line chart & count visualization ([View](https://genocide.club/talbroda))
-- Bar chart race ([View](https://hatemhosny.github.io/conflict-casualties/) | [Playground](https://livecodes.io/?x=id/5vjcrw2xdj8))
-- Summary count grid ([View](https://gazanumbers.jariyah.app/))
+import { ExampleUsageGrid } from "@site/src/components";
+
+<ExampleUsageGrid
+  examples={[
+    {
+      description: "Latest total killed label on avatar maker",
+      image: "/img/exampleuse/tfp-ppm.png",
+      link: "https://ppm.techforpalestine.org/",
+    },
+    {
+      description: "Line chart & count visualization",
+      image: "/img/exampleuse/linechart.png",
+      link: "https://genocide.club/hillel-fuld",
+    },
+    {
+      description: "Bar chart race",
+      image: "/img/exampleuse/racingbars.png",
+      link: "https://livecodes.io/?x=id/5vjcrw2xdj8",
+    },
+    {
+      description: "Summary count grid",
+      image: "/img/exampleuse/countgrid.png",
+      link: "https://gazanumbers.jariyah.app/",
+    },
+  ]}
+/>
