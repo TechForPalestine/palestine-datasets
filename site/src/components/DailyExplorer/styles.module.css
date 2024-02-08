@@ -1,0 +1,29 @@
+.container {
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+.container svg {
+  max-width: 100%;
+  aspect-ratio: 400 / 235;
+}
+
+.container input[type="range"] {
+  width: 100%;
+  accent-color: var(--ifm-color-primary);
+}
+
+.chartColumn {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 20px;
+  flex-direction: column;
+}
+
+.chartColumn > div:first-of-type {
+  flex-grow: 1;
+}
+
+.chartLabel {
+  font-size: 2em;
+}

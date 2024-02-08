@@ -15,9 +15,9 @@ Our prior list relied heavily on an existing library ([arabic-names-to-en](https
 
 We've since built our own dictionary mapping with more name coverage, and the process now looks like this:
 
-1. clean arabic names in the [original list](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/common/killed-in-gaza/data/raw.csv) of formatting issues (using [dict_ar_ar.csv](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/common/killed-in-gaza/data/dict_ar_ar.csv))
-1. lookup / translate each name part into english (using [dict_ar_en.csv](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/common/killed-in-gaza/data/dict_ar_en.csv))
-1. run final transformations when converting to JSON (see [JSON export script](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/v2/killed-in-gaza.ts))
+1. we clean arabic names in the [original list](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/common/killed-in-gaza/data/raw.csv) of formatting issues (using [dict_ar_ar.csv](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/common/killed-in-gaza/data/dict_ar_ar.csv))
+1. we lookup / translate each name part into english (using [dict_ar_en.csv](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/common/killed-in-gaza/data/dict_ar_en.csv))
+1. we run final transformations when converting to JSON (see [JSON export script](https://github.com/TechForPalestine/palestine-datasets/tree/main/scripts/data/v2/killed-in-gaza.ts))
 
 The final step includes a fallback step to rely on the old library for remaining arabic translations that are not yet in our curated `dict_ar_ar.csv`. Currently there are less than 2% of the names partially handled by this fallback mechanism, and we'll be working to reduce that number.
 

@@ -4,9 +4,13 @@ description: List of casualty numbers by day.
 
 # Casualties Daily
 
+import { DailyExplorer } from "@site/src/components";
 import { DailyReportStatsLabel } from "@site/src/components";
 
 <DailyReportStatsLabel />
+<DailyExplorer />
+
+Explore the data with the tool above<noscript> (you need javascript enabled)</noscript>, or see some of the [community usage examples](/docs/examples) we've learned of.
 
 ## Usage
 
@@ -57,7 +61,6 @@ There are four source values for daily casualty reports we use to build the time
 
 - `mohtel` - [Gaza's Ministry of Health Telegram channel](https://t.me/s/MOHMediaGaza)
 - `gmotel` - [Gaza's Government Media Office Telegram channel](https://t.me/s/mediagovps)
-- `unocha` - [the UN's Office for the Coordination of Humanitarian Affairs](https://docs.google.com/spreadsheets/d/e/2PACX-1vSUyVkEg8Y_gYEzq8VeFY6vjKoZFvO2y5X1eVZ_1bRsabeDC6hv3Aaf8WFn-F4KR8TP5kDWtylSWLhG/pubhtml?gid=96613236&single=true)
 - `missing` - No official report was available for the given date (some reasons below)
 
 Our methodology is to prioritize official sources for this dataset in order to best align the reporting time periods (`mohtel` falling back to `gmotel`). When communications were cut to Gaza, `gmotel` would provide reporting but in some cases neither would. Reports were also stopped during the humanitarian pause.

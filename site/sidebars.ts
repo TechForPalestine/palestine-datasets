@@ -44,6 +44,11 @@ const sidebars: SidebarsConfig = {
         "guides/versioning",
       ],
     },
+    {
+      type: "link",
+      label: "Contact us",
+      href: "/docs/contact",
+    },
   ],
 };
 
