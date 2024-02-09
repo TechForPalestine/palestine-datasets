@@ -7,6 +7,7 @@ scripts/data/common/killed-in-gaza/output/*
 
 site/src/generated/*.csv
 site/src/generated/killed-in-gaza/**
+site/static/api
 
 analytics/
 jsoncheck/
