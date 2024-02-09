@@ -22,6 +22,7 @@
     "docs-serve": "cd site && bun run serve",
     "reset-manifest": "echo '{}' > site/src/generated/manifest.json",
     "types": "tsc --noEmit && cd site && bun run typecheck",
+    "logs": "bun run scripts/utils/deploy-logs.ts",
     "patch-deps": "./patches/docusaurus-utils.sh",
     "postinstall": "bun run patch-deps"
   },
