@@ -7,6 +7,7 @@ on:
     paths:
       - "scripts/data/common/killed-in-gaza/**"
       - "scripts/data/v2/killed-in-gaza.ts"
+      - "scripts/utils/sort-csv.ts"
       - ".github/workflows/gen-killed-in-gaza.yml"
 
 jobs:
