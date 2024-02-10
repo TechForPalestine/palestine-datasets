@@ -1,14 +1,27 @@
 import { ArabicClass } from "arabic-utils";
 import fs from "fs";
 
+const headerRow = "original,cleaned";
+
 const sortCsv = (repoFilePath: string) => {
   const csv = fs.readFileSync(repoFilePath).toString();
 
-  const sortedRows = csv.split("\n").sort((aRaw, bRaw) => {
-    const a = new ArabicClass(aRaw).normalize();
-    const b = new ArabicClass(bRaw).normalize();
-    return a.localeCompare(b);
-  });
+  const sortedRows = csv
+    .split("\n")
+    .sort((aRaw, bRaw) => {
+      if (aRaw === headerRow) {
+        return -1;
+      }
+
+      if (bRaw === headerRow) {
+        return 1;
+      }
+
+      const a = new ArabicClass(aRaw).normalize();
+      const b = new ArabicClass(bRaw).normalize();
+      return a.localeCompare(b);
+    })
+    .filter((row) => !!row);
 
   const uniqueArParts = new Set<string>();
   const duplicates = new Set<string>();
