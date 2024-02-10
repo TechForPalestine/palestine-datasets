@@ -58,7 +58,7 @@ jobs:
         id: commit
         with:
           message: "killed-in-gaza: json update"
-          add: '["killed-in-gaza.json", "killed-in-gaza.min.json"]'
+          add: '["killed-in-gaza.json", "killed-in-gaza.min.json", "scripts/data/common/killed-in-gaza/data/**"]'
           push: true
 
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
