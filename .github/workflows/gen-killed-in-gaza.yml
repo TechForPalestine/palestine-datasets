@@ -35,6 +35,11 @@ jobs:
       - name: install dependencies
         run: bun install
 
+      - name: sort dict csvs
+        run: |
+          bun run sort-list-csvs scripts/data/common/killed-in-gaza/data/dict_ar_en.csv
+          bun run sort-list-csvs scripts/data/common/killed-in-gaza/data/dict_ar_ar.csv
+
       - name: run scripts & diff
         run: |
           python scripts/data/common/killed-in-gaza/generate_killed_list.py
