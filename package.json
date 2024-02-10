@@ -23,6 +23,7 @@
     "reset-manifest": "echo '{}' > site/src/generated/manifest.json",
     "types": "tsc --noEmit && cd site && bun run typecheck",
     "logs": "bun run scripts/utils/deploy-logs.ts",
+    "sort-list-csvs": "bun run scripts/utils/sort-csv.ts",
     "patch-deps": "./patches/docusaurus-utils.sh",
     "postinstall": "bun run patch-deps"
   },
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "arabic-name-to-en": "^1.0.6",
+    "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
     "date-fns": "^3.3.1",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
