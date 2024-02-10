@@ -21,6 +21,7 @@ const sortCsv = (repoFilePath: string) => {
       const b = new ArabicClass(bRaw).normalize();
       return a.localeCompare(b);
     })
+    .map((row) => row.replace(/\s+?,\s+?/, ",").trim())
     .filter((row) => !!row);
 
   const uniqueArParts = new Set<string>();
