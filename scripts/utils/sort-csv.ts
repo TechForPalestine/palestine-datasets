@@ -6,6 +6,9 @@ const headerRow = "original,cleaned";
 const sortCsv = (repoFilePath: string) => {
   const csv = fs.readFileSync(repoFilePath).toString();
 
+  const uniqueArParts = new Set<string>();
+  const duplicates = new Set<string>();
+
   const sortedRows = csv
     .split("\n")
     .sort((aRaw, bRaw) => {
@@ -21,21 +24,19 @@ const sortCsv = (repoFilePath: string) => {
       const b = new ArabicClass(bRaw).normalize();
       return a.localeCompare(b);
     })
-    .map((row) => row.replace(/\s*,\s*/, ",").trim())
+    .map((row) => {
+      const [arKey, cleanedValue] = row.split(/\s*,\s*/);
+      const normalizedArKey = new ArabicClass(arKey.trim()).normalize();
+
+      if (uniqueArParts.has(normalizedArKey)) {
+        duplicates.add(normalizedArKey);
+      } else {
+        uniqueArParts.add(normalizedArKey);
+      }
+
+      return [normalizedArKey, cleanedValue.trim()].join(",");
+    })
     .filter((row) => !!row);
-
-  const uniqueArParts = new Set<string>();
-  const duplicates = new Set<string>();
-  sortedRows.forEach((row) => {
-    const [arRaw] = row.split(",");
-    const ar = new ArabicClass(arRaw).normalize();
-
-    if (uniqueArParts.has(ar)) {
-      duplicates.add(ar);
-    } else {
-      uniqueArParts.add(ar);
-    }
-  });
 
   console.log(
     `${filePath} sorted alphabetically by arabic name column (${uniqueArParts.size} names)`
@@ -51,8 +52,12 @@ const sortCsv = (repoFilePath: string) => {
 };
 
 const filePath = process.argv.slice().pop();
-if (typeof filePath !== "string" || filePath.endsWith("sort-csv.ts")) {
-  console.log("requires a repo file path argument");
+if (
+  typeof filePath !== "string" ||
+  filePath.endsWith("sort-csv.ts") ||
+  filePath.includes("ar_") === false
+) {
+  console.log("requires a repo file path argument for ar_* dict csv");
   process.exit(1);
 }
 
