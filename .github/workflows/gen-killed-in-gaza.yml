@@ -18,6 +18,9 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
+      - name: checkout main for diff
+        run: |
+          git fetch origin main --depth 1
 
       - uses: oven-sh/setup-bun@v1
         name: setup bun
