@@ -1,4 +1,5 @@
 import fs from "fs";
+import { ArabicClass } from "arabic-utils";
 
 const pwd = "scripts/data/common/killed-in-gaza";
 const arRawNameColumnLabel = "name_ar_raw";
@@ -49,9 +50,10 @@ const replaceNameSegments = (name: string, dict: Record<string, string>) => {
 
 const resultList = rawListRows.map((row) => {
   const arName = replaceNameSegments(row[arRawColumn], arToAr);
-  row[arRawColumn] = arName;
+  const normalizedArName = new ArabicClass(arName).normalize();
+  row[arRawColumn] = normalizedArName;
   // append name_en col value
-  return [...row, replaceNameSegments(arName, arToEn)];
+  return [...row, replaceNameSegments(normalizedArName, arToEn)];
 });
 
 const toCsv = (list: string[][]) => list.map((row) => row.join(",")).join("\n");
