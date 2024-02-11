@@ -18,9 +18,6 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - name: checkout main for diff
-        run: |
-          git fetch origin main --depth 1
 
       - uses: oven-sh/setup-bun@v1
         name: setup bun
@@ -40,7 +37,7 @@ jobs:
           bun run scripts/data/common/killed-in-gaza/generate_killed_list.ts
           mkdir -p ci-tmp
           bun run gen-killed
-          git diff main:killed-in-gaza.json killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
+          git diff origin/main:killed-in-gaza.json killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
 
       - name: upload artifacts
         uses: actions/upload-artifact@v4
