@@ -1,8 +1,11 @@
 import fs from "fs";
 
+const rowDelimiter = "\r\n";
+const columnDelimiter = ",";
+
 export const readCsv = (repoPath: string) => {
   const csvString = fs.readFileSync(repoPath).toString();
-  return csvString.split(/\r?\n/g).map((row) => row.split(","));
+  return csvString.split(/\r?\n/g).map((row) => row.split(columnDelimiter));
 };
 
 /**
@@ -43,8 +46,12 @@ export const readCsvToDict = (
 };
 
 const toCsv = (rows: string[][]) =>
-  rows.map((columns) => columns.join(",")).join("\r\n");
+  rows.map((columns) => columns.join(columnDelimiter)).join(rowDelimiter);
 
 export const writeCsv = (repoPath: string, rows: string[][]) => {
   fs.writeFileSync(repoPath, toCsv(rows));
+};
+
+export const writeCsvRows = (repoPath: string, rows: string[]) => {
+  fs.writeFileSync(repoPath, rows.join(rowDelimiter));
 };

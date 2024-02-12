@@ -1,6 +1,5 @@
 import { ArabicClass } from "arabic-utils";
-import fs from "fs";
-import { readCsvToDict } from "./csv";
+import { readCsvToDict, writeCsvRows } from "./csv";
 import { arToArAssertKey } from "../data/common/killed-in-gaza/constants";
 
 const headerRow = "original,cleaned";
@@ -71,7 +70,7 @@ const sortCsv = (repoFilePath: string, resultType: "ar" | "en") => {
 
   const sortedRows = sortForType(resultType, cleanedRows);
 
-  fs.writeFileSync(repoFilePath, sortedRows.join("\n"));
+  writeCsvRows(repoFilePath, sortedRows);
 };
 
 const filePath = process.argv.slice().pop();
