@@ -35,26 +35,33 @@ const rowTransformerForDictResultType = {
   },
 };
 
+const sortForType = (resultType: "ar" | "en", list: string[]) => {
+  if (resultType === "ar") {
+    return list; // skip sorting ar_ar for now since order matters (?)
+  }
+
+  return list.sort((a, b) => {
+    if (a === headerRow) {
+      return -1;
+    }
+
+    if (b === headerRow) {
+      return 1;
+    }
+
+    return a.localeCompare(b);
+  });
+};
+
 const sortCsv = (repoFilePath: string, resultType: "ar" | "en") => {
   const csv = fs.readFileSync(repoFilePath).toString();
 
-  const sortedRows = csv
+  const cleanedRows = csv
     .split("\n")
-    .sort((aRaw, bRaw) => {
-      if (aRaw === headerRow) {
-        return -1;
-      }
-
-      if (bRaw === headerRow) {
-        return 1;
-      }
-
-      const a = new ArabicClass(aRaw).normalize();
-      const b = new ArabicClass(bRaw).normalize();
-      return a.localeCompare(b);
-    })
     .map(rowTransformerForDictResultType[resultType])
     .filter((row) => !!row);
+
+  const sortedRows = sortForType(resultType, cleanedRows);
 
   fs.writeFileSync(repoFilePath, sortedRows.join("\n"));
 };
