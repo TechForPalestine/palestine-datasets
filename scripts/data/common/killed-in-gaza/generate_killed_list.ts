@@ -5,23 +5,17 @@ const pwd = "scripts/data/common/killed-in-gaza";
 const arRawNameColumnLabel = "name_ar_raw";
 const arEnNameColumnLabel = "name_en";
 
-const readCsv = (repoPath: string, rtl: boolean) => {
+const readCsv = (repoPath: string) => {
   const csvString = fs.readFileSync(repoPath).toString();
-  return csvString.split(/\r?\n/g).map((row) => {
-    if (rtl) {
-      console.log(">>", row);
-    }
-    const ltrRow = row.replace(/\u200f/u, "");
-    return ltrRow.split(",");
-  });
+  return csvString.split(/\r?\n/g).map((row) => row.split(","));
 };
 
 /**
  * read a CSV file and return an object lookup ("dict") with keys
  * as the first CSV column value, and values as the second CSV column
  */
-const readCsvToDict = (repoPath: string, rtl = false) => {
-  return readCsv(repoPath, rtl).reduce(
+const readCsvToDict = (repoPath: string) => {
+  return readCsv(repoPath).reduce(
     (dict, row) => ({
       ...dict,
       [row[0]]: row[1],
@@ -30,9 +24,18 @@ const readCsvToDict = (repoPath: string, rtl = false) => {
   );
 };
 
-const rawList = readCsv(`${pwd}/data/raw.csv`, false);
-const arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`, true);
+const rawList = readCsv(`${pwd}/data/raw.csv`);
+let arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`);
 const arToEn = readCsvToDict(`${pwd}/data/dict_ar_en.csv`);
+
+// if this matches, our ar->ar dict was read backwards and we need to flip it
+if (arToAr["ابوالليل"]) {
+  console.log("⚠️ inverting ar->ar which was read LTR");
+  arToAr = Object.entries(arToAr).reduce(
+    (flipped, [key, value]) => ({ ...flipped, [value]: key }),
+    {}
+  );
+}
 
 const [rawHeaderRow, ...rawListRows] = rawList;
 const arRawColumn = rawHeaderRow.indexOf(arRawNameColumnLabel);
