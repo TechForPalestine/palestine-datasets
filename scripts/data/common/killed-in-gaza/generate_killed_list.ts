@@ -1,8 +1,6 @@
 import fs from "fs";
-import Bidi from "bidi-js";
 import { ArabicClass } from "arabic-utils";
 
-const bidi = Bidi();
 const pwd = "scripts/data/common/killed-in-gaza";
 const arRawNameColumnLabel = "name_ar_raw";
 const arEnNameColumnLabel = "name_en";
@@ -11,12 +9,7 @@ const readCsv = (repoPath: string, rtl: boolean) => {
   const csvString = fs.readFileSync(repoPath).toString();
   return csvString.split(/\r?\n/g).map((row) => {
     if (rtl) {
-      const { paragraphs } = bidi.getEmbeddingLevels(row);
-      console.log(
-        ">>",
-        row,
-        paragraphs.length === 1 && paragraphs[0].level === 1
-      );
+      console.log(">>", row);
     }
     const ltrRow = row.replace(/\u200f/u, "");
     return ltrRow.split(",");
@@ -78,8 +71,7 @@ const resultList = rawListRows.map((row) => {
   return [...row, replaceWholeNameSegments(normalizedArName, arToEn)];
 });
 
-const toCsv = (list: string[][]) =>
-  list.map((row) => row.join(",")).join("\r\n");
+const toCsv = (list: string[][]) => list.map((row) => row.join(",")).join("\n");
 
 const newHeaders = [...rawHeaderRow, arEnNameColumnLabel].join(",");
 fs.writeFileSync(
