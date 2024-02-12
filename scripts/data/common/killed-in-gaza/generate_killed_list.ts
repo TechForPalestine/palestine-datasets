@@ -26,11 +26,7 @@ const readCsvToDict = (repoPath: string) => {
 
 const rawList = readCsv(`${pwd}/data/raw.csv`);
 const arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`);
-const arToArSpaceKeys = Object.keys(arToAr).filter((key) => key.includes(" "));
-const arSpacedSegmentMatchers = arToArSpaceKeys.map(
-  // bookend with spaces or string terminators to ensure we match whole segments
-  (key): [RegExp, string] => [new RegExp(`(^|\\s)${key}($|\\s)`, "g"), key]
-);
+console.log(arToAr);
 const arToEn = readCsvToDict(`${pwd}/data/dict_ar_en.csv`);
 
 const [rawHeaderRow, ...rawListRows] = rawList;
