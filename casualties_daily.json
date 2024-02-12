@@ -2516,19 +2516,25 @@
   {
     "report_date": "2024-02-11",
     "report_source": "mohtel",
+    "massacres_cum": 2438,
     "ext_massacres_cum": 2438,
     "killed": 112,
     "killed_cum": 28176,
+    "killed_children_cum": 12300,
+    "killed_women_cum": 8400,
     "ext_killed": 112,
     "ext_killed_cum": 28176,
-    "ext_killed_children_cum": 12150,
-    "ext_killed_women_cum": 8300,
+    "ext_killed_children_cum": 12300,
+    "ext_killed_women_cum": 8400,
     "injured": 173,
     "injured_cum": 67784,
     "ext_injured": 173,
     "ext_injured_cum": 67784,
+    "civdef_killed_cum": 46,
     "ext_civdef_killed_cum": 46,
+    "med_killed_cum": 340,
     "ext_med_killed_cum": 340,
+    "press_killed_cum": 124,
     "ext_press_killed_cum": 124
   }
 ]
