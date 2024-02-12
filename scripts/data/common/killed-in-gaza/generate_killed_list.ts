@@ -26,6 +26,11 @@ const readCsvToDict = (repoPath: string) => {
 
 const rawList = readCsv(`${pwd}/data/raw.csv`);
 const arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`);
+const arToArSpaceKeys = Object.keys(arToAr).filter((key) => key.includes(" "));
+const arSpacedSegmentMatchers = arToArSpaceKeys.map(
+  // bookend with spaces or string terminators to ensure we match whole segments
+  (key): [RegExp, string] => [new RegExp(`(^|\\s)${key}($|\\s)`, "g"), key]
+);
 const arToEn = readCsvToDict(`${pwd}/data/dict_ar_en.csv`);
 
 const [rawHeaderRow, ...rawListRows] = rawList;
@@ -39,7 +44,7 @@ if (arRawColumn === -1) {
  * matching values from dict, otherwise keeps the unmatched segment
  * @param name full name
  * @param dict lookup used to swap each name segment
- * @returns full name string
+ * @returns full name string with replaced segments
  */
 const replaceNameSegments = (name: string, dict: Record<string, string>) => {
   return name
@@ -48,8 +53,36 @@ const replaceNameSegments = (name: string, dict: Record<string, string>) => {
     .join(" ");
 };
 
+/**
+ * if the name includes some segments that match keys in our ar->ar
+ * mapping that include spaces, we replace those two segments with one
+ * and we do so in a way that avoids doing substring replacements in
+ * whole segments
+ *
+ * @param name full arabic name
+ * @returns full name string with replacements
+ */
+const consolidateSpacedSegments = (name: string) => {
+  return arSpacedSegmentMatchers.reduce((prior, [matcher, key]) => {
+    const matches = name.match(matcher);
+    if (matches) {
+      const startPad = matches[0].startsWith(" ") ? " " : "";
+      const endPad = matches[0].endsWith(" ") ? " " : "";
+      const replaced = prior.replace(
+        matches[0],
+        `${startPad}${arToAr[key]}${endPad}`
+      );
+      return replaced;
+    }
+    return prior;
+  }, name);
+};
+
 const resultList = rawListRows.map((row) => {
-  const arName = replaceNameSegments(row[arRawColumn], arToAr);
+  const arName = consolidateSpacedSegments(
+    replaceNameSegments(row[arRawColumn], arToAr)
+  );
+
   const normalizedArName = new ArabicClass(arName).normalize();
   row[arRawColumn] = normalizedArName;
   // append name_en col value
