@@ -1,5 +1,7 @@
 import { ArabicClass } from "arabic-utils";
 import fs from "fs";
+import { readCsvToDict } from "./csv";
+import { arToArAssertKey } from "../data/common/killed-in-gaza/constants";
 
 const headerRow = "original,cleaned";
 
@@ -18,17 +20,21 @@ const rowTransformerForDictResultType = {
   // for ar_ar dict, we maintain spaces in key to allow for segment consolidation
   // we normalize the value since that will be used to lookup against normalized
   // ar values in the en_en dict
-  ar: (row: string) => {
-    const [arKey, cleanedValue] = row.split(",");
+  ar: ([arKey, cleanedValue]: [string, string]) => {
     trackDuplicateKeysForLogging(arKey);
     const normalizedValue = new ArabicClass(cleanedValue.trim()).normalize();
-    return [arKey, normalizedValue].join(",");
+    const arRow = [arKey, normalizedValue].join(",");
+    if (arKey === arToArAssertKey && arRow.endsWith(arToArAssertKey)) {
+      throw new Error(
+        `sort-csv expected arKey '${arKey}' in RTL but resulting row was inverted: ${arRow}`
+      );
+    }
+    return arRow;
   },
 
-  // for ar_en we split on potential spaces around the comma to ensure no spaces in
-  // the key column lead to mismatched lookups, and we normalize the AR key per above
-  en: (row: string) => {
-    const [arKey, cleanedValue] = row.split(/\s*,\s*/);
+  // for EN we trim leading and ending spaces from each column value and normalize
+  // the arabic key column value so that it can match the value column in the ar dict
+  en: ([arKey, cleanedValue]: [string, string]) => {
     const normalizedArKey = new ArabicClass(arKey.trim()).normalize();
     trackDuplicateKeysForLogging(normalizedArKey);
     return [normalizedArKey, cleanedValue.trim().toLowerCase()].join(",");
@@ -54,10 +60,12 @@ const sortForType = (resultType: "ar" | "en", list: string[]) => {
 };
 
 const sortCsv = (repoFilePath: string, resultType: "ar" | "en") => {
-  const csv = fs.readFileSync(repoFilePath).toString();
+  const csvDict = readCsvToDict(
+    repoFilePath,
+    resultType === "ar" ? { assertKey: arToArAssertKey } : {}
+  );
 
-  const cleanedRows = csv
-    .split("\n")
+  const cleanedRows = Object.entries(csvDict)
     .map(rowTransformerForDictResultType[resultType])
     .filter((row) => !!row);
 

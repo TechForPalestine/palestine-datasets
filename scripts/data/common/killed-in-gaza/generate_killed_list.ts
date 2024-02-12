@@ -1,41 +1,17 @@
-import fs from "fs";
 import { ArabicClass } from "arabic-utils";
+import { readCsv, readCsvToDict, writeCsv } from "../../../utils/csv";
+import { arToArAssertKey } from "./constants";
 
 const pwd = "scripts/data/common/killed-in-gaza";
 const arRawNameColumnLabel = "name_ar_raw";
 const arEnNameColumnLabel = "name_en";
 
-const readCsv = (repoPath: string) => {
-  const csvString = fs.readFileSync(repoPath).toString();
-  return csvString.split(/\r?\n/g).map((row) => row.split(","));
-};
-
-/**
- * read a CSV file and return an object lookup ("dict") with keys
- * as the first CSV column value, and values as the second CSV column
- */
-const readCsvToDict = (repoPath: string) => {
-  return readCsv(repoPath).reduce(
-    (dict, row) => ({
-      ...dict,
-      [row[0]]: row[1],
-    }),
-    {} as Record<string, string>
-  );
-};
-
 const rawList = readCsv(`${pwd}/data/raw.csv`);
-let arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`);
-const arToEn = readCsvToDict(`${pwd}/data/dict_ar_en.csv`);
 
-// if this matches, our ar->ar dict was read backwards and we need to flip it
-if (arToAr["ابوالليل"]) {
-  console.log("⚠️ inverting ar->ar which was read LTR");
-  arToAr = Object.entries(arToAr).reduce(
-    (flipped, [key, value]) => ({ ...flipped, [value]: key }),
-    {}
-  );
-}
+const arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`, {
+  assertKey: arToArAssertKey,
+});
+const arToEn = readCsvToDict(`${pwd}/data/dict_ar_en.csv`);
 
 const [rawHeaderRow, ...rawListRows] = rawList;
 const arRawColumn = rawHeaderRow.indexOf(arRawNameColumnLabel);
@@ -74,10 +50,6 @@ const resultList = rawListRows.map((row) => {
   return [...row, replaceWholeNameSegments(normalizedArName, arToEn)];
 });
 
-const toCsv = (list: string[][]) => list.map((row) => row.join(",")).join("\n");
+const newHeaders = [...rawHeaderRow, arEnNameColumnLabel];
 
-const newHeaders = [...rawHeaderRow, arEnNameColumnLabel].join(",");
-fs.writeFileSync(
-  `${pwd}/output/result.csv`,
-  `${newHeaders}\n${toCsv(resultList)}`
-);
+writeCsv(`${pwd}/output/result.csv`, [newHeaders, ...resultList]);
