@@ -207,9 +207,11 @@ const generateJsonFromTranslatedCsv = async () => {
     logLines.push(
       `\n\n⚠️ ${namesFallbackTranslated.size} were translated using the fallback library (namePart,occurrences):\n`
     );
-    namesFallbackTranslated.forEach((count, namePart) => {
-      logLines.push(`${namePart},${count}`);
-    });
+    Array.from(namesFallbackTranslated)
+      .sort((a, b) => b[1] - a[1])
+      .forEach(([namePart, count]) => {
+        logLines.push(`${namePart},${count}`);
+      });
   }
 
   if (duplicateIds.size) {
