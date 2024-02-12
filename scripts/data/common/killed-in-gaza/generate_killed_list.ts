@@ -5,17 +5,23 @@ const pwd = "scripts/data/common/killed-in-gaza";
 const arRawNameColumnLabel = "name_ar_raw";
 const arEnNameColumnLabel = "name_en";
 
-const readCsv = (repoPath: string) => {
+const readCsv = (repoPath: string, rtl: boolean) => {
   const csvString = fs.readFileSync(repoPath).toString();
-  return csvString.split(/\r?\n/g).map((row) => row.split(","));
+  return csvString.split(/\r?\n/g).map((row) => {
+    if (rtl) {
+      console.log(">>", row);
+    }
+    const ltrRow = row.replace(/\u200f/u, "");
+    return ltrRow.split(",");
+  });
 };
 
 /**
  * read a CSV file and return an object lookup ("dict") with keys
  * as the first CSV column value, and values as the second CSV column
  */
-const readCsvToDict = (repoPath: string) => {
-  return readCsv(repoPath).reduce(
+const readCsvToDict = (repoPath: string, rtl = false) => {
+  return readCsv(repoPath, rtl).reduce(
     (dict, row) => ({
       ...dict,
       [row[0]]: row[1],
@@ -24,9 +30,8 @@ const readCsvToDict = (repoPath: string) => {
   );
 };
 
-const rawList = readCsv(`${pwd}/data/raw.csv`);
-const arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`);
-console.log(arToAr);
+const rawList = readCsv(`${pwd}/data/raw.csv`, false);
+const arToAr = readCsvToDict(`${pwd}/data/dict_ar_ar.csv`, true);
 const arToEn = readCsvToDict(`${pwd}/data/dict_ar_en.csv`);
 
 const [rawHeaderRow, ...rawListRows] = rawList;
