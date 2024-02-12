@@ -46,47 +46,28 @@ if (arRawColumn === -1) {
  * @param dict lookup used to swap each name segment
  * @returns full name string with replaced segments
  */
-const replaceNameSegments = (name: string, dict: Record<string, string>) => {
+const replaceWholeNameSegments = (
+  name: string,
+  dict: Record<string, string>
+) => {
   return name
     .split(/\s+/)
     .map((segment) => dict[segment] ?? segment)
     .join(" ");
 };
 
-/**
- * if the name includes some segments that match keys in our ar->ar
- * mapping that include spaces, we replace those two segments with one
- * and we do so in a way that avoids doing substring replacements in
- * whole segments
- *
- * @param name full arabic name
- * @returns full name string with replacements
- */
-const consolidateSpacedSegments = (name: string) => {
-  return arSpacedSegmentMatchers.reduce((prior, [matcher, key]) => {
-    const matches = name.match(matcher);
-    if (matches) {
-      const startPad = matches[0].startsWith(" ") ? " " : "";
-      const endPad = matches[0].endsWith(" ") ? " " : "";
-      const replaced = prior.replace(
-        matches[0],
-        `${startPad}${arToAr[key]}${endPad}`
-      );
-      return replaced;
-    }
-    return prior;
+const replaceBySubstring = (name: string, dict: Record<string, string>) => {
+  return Object.keys(dict).reduce((prior, key) => {
+    return name.replace(key, dict[key]);
   }, name);
 };
 
 const resultList = rawListRows.map((row) => {
-  const arName = consolidateSpacedSegments(
-    replaceNameSegments(row[arRawColumn], arToAr)
-  );
-
+  const arName = replaceBySubstring(row[arRawColumn], arToAr);
   const normalizedArName = new ArabicClass(arName).normalize();
   row[arRawColumn] = normalizedArName;
   // append name_en col value
-  return [...row, replaceNameSegments(normalizedArName, arToEn)];
+  return [...row, replaceWholeNameSegments(normalizedArName, arToEn)];
 });
 
 const toCsv = (list: string[][]) => list.map((row) => row.join(",")).join("\n");
