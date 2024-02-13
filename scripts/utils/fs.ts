@@ -26,7 +26,7 @@ export const writeJson = (
   addToManifest(resource, { minified, unminified: unminifiedFileName });
 };
 
-export const writeCsv = (
+export const writeManifestCsv = (
   resource: ApiResource,
   filePath: string,
   rows: any[][]

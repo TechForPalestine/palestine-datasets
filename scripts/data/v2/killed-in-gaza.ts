@@ -3,6 +3,7 @@ import toEnName from "arabic-name-to-en";
 import { differenceInMonths } from "date-fns";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
+import { readCsv } from "../../utils/csv";
 
 const jsonFileName = "killed-in-gaza.json";
 
@@ -181,16 +182,10 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
   }
 };
 
-const readCsv = () => {
-  const rawCsv = fs
-    .readFileSync("scripts/data/common/killed-in-gaza/output/result.csv")
-    .toString();
-  const rows = rawCsv.split("\n");
-  return rows.map((row) => row.split(","));
-};
-
 const generateJsonFromTranslatedCsv = async () => {
-  const [headerKeys, ...rows] = readCsv();
+  const [headerKeys, ...rows] = readCsv(
+    "scripts/data/common/killed-in-gaza/output/result.csv"
+  );
   const jsonArray = formatToJson(headerKeys, rows);
   validateJson(jsonArray);
   // sort by descending ID

@@ -7,6 +7,7 @@ on:
     paths:
       - "scripts/data/common/killed-in-gaza/**"
       - "scripts/data/v2/killed-in-gaza.ts"
+      - "scripts/utils/sort-csv.ts"
       - ".github/workflows/gen-killed-in-gaza.yml"
 
 jobs:
@@ -17,30 +18,29 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: set up python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-          cache: "pip"
+      - name: checkout main for diff
+        run: |
+          git fetch origin main --depth 1
 
       - uses: oven-sh/setup-bun@v1
         name: setup bun
         with:
           bun-version: 1.0.22
 
-      - name: install python dependencies
-        run: pip install -r scripts/data/common/killed-in-gaza/requirements.txt
-
       - name: install dependencies
         run: bun install
 
+      - name: sort dict csvs
+        run: |
+          bun run sort-list-csvs scripts/data/common/killed-in-gaza/data/dict_ar_en.csv
+          bun run sort-list-csvs scripts/data/common/killed-in-gaza/data/dict_ar_ar.csv
+
       - name: run scripts & diff
         run: |
-          python scripts/data/common/killed-in-gaza/generate_killed_list.py
+          bun run scripts/data/common/killed-in-gaza/generate_killed_list.ts
           mkdir -p ci-tmp
           bun run gen-killed
-          git diff killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
+          git diff origin/main:killed-in-gaza.json killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
 
       - name: upload artifacts
         uses: actions/upload-artifact@v4
@@ -53,7 +53,7 @@ jobs:
         id: commit
         with:
           message: "killed-in-gaza: json update"
-          add: '["killed-in-gaza.json", "killed-in-gaza.min.json"]'
+          add: '["killed-in-gaza.json", "killed-in-gaza.min.json", "scripts/data/common/killed-in-gaza/data/**"]'
           push: true
 
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
