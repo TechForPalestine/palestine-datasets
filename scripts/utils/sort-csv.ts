@@ -42,7 +42,17 @@ const rowTransformerForDictResultType = {
 
 const sortForType = (resultType: "ar" | "en", list: string[]) => {
   if (resultType === "ar") {
-    return list; // skip sorting ar_ar for now since order matters (?)
+    return list.sort((a, b) => {
+      if (a === headerRow) {
+        return -1;
+      }
+
+      if (b === headerRow) {
+        return 1;
+      }
+
+      return b.length - a.length;
+    });
   }
 
   return list.sort((a, b) => {
