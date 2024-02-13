@@ -22,7 +22,6 @@ const columnFilter = new Set([
 
 const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.WestBankDaily);
-  // drop the first two rows which are for sheet admin only
   const [headerKeys, ...rows] = sheetJson.values;
   const completedIdx = headerKeys.findIndex((col) => col === "completed");
   const filteredRows = rows.filter((row) => row[completedIdx] === "TRUE");
