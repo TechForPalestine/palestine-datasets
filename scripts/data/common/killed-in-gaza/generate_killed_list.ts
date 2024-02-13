@@ -24,15 +24,9 @@ const properCase = (segment: string | undefined, firstSegment = false) => {
     return segment;
   }
 
-  if (segment.startsWith("al-") && !firstSegment) {
-    const [al, noun, ...rest] = segment.split("-");
-    return `${al}-${noun[0].toUpperCase()}${noun.slice(1)}${
-      rest.length
-        ? `-${rest
-            .map((part) => `${part[0].toUpperCase()}${part.slice(1)}`)
-            .join("-")}`
-        : ""
-    }`;
+  const [article, noun] = segment.split("-");
+  if (article === "al" && noun?.length >= 2 && !firstSegment) {
+    return `${article}-${noun[0].toUpperCase()}${noun.slice(1)}`;
   }
 
   return `${segment[0].toUpperCase()}${segment.slice(1)}`;
