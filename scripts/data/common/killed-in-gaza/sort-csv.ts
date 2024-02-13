@@ -1,6 +1,6 @@
 import { ArabicClass } from "arabic-utils";
-import { readCsvToDict, writeCsvRows } from "./csv";
-import { arToArAssertKey } from "../data/common/killed-in-gaza/constants";
+import { readCsvToDict, writeCsvRows } from "../../../utils/csv";
+import { arToArAssertKey } from "./constants";
 
 const headerRow = "original,cleaned";
 
