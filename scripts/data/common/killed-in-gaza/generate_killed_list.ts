@@ -19,6 +19,13 @@ if (arRawColumn === -1) {
   throw new Error(`Expected raw list column named "${arRawNameColumnLabel}"`);
 }
 
+const properCase = (segment: string | undefined) => {
+  if (!segment || segment.length < 2) {
+    return segment;
+  }
+  return `${segment[0].toUpperCase()}${segment.slice(1)}`;
+};
+
 /**
  * splits the full name into segments and replaces each segment with
  * matching values from dict, otherwise keeps the unmatched segment
@@ -32,7 +39,7 @@ const replaceWholeNameSegments = (
 ) => {
   return name
     .split(/\s+/)
-    .map((segment) => dict[segment] ?? segment)
+    .map((segment) => properCase(dict[segment] ?? segment))
     .join(" ");
 };
 
