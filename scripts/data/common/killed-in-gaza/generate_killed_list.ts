@@ -51,5 +51,5 @@ const resultList = rawListRows.map((row) => {
 });
 
 const newHeaders = [...rawHeaderRow, arEnNameColumnLabel];
-
-writeCsv(`${pwd}/output/result.csv`, [newHeaders, ...resultList]);
+const rows = [newHeaders, ...resultList];
+writeCsv(`${pwd}/output/result.csv`, rows);
