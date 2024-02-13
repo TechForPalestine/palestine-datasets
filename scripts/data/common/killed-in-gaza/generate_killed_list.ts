@@ -25,8 +25,10 @@ const properCase = (segment: string | undefined, firstSegment = false) => {
   }
 
   const [article, noun] = segment.split("-");
-  if (article === "al" && noun?.length >= 2 && !firstSegment) {
-    return `${article}-${noun[0].toUpperCase()}${noun.slice(1)}`;
+  if (article === "al" && noun?.length >= 2) {
+    return `${
+      firstSegment ? `${article[0].toUpperCase()}${article.slice(1)}` : article
+    }-${noun[0].toUpperCase()}${noun.slice(1)}`;
   }
 
   return `${segment[0].toUpperCase()}${segment.slice(1)}`;
