@@ -21,7 +21,7 @@ const rowTransformerForDictResultType = {
   // ar values in the en_en dict
   ar: ([arKey, cleanedValue]: [string, string]) => {
     trackDuplicateKeysForLogging(arKey);
-    const normalizedValue = new ArabicClass(cleanedValue.trim()).normalize();
+    const normalizedValue = new ArabicClass(cleanedValue).normalize();
     const arRow = [arKey, normalizedValue].join(",");
     if (arKey === arToArAssertKey && arRow.endsWith(arToArAssertKey)) {
       throw new Error(
