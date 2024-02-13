@@ -1,4 +1,4 @@
-import { writeCsv } from "../../../utils/fs";
+import { writeManifestCsv } from "../../../utils/fs";
 import { ApiResource } from "../../../../types/api.types";
 import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 
@@ -20,7 +20,7 @@ const killedRows = killedPersons.reduce(
   },
   [killedRowOrder.slice()] as string[][]
 );
-writeCsv(
+writeManifestCsv(
   ApiResource.KilledInGazaV2,
   `${writePath}/killed-in-gaza.csv`,
   killedRows
@@ -33,7 +33,7 @@ const dailyRows = dailies.reduce(
   },
   [dailyRowOrder.slice()] as string[][]
 );
-writeCsv(
+writeManifestCsv(
   ApiResource.CasualtiesDailyV2,
   `${writePath}/casualties_daily.csv`,
   dailyRows

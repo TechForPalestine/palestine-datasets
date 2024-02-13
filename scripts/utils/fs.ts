@@ -31,7 +31,7 @@ export const writeOffManifestJson = (filePath: string, json: any) => {
   fs.writeFileSync(filePath, JSON.stringify(json));
 };
 
-export const writeCsv = (
+export const writeManifestCsv = (
   resource: ApiResource,
   filePath: string,
   rows: any[][]
