@@ -38,7 +38,7 @@ const replaceWholeNameSegments = (
 
 const replaceBySubstring = (name: string, dict: Record<string, string>) => {
   return Object.keys(dict).reduce((prior, key) => {
-    return prior.replace(key, dict[key]);
+    return prior.replaceAll(key, dict[key]);
   }, name);
 };
 
