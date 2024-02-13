@@ -21,12 +21,19 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
  * @param rows spreadsheet rows for each report date with column values to reduce into a report object
  * @returns array of daily report objects
  */
-export const formatDailiesJson = (headerKeys: string[], rows: string[][]) => {
+export const formatDailiesJson = (
+  headerKeys: string[],
+  rows: string[][],
+  columnFilter = new Set<string>()
+) => {
   return rows.reverse().map((rowColumns) =>
     rowColumns.reduce(
       (dayRecord, colValue, colIndex) => ({
         ...dayRecord,
-        ...addRecordField(headerKeys[colIndex], colValue),
+        ...((columnFilter.size && columnFilter.has(headerKeys[colIndex])) ||
+        !columnFilter.size
+          ? addRecordField(headerKeys[colIndex], colValue)
+          : {}),
       }),
       {}
     )
