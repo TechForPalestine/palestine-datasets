@@ -25,6 +25,7 @@
     "types": "tsc --noEmit && cd site && bun run typecheck",
     "logs": "bun run scripts/utils/deploy-logs.ts",
     "sort-list-csvs": "bun run scripts/data/common/killed-in-gaza/sort-csv.ts",
+    "download-killed-derived": "bun run scripts/build/download-killed-derived.ts",
     "patch-deps": "./patches/docusaurus-utils.sh",
     "postinstall": "bun run patch-deps"
   },
