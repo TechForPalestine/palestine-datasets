@@ -58,7 +58,8 @@ export const createArtifact = (artifactName: string, checksum: string) => {
 
 export const downloadArtifact = async (
   artifactName: string,
-  checksumFileRepoPath: string
+  checksumFileRepoPath: string,
+  extractFolder: string
 ) => {
   const checksum = calcChecksum(checksumFileRepoPath);
   const artifactMatch = await getChecksum(artifactName, checksum);
@@ -71,18 +72,14 @@ export const downloadArtifact = async (
   }
 
   execSync("mkdir -p ci-tmp/killed-in-gaza");
-  execSync(
-    "rm -rf site/src/generated/killed-in-gaza && mkdir -p site/src/generated/killed-in-gaza"
-  );
+  execSync(`rm -rf ${extractFolder} && mkdir -p ${extractFolder}`);
   execSync(
     `curl "https://tfp.fediship.workers.dev/artifact/?key=${encodeURIComponent(
       artifactName
     )}&chk=${checksum}" --output ci-tmp/${artifactName}`
   );
   execSync(
-    `cd ci-tmp && tar -xvf ${artifactName} && rm ${artifactName} && mv ./* ../site/src/generated/killed-in-gaza/`
+    `cd ci-tmp && tar -xvf ${artifactName} && rm ${artifactName} && mv ./* ../${extractFolder}/`
   );
   console.log(`completed downloading artifact ${artifactName}`);
-  const fileList = execSync("ls -la site/src/generated/").toString();
-  console.log("new file list:", fileList);
 };
