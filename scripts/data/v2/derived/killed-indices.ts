@@ -1,9 +1,13 @@
-import { exec, execSync } from "child_process";
+import { execSync } from "child_process";
 import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import { writeOffManifestJson } from "../../../utils/fs";
 import { addFolderToManifest } from "../../../utils/manifest";
 import { ApiResource } from "../../../../types/api.types";
-import { createArtifact, getChecksum } from "../../../utils/artifacts";
+import {
+  calcChecksum,
+  createArtifact,
+  getChecksum,
+} from "../../../utils/artifacts";
 
 const sourceFileForDerived = "killed-in-gaza.min.json";
 
@@ -84,7 +88,7 @@ const generate = () => {
 const artifactName = "killed-derived.tar";
 
 const run = async () => {
-  const checksum = execSync(`md5 -q ${sourceFileForDerived}`).toString().trim();
+  const checksum = calcChecksum(sourceFileForDerived);
   const artifactMatch = await getChecksum(artifactName, checksum);
   if (artifactMatch) {
     console.log("skipping zipfile upload, no change to source JSON");

@@ -2,6 +2,14 @@ import { execSync } from "child_process";
 
 const token = process.env.TFP_SHEET_KEY ?? "";
 
+export const calcChecksum = (repoPath: string) => {
+  const checksum = execSync(`shasum ${repoPath}`)
+    .toString()
+    .trim()
+    .split(" ")[0];
+  return checksum.trim();
+};
+
 /**
  * @param artifactKey string for artifact in saved bucket
  * @param checksum string for expected artifact in bucket
