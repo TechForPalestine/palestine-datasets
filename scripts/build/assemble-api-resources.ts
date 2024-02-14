@@ -11,27 +11,33 @@ const staticFilePath = "site/build";
 const manifest: Manifest = require("../../site/src/generated/manifest.json");
 const resources = Object.keys(manifest) as Array<keyof Manifest>;
 
+const execSyncLogged = (cmd: string) => {
+  console.log(`execSync(${cmd})`);
+  execSync(cmd);
+};
+
 resources.forEach((resource) => {
+  console.log("assembling API resources for deployment...");
   const { minified, unminified, csv, raw } = manifest[resource] ?? {};
 
   if (minified && unminified) {
     let destPath = `${staticFilePath}/${minified.apiPath}`;
-    execSync(`mkdir -p ${destPath}`);
-    execSync(`cp ${minified.file} ${destPath}/${minified.name}`);
+    execSyncLogged(`mkdir -p ${destPath}`);
+    execSyncLogged(`cp ${minified.file} ${destPath}/${minified.name}`);
     if (csv) {
-      execSync(`cp ${csv.file} ${destPath}/${csv.name}`);
+      execSyncLogged(`cp ${csv.file} ${destPath}/${csv.name}`);
     }
     if (minified.apiPath !== unminified.apiPath) {
       destPath = `${staticFilePath}/${unminified.apiPath}`;
-      execSync(`mkdir -p ${destPath}`);
+      execSyncLogged(`mkdir -p ${destPath}`);
     }
-    execSync(`cp ${unminified.file} ${destPath}/${unminified.name}`);
+    execSyncLogged(`cp ${unminified.file} ${destPath}/${unminified.name}`);
   }
 
   if (raw) {
     let destPath = `${staticFilePath}/${raw.apiPath}`;
-    execSync(`mkdir -p ${destPath}`);
-    execSync(`mv ${raw.folder} ${destPath}`);
+    execSyncLogged(`mkdir -p ${destPath}`);
+    execSyncLogged(`mv ${raw.folder} ${destPath}`);
   }
 });
 
