@@ -55,3 +55,30 @@ export const createArtifact = (artifactName: string, checksum: string) => {
   );
   console.log(`artifact upload call complete for checksum ${checksum}`);
 };
+
+export const downloadArtifact = async (
+  artifactName: string,
+  checksumFileRepoPath: string
+) => {
+  const checksum = calcChecksum(checksumFileRepoPath);
+  const artifactMatch = await getChecksum(artifactName, checksum);
+  if (artifactMatch) {
+    console.log("checksum matches available artifact!");
+  } else {
+    console.warn(
+      "⚠️ checksum does not match available artifact, downloading anyway"
+    );
+  }
+
+  execSync("mkdir -p ci-tmp/killed-in-gaza");
+  execSync("rm -rf site/src/generated/killed-in-gaza");
+  execSync(
+    `curl "https://tfp.fediship.workers.dev/artifact/?key=${encodeURIComponent(
+      artifactName
+    )}&chk=${checksum}" --output ci-tmp/${artifactName}`
+  );
+  execSync(
+    `cd ci-tmp && tar -xvf ${artifactName} -C ./killed-in-gaza && mv killed-in-gaza ../site/src/generated/`
+  );
+  console.log(`completed downloading artifact ${artifactName}`);
+};
