@@ -41,7 +41,7 @@ jobs:
           bun run gen-killed
           git diff origin/main:killed-in-gaza.json killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
 
-      - name: upload artifacts
+      - name: upload debug artifacts
         uses: actions/upload-artifact@v4
         with:
           name: GAZA-LIST-REVIEW-ITEMS
@@ -54,6 +54,11 @@ jobs:
           message: "killed-in-gaza: json update"
           add: '["killed-in-gaza.json", "killed-in-gaza.min.json", "scripts/data/common/killed-in-gaza/data/**"]'
           push: true
+
+      - name: create & upload derived API resources artifact
+        run: bun run gen-derived
+        env:
+          TFP_SHEET_KEY: ${{ secrets.TFP_SHEET_KEY }}
 
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
