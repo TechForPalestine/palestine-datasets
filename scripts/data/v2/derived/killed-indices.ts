@@ -10,6 +10,7 @@ import {
 } from "../../../utils/artifacts";
 
 const sourceFileForDerived = "killed-in-gaza.min.json";
+const pagedResourceLimit = 100;
 
 const generate = () => {
   const killedPersons: KilledInGaza[] = require(`../../../../${sourceFileForDerived}`);
@@ -34,8 +35,13 @@ const generate = () => {
   const writePath = "site/src/generated/killed-in-gaza";
   execSync(`mkdir -p ${writePath}`);
 
+  const page: KilledInGaza[] = [];
+  let pageCount = 1;
+
   const indices = killedPersons.reduce(
-    (acc, record) => {
+    (acc, record, i) => {
+      const lastRecord = i >= killedPersons.length - 1;
+
       // arabic name indexing
       const arParts = record.name.split(" ").map(partMapper(arPartMap));
       const arIdxName = arParts.join(" ");
@@ -45,6 +51,15 @@ const generate = () => {
       const enParts = record.en_name.split(" ").map(partMapper(enPartMap));
       const enIdxName = enParts.join(" ");
       const existingEn = acc.english[enIdxName];
+
+      page.push(record);
+      if (page.length >= pagedResourceLimit || lastRecord) {
+        writeOffManifestJson(`${writePath}/page-${pageCount}.json`, page);
+        if (!lastRecord) {
+          pageCount += 1;
+          page.length = 0; // empty array for next page
+        }
+      }
 
       // individual record resource writing
       if (validRecordIdForFileName(record.id)) {
@@ -73,6 +88,10 @@ const generate = () => {
     }
   );
 
+  writeOffManifestJson(`${writePath}/page-info.json`, {
+    pageSize: pagedResourceLimit,
+    pageCount,
+  });
   writeOffManifestJson(`${writePath}/name-index-ar.json`, {
     index: Array.from(arPartMap.keys()),
     names: indices.arabic,
@@ -87,17 +106,21 @@ const generate = () => {
 
 const artifactName = "killed-derived.tar";
 
+const args = process.argv.slice();
+
 const run = async () => {
   const checksum = calcChecksum(sourceFileForDerived);
   const artifactMatch = await getChecksum(artifactName, checksum);
-  if (artifactMatch) {
+  if (artifactMatch && !args.includes("-f")) {
     console.log("skipping zipfile upload, no change to source JSON");
     return;
   }
 
   console.log(`generating derived data from ${sourceFileForDerived}...`);
   generate();
-  createArtifact(artifactName, checksum);
+  if (process.env.CI) {
+    createArtifact(artifactName, checksum);
+  }
 };
 
 run();
