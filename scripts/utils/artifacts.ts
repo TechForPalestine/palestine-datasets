@@ -7,6 +7,7 @@ export const calcChecksum = (repoPath: string) => {
     .toString()
     .trim()
     .split(" ")[0];
+  console.log(`calcChecksum produced ${checksum} for ${repoPath}`);
   return checksum.trim();
 };
 
@@ -33,7 +34,9 @@ export const getChecksum = async (artifactKey: string, checksum: string) => {
   }
 
   if (!response.ok || response.status !== 200) {
-    throw new Error("Unexpected response for getChecksum call");
+    throw new Error(
+      `Unexpected response for getChecksum call: ${response.status} ok=${response.ok}`
+    );
   }
 
   const { match } = await response.json();
