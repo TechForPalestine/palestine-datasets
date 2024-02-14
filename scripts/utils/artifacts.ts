@@ -83,4 +83,6 @@ export const downloadArtifact = async (
     `cd ci-tmp && tar -xvf ${artifactName} && rm ${artifactName} && mv ./* ../site/src/generated/killed-in-gaza/`
   );
   console.log(`completed downloading artifact ${artifactName}`);
+  const fileList = execSync("ls -la site/src/generated/").toString();
+  console.log("new file list:", fileList);
 };
