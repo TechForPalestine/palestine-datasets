@@ -19,6 +19,21 @@ if (arRawColumn === -1) {
   throw new Error(`Expected raw list column named "${arRawNameColumnLabel}"`);
 }
 
+const properCase = (segment: string | undefined, firstSegment = false) => {
+  if (!segment || segment.length < 2) {
+    return segment;
+  }
+
+  const [article, noun] = segment.split("-");
+  if (article === "al" && noun?.length >= 2) {
+    return `${
+      firstSegment ? `${article[0].toUpperCase()}${article.slice(1)}` : article
+    }-${noun[0].toUpperCase()}${noun.slice(1)}`;
+  }
+
+  return `${segment[0].toUpperCase()}${segment.slice(1)}`;
+};
+
 /**
  * splits the full name into segments and replaces each segment with
  * matching values from dict, otherwise keeps the unmatched segment
@@ -32,7 +47,7 @@ const replaceWholeNameSegments = (
 ) => {
   return name
     .split(/\s+/)
-    .map((segment) => dict[segment] ?? segment)
+    .map((segment, i) => properCase(dict[segment] ?? segment, i === 0))
     .join(" ");
 };
 

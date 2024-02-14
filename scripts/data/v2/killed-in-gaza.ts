@@ -67,8 +67,7 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
           }
           return namePart;
         })
-        .join(" ")
-        .toLowerCase(),
+        .join(" "),
     };
   }
 
