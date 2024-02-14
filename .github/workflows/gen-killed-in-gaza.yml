@@ -57,6 +57,8 @@ jobs:
 
       - name: create & upload derived API resources artifact
         run: bun run gen-derived
+        env:
+          TFP_SHEET_KEY: ${{ secrets.TFP_SHEET_KEY }}
 
       - uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
