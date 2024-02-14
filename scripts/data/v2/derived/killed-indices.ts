@@ -1,11 +1,14 @@
-import { execSync } from "child_process";
+import { exec, execSync } from "child_process";
 import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import { writeOffManifestJson } from "../../../utils/fs";
 import { addFolderToManifest } from "../../../utils/manifest";
 import { ApiResource } from "../../../../types/api.types";
+import { createArtifact, getChecksum } from "../../../utils/artifacts";
+
+const sourceFileForDerived = "killed-in-gaza.min.json";
 
 const generate = () => {
-  const killedPersons: KilledInGaza[] = require("../../../../killed-in-gaza.json");
+  const killedPersons: KilledInGaza[] = require(`../../../../${sourceFileForDerived}`);
 
   const arPartMap = new Map<string, number>();
   const enPartMap = new Map<string, number>();
@@ -78,19 +81,19 @@ const generate = () => {
   addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
 };
 
-// const zipFiles = () => {
-//   const [checksum] = execSync("shasum killed-in-gaza.json")
-//     .toString()
-//     .split(" ");
-//   const archiveName = `killed-${checksum}.tar`;
-//   console.log(`creating archive: ${archiveName}`);
-//   execSync(
-//     `tar -czf ${archiveName} --directory=site/src/generated/killed-in-gaza ./`
-//   );
-// };
+const artifactName = "killed-derived.tar";
 
 const run = async () => {
+  const checksum = execSync(`md5 -q ${sourceFileForDerived}`).toString().trim();
+  const artifactMatch = await getChecksum(artifactName, checksum);
+  if (artifactMatch) {
+    console.log("skipping zipfile upload, no change to source JSON");
+    return;
+  }
+
+  console.log(`generating derived data from ${sourceFileForDerived}...`);
   generate();
+  createArtifact(artifactName, checksum);
 };
 
 run();
