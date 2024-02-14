@@ -71,14 +71,16 @@ export const downloadArtifact = async (
   }
 
   execSync("mkdir -p ci-tmp/killed-in-gaza");
-  execSync("rm -rf site/src/generated/killed-in-gaza");
+  execSync(
+    "rm -rf site/src/generated/killed-in-gaza && mkdir -p site/src/generated/killed-in-gaza"
+  );
   execSync(
     `curl "https://tfp.fediship.workers.dev/artifact/?key=${encodeURIComponent(
       artifactName
     )}&chk=${checksum}" --output ci-tmp/${artifactName}`
   );
   execSync(
-    `cd ci-tmp && tar -xvf ${artifactName} -C ./killed-in-gaza && mv killed-in-gaza ../site/src/generated/`
+    `cd ci-tmp && tar -xvf ${artifactName} && rm ${artifactName} && mv ./* ../site/src/generated/killed-in-gaza/`
   );
   console.log(`completed downloading artifact ${artifactName}`);
 };
