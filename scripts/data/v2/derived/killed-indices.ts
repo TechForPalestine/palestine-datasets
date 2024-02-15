@@ -3,9 +3,23 @@ import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import { writeOffManifestJson } from "../../../utils/fs";
 import { addFolderToManifest } from "../../../utils/manifest";
 import { ApiResource } from "../../../../types/api.types";
+<<<<<<< HEAD
 
 const generate = () => {
   const killedPersons: KilledInGaza[] = require("../../../../killed-in-gaza.json");
+=======
+import {
+  calcChecksum,
+  createArtifact,
+  getChecksum,
+} from "../../../utils/artifacts";
+
+const sourceFileForDerived = "killed-in-gaza.min.json";
+const pagedResourceLimit = 100;
+
+const generate = () => {
+  const killedPersons: KilledInGaza[] = require(`../../../../${sourceFileForDerived}`);
+>>>>>>> main
 
   const arPartMap = new Map<string, number>();
   const enPartMap = new Map<string, number>();
@@ -27,8 +41,13 @@ const generate = () => {
   const writePath = "site/src/generated/killed-in-gaza";
   execSync(`mkdir -p ${writePath}`);
 
+  const page: KilledInGaza[] = [];
+  let pageCount = 1;
+
   const indices = killedPersons.reduce(
-    (acc, record) => {
+    (acc, record, i) => {
+      const lastRecord = i >= killedPersons.length - 1;
+
       // arabic name indexing
       const arParts = record.name.split(" ").map(partMapper(arPartMap));
       const arIdxName = arParts.join(" ");
@@ -38,6 +57,15 @@ const generate = () => {
       const enParts = record.en_name.split(" ").map(partMapper(enPartMap));
       const enIdxName = enParts.join(" ");
       const existingEn = acc.english[enIdxName];
+
+      page.push(record);
+      if (page.length >= pagedResourceLimit || lastRecord) {
+        writeOffManifestJson(`${writePath}/page-${pageCount}.json`, page);
+        if (!lastRecord) {
+          pageCount += 1;
+          page.length = 0; // empty array for next page
+        }
+      }
 
       // individual record resource writing
       if (validRecordIdForFileName(record.id)) {
@@ -66,6 +94,13 @@ const generate = () => {
     }
   );
 
+<<<<<<< HEAD
+=======
+  writeOffManifestJson(`${writePath}/page-info.json`, {
+    pageSize: pagedResourceLimit,
+    pageCount,
+  });
+>>>>>>> main
   writeOffManifestJson(`${writePath}/name-index-ar.json`, {
     index: Array.from(arPartMap.keys()),
     names: indices.arabic,
@@ -78,6 +113,7 @@ const generate = () => {
   addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
 };
 
+<<<<<<< HEAD
 // const zipFiles = () => {
 //   const [checksum] = execSync("shasum killed-in-gaza.json")
 //     .toString()
@@ -91,6 +127,25 @@ const generate = () => {
 
 const run = async () => {
   generate();
+=======
+const artifactName = "killed-derived.tar";
+
+const args = process.argv.slice();
+
+const run = async () => {
+  const checksum = calcChecksum(sourceFileForDerived);
+  const artifactMatch = await getChecksum(artifactName, checksum);
+  if (artifactMatch && !args.includes("-f")) {
+    console.log("skipping zipfile upload, no change to source JSON");
+    return;
+  }
+
+  console.log(`generating derived data from ${sourceFileForDerived}...`);
+  generate();
+  if (process.env.CI) {
+    createArtifact(artifactName, checksum);
+  }
+>>>>>>> main
 };
 
 run();

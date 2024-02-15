@@ -11,3 +11,4 @@ site/static/api
 
 analytics/
 jsoncheck/
+ci-tmp/

@@ -26,10 +26,15 @@ export const ExampleUsageGrid = (props: Props) => {
       {rows.map((row) => (
         <div className="row">
           {row.map((col) => (
-            <div className={clsx("col col--6")}>
+            <div key={col.link} className={clsx("col col--6")}>
               <a href={col.link} target="_blank">
                 <div className={styles.exampleCard}>
-                  <img src={col.image} alt={col.description} />
+                  <div
+                    className={styles.exampleImage}
+                    style={{
+                      backgroundImage: `url(${col.image})`,
+                    }}
+                  />
                   <div>{col.description}</div>
                 </div>
               </a>

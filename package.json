@@ -23,6 +23,9 @@
     "docs-serve": "cd site && bun run serve",
     "reset-manifest": "echo '{}' > site/src/generated/manifest.json",
     "types": "tsc --noEmit && cd site && bun run typecheck",
+    "logs": "bun run scripts/utils/deploy-logs.ts",
+    "sort-list-csvs": "bun run scripts/data/common/killed-in-gaza/sort-csv.ts",
+    "download-killed-derived": "bun run scripts/build/download-killed-derived.ts",
     "patch-deps": "./patches/docusaurus-utils.sh",
     "postinstall": "bun run patch-deps"
   },
@@ -31,8 +34,10 @@
   },
   "dependencies": {
     "arabic-name-to-en": "^1.0.6",
+    "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
     "date-fns": "^3.3.1",
+    "lodash": "^4.17.21",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
   }
 }

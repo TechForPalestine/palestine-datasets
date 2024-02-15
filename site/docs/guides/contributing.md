@@ -9,6 +9,8 @@ We welcome anyone to contribute to any part of this repository on Github. We've 
 - [Github Issues](https://github.com/TechForPalestine/palestine-datasets/issues)
 - [Tech For Palestine Discord in #tfp-oss-palestine-dataset](https://discord.com/channels/1186702814341234740/1193636245784494222).
 
+If you have a small change or question and do not have a Github account or access to our Discord, you can go straight to [contacting us by email](/docs/contact).
+
 ## Important Reading
 
 We expect collaborators to adhere to TFP's [Code of Conduct](https://github.com/techforpalestine/code-of-conduct).
@@ -16,6 +18,16 @@ We expect collaborators to adhere to TFP's [Code of Conduct](https://github.com/
 If you're planning on contributing to our code (website build or dataset scripts specifically) please read about our [Architecture](/docs/guides/architecture) first.
 
 If you're planning on introducing a significant change to our datasets, or a new one, please read about [versioning](/docs/guides/versioning).
+
+## Github Workflow
+
+In order to make a change to our code or datasets in Github you'll need to:
+
+- first [fork the repository](https://github.com/TechForPalestine/palestine-datasets/fork); then
+- make a change on your fork; then
+- open a Pull Request against our repo from the branch where you made your change
+
+You can [read Github's guide to the fork & PR workflow](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) to learn more.
 
 ## Working on the Website
 
@@ -31,6 +43,10 @@ Navigation links are managed in two locations:
 ### I have a correction to the english name translation in the Killed in Gaza list
 
 To correct a translation, open a PR with your change for the matching name part in [dict_ar_env.csv](https://github.com/TechForPalestine/palestine-datasets/blob/main/scripts/data/common/killed-in-gaza/data/dict_ar_en.csv). Our PR workflow will run the script needed to carry these changes through to the JSON file that makes up our API and you can review the change in the PR diff which will receive that automatic commit.
+
+### I want to add to the Killed in Gaza list or correct a non-translation detail
+
+Our list is derived from [scripts/data/common/killed-in-gaza/data/raw.csv](https://github.com/TechForPalestine/palestine-datasets/blob/main/scripts/data/common/killed-in-gaza/data/raw.csv) in our repo, and any details added or changed here will flow through to the JSON api or CSV export. Please note if you're looking to correct a segment of the arabic name for an individual in this list, that change likely belongs in our [arabic-to-arabic translation file](https://github.com/TechForPalestine/palestine-datasets/blob/main/scripts/data/common/killed-in-gaza/data/dict_ar_ar.csv).
 
 ### I've spotted a problem / I can offer a correction
 
