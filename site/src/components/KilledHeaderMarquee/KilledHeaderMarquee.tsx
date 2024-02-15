@@ -1,8 +1,5 @@
 import styles from "./KilledHeaderMarquee.styles.module.css";
-import type {
-  KilledInGaza,
-  MarqueePerson,
-} from "../../../../types/killed-in-gaza.types";
+import type { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import { PersonIcon, PersonIconType } from "./PersonIcon";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { useEffect, useRef, useState } from "react";
@@ -62,13 +59,15 @@ const useInitialPage = () => {
   };
 };
 
+let fetchInterval: ReturnType<typeof setInterval>;
+
 export const KilledHeaderMarquee = () => {
   const initialState = useInitialPage();
   const pagesRef = useRef(initialState.pages);
   const [rows, setRows] = useState(initialState.people);
 
   useEffect(() => {
-    setInterval(() => {
+    fetchInterval = setInterval(() => {
       const firstPage = pagesRef.current.shift();
       const secondPage = pagesRef.current.shift();
       if (firstPage && secondPage) {
@@ -82,6 +81,8 @@ export const KilledHeaderMarquee = () => {
         );
       }
     }, newPageDownloadInterval);
+
+    return () => clearInterval(fetchInterval);
   }, []);
 
   const mapRows =
