@@ -9,6 +9,8 @@ We welcome anyone to contribute to any part of this repository on Github. We've 
 - [Github Issues](https://github.com/TechForPalestine/palestine-datasets/issues)
 - [Tech For Palestine Discord in #tfp-oss-palestine-dataset](https://discord.com/channels/1186702814341234740/1193636245784494222).
 
+If you have a small change or question and do not have a Github account or access to our Discord, you can go straight to [contacting us by email](/docs/contact).
+
 ## Important Reading
 
 We expect collaborators to adhere to TFP's [Code of Conduct](https://github.com/techforpalestine/code-of-conduct).
