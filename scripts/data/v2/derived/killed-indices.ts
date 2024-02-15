@@ -3,11 +3,6 @@ import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import { writeOffManifestJson } from "../../../utils/fs";
 import { addFolderToManifest } from "../../../utils/manifest";
 import { ApiResource } from "../../../../types/api.types";
-<<<<<<< HEAD
-
-const generate = () => {
-  const killedPersons: KilledInGaza[] = require("../../../../killed-in-gaza.json");
-=======
 import {
   calcChecksum,
   createArtifact,
@@ -19,7 +14,6 @@ const pagedResourceLimit = 100;
 
 const generate = () => {
   const killedPersons: KilledInGaza[] = require(`../../../../${sourceFileForDerived}`);
->>>>>>> main
 
   const arPartMap = new Map<string, number>();
   const enPartMap = new Map<string, number>();
@@ -94,13 +88,10 @@ const generate = () => {
     }
   );
 
-<<<<<<< HEAD
-=======
   writeOffManifestJson(`${writePath}/page-info.json`, {
     pageSize: pagedResourceLimit,
     pageCount,
   });
->>>>>>> main
   writeOffManifestJson(`${writePath}/name-index-ar.json`, {
     index: Array.from(arPartMap.keys()),
     names: indices.arabic,
@@ -113,21 +104,6 @@ const generate = () => {
   addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
 };
 
-<<<<<<< HEAD
-// const zipFiles = () => {
-//   const [checksum] = execSync("shasum killed-in-gaza.json")
-//     .toString()
-//     .split(" ");
-//   const archiveName = `killed-${checksum}.tar`;
-//   console.log(`creating archive: ${archiveName}`);
-//   execSync(
-//     `tar -czf ${archiveName} --directory=site/src/generated/killed-in-gaza ./`
-//   );
-// };
-
-const run = async () => {
-  generate();
-=======
 const artifactName = "killed-derived.tar";
 
 const args = process.argv.slice();
@@ -145,7 +121,6 @@ const run = async () => {
   if (process.env.CI) {
     createArtifact(artifactName, checksum);
   }
->>>>>>> main
 };
 
 run();
