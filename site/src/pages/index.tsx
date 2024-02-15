@@ -7,16 +7,27 @@ import Heading from "@theme/Heading";
 import styles from "./index.module.css";
 import Translate from "@docusaurus/Translate";
 import DatasetPreview from "../components/DatasetPreview";
+import { KilledHeaderMarquee } from "../components";
+
+const headerTextShadow = { textShadow: "2px 2px 1px rgba(10,10,10,0.3)" };
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <header className={clsx("hero hero--primary", styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
+      <KilledHeaderMarquee />
+      <div className="container" style={{ zIndex: 2 }}>
+        <Heading
+          as="h1"
+          className="hero__title"
+          style={{ ...headerTextShadow, lineHeight: "1em" }}
+        >
           <Translate>{siteConfig.title}</Translate>
         </Heading>
-        <p className="hero__subtitle">
+        <p
+          className="hero__subtitle"
+          style={{ ...headerTextShadow, lineHeight: "1.3em" }}
+        >
           {<Translate>{siteConfig.tagline}</Translate>}
         </p>
       </div>

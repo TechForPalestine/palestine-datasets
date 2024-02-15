@@ -1,0 +1,76 @@
+.container,
+.leftRows,
+.rightRows {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 1;
+  user-select: none;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.leftRows {
+  top: -0.8em;
+  display: flex;
+  flex-direction: column;
+}
+
+.leftRows .namesRow {
+  animation: marquee-left 60s linear infinite;
+}
+
+.rightRows {
+  top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.rightRows .namesRow {
+  animation: marquee-right 60s linear infinite;
+}
+
+.namesRow {
+  position: relative;
+  top: 0.2em;
+  display: block;
+  color: rgba(10, 10, 10, 0.2);
+  font-weight: bold;
+  font-size: 0.9em;
+  line-height: 4em;
+}
+
+.namesRow svg {
+  position: relative;
+  top: 0.2em;
+  margin-left: 1em;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.namesRow svg path {
+  fill: rgba(10, 10, 10, 0.2);
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
