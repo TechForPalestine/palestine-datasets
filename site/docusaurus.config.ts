@@ -1,6 +1,7 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import { getHeaderMarqueeInitialPage } from "./src/components/KilledHeaderMarquee/ssr-vars";
 
 const siteTitle = "Palestine Datasets";
 const repoUrl = "https://github.com/TechForPalestine/palestine-datasets";
@@ -17,6 +18,10 @@ const config: Config = {
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
+
+  customFields: {
+    marqueeInitialPage: getHeaderMarqueeInitialPage(),
+  },
 
   i18n: {
     defaultLocale: "en",
