@@ -110,3 +110,5 @@ export const PersonIcon = ({
       return null;
   }
 };
+
+export type PersonIconType = React.ComponentProps<typeof PersonIcon>["type"];
