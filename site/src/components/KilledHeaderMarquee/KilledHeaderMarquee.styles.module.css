@@ -21,7 +21,7 @@
 }
 
 .leftRows .namesRow {
-  animation: marquee-left 60s linear infinite;
+  animation: marquee-left 120s linear infinite;
 }
 
 .rightRows {
@@ -32,7 +32,7 @@
 }
 
 .rightRows .namesRow {
-  animation: marquee-right 60s linear infinite;
+  animation: marquee-right 120s linear infinite;
 }
 
 .namesRow {
@@ -43,6 +43,7 @@
   font-weight: bold;
   font-size: 0.9em;
   line-height: 4em;
+  width: 5000px;
 }
 
 .namesRow svg {
