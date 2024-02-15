@@ -22,5 +22,9 @@ jobs:
           bun-version: 1.0.22
       - name: install dependencies
         run: bun install
+      - name: stub generated
+        run: |
+          mkdir -p site/src/generated/killed-in-gaza
+          echo '{}' > site/src/generated/killed-in-gaza/page-info.json
       - name: run typechecks
         run: bun run types
