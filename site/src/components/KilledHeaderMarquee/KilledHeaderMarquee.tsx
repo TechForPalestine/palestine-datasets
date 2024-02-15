@@ -85,13 +85,15 @@ export const KilledHeaderMarquee = () => {
   }, []);
 
   const mapRows =
-    (idx: number) =>
-    ({ people }: MarqueeRow, iteration: number) =>
+    (sideIdx: number) =>
+    ({ people }: MarqueeRow, sideRowIdx: number) =>
       (
-        <span key={`${idx}-${iteration}-row`} className={styles.namesRow}>
+        <span key={`${sideIdx}-${sideRowIdx}-row`} className={styles.namesRow}>
           {people.map((person) => (
             <span
-              key={`${idx}-${iteration}-${person.id}`}
+              key={`${person.rtl ? "ar" : "en"}-${sideIdx}-${sideRowIdx}-${
+                person.id
+              }`}
               className={styles.name}
               dir={person.rtl ? "rtl" : undefined}
             >

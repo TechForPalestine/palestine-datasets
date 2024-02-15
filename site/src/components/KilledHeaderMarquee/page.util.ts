@@ -25,10 +25,11 @@ const getNameRows = (
     throw new Error("getNameRows expects two lists of equal length");
   }
   const peoplePerRow = Math.floor(englishNames.length / rows);
-  return Array.from(new Array(rows)).reduce(
+  const splitRows = Array.from(new Array(rows)).reduce(
     (acc: SplitNameRows, _, i): SplitNameRows => {
       const side = i % 2 ? "even" : "odd";
-      const offset = i * peoplePerRow;
+      const offset =
+        side === "even" ? (i - 1) * peoplePerRow : i * peoplePerRow;
       const page = side === "even" ? arabicNames : englishNames;
       const rtl = side === "even" ? true : false;
       const rowPeople = page.slice(offset, peoplePerRow + offset);
@@ -48,6 +49,7 @@ const getNameRows = (
     },
     { even: [], odd: [] } as SplitNameRows
   );
+  return splitRows;
 };
 
 const iconType = (person: MarqueePerson): PersonIconType => {

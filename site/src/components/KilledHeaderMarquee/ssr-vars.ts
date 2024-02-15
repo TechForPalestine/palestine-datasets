@@ -9,7 +9,7 @@ export const getHeaderMarqueeInitialPage = () => {
   const firstPageNumber = pages.shift();
   const secondPageNumber = pages.shift();
   const firstJson = `../../generated/killed-in-gaza/page-${firstPageNumber}.json`;
-  const secondJson = `../../generated/killed-in-gaza/page-${firstPageNumber}.json`;
+  const secondJson = `../../generated/killed-in-gaza/page-${secondPageNumber}.json`;
   const firstPage: KilledInGaza[] = require(firstJson);
   const secondPage: KilledInGaza[] = require(secondJson);
   const people = getMarqueeRowsFromPage(firstPage.concat(secondPage));
