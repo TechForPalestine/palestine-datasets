@@ -34,6 +34,7 @@
 }
 
 .rightRows .namesRow {
+  line-height: 3.97em;
   animation: marquee-right 200s linear infinite;
 }
 
