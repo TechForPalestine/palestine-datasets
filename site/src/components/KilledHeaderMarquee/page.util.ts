@@ -40,7 +40,7 @@ const getNameRows = (
             id: person.id,
             icon: iconType(person),
             name: person.name,
-            age: formatAge(person),
+            age: formatAge(person, rtl),
             rtl,
           })),
         }),
@@ -62,16 +62,19 @@ const iconType = (person: MarqueePerson): PersonIconType => {
   return person.sex === "f" ? "woman" : "man";
 };
 
-const formatAge = (person: MarqueePerson) => {
+const formatAge = (person: MarqueePerson, rtl: boolean) => {
+  const spaceBefore = rtl ? "" : " ";
+  const spaceAfter = rtl ? " " : "";
+
   if (person.age === -1) {
     return null;
   }
 
   if (person.age === 0) {
-    return ", <1";
+    return `${spaceAfter},${spaceBefore}<1`;
   }
 
-  return `, ${person.age}`;
+  return `${spaceAfter},${spaceBefore}${person.age}`;
 };
 
 export const getMarqueeRowsFromPage = (personPage: KilledInGaza[]) => {
