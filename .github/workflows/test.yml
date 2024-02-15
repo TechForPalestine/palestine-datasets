@@ -25,6 +25,6 @@ jobs:
       - name: stub generated
         run: |
           mkdir -p site/src/generated/killed-in-gaza
-          echo '{pageCount: 0}' > site/src/generated/killed-in-gaza/page-info.json
+          echo '{"pageCount": 0}' > site/src/generated/killed-in-gaza/page-info.json
       - name: run typechecks
         run: bun run types
