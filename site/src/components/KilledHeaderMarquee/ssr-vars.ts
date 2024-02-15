@@ -7,9 +7,12 @@ import { getMarqueeRowsFromPage } from "./page.util";
 export const getHeaderMarqueeInitialPage = () => {
   const pages = shuffle(range(1, pageInfo.pageCount + 1));
   const firstPageNumber = pages.shift();
+  const secondPageNumber = pages.shift();
   const firstJson = `../../generated/killed-in-gaza/page-${firstPageNumber}.json`;
+  const secondJson = `../../generated/killed-in-gaza/page-${firstPageNumber}.json`;
   const firstPage: KilledInGaza[] = require(firstJson);
-  const people = getMarqueeRowsFromPage(firstPage);
+  const secondPage: KilledInGaza[] = require(secondJson);
+  const people = getMarqueeRowsFromPage(firstPage.concat(secondPage));
   return {
     people,
     pages,

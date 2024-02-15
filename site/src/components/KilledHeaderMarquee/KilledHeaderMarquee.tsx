@@ -70,11 +70,16 @@ export const KilledHeaderMarquee = () => {
   useEffect(() => {
     setInterval(() => {
       const firstPage = pagesRef.current.shift();
-      if (firstPage) {
-        fetchPage(firstPage).then((firstResult) => {
-          const merged = getMarqueeRowsFromPage(firstResult);
-          transitionMarquee(() => setRows(merged));
-        });
+      const secondPage = pagesRef.current.shift();
+      if (firstPage && secondPage) {
+        Promise.all([fetchPage(firstPage), fetchPage(secondPage)]).then(
+          ([firstResult, secondResult]) => {
+            const merged = getMarqueeRowsFromPage(
+              firstResult.concat(secondResult)
+            );
+            transitionMarquee(() => setRows(merged));
+          }
+        );
       }
     }, newPageDownloadInterval);
   }, []);
