@@ -12,7 +12,15 @@
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2.3rem;
+    padding: 2.5rem;
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.4rem;
   }
 }
 

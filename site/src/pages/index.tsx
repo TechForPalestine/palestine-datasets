@@ -19,13 +19,13 @@ function HomepageHeader() {
       <div className="container" style={{ zIndex: 2 }}>
         <Heading
           as="h1"
-          className="hero__title"
+          className={`hero__title ${styles.heroTitle}`}
           style={{ ...headerTextShadow, lineHeight: "1em" }}
         >
           <Translate>{siteConfig.title}</Translate>
         </Heading>
         <p
-          className="hero__subtitle"
+          className={`hero__subtitle ${styles.heroSubtitle}`}
           style={{ ...headerTextShadow, lineHeight: "1.3em" }}
         >
           {<Translate>{siteConfig.tagline}</Translate>}

@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { MarqueeRow, SplitNameRows, getMarqueeRowsFromPage } from "./page.util";
 
 const cssAnimationDurationMs = 120 * 1_000;
-const newPageDownloadInterval = cssAnimationDurationMs * 0.3;
+const newPageDownloadInterval = cssAnimationDurationMs * 0.6;
 const fadeDuration = 500;
 
 const fetchPage = async (page: number) => {
