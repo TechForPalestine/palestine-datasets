@@ -1,0 +1,52 @@
+---
+slug: /killed-in-gaza/indexes
+---
+
+# Search Indexes
+
+We provide two GET endpoints for performing searches by name, one for each of English and Arabic names:
+
+### English Index
+
+```
+https://data.techforpalestine.org/api/v2/killed-in-gaza/name-index-en.json
+```
+
+### Arabic Index
+
+```
+https://data.techforpalestine.org/api/v2/killed-in-gaza/name-index-ar.json
+```
+
+## Index Format
+
+Both will return a JSON object with an `index` key and `names` key.
+
+The `index` key will be an array of name segments, like: `["Ahmed", "Zyad"]`.
+
+The `names` key will be an object of name segment index keys with record IDs as values.
+
+Here's a simplified example:
+
+```json
+{
+  "index": ["Ahmed", "Abdalrahamun", "Shehab"],
+  "names": {
+    "1 2 1 3": "994024404",
+    "1 13 6 1913": "804664780,441108974"
+  }
+}
+```
+
+The numbers in the `1 2 1 3` key of the names lookup represent positions in the `index` array. In this case that key represents the name `Ahmed Abdalrahamun Ahmed Shehab`. Other keys in the names object with a `1` in any position would also have "Ahmed" as part of the name in that position.
+
+The person record for the above ID would be: https://data.techforpalestine.org/api/v2/killed-in-gaza/994024404.json.
+
+## Example Usage
+
+We use this index to power our record search on the [Killed in Gaza main page](/docs/killed-in-gaza). You can see code for a simple replacement to "hydrate" the names object into a format that can be used to search by name in [our github repo](https://github.com/TechForPalestine/palestine-datasets/blob/main/site/src/lib/search-index.ts).
+
+### Notes
+
+- The `names` object can have multiple IDs in the string value, separated by comma (see above example with `804664780,441108974`)
+- The numbers in the `names` object string keys are not zero-based, they start at 1 for the first item in the index array ("Ahmed" in our example above)

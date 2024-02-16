@@ -1,0 +1,159 @@
+.searchButtons {
+  margin-top: 10px;
+}
+
+.searchButtons div:first-of-type {
+  margin-right: 10px;
+}
+
+.searchModalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: rgba(10, 10, 10, 0.5);
+}
+
+.searchModal {
+  background-color: var(--card-bg-color);
+  border-radius: 4px;
+  margin: 10px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 4px 4px 8px rgb(10, 10, 10, 0.1);
+  overflow: hidden;
+}
+
+.searchModalBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchBar {
+  width: 100%;
+  padding: 10px;
+  padding-bottom: 0;
+}
+
+.searchModal input[type="search"] {
+  width: 100%;
+  font-size: 1.5em;
+  padding: 10px;
+}
+
+.searchModal button {
+  display: none;
+}
+
+.searchResults {
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.searchResults ol {
+  padding: 0;
+}
+
+.searchResults li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 !important;
+}
+
+.searchResultItem li:first-of-type {
+  padding-top: 20px;
+}
+
+.searchResultItem {
+  border-bottom: 1px solid rgb(200, 200, 200);
+  user-select: none;
+  font-weight: bold;
+  color: rgb(100, 100, 100);
+}
+
+[data-theme="dark"] .searchResultItem {
+  border-bottom: 1px solid rgb(10, 10, 10);
+}
+
+.searchResultItem a {
+  overflow: hidden;
+  padding: 10px 20px;
+  display: block;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+}
+
+.searchResultItem a:hover {
+  text-decoration: none;
+}
+
+.searchResultItemOccurrence {
+  font-weight: normal;
+  font-size: 0.8em;
+}
+
+.searchResultItem:hover {
+  background-color: rgb(195, 195, 195);
+  color: rgb(50, 50, 50);
+}
+
+[data-theme="dark"] .searchResultItem:hover {
+  background-color: rgb(30, 30, 30);
+  color: rgb(50, 50, 50);
+}
+
+.searchBarClose {
+  display: none;
+}
+
+.searchResultsEmpty {
+  width: 100%;
+  text-align: center;
+  padding-top: 100px;
+  font-size: 1.5em;
+  color: var(--ifm-color-primary-darkest);
+}
+
+@media screen and (max-width: 480px) {
+  .searchModal {
+    height: 90vh;
+  }
+
+  .searchModalBody {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .searchBar {
+    position: relative;
+    padding-bottom: 15px;
+    padding-right: 60px;
+  }
+
+  .searchBarClose {
+    position: absolute;
+    top: 12px;
+    right: 0px;
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    padding-top: 12px;
+    padding-right: 10px;
+  }
+
+  [data-theme="dark"] .searchBarClose path {
+    fill: rgb(200, 200, 200);
+  }
+
+  .searchResults {
+    height: auto;
+  }
+}

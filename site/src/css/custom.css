@@ -39,6 +39,12 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+[data-theme="dark"] .button--secondary {
+  background-color: var(--card-bg-color);
+  border-color: transparent;
+  color: var(--ifm-color-primary-lightest);
+}
+
 html[data-theme="dark"] footer {
   background-color: #111;
 }

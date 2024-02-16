@@ -4,4 +4,6 @@ export * from "./ExampleUsageGrid";
 export * from "./ExternalLinkButton";
 export * from "./JSONFileLinks";
 export * from "./KilledHeaderMarquee";
+export * from "./KilledListExplorer";
 export * from "./KilledListCountLabel";
+export * from "./KilledPersonSearchResult";

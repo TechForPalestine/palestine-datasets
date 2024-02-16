@@ -19,7 +19,16 @@ const sidebars: SidebarsConfig = {
         type: "generated-index",
         title: "Datasets",
       },
-      items: ["killed-in-gaza", "casualties-daily", "summary"],
+      items: [
+        {
+          type: "category",
+          label: "Killed in Gaza",
+          link: { type: "doc", id: "killed-in-gaza" },
+          items: ["killed-in-gaza-indexes", "killed-in-gaza-person"],
+        },
+        "casualties-daily",
+        "summary",
+      ],
     },
     {
       type: "link",
