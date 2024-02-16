@@ -42,6 +42,25 @@ const SearchSection = ({ children }) => (
   </section>
 );
 
+const correctionFormLink = ({
+  recordId,
+  arabicName,
+  englishName,
+  yyyymmddDob,
+}: {
+  recordId: string;
+  arabicName: string;
+  englishName: string;
+  yyyymmddDob?: string;
+}) =>
+  `https://docs.google.com/forms/d/e/1FAIpQLSfYazQFosIuvMg5DiJri5oAKIc0aq3evz3_lHzxuLam59aj7Q/viewform?usp=pp_url&entry.1898888411=${encodeURIComponent(
+    recordId
+  )}&entry.284230456=${encodeURIComponent(
+    englishName
+  )}&entry.1695503817=${encodeURIComponent(arabicName)}${
+    yyyymmddDob ? `&entry.1111739377=${yyyymmddDob}` : ""
+  }`;
+
 export const KilledPersonSearchResult = () => {
   const [loading, setLoading] = useState(false);
   const [people, setPeople] = useState<KilledInGaza[]>([]);
@@ -106,6 +125,20 @@ export const KilledPersonSearchResult = () => {
                           target="_blank"
                         >
                           API Endpoint <ExternalWindowIcon />
+                        </a>
+                        <span
+                          style={{ width: "20px", display: "inline-block" }}
+                        />
+                        <a
+                          href={correctionFormLink({
+                            recordId: person.id,
+                            arabicName: person.name,
+                            englishName: person.en_name,
+                            yyyymmddDob: person.dob,
+                          })}
+                          target="_blank"
+                        >
+                          Suggest Correction <ExternalWindowIcon />
                         </a>
                       </div>
                     </div>
