@@ -119,6 +119,12 @@
   color: var(--ifm-color-primary-darkest);
 }
 
+.searchResultCountFooter {
+  text-align: center;
+  font-size: 0.8em;
+  padding-bottom: 10px;
+}
+
 @media screen and (max-width: 480px) {
   .searchModal {
     height: 90vh;

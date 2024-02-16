@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Fuse from "fuse.js";
 import {
   Configure,
@@ -9,6 +9,8 @@ import {
 } from "react-instantsearch";
 import styles from "./styles.module.css";
 import { LangOption, SearchPerson, fetchIndex } from "../../lib/search-index";
+
+const hitsLimit = 100;
 
 const createSearchClient = () => {
   let fuse = new Fuse([]);
@@ -57,7 +59,7 @@ const SearchHit = (props: { hit: { item: SearchPerson } }) => {
 };
 
 const escapeKey = 27;
-const SearchModal = ({ lang, searchClient, onClose }) => {
+const SearchModal = ({ lang, searchClient, onClose, totalCount }) => {
   const onKeyUp = (e) => {
     if (e.keyCode === escapeKey) {
       onClose();
@@ -93,9 +95,9 @@ const SearchModal = ({ lang, searchClient, onClose }) => {
                 </svg>
               </div>
             </div>
-            <Configure hitsPerPage={20} />
+            <Configure hitsPerPage={hitsLimit} />
             <div className={styles.searchResults}>
-              <NoResultsBoundary>
+              <NoResultsBoundary totalCount={totalCount}>
                 <Hits
                   hitComponent={SearchHit}
                   dir={lang === "ar" ? "rtl" : undefined}
@@ -118,12 +120,13 @@ const allowPageScroll = () =>
 export const KilledListExplorer = () => {
   const [loading, setLoading] = React.useState<LangOption | "idle">("idle");
   const [open, setOpen] = React.useState<"ar" | "en" | "closed">("closed");
+  const [totalCount, setTotalCount] = React.useState(0);
   const loadedLists = React.useRef<Record<LangOption, SearchPerson[]>>({
     ar: [],
     en: [],
   });
 
-  const searchClient = useRef(createSearchClient());
+  const searchClient = React.useRef(createSearchClient());
 
   const onClickSearch = async (lang: LangOption) => {
     if (loading !== "idle") {
@@ -143,6 +146,7 @@ export const KilledListExplorer = () => {
       const personList = await fetchIndex(lang);
       loadedLists.current[lang] = personList;
       searchClient.current.loadList(personList, lang);
+      setTotalCount(personList.length);
       preventPageScroll();
       setOpen(lang);
     } finally {
@@ -182,13 +186,15 @@ export const KilledListExplorer = () => {
         </div>
       </div>
       {open !== "closed" && (
-        <SearchModal {...{ lang: open, searchClient, onClose }} />
+        <SearchModal {...{ lang: open, searchClient, onClose, totalCount }} />
       )}
     </div>
   );
 };
 
-function NoResultsBoundary({ children }) {
+const numFmt = new Intl.NumberFormat();
+
+function NoResultsBoundary({ children, totalCount }) {
   const { results } = useInstantSearch();
 
   // The `__isArtificial` flag makes sure not to display the No Results message
@@ -201,5 +207,19 @@ function NoResultsBoundary({ children }) {
     );
   }
 
-  return children;
+  let totalMessage = `of ${numFmt.format(totalCount)} people`;
+  const hitsCount = results.hits.length || hitsLimit;
+  const initialLoad = results.nbHits === 0;
+  if (!initialLoad && (!totalCount || hitsCount < hitsLimit)) {
+    totalMessage = "search matches";
+  }
+
+  return (
+    <div>
+      {children}
+      <div className={styles.searchResultCountFooter}>
+        Showing {results.hits.length || results.hitsPerPage} {totalMessage}
+      </div>
+    </div>
+  );
 }
