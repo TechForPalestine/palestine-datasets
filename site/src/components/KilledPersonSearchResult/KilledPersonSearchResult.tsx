@@ -42,7 +42,7 @@ const SearchSection = ({ children }) => (
   </section>
 );
 
-export const KilledPersonSearch = () => {
+export const KilledPersonSearchResult = () => {
   const [loading, setLoading] = useState(false);
   const [people, setPeople] = useState<KilledInGaza[]>([]);
 
