@@ -1,5 +1,12 @@
 export type SearchPerson = { name: string; count: number; key: string };
 
+/**
+ * buildNameList does a simple replace of name parts from the response `index` key
+ * into the indexed names in the `names` object so we can search by name for records
+ *
+ * @param json search index json response
+ * @returns list of people with string name, count of matching records and a string key (comma-delimited record IDs)
+ */
 const buildNameList = (json: {
   index: string[];
   names: Record<string, string>;
@@ -7,6 +14,7 @@ const buildNameList = (json: {
   return Object.entries(json.names).reduce((acc, [indexedName, ids]) => {
     const name = indexedName
       .split(" ")
+      // minus one for use with zero-based array
       .map((index) => json.index[+index - 1])
       .join(" ");
     return acc.concat({
