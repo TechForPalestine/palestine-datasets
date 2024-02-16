@@ -58,6 +58,8 @@ const SearchModal = ({ lang, searchClient, onClose }) => {
     }
   };
 
+  const onMobileClose = () => onClose();
+
   return (
     <div className={styles.searchModalContainer} onClick={onClose}>
       <div className={styles.searchModal}>
@@ -70,6 +72,20 @@ const SearchModal = ({ lang, searchClient, onClose }) => {
                 placeholder={lang === "ar" ? "البحث بالاسم" : "Search Name"}
                 autoFocus
               />
+              <div className={styles.searchBarClose} onClick={onMobileClose}>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                    fill="black"
+                  />
+                </svg>
+              </div>
             </div>
             <Configure hitsPerPage={20} />
             <div className={styles.searchResults}>
@@ -93,6 +109,10 @@ const allowPageScroll = () =>
 export const KilledListExplorer = () => {
   const [loading, setLoading] = React.useState<LangOption | "idle">("idle");
   const [open, setOpen] = React.useState<"ar" | "en" | "closed">("closed");
+  const loadedLists = React.useRef<Record<LangOption, SearchPerson[]>>({
+    ar: [],
+    en: [],
+  });
 
   const searchClient = useRef(createSearchClient());
 
@@ -101,9 +121,18 @@ export const KilledListExplorer = () => {
       return;
     }
 
+    const existingList = loadedLists.current[lang];
+    if (existingList?.length) {
+      searchClient.current.loadList(existingList, lang);
+      preventPageScroll();
+      setOpen(lang);
+      return;
+    }
+
     try {
       setLoading(lang);
       const personList = await fetchIndex(lang);
+      loadedLists.current[lang] = personList;
       searchClient.current.loadList(personList, lang);
       preventPageScroll();
       setOpen(lang);
@@ -113,7 +142,13 @@ export const KilledListExplorer = () => {
   };
 
   const onClose = (e) => {
-    if (!e || e.target.className.includes("searchModalContainer")) {
+    const mobileCloseTap =
+      e?.target.tagName === "path" || e?.target.tagName === "svg";
+    if (
+      !e ||
+      mobileCloseTap ||
+      e.target.className.includes("searchModalContainer")
+    ) {
       allowPageScroll();
       setOpen("closed");
     }

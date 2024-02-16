@@ -107,9 +107,13 @@
   color: rgb(50, 50, 50);
 }
 
+.searchBarClose {
+  display: none;
+}
+
 @media screen and (max-width: 480px) {
   .searchModal {
-    height: 98vh;
+    height: 90vh;
   }
 
   .searchModalBody {
@@ -120,7 +124,25 @@
   }
 
   .searchBar {
-    padding-bottom: 10px;
+    position: relative;
+    padding-bottom: 15px;
+    padding-right: 60px;
+  }
+
+  .searchBarClose {
+    position: absolute;
+    top: 12px;
+    right: 0px;
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    padding-top: 12px;
+    padding-right: 10px;
+  }
+
+  [data-theme="dark"] .searchBarClose path {
+    fill: rgb(200, 200, 200);
   }
 
   .searchResults {
