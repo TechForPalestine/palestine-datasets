@@ -1,0 +1,90 @@
+{
+  "CasualtiesDaily_V2": {
+    "minified": {
+      "file": "casualties_daily.min.json",
+      "name": "casualties_daily.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "casualties_daily.json",
+      "name": "casualties_daily.json",
+      "apiPath": "api/v2"
+    },
+    "csv": {
+      "file": "site/src/generated/casualties_daily.csv",
+      "name": "casualties_daily.csv",
+      "apiPath": "api/v2"
+    }
+  },
+  "CasualtiesDaily_V1": {
+    "minified": {
+      "file": "old/casualties_daily.min.json",
+      "name": "casualties_daily.min.json",
+      "apiPath": "api/v1"
+    },
+    "unminified": {
+      "file": "old/casualties_daily.json",
+      "name": "casualties_daily.json",
+      "apiPath": "api/v1"
+    }
+  },
+  "KilledInGaza_V2": {
+    "minified": {
+      "file": "killed-in-gaza.min.json",
+      "name": "killed-in-gaza.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "killed-in-gaza.json",
+      "name": "killed-in-gaza.json",
+      "apiPath": "api/v2"
+    },
+    "csv": {
+      "file": "site/src/generated/killed-in-gaza.csv",
+      "name": "killed-in-gaza.csv",
+      "apiPath": "api/v2"
+    }
+  },
+  "KilledInGaza_V1": {
+    "minified": {
+      "file": "old/martyrs.min.json",
+      "name": "martyrs.min.json",
+      "apiPath": "api/v1"
+    },
+    "unminified": {
+      "file": "old/martyrs.json",
+      "name": "martyrs.json",
+      "apiPath": "api/v1"
+    }
+  },
+  "Summary_V2": {
+    "minified": {
+      "file": "site/src/generated/summary.min.json",
+      "name": "summary.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "site/src/generated/summary.json",
+      "name": "summary.json",
+      "apiPath": "api/v2"
+    }
+  },
+  "Summary_V1": {
+    "minified": {
+      "file": "old/summary.min.json",
+      "name": "summary.min.json",
+      "apiPath": "api/v1"
+    },
+    "unminified": {
+      "file": "old/summary.json",
+      "name": "summary.json",
+      "apiPath": "api/v1"
+    }
+  },
+  "KilledInGazaDerived_V2": {
+    "raw": {
+      "folder": "site/src/generated/killed-in-gaza",
+      "apiPath": "api/v2"
+    }
+  }
+}
