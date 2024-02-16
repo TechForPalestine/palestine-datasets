@@ -29,6 +29,11 @@
   overflow: hidden;
 }
 
+.searchModalBody {
+  display: flex;
+  flex-direction: column;
+}
+
 .searchBar {
   width: 100%;
   padding: 10px;
@@ -76,8 +81,11 @@
 }
 
 .searchResultItem a {
+  overflow: hidden;
   padding: 10px 20px;
   display: block;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
 }
 
 .searchResultItem a:hover {
@@ -97,4 +105,25 @@
 [data-theme="dark"] .searchResultItem:hover {
   background-color: rgb(30, 30, 30);
   color: rgb(50, 50, 50);
+}
+
+@media screen and (max-width: 480px) {
+  .searchModal {
+    height: 98vh;
+  }
+
+  .searchModalBody {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .searchBar {
+    padding-bottom: 10px;
+  }
+
+  .searchResults {
+    height: auto;
+  }
 }

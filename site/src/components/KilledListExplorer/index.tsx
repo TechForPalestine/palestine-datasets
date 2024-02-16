@@ -62,20 +62,22 @@ const SearchModal = ({ lang, searchClient, onClose }) => {
     <div className={styles.searchModalContainer} onClick={onClose}>
       <div className={styles.searchModal}>
         <InstantSearch searchClient={searchClient.current} indexName="killed">
-          <div className={styles.searchBar}>
-            <SearchBox
-              dir={lang === "ar" ? "rtl" : undefined}
-              onKeyUp={onKeyUp}
-              placeholder={lang === "ar" ? "البحث بالاسم" : "Search Name"}
-              autoFocus
-            />
-          </div>
-          <Configure hitsPerPage={20} />
-          <div className={styles.searchResults}>
-            <Hits
-              hitComponent={SearchHit}
-              dir={lang === "ar" ? "rtl" : undefined}
-            />
+          <div className={styles.searchModalBody}>
+            <div className={styles.searchBar}>
+              <SearchBox
+                dir={lang === "ar" ? "rtl" : undefined}
+                onKeyUp={onKeyUp}
+                placeholder={lang === "ar" ? "البحث بالاسم" : "Search Name"}
+                autoFocus
+              />
+            </div>
+            <Configure hitsPerPage={20} />
+            <div className={styles.searchResults}>
+              <Hits
+                hitComponent={SearchHit}
+                dir={lang === "ar" ? "rtl" : undefined}
+              />
+            </div>
           </div>
         </InstantSearch>
       </div>
