@@ -25,8 +25,7 @@ Currently this includes:
 
 - Summary of latest values from daily or aggregate numbers from Source Datasets
 - CSV formats for the two main datasets, above
-
-To the extent we need to accomplish better developer ergonomics in our APIs (for example: searching an index or fetching individual records), that work belongs here under derivative datasets.
+- Search indexes for the names in our Killed in Gaza dataset and individual API endpoints for each person
 
 ## Workflow
 
