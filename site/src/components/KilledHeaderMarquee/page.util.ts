@@ -4,6 +4,7 @@ import type {
   KilledInGaza,
   MarqueePerson,
 } from "../../../../types/killed-in-gaza.types";
+import { iconTypeForPerson } from "../../lib/age-icon";
 
 export type MarqueeRow = {
   people: Array<
@@ -39,7 +40,7 @@ const getNameRows = (
         [side]: acc[side].concat({
           people: rowPeople.map((person) => ({
             id: person.id,
-            icon: iconType(person),
+            icon: iconTypeForPerson(person.age, person.sex),
             name: person.name,
             age: formatAge(person, rtl),
             rtl,
@@ -50,18 +51,6 @@ const getNameRows = (
     { even: [], odd: [] } as SplitNameRows
   );
   return splitRows;
-};
-
-const iconType = (person: MarqueePerson): PersonIconType => {
-  if (person.age >= 65) {
-    return person.sex === "f" ? "elderly-woman" : "elderly-man";
-  }
-
-  if (person.age <= 18) {
-    return person.sex === "f" ? "girl" : "boy";
-  }
-
-  return person.sex === "f" ? "woman" : "man";
 };
 
 const formatAge = (person: MarqueePerson, rtl: boolean) => {

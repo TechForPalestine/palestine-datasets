@@ -20,7 +20,7 @@
 }
 
 .searchModal {
-  background-color: rgb(245, 245, 245);
+  background-color: var(--card-bg-color);
   border-radius: 4px;
   margin: 10px;
   max-width: 500px;
@@ -65,12 +65,20 @@
 }
 
 .searchResultItem {
-  padding: 10px 20px;
   border-bottom: 1px solid rgb(200, 200, 200);
   user-select: none;
-  cursor: pointer;
   font-weight: bold;
   color: rgb(100, 100, 100);
+}
+
+.searchResultItem a {
+  padding: 10px 20px;
+  display: block;
+}
+
+.searchResultItemOccurrence {
+  font-weight: normal;
+  font-size: 0.8em;
 }
 
 .searchResultItem:hover {

@@ -1,26 +1,26 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useRef } from "react";
 import Fuse from "fuse.js";
 import { Configure, Hits, InstantSearch, SearchBox } from "react-instantsearch";
 import styles from "./styles.module.css";
-
-type LangOption = "ar" | "en";
+import { LangOption, SearchPerson, fetchIndex } from "../../lib/search-index";
 
 const createSearchClient = () => {
   let fuse = new Fuse([]);
   let initialQuery = "";
   return {
-    search: ([
+    search: async ([
       {
         params: { query, hitsPerPage: limit },
       },
     ]) => {
-      console.log({ query });
-      const hits = fuse.search(query || initialQuery, { limit });
-
+      const hits = fuse
+        .search(query || initialQuery, { limit })
+        .filter((hit) => hit.item.name.includes("?") === false);
       return Promise.resolve({
         results: [
           {
-            hits,
+            // Hits component gets list item key prop from objectID field
+            hits: hits.map((hit) => ({ ...hit, objectID: hit.item.key })),
             page: 0,
             nbHits: hits.length,
             nbPages: 1,
@@ -29,43 +29,31 @@ const createSearchClient = () => {
       });
     },
 
-    loadList: (list: Person[], lang: LangOption) => {
+    loadList: (list: SearchPerson[], lang: LangOption) => {
       initialQuery = lang === "ar" ? "أ" : "al";
       fuse = new Fuse(list, { keys: ["name"] });
     },
   };
 };
 
-type Person = { name: string; ids: string[] };
-
-const SearchHit = (props: { hit: { item: Person } }) => {
+const SearchHit = (props: { hit: { item: SearchPerson } }) => {
+  const recordCount = props.hit.item.count;
   return (
-    <div className={styles.searchResultItem} key={props.hit.item.ids.join("m")}>
-      {props.hit.item.name}
+    <div className={styles.searchResultItem}>
+      <a href={`/docs/killed-in-gaza/person?ids=${props.hit.item.key}`}>
+        {props.hit.item.name}{" "}
+        <span className={styles.searchResultItemOccurrence}>
+          ({recordCount})
+        </span>
+      </a>
     </div>
   );
 };
 
-const buildNameList = (json: {
-  index: string[];
-  names: Record<string, string>;
-}) => {
-  return Object.entries(json.names).reduce((acc, [indexedName, ids]) => {
-    const name = indexedName
-      .split(" ")
-      .map((index) => json.index[+index])
-      .join(" ");
-    return acc.concat({
-      name,
-      ids: ids.split(","),
-    });
-  }, [] as Array<Person>);
-};
-
-const escape = 27;
+const escapeKey = 27;
 const SearchModal = ({ lang, searchClient, onClose }) => {
   const onKeyUp = (e) => {
-    if (e.keyCode === escape) {
+    if (e.keyCode === escapeKey) {
       onClose();
     }
   };
@@ -100,24 +88,25 @@ const allowPageScroll = () =>
   (document.querySelector("body").style.overflow = "auto");
 
 export const KilledListExplorer = () => {
+  const [loading, setLoading] = React.useState<LangOption | "idle">("idle");
   const [open, setOpen] = React.useState<"ar" | "en" | "closed">("closed");
 
   const searchClient = useRef(createSearchClient());
 
-  const fetchIndex = async (lang: LangOption) => {
-    const response = await fetch(
-      `/api/v2/killed-in-gaza/name-index-${lang}.json`
-    );
-    if (response.ok) {
-      const json = await response.json();
-      searchClient.current.loadList(buildNameList(json), lang);
-    }
-  };
-
   const onClickSearch = async (lang: LangOption) => {
-    await fetchIndex(lang);
-    preventPageScroll();
-    setOpen(lang);
+    if (loading !== "idle") {
+      return;
+    }
+
+    try {
+      setLoading(lang);
+      const personList = await fetchIndex(lang);
+      searchClient.current.loadList(personList, lang);
+      preventPageScroll();
+      setOpen(lang);
+    } finally {
+      setLoading("idle");
+    }
   };
 
   const onClose = (e) => {
@@ -135,14 +124,14 @@ export const KilledListExplorer = () => {
           className="button button--secondary button--lg"
           style={{ marginBottom: 10 }}
         >
-          Search Arabic Name
+          {loading === "ar" ? "Loading..." : "Search Arabic Name"}
         </div>
         <div
           onClick={() => onClickSearch("en")}
           className="button button--secondary button--lg"
           style={{ marginBottom: 10 }}
         >
-          Search English Name
+          {loading === "en" ? "Loading..." : "Search English Name"}
         </div>
       </div>
       {open !== "closed" && (

@@ -1,0 +1,41 @@
+.personCardContainer {
+  margin-bottom: 10px;
+}
+
+.personCard {
+  background-color: var(--card-bg-color);
+}
+
+.personCardName {
+  display: flex;
+  font-size: 1.1em;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.personCardName svg {
+  position: relative;
+  left: -4px;
+}
+
+.personCardName svg path {
+  fill: rgb(100, 100, 100);
+}
+
+.personCardInnerPad {
+  padding-left: 25px;
+}
+
+.personCardArabicName {
+  color: rgb(100, 100, 100);
+}
+
+.personCardLinkFooter {
+  margin-top: 10px;
+  font-size: 0.8em;
+}
+
+.personCardLinkFooter svg {
+  width: 10px;
+  height: 10px;
+}

@@ -6,3 +6,4 @@ export * from "./JSONFileLinks";
 export * from "./KilledHeaderMarquee";
 export * from "./KilledListExplorer";
 export * from "./KilledListCountLabel";
+export * from "./KilledPersonSearch";
