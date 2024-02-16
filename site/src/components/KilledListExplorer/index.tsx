@@ -66,6 +66,7 @@ const SearchModal = ({ lang, searchClient, onClose }) => {
             <SearchBox
               dir={lang === "ar" ? "rtl" : undefined}
               onKeyUp={onKeyUp}
+              placeholder={lang === "ar" ? "البحث بالاسم" : "Search Name"}
               autoFocus
             />
           </div>
