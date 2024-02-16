@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import clsx from "clsx";
-import styles from "./KilledPersonSearch.styles.module.css";
+import styles from "./KilledPersonSearchResult.styles.module.css";
 import { PersonIcon } from "../KilledHeaderMarquee/PersonIcon";
 import { iconTypeForPerson } from "../../lib/age-icon";
 import { parseISO } from "date-fns/parseISO";
