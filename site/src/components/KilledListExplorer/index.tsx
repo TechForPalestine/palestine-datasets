@@ -1,6 +1,12 @@
 import React, { useRef } from "react";
 import Fuse from "fuse.js";
-import { Configure, Hits, InstantSearch, SearchBox } from "react-instantsearch";
+import {
+  Configure,
+  Hits,
+  InstantSearch,
+  SearchBox,
+  useInstantSearch,
+} from "react-instantsearch";
 import styles from "./styles.module.css";
 import { LangOption, SearchPerson, fetchIndex } from "../../lib/search-index";
 
@@ -89,10 +95,13 @@ const SearchModal = ({ lang, searchClient, onClose }) => {
             </div>
             <Configure hitsPerPage={20} />
             <div className={styles.searchResults}>
-              <Hits
-                hitComponent={SearchHit}
-                dir={lang === "ar" ? "rtl" : undefined}
-              />
+              <NoResultsBoundary>
+                <Hits
+                  hitComponent={SearchHit}
+                  dir={lang === "ar" ? "rtl" : undefined}
+                  classNames={{ emptyRoot: styles.searchResultsEmpty }}
+                />
+              </NoResultsBoundary>
             </div>
           </div>
         </InstantSearch>
@@ -178,3 +187,19 @@ export const KilledListExplorer = () => {
     </div>
   );
 };
+
+function NoResultsBoundary({ children }) {
+  const { results } = useInstantSearch();
+
+  // The `__isArtificial` flag makes sure not to display the No Results message
+  // when no hits have been returned.
+  if (!results.__isArtificial && results.nbHits === 0) {
+    return (
+      <div className={styles.searchResultsEmpty}>
+        <p>No results found</p>
+      </div>
+    );
+  }
+
+  return children;
+}
