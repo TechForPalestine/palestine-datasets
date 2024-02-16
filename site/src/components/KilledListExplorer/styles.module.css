@@ -71,9 +71,17 @@
   color: rgb(100, 100, 100);
 }
 
+[data-theme="dark"] .searchResultItem {
+  border-bottom: 1px solid rgb(10, 10, 10);
+}
+
 .searchResultItem a {
   padding: 10px 20px;
   display: block;
+}
+
+.searchResultItem a:hover {
+  text-decoration: none;
 }
 
 .searchResultItemOccurrence {
@@ -83,5 +91,10 @@
 
 .searchResultItem:hover {
   background-color: rgb(195, 195, 195);
+  color: rgb(50, 50, 50);
+}
+
+[data-theme="dark"] .searchResultItem:hover {
+  background-color: rgb(30, 30, 30);
   color: rgb(50, 50, 50);
 }
