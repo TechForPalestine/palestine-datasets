@@ -84,6 +84,12 @@ export default function DatasetPreview(): JSX.Element {
           ))}
         </div>
       </div>
+      <div className={styles.previewFooter}>
+        These are the latest values from our{" "}
+        <a href="/docs/summary">Summary dataset</a>, updated daily. These
+        numbers do not include those who are missing or lost in the rubble,
+        which was last estimated at around 7 thousand.
+      </div>
     </section>
   );
 }
