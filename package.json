@@ -33,11 +33,15 @@
     "@types/node": "^20.11.0"
   },
   "dependencies": {
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-prettier": "^8.1.0",
     "arabic-name-to-en": "^1.0.6",
     "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
     "date-fns": "^3.3.1",
     "lodash": "^4.17.21",
+    "point-at-length": "^1.1.0",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
   }
 }

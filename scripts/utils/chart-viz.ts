@@ -1,3 +1,5 @@
+import { transform } from "@svgr/core";
+import pointAtLen from "point-at-length";
 import { CasualtyDailyReportV2 } from "../../types/casualties-daily.types";
 
 const fs = require("fs");
@@ -5,8 +7,8 @@ const D3Node = require("d3-node");
 const d3n = new D3Node();
 const { d3 } = d3n;
 
-const width = 300;
-const height = 150;
+const width = 1000;
+const height = 300;
 
 type SlimData = {
   date: CasualtyDailyReportV2["report_date"];
@@ -25,10 +27,39 @@ type MappedData = {
   slimData: SlimData[];
 };
 
+const getSvgDomain = (pathPoints) => {
+  const aspectRatio = width / height;
+
+  // calc svg domain
+  let topRightSvgPos;
+  let maxPathLength = 0;
+  let tries = 0;
+
+  const svgPathLengthSearchTryLimit = 100;
+  const svgPathSearchStartLength = width;
+
+  while (!topRightSvgPos && tries < svgPathLengthSearchTryLimit) {
+    const point = pathPoints.at(svgPathSearchStartLength + tries);
+    if (Math.round(point[0]) === width && Math.round(point[1]) === 0) {
+      maxPathLength = svgPathSearchStartLength + tries;
+      break;
+    }
+    tries++;
+  }
+
+  if (!maxPathLength) {
+    throw new Error("Could not resolve maxPathLength");
+  }
+
+  return { maxPathLength, aspectRatio };
+};
+
 const render = async () => {
   const svg = d3n
     .createSVG(width, height)
-    .attr("viewBox", `0 0 ${width} ${height}`);
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("overflow", "visible")
+    .attr("style", "border-bottom: 2px solid #eee;");
 
   const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../casualties_daily.min.json");
 
@@ -101,48 +132,125 @@ const render = async () => {
       return y(d.value);
     });
 
-  const pathId = "chartpath";
+  const linePathId = "chartlinepath";
 
-  svg
+  const path = svg
     .append("path")
     .datum(data.chart)
-    .attr("id", pathId)
-    .attr("fill", "rgba(100,40,40,1)")
-    .attr("stroke", "rgba(168, 44, 44, 1)")
-    .attr("stroke-width", 1)
-    .attr("mask", "url(#mask)")
+    .attr("id", linePathId)
+    .attr("fill", "url(#pathFillGradient)")
+    .attr("stroke", "#347843")
+    .attr("stroke-width", 3)
+    .attr("stroke-dasharray", "1060,1300")
     .attr("d", pathData);
 
+  const desiredTickCount = 10;
+  const xAxisPlan = data.slimData.length / desiredTickCount;
+  const xAxisStep = Math.ceil(xAxisPlan / 5) * 5;
+  const xAxisSteps: number[] = [0];
+  const maxStep = xAxisStep * data.slimData.length;
+  while (xAxisSteps[xAxisSteps.length - 1] < data.slimData.length) {
+    const nextStep = xAxisSteps[xAxisSteps.length - 1] + xAxisStep;
+    if (nextStep < maxStep) {
+      xAxisSteps.push(nextStep);
+    }
+  }
+
+  const pathDataValue = path.attr("d");
+  const pathPoints = pointAtLen(pathDataValue);
+  const svgDomain = getSvgDomain(pathPoints);
+  const xAxisPoints = xAxisSteps.map((stepValue) => {
+    const stepProgress =
+      ((stepValue + 2) / data.slimData.length) * svgDomain.maxPathLength;
+    const point = pathPoints.at(stepProgress);
+    return point[0];
+  });
+  const pauseIndex = data.slimData.findIndex(
+    ({ date }) => date === "2023-11-24"
+  );
+  const pauseProgress =
+    ((pauseIndex + 2) / data.slimData.length) * svgDomain.maxPathLength;
+  const pausePoint = pathPoints.at(pauseProgress);
+  console.log({
+    pauseIndex,
+    svgDomain,
+    pausePoint,
+    xAxisStep,
+    xAxisSteps,
+    xAxisPoints,
+  });
+
   svg.append("style").text(`
-#${pathId} {
-  stroke: var(--ifm-color-primary-light);
-  fill: var(--ifm-color-primary-lightest);
+#${linePathId} {
+  stroke: var(ifm-color-primary-darkest);
 }
 `);
 
+  svg
+    .append("circle")
+    .attr("cx", pausePoint[0])
+    .attr("cy", pausePoint[1])
+    .attr("stroke-width", 2)
+    .attr("stroke", "white")
+    .attr("fill", "black")
+    .attr("r", 9)
+    .attr("filter", "url(#pausefilter)");
+
+  svg
+    .append("filter")
+    .attr("id", "pausefilter")
+    .attr("filterUnits", "userSpaceOnUse")
+    .attr("color-interpolation-filters", "sRGB")
+    .append("feDropShadow")
+    .attr("dx", 2)
+    .attr("dy", 2)
+    .attr("stdDeviation", 2)
+    .attr("floodOpacity", 0.3);
+
+  xAxisPoints.forEach((x, i) => {
+    svg
+      .append("text")
+      .attr("x", x)
+      .attr("y", height + 30)
+      .attr("text-anchor", "middle")
+      .text(xAxisSteps[i]);
+  });
+
   const defs = svg.append("defs");
 
-  const maskGradient = defs.append("linearGradient");
-  maskGradient.attr("id", "maskgradient");
-  maskGradient.append("stop").attr("offset", "0").attr("stop-color", "white");
-  maskGradient
+  const pathFillGradient = defs.append("linearGradient");
+  pathFillGradient.attr("id", "pathFillGradient");
+  //x1="0" x2="0" y1="0" y2="1"
+  pathFillGradient.attr("x1", "0");
+  pathFillGradient.attr("x2", "0");
+  pathFillGradient.attr("y1", "0");
+  pathFillGradient.attr("y2", "1");
+  pathFillGradient
     .append("stop")
-    .attr("offset", "0.9")
-    .attr("stop-color", "rgb(100,100,100)");
-  maskGradient.append("stop").attr("offset", "1").attr("stop-color", "black");
-
-  const mask = defs.append("mask").attr("id", "mask");
-  const maskRect = mask.append("rect");
-  maskRect
-    .attr("id", "svgmask")
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", width)
-    .attr("height", height)
-    .attr("fill", "url(#maskgradient)");
+    .attr("offset", "0")
+    .attr("stop-color", "#B3D2C0");
+  pathFillGradient
+    .append("stop")
+    .attr("offset", "1")
+    .attr("stop-color", "white");
 
   const svgStr = d3n.svgString();
-  fs.writeFileSync("site/src/generated/daily-chart.svg", svgStr);
+
+  const componentFilePath = "site/src/generated/daily-chart.tsx";
+  const componentJs = await transform(
+    svgStr,
+    {
+      typescript: true,
+      svgo: false,
+      plugins: ["@svgr/plugin-jsx", "@svgr/plugin-prettier"],
+    },
+    { componentName: "HomepageCasualtyChart", filePath: componentFilePath }
+  );
+
+  fs.writeFileSync(
+    componentFilePath,
+    componentJs.replace("<style>", "{props.children}\n\t\t<style>")
+  );
   fs.writeFileSync(
     "site/src/generated/daily-chart.json",
     JSON.stringify({ data: data.slimData, width })
