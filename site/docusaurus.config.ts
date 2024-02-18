@@ -75,10 +75,6 @@ const config: Config = {
           label: "Datasets",
         },
         {
-          to: "docs/guides/contributing/",
-          label: "Contributing",
-        },
-        {
           to: "docs/examples/",
           label: "Examples",
         },

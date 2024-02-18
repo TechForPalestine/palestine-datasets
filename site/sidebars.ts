@@ -30,28 +30,22 @@ const sidebars: SidebarsConfig = {
         "summary",
       ],
     },
-    {
-      type: "link",
-      label: "Updates",
-      href: "/updates",
-    },
+
     {
       type: "link",
       label: "Example Usage",
       href: "/docs/examples",
     },
     {
+      type: "link",
+      label: "Updates",
+      href: "/updates",
+    },
+    {
       type: "category",
-      label: "Guides",
-      link: {
-        type: "generated-index",
-        title: "Guides",
-      },
-      items: [
-        "guides/contributing",
-        "guides/architecture",
-        "guides/versioning",
-      ],
+      label: "Contributing",
+      link: { type: "doc", id: "guides/contributing" },
+      items: ["guides/architecture", "guides/versioning"],
     },
     {
       type: "link",
