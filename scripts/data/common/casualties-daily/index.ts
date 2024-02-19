@@ -8,8 +8,22 @@ const formatValue = (colValue: string) => {
 };
 
 const rawValueFields = ["report_date", "report_source"];
-const addRecordField = (fieldKey: string, fieldValue: string) => {
+const addRecordField = (
+  fieldKey: string,
+  fieldValue: string,
+  record: Record<string, any>
+) => {
   const rawValue = rawValueFields.includes(fieldKey);
+  const isObjectValue = fieldKey.includes(".");
+  if (isObjectValue && fieldValue) {
+    const [objFieldKey, valueFieldKey] = fieldKey.split(".");
+    return {
+      [objFieldKey]: {
+        ...record[objFieldKey],
+        [valueFieldKey]: formatValue(fieldValue),
+      },
+    };
+  }
   return {
     [fieldKey]: rawValue ? fieldValue : formatValue(fieldValue),
   };
@@ -32,7 +46,7 @@ export const formatDailiesJson = (
         ...dayRecord,
         ...((columnFilter.size && columnFilter.has(headerKeys[colIndex])) ||
         !columnFilter.size
-          ? addRecordField(headerKeys[colIndex], colValue)
+          ? addRecordField(headerKeys[colIndex], colValue, dayRecord)
           : {}),
       }),
       {}

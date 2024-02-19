@@ -10,6 +10,14 @@ const jsonFileName = "west_bank_daily.json";
 
 const columnFilter = new Set([
   "report_date",
+  "verified.killed",
+  "verified.killed_cum",
+  "verified.injured",
+  "verified.injured_cum",
+  "verified.killed_children",
+  "verified.killed_children_cum",
+  "verified.injured_children",
+  "verified.injured_children_cum",
   "killed",
   "killed_cum",
   "injured",
@@ -22,7 +30,7 @@ const columnFilter = new Set([
 
 const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.WestBankDaily);
-  const [headerKeys, ...rows] = sheetJson.values;
+  const [, headerKeys, ...rows] = sheetJson.values;
   const completedIdx = headerKeys.findIndex((col) => col === "completed");
   const filteredRows = rows.filter((row) => row[completedIdx] === "TRUE");
   const jsonArray = formatDailiesJson(headerKeys, filteredRows, columnFilter);
