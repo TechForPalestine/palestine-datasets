@@ -47,7 +47,9 @@ export default function Home(): JSX.Element {
     >
       <HomepageHeader />
       <main>
-        <HomepageCasualtyChart />
+        <div className={styles.chartContainer}>
+          <HomepageCasualtyChart />
+        </div>
         <HomepageFeatures />
         <Spacer />
         <DatasetPreview />

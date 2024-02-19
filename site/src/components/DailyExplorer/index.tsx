@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useRef, useState } from "react";
-import DailyChart from "@site/src/generated/daily-chart.svg";
+import DailyChart from "@site/src/generated/daily-chart";
 import chartData from "@site/src/generated/daily-chart.json";
 import styles from "./styles.module.css";
 

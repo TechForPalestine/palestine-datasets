@@ -1,5 +1,6 @@
 import { transform } from "@svgr/core";
 import pointAtLen from "point-at-length";
+import chartEvents from "./chart_events.json";
 import { CasualtyDailyReportV2 } from "../../types/casualties-daily.types";
 
 const fs = require("fs");
@@ -159,26 +160,15 @@ const render = async () => {
   const pathDataValue = path.attr("d");
   const pathPoints = pointAtLen(pathDataValue);
   const svgDomain = getSvgDomain(pathPoints);
-  const xAxisPoints = xAxisSteps.map((stepValue) => {
+  const xAxisPoints = xAxisSteps.reduce((points, stepValue) => {
     const stepProgress =
       ((stepValue + 2) / data.slimData.length) * svgDomain.maxPathLength;
     const point = pathPoints.at(stepProgress);
-    return point[0];
-  });
-  const pauseIndex = data.slimData.findIndex(
-    ({ date }) => date === "2023-11-24"
-  );
-  const pauseProgress =
-    ((pauseIndex + 2) / data.slimData.length) * svgDomain.maxPathLength;
-  const pausePoint = pathPoints.at(pauseProgress);
-  console.log({
-    pauseIndex,
-    svgDomain,
-    pausePoint,
-    xAxisStep,
-    xAxisSteps,
-    xAxisPoints,
-  });
+    if (point[0] === points[points.length - 1]) {
+      return points;
+    }
+    return points.concat(point[0]);
+  }, [] as number[]);
 
   svg.append("style").text(`
 #${linePathId} {
@@ -186,15 +176,50 @@ const render = async () => {
 }
 `);
 
-  svg
-    .append("circle")
-    .attr("cx", pausePoint[0])
-    .attr("cy", pausePoint[1])
-    .attr("stroke-width", 2)
-    .attr("stroke", "white")
-    .attr("fill", "black")
-    .attr("r", 9)
-    .attr("filter", "url(#pausefilter)");
+  const eventDotRadius = 9;
+  chartEvents.forEach((chartEvent) => {
+    const eventIndex = data.slimData.findIndex(
+      ({ date }) => date === chartEvent.date
+    );
+    const eventTimeProgress =
+      ((eventIndex + 2) / data.slimData.length) * svgDomain.maxPathLength;
+    const eventPoint = pathPoints.at(eventTimeProgress);
+    const dotX = eventPoint[0];
+    const dotY = eventPoint[1];
+    svg
+      .append("circle")
+      .attr("cx", dotX)
+      .attr("cy", dotY)
+      .attr("stroke-width", 2)
+      .attr("stroke", "white")
+      .attr("fill", "black")
+      .attr("r", eventDotRadius)
+      .attr("filter", "url(#pausefilter)");
+
+    const dotOffset = eventDotRadius * 2;
+    const labelOffset = 30;
+
+    svg
+      .append("path")
+      .attr(
+        "d",
+        `M${dotX} ${dotY + dotOffset} v${
+          height - dotY - dotOffset - labelOffset
+        }`
+      )
+      .attr("stroke", "#888888")
+      .attr("stroke-width", "2")
+      .attr("stroke-dasharray", "5")
+      .attr("stroke-linecap", "round");
+
+    svg
+      .append("text")
+      .attr("x", dotX)
+      .attr("y", height - 10)
+      .attr("fill", "#888888")
+      .attr("text-anchor", "middle")
+      .text(chartEvent.label);
+  });
 
   svg
     .append("filter")
@@ -210,7 +235,7 @@ const render = async () => {
   xAxisPoints.forEach((x, i) => {
     svg
       .append("text")
-      .attr("x", x)
+      .attr("x", x - 10)
       .attr("y", height + 30)
       .attr("text-anchor", "middle")
       .text(xAxisSteps[i]);
