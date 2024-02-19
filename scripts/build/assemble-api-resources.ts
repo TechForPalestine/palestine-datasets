@@ -11,22 +11,34 @@ const staticFilePath = "site/build";
 const manifest: Manifest = require("../../site/src/generated/manifest.json");
 const resources = Object.keys(manifest) as Array<keyof Manifest>;
 
+const execSyncLogged = (cmd: string) => {
+  console.log(`execSync(${cmd})`);
+  execSync(cmd);
+};
+
 resources.forEach((resource) => {
-  const { minified, unminified, csv } = manifest[resource];
-  if (!minified || !unminified) {
-    throw new Error(`Resource ${resource} has no minified or unminified path`);
+  console.log("assembling API resources for deployment...");
+  const { minified, unminified, csv, raw } = manifest[resource] ?? {};
+
+  if (minified && unminified) {
+    let destPath = `${staticFilePath}/${minified.apiPath}`;
+    execSyncLogged(`mkdir -p ${destPath}`);
+    execSyncLogged(`cp ${minified.file} ${destPath}/${minified.name}`);
+    if (csv) {
+      execSyncLogged(`cp ${csv.file} ${destPath}/${csv.name}`);
+    }
+    if (minified.apiPath !== unminified.apiPath) {
+      destPath = `${staticFilePath}/${unminified.apiPath}`;
+      execSyncLogged(`mkdir -p ${destPath}`);
+    }
+    execSyncLogged(`cp ${unminified.file} ${destPath}/${unminified.name}`);
   }
-  let destPath = `${staticFilePath}/${minified.apiPath}`;
-  execSync(`mkdir -p ${destPath}`);
-  execSync(`cp ${minified.file} ${destPath}/${minified.name}`);
-  if (csv) {
-    execSync(`cp ${csv.file} ${destPath}/${csv.name}`);
+
+  if (raw) {
+    let destPath = `${staticFilePath}/${raw.apiPath}`;
+    execSyncLogged(`mkdir -p ${destPath}`);
+    execSyncLogged(`mv ${raw.folder} ${destPath}`);
   }
-  if (minified.apiPath !== unminified.apiPath) {
-    destPath = `${staticFilePath}/${unminified.apiPath}`;
-    execSync(`mkdir -p ${destPath}`);
-  }
-  execSync(`cp ${unminified.file} ${destPath}/${unminified.name}`);
 });
 
 writeManifest(manifest);

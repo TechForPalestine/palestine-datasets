@@ -10,9 +10,22 @@
   overflow: hidden;
 }
 
+[data-theme="dark"] .heroBanner {
+  color: white;
+  background-color: #1a8870;
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 2.5rem;
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.4rem;
   }
 }
 

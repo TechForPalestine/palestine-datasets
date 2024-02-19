@@ -8,7 +8,7 @@ We've opted to host our API as a static website, moving what would traditionally
 
 ## Dataset Source of Truth
 
-We have two main types of datasets at the moment. Source Datasets are cleaned & manipulated in an external spreadsheet while Derivative Datasets derive from the Source Datasets. Changes or additions pulled in from the spreadsheet are reviewed in Github before committing to the main branch, from which the website & API are deployed.
+We have two main types of datasets at the moment. Source Datasets are cleaned & manipulated in an external spreadsheet or through CSVs in our repo, while Derivative Datasets derive from the Source Datasets. Changes or additions pulled in from the spreadsheets are reviewed in Github before committing to the main branch, from which the website & API are deployed.
 
 ### Source Datasets
 
@@ -25,14 +25,13 @@ Currently this includes:
 
 - Summary of latest values from daily or aggregate numbers from Source Datasets
 - CSV formats for the two main datasets, above
-
-To the extent we need to accomplish better developer ergonomics in our APIs (for example: searching an index or fetching individual records), that work belongs here under derivative datasets.
+- Search indexes for the names in our Killed in Gaza dataset and individual API endpoints for each person
 
 ## Workflow
 
 The basic flow from start to finish of our dataset generation & build process is:
 
-1. source data gets pulled from the spreadsheet, manipulated, checked for consistency, and written to disk in our data scripts (under `scripts/data`)
+1. source data gets pulled from the spreadsheet or CSV, manipulated, checked for consistency, and written to disk using our data scripts under `scripts/data`
 2. the manifest.json under `site/src/generated` gets updated with the written file paths which is both referenced in website code and by the pre-deploy step, below
 3. data scripts run for derivative datasets (see `scripts/build/pre-build`, this also leads to manifest updates)
 4. the website gets built (`bun run docs-build`)
@@ -45,6 +44,12 @@ Our build process in CI handles steps 3 to 6.
 
 Our daily dataset is updated most frequently and the general process as a maintainer is to:
 
-- update the values in the google spreadsheet's dataset tab(s)
-- run `bun run gen-daily` (handles steps 1 to 2 from above)
-- commit the changes after review which builds & deploys the site
+1. update the values in the google spreadsheet's dataset tab(s)
+2. run `bun run gen-daily` (handles steps 1 to 2 from above)
+3. commit the changes after review which builds & deploys the site
+
+We have a github actions workflow named gen-daily that can perform steps 2-3 above so updating just means having access to a web browser.
+
+### Killed in Gaza List Updates
+
+The source data for our names list is in our repo under in [scripts/data/common/killed-in-gaza/data/raw.csv](https://github.com/TechForPalestine/palestine-datasets/blob/main/scripts/data/common/killed-in-gaza/data/raw.csv) and the arabic-to-english translations are managed in [scripts/data/common/killed-in-gaza/data/dict_ar_en.csv](https://github.com/TechForPalestine/palestine-datasets/blob/main/scripts/data/common/killed-in-gaza/data/dict_ar_en.csv). These are the two primary files that will be contributed to by those looking to make corrections, but there's a number of scripts running in our [gen-killed-in-gaza.yml](https://github.com/TechForPalestine/palestine-datasets/blob/main/.github/workflows/gen-killed-in-gaza.yml) github actions workflow that work to produce the final JSON and also ensure the consistency & format of the source CSVs.

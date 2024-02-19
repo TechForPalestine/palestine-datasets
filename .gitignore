@@ -5,7 +5,10 @@ node_modules/
 scripts/data/common/killed-in-gaza/output/*
 !scripts/data/common/killed-in-gaza/output/.gitkeep
 
-site/src/generated/*.csv
+site/src/generated/**
+!site/src/generated/manifest.json
+site/static/api
 
 analytics/
 jsoncheck/
+ci-tmp/

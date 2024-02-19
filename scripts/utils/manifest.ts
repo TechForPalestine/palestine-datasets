@@ -49,5 +49,20 @@ export const addToManifest = (
   writeManifest(manifest);
 };
 
+export const addFolderToManifest = (
+  resource: ApiResource,
+  folderPath: string
+) => {
+  const { manifest, apiPath } = getManifestAndPath(resource);
+  manifest[resource] = {
+    ...manifest[resource],
+    raw: {
+      folder: folderPath,
+      apiPath,
+    },
+  };
+  writeManifest(manifest);
+};
+
 export const writeManifest = (manifest: Manifest) =>
   writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));

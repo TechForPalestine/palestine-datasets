@@ -29,7 +29,10 @@ export const JSONFileLinks = ({ resource }: { resource: ApiResource }) => {
         </ExternalLinkButton>
       )}
       {csv && (
-        <ExternalLinkButton to={`/${csv.apiPath}/${csv.name}`}>
+        <ExternalLinkButton
+          to={`/${csv.apiPath}/${csv.name}`}
+          buttonType="secondary"
+        >
           {csv.name}
         </ExternalLinkButton>
       )}

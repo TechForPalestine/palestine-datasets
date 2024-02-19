@@ -1,4 +1,4 @@
-import { writeManifestCsv, writeJson } from "../../../utils/fs";
+import { writeManifestCsv } from "../../../utils/fs";
 import { ApiResource } from "../../../../types/api.types";
 import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 

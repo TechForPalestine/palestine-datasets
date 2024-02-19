@@ -13,11 +13,12 @@
     "gen-killed-v1": "bun run scripts/data/v1/martyrs.ts",
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
     "gen-westbank": "bun run scripts/data/v2/west-bank-daily.ts",
-    "gen-derived": "bun run gen-summaries && bun run gen-csv",
+    "gen-killed-derived": "bun run scripts/data/v2/derived/killed-indices.ts",
+    "gen-derived": "bun run gen-summaries && bun run gen-csv && bun run gen-killed-derived",
     "gen-summaries": "bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts",
     "gen-all": "bun run gen-daily && bun run gen-daily-v1 && bun run gen-killed && bun run gen-killed-v1 && bun run gen-derived",
-    "flightcheck": "bun run reset-manifest && bun run gen-all && bun run docs-build && bun run docs-serve",
+    "flightcheck": "bun run types && bun run reset-manifest && bun run gen-all && bun run docs-build && bun run docs-serve",
     "docs-start": "cd site && bun run start",
     "docs-build": "./scripts/build/pre-build.sh && cd site && bun run build && cd .. && ./scripts/build/pre-deploy.sh",
     "docs-serve": "cd site && bun run serve",
@@ -25,6 +26,7 @@
     "types": "tsc --noEmit && cd site && bun run typecheck",
     "logs": "bun run scripts/utils/deploy-logs.ts",
     "sort-list-csvs": "bun run scripts/data/common/killed-in-gaza/sort-csv.ts",
+    "download-killed-derived": "bun run scripts/build/download-killed-derived.ts",
     "patch-deps": "./patches/docusaurus-utils.sh",
     "postinstall": "bun run patch-deps"
   },
@@ -36,6 +38,7 @@
     "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
     "date-fns": "^3.3.1",
+    "lodash": "^4.17.21",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
   }
 }

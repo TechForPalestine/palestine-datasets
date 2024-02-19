@@ -1,0 +1,19 @@
+---
+slug: /killed-in-gaza/person
+---
+
+# Get Person
+
+import { KilledPersonSearchResult } from "@site/src/components";
+
+<KilledPersonSearchResult />
+
+### API Endpoint (GET)
+
+You can request an individual person record by ID using the following endpoint pattern:
+
+```
+https://data.techforpalestine.org/api/v2/killed-in-gaza/${person.id}.json
+```
+
+This endpoint can be used in conjunction with one of the available [search index endpoints](/docs/killed-in-gaza/indexes/).

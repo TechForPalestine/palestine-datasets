@@ -26,6 +26,11 @@ export const writeJson = (
   addToManifest(resource, { minified, unminified: unminifiedFileName });
 };
 
+export const writeOffManifestJson = (filePath: string, json: any) => {
+  const fs = require("fs");
+  fs.writeFileSync(filePath, JSON.stringify(json));
+};
+
 export const writeManifestCsv = (
   resource: ApiResource,
   filePath: string,
