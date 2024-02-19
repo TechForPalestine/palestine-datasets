@@ -14,22 +14,32 @@ const fetchPage = async (page: number) => {
   return response.json() as Promise<KilledInGaza[]>;
 };
 
-const animationNames: string[] = [];
+/**
+ * the only reliable way to reset a CSS animation is to remove & reattach that part
+ * of the DOM tree. by holding a reference to the removed nodes here in memory, we
+ * can reattach them to restart the marquee after we've loaded a new page of names
+ */
+let marqueeLeftDiv: Element | void;
+let marqueeRightDiv: Element | void;
+
+const getMarqueeContainer = () => {
+  return document.querySelector("#marquee");
+};
+
 const stopMarquee = () => {
-  const spans = document.querySelectorAll("header div > span");
-  spans.forEach((span: HTMLSpanElement) => {
-    animationNames.push(span.style.animationName);
-    span.style.animationName = "none";
-  });
+  const parent = getMarqueeContainer();
+  const leftChild = document.querySelector("#marqueeLeft");
+  const rightChild = document.querySelector("#marqueeRight");
+  marqueeLeftDiv = parent.removeChild(leftChild);
+  marqueeRightDiv = parent.removeChild(rightChild);
 };
 
 const startMarquee = () => {
-  const spans = document.querySelectorAll("header div > span");
-  spans.forEach((span: HTMLSpanElement, i) => {
-    animationNames.push(span.style.animationName);
-    span.style.animationName = animationNames[i];
-  });
-  animationNames.length = 0;
+  if (marqueeLeftDiv && marqueeRightDiv) {
+    const parent = getMarqueeContainer();
+    parent.appendChild(marqueeLeftDiv);
+    parent.appendChild(marqueeRightDiv);
+  }
 };
 
 const transitionMarquee = (handleTransition: () => any) => {
@@ -107,9 +117,13 @@ export const KilledHeaderMarquee = () => {
       );
 
   return (
-    <div className={`marqueeContainer ${styles.container}`}>
-      <div className={styles.leftRows}>{rows.odd.map(mapRows(0))}</div>
-      <div className={styles.rightRows}>{rows.even.map(mapRows(1))}</div>
+    <div id="marquee" className={`marqueeContainer ${styles.container}`}>
+      <div id="marqueeLeft" className={styles.leftRows}>
+        {rows.odd.map(mapRows(0))}
+      </div>
+      <div id="marqueeRight" className={styles.rightRows}>
+        {rows.even.map(mapRows(1))}
+      </div>
     </div>
   );
 };
