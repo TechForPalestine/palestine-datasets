@@ -46,7 +46,11 @@ export const formatDailiesJson = (
         ...dayRecord,
         ...((columnFilter.size && columnFilter.has(headerKeys[colIndex])) ||
         !columnFilter.size
+<<<<<<< HEAD
+          ? addRecordField(headerKeys[colIndex], colValue)
+=======
           ? addRecordField(headerKeys[colIndex], colValue, dayRecord)
+>>>>>>> a9d43482ec773855321758d5983974694a27aa26
           : {}),
       }),
       {}
