@@ -55,7 +55,7 @@ const getSvgDomain = (pathPoints: ReturnType<typeof pointAtLen>) => {
   return { maxPathLength, aspectRatio };
 };
 
-const render = async () => {
+const render = async ({ mobile } = { mobile: false }) => {
   const svg = d3n
     .createSVG(width, height)
     .attr("viewBox", `0 0 ${width} ${height}`)
@@ -175,10 +175,12 @@ const render = async () => {
     return pathPoints.at((i + 1) * daySegmentLength);
   });
 
+  const axisStepMinDistance = width * 0.05;
   const xAxisPoints = xAxisSteps.reduce((points, stepValue) => {
     const stepProgress = ((stepValue + 1) / days) * svgDomain.maxPathLength;
     const point = pathPoints.at(stepProgress);
-    if (point[0] === points[points.length - 1]?.[0]) {
+    const lastPointX = points[points.length - 1]?.[0] ?? 0;
+    if (point[0] < lastPointX + axisStepMinDistance) {
       return points;
     }
     return points.concat([point]);
@@ -276,7 +278,7 @@ const render = async () => {
     .attr("font-weight", "bold")
     .attr("fill", "#21af90")
     .attr("opacity", "0.6")
-    .attr("x", width - 10)
+    .attr("x", width - 12)
     .attr("y", countLabelY + 40)
     .text("killed");
 
