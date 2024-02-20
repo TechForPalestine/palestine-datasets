@@ -1,0 +1,45 @@
+.chartContainer {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
+
+.chartContainer svg {
+  max-width: 100%;
+}
+
+.chartBreakdownTags {
+  position: absolute;
+  max-width: 50%;
+}
+
+.chartBreakdownTag {
+  display: inline-block;
+  background-color: white;
+  border: 1px solid #eee;
+  padding: 3px 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+}
+
+.chartBreakdownTag span {
+  color: #ca3a32;
+}
+
+.chartSlider {
+  width: 100%;
+  padding-top: 40px;
+}
+
+.chartSliderLabel {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+}
+
+.chartSlider input[type="range"] {
+  width: 100%;
+  accent-color: var(--ifm-color-primary);
+}

@@ -59,8 +59,14 @@ const render = async () => {
   const svg = d3n
     .createSVG(width, height)
     .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("overflow", "visible")
-    .attr("style", "border-bottom: 2px solid #eee;");
+    .attr("overflow", "visible");
+
+  // bottom axis line
+  svg
+    .append("path")
+    .attr("d", `M0 ${height} h${width}`)
+    .attr("stroke", "#eee")
+    .attr("stroke-width", "4");
 
   const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../casualties_daily.min.json");
 
@@ -133,6 +139,8 @@ const render = async () => {
       return y(d.value);
     });
 
+  const days = data.slimData.length;
+
   const linePathId = "chartlinepath";
 
   const path = svg
@@ -143,32 +151,38 @@ const render = async () => {
     .attr("stroke", "#347843")
     .attr("stroke-width", 3)
     .attr("stroke-dasharray", "1060,1300")
+    .attr("stroke-linecap", "round")
     .attr("d", pathData);
 
   const desiredTickCount = 10;
-  const xAxisPlan = data.slimData.length / desiredTickCount;
+  const xAxisPlan = days / desiredTickCount;
   const xAxisStep = Math.ceil(xAxisPlan / 5) * 5;
   const xAxisSteps: number[] = [0];
-  const maxStep = xAxisStep * data.slimData.length;
-  while (xAxisSteps[xAxisSteps.length - 1] < data.slimData.length) {
+  const maxStep = xAxisStep * days;
+  while (xAxisSteps[xAxisSteps.length - 1] < days) {
     const nextStep = xAxisSteps[xAxisSteps.length - 1] + xAxisStep;
     if (nextStep < maxStep) {
       xAxisSteps.push(nextStep);
     }
   }
+  xAxisSteps[0] = 1;
 
   const pathDataValue = path.attr("d");
   const pathPoints = pointAtLen(pathDataValue);
   const svgDomain = getSvgDomain(pathPoints);
+  const daySegmentLength = svgDomain.maxPathLength / days;
+  const dayPoints = Array.from(new Array(days)).map((_, i) => {
+    return pathPoints.at((i + 1) * daySegmentLength);
+  });
+
   const xAxisPoints = xAxisSteps.reduce((points, stepValue) => {
-    const stepProgress =
-      ((stepValue + 2) / data.slimData.length) * svgDomain.maxPathLength;
+    const stepProgress = ((stepValue + 1) / days) * svgDomain.maxPathLength;
     const point = pathPoints.at(stepProgress);
-    if (point[0] === points[points.length - 1]) {
+    if (point[0] === points[points.length - 1]?.[0]) {
       return points;
     }
-    return points.concat(point[0]);
-  }, [] as number[]);
+    return points.concat([point]);
+  }, [] as [number, number][]);
 
   svg.append("style").text(`
 #${linePathId} {
@@ -177,12 +191,16 @@ const render = async () => {
 `);
 
   const eventDotRadius = 9;
+  const dotOffset = eventDotRadius * 2;
+  const eventLabelBottomOffset = 20;
+  const eventLineLabelOffset = 25;
+
   chartEvents.forEach((chartEvent) => {
     const eventIndex = data.slimData.findIndex(
       ({ date }) => date === chartEvent.date
     );
     const eventTimeProgress =
-      ((eventIndex + 2) / data.slimData.length) * svgDomain.maxPathLength;
+      ((eventIndex + 1) / days) * svgDomain.maxPathLength;
     const eventPoint = pathPoints.at(eventTimeProgress);
     const dotX = eventPoint[0];
     const dotY = eventPoint[1];
@@ -192,53 +210,114 @@ const render = async () => {
       .attr("cy", dotY)
       .attr("stroke-width", 2)
       .attr("stroke", "white")
-      .attr("fill", "black")
+      .attr("fill", "#333")
       .attr("r", eventDotRadius)
-      .attr("filter", "url(#pausefilter)");
+      .attr("filter", "url(#dotShadow)");
 
-    const dotOffset = eventDotRadius * 2;
-    const labelOffset = 30;
-
+    // vertical dash line
     svg
       .append("path")
       .attr(
         "d",
         `M${dotX} ${dotY + dotOffset} v${
-          height - dotY - dotOffset - labelOffset
+          height -
+          dotY -
+          dotOffset -
+          eventLineLabelOffset -
+          eventLabelBottomOffset
         }`
       )
-      .attr("stroke", "#888888")
+      .attr("stroke", "#AAA")
       .attr("stroke-width", "2")
       .attr("stroke-dasharray", "5")
-      .attr("stroke-linecap", "round");
+      .attr("stroke-linecap", "round")
+      .attr("opacity", "0.5");
 
     svg
       .append("text")
       .attr("x", dotX)
-      .attr("y", height - 10)
-      .attr("fill", "#888888")
+      .attr("y", height - eventLabelBottomOffset)
+      .attr("fill", "#777")
       .attr("text-anchor", "middle")
       .text(chartEvent.label);
   });
 
   svg
     .append("filter")
-    .attr("id", "pausefilter")
+    .attr("id", "dotShadow")
     .attr("filterUnits", "userSpaceOnUse")
     .attr("color-interpolation-filters", "sRGB")
     .append("feDropShadow")
     .attr("dx", 2)
     .attr("dy", 2)
     .attr("stdDeviation", 2)
-    .attr("floodOpacity", 0.3);
+    .attr("floodOpacity", 0.2);
 
-  xAxisPoints.forEach((x, i) => {
+  // main count label
+  const latestKilledValue = new Intl.NumberFormat().format(
+    data.slimData[data.slimData.length - 1].killed
+  );
+  const countLabelY = (height * 3) / 5;
+  svg
+    .append("text")
+    .attr("id", "chartcount")
+    .attr("text-anchor", "end")
+    .attr("font-size", 80)
+    .attr("font-weight", "bold")
+    .attr("fill", "#21af90")
+    .attr("opacity", "0.6")
+    .attr("x", width - 10)
+    .attr("y", countLabelY)
+    .text(latestKilledValue);
+  svg
+    .append("text")
+    .attr("text-anchor", "end")
+    .attr("font-size", 40)
+    .attr("font-weight", "bold")
+    .attr("fill", "#21af90")
+    .attr("opacity", "0.6")
+    .attr("x", width - 10)
+    .attr("y", countLabelY + 40)
+    .text("killed");
+
+  xAxisPoints.forEach((point, i) => {
+    const lastTick = i === xAxisPoints.length - 1;
+    const [x, y] = point;
+
     svg
       .append("text")
       .attr("x", x - 10)
       .attr("y", height + 30)
+      .attr("fill", "#777")
       .attr("text-anchor", "middle")
-      .text(xAxisSteps[i]);
+      .text(lastTick ? "TODAY" : xAxisSteps[i]);
+
+    if (lastTick) {
+      //
+      // movable dot for "TODAY"
+      //
+
+      svg
+        .append("path")
+        .attr("id", "chartsliderline")
+        .attr("d", `M${x} ${y} v${height - y}`)
+        .attr("opacity", "0.8")
+        .attr("stroke", "#347843")
+        .attr("stroke-width", "2")
+        .attr("stroke-dasharray", "5")
+        .attr("stroke-linecap", "round");
+
+      svg
+        .append("circle")
+        .attr("id", "chartsliderdot")
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("stroke-width", 2)
+        .attr("stroke", "white")
+        .attr("fill", "#CA3A32")
+        .attr("r", eventDotRadius)
+        .attr("filter", "url(#dotShadow)");
+    }
   });
 
   const defs = svg.append("defs");
@@ -278,7 +357,13 @@ const render = async () => {
   );
   fs.writeFileSync(
     "site/src/generated/daily-chart.json",
-    JSON.stringify({ data: data.slimData, width })
+    JSON.stringify({
+      data: data.slimData,
+      width,
+      height,
+      dayPoints,
+      eventDotRadius,
+    })
   );
 };
 

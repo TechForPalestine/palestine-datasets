@@ -15,12 +15,6 @@
   background-color: #1a8870;
 }
 
-.chartContainer {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 50px 20px;
-}
-
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2.5rem;
