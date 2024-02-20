@@ -7,7 +7,6 @@
 
 .chartTitle {
   font-size: 2em;
-  margin-bottom: 30px;
   font-weight: bold;
   color: #444;
 }
@@ -15,6 +14,12 @@
 .chartTitle span {
   color: #3cad6e;
   font-weight: normal;
+}
+
+.chartSubtitle {
+  color: #888;
+  padding-left: 4px;
+  margin-bottom: 30px;
 }
 
 .chartContainer svg {

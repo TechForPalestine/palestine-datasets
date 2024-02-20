@@ -151,6 +151,7 @@ export const HomeDailyChart = () => {
         The Human Toll{" "}
         <span>&nbsp;&nbsp;|&nbsp;&nbsp;Daily Casualties Dataset</span>
       </div>
+      <div className={styles.chartSubtitle}>Since October 7, 2023</div>
       <div className={styles.chartBreakdownTags}>
         <div className={styles.chartBreakdownTag}>
           {numFmt.format(dayData.injured)} <span>injured</span>
