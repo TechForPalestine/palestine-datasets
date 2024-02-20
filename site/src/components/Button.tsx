@@ -11,6 +11,7 @@ const styles = {
     border: "2px solid #222",
     padding: "10px 20px",
     fontWeight: "bold",
+    textDecoration: "none",
   },
   primary: {
     borderColor: "#29784c",

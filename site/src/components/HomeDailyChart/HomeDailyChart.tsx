@@ -235,7 +235,7 @@ export const HomeDailyChart = () => {
       </div>
       <div
         style={{
-          backgroundColor: "#eee",
+          backgroundColor: "#F8F8F8",
           fontSize: "1.5em",
           fontWeight: "bold",
           textAlign: "center",
@@ -247,11 +247,11 @@ export const HomeDailyChart = () => {
       </div>
       <div
         style={{
-          backgroundColor: "#eee",
+          backgroundColor: "#F8F8F8",
           display: "flex",
           justifyContent: "center",
           padding: "20px",
-          paddingBottom: "40px",
+          paddingBottom: "45px",
           borderBottomLeftRadius: "6px",
           borderBottomRightRadius: "6px",
         }}
