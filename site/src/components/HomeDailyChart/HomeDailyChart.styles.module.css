@@ -2,7 +2,19 @@
   position: relative;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 50px 20px;
+  padding: 30px 20px;
+}
+
+.chartTitle {
+  font-size: 2em;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #444;
+}
+
+.chartTitle span {
+  color: #3cad6e;
+  font-weight: normal;
 }
 
 .chartContainer svg {
@@ -42,6 +54,27 @@
 .chartSlider input[type="range"] {
   width: 100%;
   accent-color: var(--ifm-color-primary);
+}
+
+.chartRadials {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: 50%;
+}
+
+.chartRadials > div:first-of-type {
+  position: relative;
+  top: 18px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #29784c;
+}
+
+.chartRadials > div:nth-of-type(2) {
+  display: flex;
+  text-align: center;
 }
 
 .chartFooterCopy {

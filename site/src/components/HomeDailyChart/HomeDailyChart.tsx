@@ -100,10 +100,10 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
       <div
         style={{
           position: "absolute",
-          top: "38%",
+          top: "40%",
           textAlign: "center",
           width: "100%",
-          fontSize: "1.8em",
+          fontSize: "2em",
           fontWeight: "bold",
           color: "#29784c",
         }}
@@ -113,7 +113,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
       <div
         style={{
           position: "absolute",
-          bottom: "2px",
+          bottom: "5px",
           textAlign: "center",
           width: "100%",
           fontSize: "1em",
@@ -121,12 +121,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
           color: "#29784c",
         }}
       >
-        <span style={{ display: "block", lineHeight: "1.2em" }}>
-          {label[0]}
-        </span>
-        <span style={{ display: "block", lineHeight: "1.2em" }}>
-          {label[1]}
-        </span>
+        <span>{label}</span>
       </div>
     </div>
   );
@@ -152,6 +147,10 @@ export const HomeDailyChart = () => {
 
   return (
     <div className={styles.chartContainer}>
+      <div className={styles.chartTitle}>
+        The Human Toll{" "}
+        <span>&nbsp;&nbsp;|&nbsp;&nbsp;Daily Casualties Dataset</span>
+      </div>
       <div className={styles.chartBreakdownTags}>
         <div className={styles.chartBreakdownTag}>
           {numFmt.format(dayData.injured)} <span>injured</span>
@@ -204,23 +203,27 @@ export const HomeDailyChart = () => {
           borderBottom: "1px solid #eee",
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "flex-end",
         }}
       >
-        <HalfRadialProgress
-          {...{
-            rate: childrenRatePct,
-            strokeOffset: childrenStrokeOffset,
-            label: ["of those killed", "are children"],
-          }}
-        />
-        <HalfRadialProgress
-          {...{
-            rate: womenRatePct,
-            strokeOffset: womenStrokeOffset,
-            label: ["of those killed", "are women"],
-          }}
-        />
+        <div className={styles.chartRadials}>
+          <div>Of those killed:</div>
+          <div>
+            <HalfRadialProgress
+              {...{
+                rate: childrenRatePct,
+                strokeOffset: childrenStrokeOffset,
+                label: "were children",
+              }}
+            />
+            <HalfRadialProgress
+              {...{
+                rate: womenRatePct,
+                strokeOffset: womenStrokeOffset,
+                label: "were women",
+              }}
+            />
+          </div>
+        </div>
         <div className={styles.chartFooterCopy}>
           <p>Use the slider above to explore the human impact over time.</p>
           <p>
@@ -229,16 +232,35 @@ export const HomeDailyChart = () => {
           </p>
         </div>
       </div>
-      <div>Start telling their story:</div>
       <div
         style={{
+          backgroundColor: "#eee",
+          fontSize: "1.5em",
+          fontWeight: "bold",
+          textAlign: "center",
+          color: "#33925d",
+          paddingTop: "30px",
+        }}
+      >
+        Start telling their story
+      </div>
+      <div
+        style={{
+          backgroundColor: "#eee",
           display: "flex",
           justifyContent: "center",
-          padding: "30px 20px",
+          padding: "20px",
+          paddingBottom: "40px",
+          borderBottomLeftRadius: "6px",
+          borderBottomRightRadius: "6px",
         }}
       >
         <Button to="/docs/casualties-daily" type="secondary">
           Learn more about this dataset
+        </Button>
+        <div style={{ width: 10 }} />
+        <Button to="/docs/casualties-daily" type="primary">
+          Download CSV
         </Button>
       </div>
       <div style={{ margin: "100px auto", textAlign: "center" }}>
