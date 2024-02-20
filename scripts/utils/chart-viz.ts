@@ -28,7 +28,7 @@ type MappedData = {
   slimData: SlimData[];
 };
 
-const getSvgDomain = (pathPoints) => {
+const getSvgDomain = (pathPoints: ReturnType<typeof pointAtLen>) => {
   const aspectRatio = width / height;
 
   // calc svg domain
