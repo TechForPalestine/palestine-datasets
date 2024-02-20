@@ -4,6 +4,7 @@ import { format } from "date-fns/format";
 import HomepageCasualtyChart from "../../generated/daily-chart";
 import chartData from "../../generated/daily-chart.json";
 import styles from "./HomeDailyChart.styles.module.css";
+import { Button } from "../Button";
 
 const numFmt = new Intl.NumberFormat();
 
@@ -47,7 +48,9 @@ const sliderLabels = chartData.data.map(
   (dayData, i) => `${format(parseISO(dayData.date), "MMMM do")} (Day ${i + 1})`
 );
 
-const radialProgressRadius = 80;
+const radialProgressWidth = 250;
+const radialProgressHeight = radialProgressWidth / 2;
+const radialProgressRadius = radialProgressWidth * (80 / 200);
 const radialProgressCircum = Math.PI * (radialProgressRadius * 2);
 
 const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
@@ -66,26 +69,30 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
           display: "inline-block",
         }}
       >
-        <svg width="200" height="100" viewBox="0 0 200 100">
+        <svg
+          width={radialProgressWidth}
+          height={radialProgressHeight}
+          viewBox={`0 0 ${radialProgressWidth} ${radialProgressHeight}`}
+        >
           <circle
-            cx="100"
-            cy="100"
+            cx={radialProgressWidth / 2}
+            cy={radialProgressHeight}
             r={radialProgressRadius}
             stroke="#eee"
             strokeWidth="15"
-            transform="translate(0,-100)"
+            transform={`translate(0,-${radialProgressHeight})`}
             fill="none"
           />
           <circle
-            cx="100"
-            cy="100"
+            cx={radialProgressWidth / 2}
+            cy={radialProgressHeight}
             r={radialProgressRadius}
             stroke="#29784c"
             strokeWidth="15"
             strokeLinecap="round"
             strokeDasharray={radialProgressCircum}
             strokeDashoffset={strokeOffset}
-            transform="translate(0,-100)"
+            transform={`translate(0,-${radialProgressHeight})`}
             fill="none"
           />
         </svg>
@@ -93,7 +100,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
       <div
         style={{
           position: "absolute",
-          top: "42px",
+          top: "38%",
           textAlign: "center",
           width: "100%",
           fontSize: "1.8em",
@@ -114,7 +121,12 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
           color: "#29784c",
         }}
       >
-        {label}
+        <span style={{ display: "block", lineHeight: "1.2em" }}>
+          {label[0]}
+        </span>
+        <span style={{ display: "block", lineHeight: "1.2em" }}>
+          {label[1]}
+        </span>
       </div>
     </div>
   );
@@ -137,19 +149,6 @@ export const HomeDailyChart = () => {
   const womenRatePct = Math.round((dayData.women / dayData.killed) * 100);
   const womenStrokeOffset =
     ((100 - womenRatePct / 2) / 100) * radialProgressCircum;
-
-  const menKilled =
-    day !== 0 ? dayData.killed - dayData.children - dayData.women : 0;
-  const menRatePct = Math.round((menKilled / dayData.killed) * 100);
-  const menStrokeOffset = ((100 - menRatePct / 2) / 100) * radialProgressCircum;
-
-  const firstRespondersKilled =
-    dayData.civdef + dayData.medical + dayData.press;
-  const firstResponderRatePct = Math.round(
-    (firstRespondersKilled / dayData.killed) * 100
-  );
-  const firstResponderStrokeOffset =
-    ((100 - firstResponderRatePct / 2) / 100) * radialProgressCircum;
 
   return (
     <div className={styles.chartContainer}>
@@ -205,39 +204,42 @@ export const HomeDailyChart = () => {
           borderBottom: "1px solid #eee",
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "flex-end",
         }}
       >
         <HalfRadialProgress
           {...{
             rate: childrenRatePct,
             strokeOffset: childrenStrokeOffset,
-            label: "Children",
+            label: ["of those killed", "are children"],
           }}
         />
         <HalfRadialProgress
           {...{
             rate: womenRatePct,
             strokeOffset: womenStrokeOffset,
-            label: "Women",
+            label: ["of those killed", "are women"],
           }}
         />
-        <HalfRadialProgress
-          {...{
-            rate: menRatePct,
-            strokeOffset: menStrokeOffset,
-            label: "Men",
-          }}
-        />
-        <HalfRadialProgress
-          {...{
-            rate: firstResponderRatePct,
-            strokeOffset: firstResponderStrokeOffset,
-            label: "Essential Svc",
-          }}
-        />
-        {/* <div style={{ display: "inline-block" }}>
-          <ExternalLinkButton to="">Download CSV</ExternalLinkButton>
-        </div> */}
+        <div className={styles.chartFooterCopy}>
+          <p>Use the slider above to explore the human impact over time.</p>
+          <p>
+            These counts do not account for those still lost in the rubble of
+            destroyed buildings: estimated to be more than seven thousand.
+          </p>
+        </div>
+      </div>
+      <div>Start telling their story:</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "30px 20px",
+        }}
+      >
+        <Button to="/docs/casualties-daily" type="secondary">
+          Learn more about this dataset
+        </Button>
       </div>
       <div style={{ margin: "100px auto", textAlign: "center" }}>
         <hr />
