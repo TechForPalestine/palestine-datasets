@@ -91,42 +91,16 @@ const json: {
   },
 };
 
-const getSvgDomain = ({
-  pathPoints,
-  width,
-  height,
-}: {
-  pathPoints: ReturnType<typeof pointAtLen>;
-  width: number;
-  height: number;
-}) => {
-  const aspectRatio = width / height;
-
-  // calc svg domain
-  let topRightSvgPos;
-  let maxPathLength = 0;
-  let tries = 0;
-
-  const svgPathLengthSearchTryLimit = 150;
-  const svgPathSearchStartLength = width;
-
-  while (!topRightSvgPos && tries < svgPathLengthSearchTryLimit) {
-    const point = pathPoints.at(svgPathSearchStartLength + tries);
-    if (Math.round(point[0]) === width && Math.round(point[1]) === 0) {
-      maxPathLength = svgPathSearchStartLength + tries;
-      break;
-    }
-    tries++;
-  }
-
-  if (!maxPathLength) {
-    throw new Error("Could not resolve maxPathLength");
-  }
-
-  return { maxPathLength, aspectRatio };
-};
-
 const eventDotRadius = 9;
+
+// the chart line path is a "filled area" and we only want the stroke (chart line)
+// to appear for the top side of the filled gradient area, so we need to use a combo
+// of dasharray and dashoffset to achieve this for the two graph sizes we generate.
+// note: this has an effect on the coordinates we get for event dots, etc.
+const mobileLinePathLen = 640;
+const mobileLineStartOffset = 35;
+const desktopLinePathLen = 1060;
+const desktopLineStartOffset = 0;
 
 const render = async ({ mobile } = { mobile: false }) => {
   const width = mobile ? 500 : 1000;
@@ -195,7 +169,14 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("fill", `url(#${id("pathFillGradient")})`)
     .attr("stroke", "var(--ifm-color-primary-darker)")
     .attr("stroke-width", 3)
-    .attr("stroke-dasharray", mobile ? "603,850" : "1060,1300")
+    .attr(
+      "stroke-dashoffset",
+      mobile ? mobileLineStartOffset : desktopLineStartOffset
+    )
+    .attr(
+      "stroke-dasharray",
+      mobile ? `${mobileLinePathLen},850` : `${desktopLinePathLen},1305`
+    )
     .attr("stroke-linecap", "round")
     .attr("d", pathData);
 
@@ -214,8 +195,11 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const pathDataValue = path.attr("d");
   const pathPoints = pointAtLen(pathDataValue);
-  const svgDomain = getSvgDomain({ pathPoints, width, height });
+  const svgDomain = {
+    maxPathLength: mobile ? mobileLinePathLen : desktopLinePathLen,
+  };
   const daySegmentLength = svgDomain.maxPathLength / days;
+
   const dayPoints = Array.from(new Array(days)).map((_, i) => {
     return pathPoints.at((i + 1) * daySegmentLength);
   });
@@ -242,21 +226,11 @@ const render = async ({ mobile } = { mobile: false }) => {
       return;
     }
 
-    let pathLen = svgDomain.maxPathLength;
-    if (mobile) {
-      // the path calc lib produces a path length on mobile that
-      // leads to the event dots being in earlier spots on the
-      // chart line vs. the full desktop chart version. the full
-      // desktop version dots seem to be correct relative to the
-      // event dates and surrounding data, so we'll shift it on
-      // mobile to match the placement on desktop
-      pathLen = pathLen * 1.07;
-    }
-
     const eventIndex = data.slimData.findIndex(
       ({ date }) => date === chartEvent.date
     );
-    const eventTimeProgress = ((eventIndex + 1) / days) * pathLen;
+    const eventTimeProgress =
+      ((eventIndex + 1) / days) * svgDomain.maxPathLength;
     const eventPoint = pathPoints.at(eventTimeProgress);
     helpers.addEventPoint({
       eventPoint,
