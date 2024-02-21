@@ -200,8 +200,21 @@ const render = async ({ mobile } = { mobile: false }) => {
   };
   const daySegmentLength = svgDomain.maxPathLength / days;
 
+  let lastPoint = [0, height];
+  const topRightXThreshold = width * 0.98;
+  const verticalDropThreshold = 4;
   const dayPoints = Array.from(new Array(days)).map((_, i) => {
-    return pathPoints.at((i + 1) * daySegmentLength);
+    const [x, y] = pathPoints.at((i + 1) * daySegmentLength);
+    // for some reason on mobile the visual chart path ends before the
+    // the "data path" does, so without this limiter, the movable dot
+    // would appear to drop off the cliff at the end of the chart so we'll
+    // hold it at the max even if that means the values change but the dot
+    // stays in place (TODO: figure out why this isn't the case on desktop)
+    if (x > topRightXThreshold && y > verticalDropThreshold) {
+      return lastPoint;
+    }
+    lastPoint = [x, y];
+    return [x, y];
   });
 
   const axisStepMinDistance = width * 0.1;
