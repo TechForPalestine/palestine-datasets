@@ -11,6 +11,8 @@ type KilledFirstNameCounts = {
   girl: NameCountRank;
 };
 
+const topRankListLimit = 20;
+
 const getPersonGroup = (person: KilledInGaza) => {
   if (person.age >= 0 && person.age <= 18) {
     return person.sex === "f" ? "girl" : "boy";
@@ -38,12 +40,13 @@ const gatherUniqueFirstNames = (
     groupCounts.set(firstName, existingCount + 1);
   });
 
-  return Object.keys(counts).reduce(
+  const countGroupKeys = Object.keys(counts) as Array<keyof typeof counts>;
+  return countGroupKeys.reduce(
     (acc, groupKey) => ({
       ...acc,
-      [groupKey]: (
-        Array.from(counts[groupKey].entries()) as NameCountRank
-      ).sort((a, b) => b[1] - a[1]),
+      [groupKey]: (Array.from(counts[groupKey].entries()) as NameCountRank)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, topRankListLimit),
     }),
     {} as Record<keyof typeof counts, [string, number][]>
   );
