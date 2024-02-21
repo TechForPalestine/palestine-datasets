@@ -12,7 +12,7 @@
     "gen-daily": "bun run gen-daily-v2 && bun run gen-daily-v1",
     "gen-killed-v1": "bun run scripts/data/v1/martyrs.ts",
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
-    "gen-killed-derived": "bun run scripts/data/v2/derived/killed-indices.ts",
+    "gen-killed-derived": "bun run scripts/data/v2/derived/killed-indices.ts && bun run scripts/data/v2/derived/killed-names.ts",
     "gen-derived": "bun run gen-summaries && bun run gen-csv && bun run gen-killed-derived",
     "gen-summaries": "bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts",
