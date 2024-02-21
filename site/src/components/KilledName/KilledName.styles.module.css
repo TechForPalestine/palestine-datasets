@@ -1,0 +1,88 @@
+.cardRow {
+  max-width: 850px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.card {
+  position: relative;
+  flex-grow: 1;
+  border-radius: 8px;
+  background-color: #222;
+  padding: 20px 25px;
+  padding-bottom: 10px;
+  max-width: 50%;
+  background-image: url(/img/palestinian-woman.jpg);
+  background-size: contain;
+  overflow: hidden;
+}
+
+.cardOpacity {
+  background-color: rgba(10, 10, 10, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.card:first-of-type {
+  margin-right: 6px;
+}
+
+.card:nth-of-type(2) {
+  margin-left: 6px;
+}
+
+.question {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #eee;
+  max-width: 60%;
+  line-height: 1.2em;
+}
+
+.count {
+  font-size: 9em;
+  font-weight: bold;
+  color: #ca3a32;
+  text-align: center;
+  line-height: 1.2em;
+}
+
+.label {
+  font-size: 1.8em;
+  font-weight: bold;
+  line-height: 1.2em;
+  text-align: center;
+  color: #eee;
+}
+
+.label span {
+  color: #ca3a32;
+}
+
+.footnotes {
+  color: #ccc;
+  font-size: 0.7em;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+@media screen and (max-width: 850px) {
+  .cardRow {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card:first-of-type,
+  .card:nth-of-type(2) {
+    margin: 0;
+  }
+
+  .card {
+    max-width: 375px;
+    margin: 10px !important;
+  }
+}

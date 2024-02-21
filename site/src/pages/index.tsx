@@ -9,6 +9,7 @@ import Translate from "@docusaurus/Translate";
 import DatasetPreview from "../components/DatasetPreview";
 import { KilledHeaderMarquee } from "../components";
 import { HomeDailyChart } from "../components/HomeDailyChart";
+import { KilledName } from "../components/KilledName";
 
 const headerTextShadow = { textShadow: "2px 2px 1px rgba(10,10,10,0.3)" };
 
@@ -48,6 +49,7 @@ export default function Home(): JSX.Element {
       <HomepageHeader />
       <main>
         <HomeDailyChart />
+        <KilledName />
         <HomepageFeatures />
         <Spacer />
         <DatasetPreview />
