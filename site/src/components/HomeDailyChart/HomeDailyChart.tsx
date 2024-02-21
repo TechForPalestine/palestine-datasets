@@ -2,6 +2,7 @@ import { useState } from "react";
 import { parseISO } from "date-fns/parseISO";
 import { format } from "date-fns/format";
 import HomepageCasualtyChart from "../../generated/daily-chart";
+import HomepageCasualtyChartMobile from "../../generated/daily-chart-mobile";
 import chartData from "../../generated/daily-chart.json";
 import styles from "./HomeDailyChart.styles.module.css";
 import { Button } from "../Button";
@@ -15,18 +16,45 @@ let sliderLine: SVGPathElement;
 let sliderDot: SVGCircleElement;
 let sliderLabel: HTMLDivElement;
 
+// align with media query in CSS
+const isMobile = () => window.screen.width <= 500;
+
+const elId = (id: string) => {
+  if (isMobile()) {
+    return `${id}Mobile`;
+  }
+
+  return id;
+};
+
+const resetElementHandles = () => {
+  sliderCount = undefined;
+  sliderLine = undefined;
+  sliderDot = undefined;
+  sliderLabel = undefined;
+};
+
+let setHandleResetListener = false;
+
 const moveLine = (day: number) => {
   if (!sliderDot || !sliderLine) {
-    sliderCount = document.querySelector("#chartcount");
-    sliderLine = document.querySelector("#chartsliderline");
-    sliderDot = document.querySelector("#chartsliderdot");
+    sliderCount = document.querySelector(`#${elId("chartcount")}`);
+    sliderLine = document.querySelector(`#${elId("chartsliderline")}`);
+    sliderDot = document.querySelector(`#${elId("chartsliderdot")}`);
+    // not in SVG, does not have to be scoped
     sliderLabel = document.querySelector("#chartsliderlabel");
   }
 
-  sliderCount.innerHTML = numFmt.format(chartData.data[day].killed);
+  if (!setHandleResetListener) {
+    setHandleResetListener = true;
+    window.addEventListener("resize", resetElementHandles);
+  }
 
-  const [x, y] = chartData.dayPoints[day];
-  const lineData = `M${x} ${y} v${chartData.height - y}`;
+  sliderCount.innerHTML = numFmt.format(chartData.data[day].killed);
+  const { dayPoints, height } = isMobile() ? chartData.mobile : chartData;
+
+  const [x, y] = dayPoints[day];
+  const lineData = `M${x} ${y} v${height - y}`;
   sliderLine.setAttribute("d", lineData);
   sliderDot.setAttribute("cx", x.toString());
   sliderDot.setAttribute("cy", `${y}`);
@@ -97,30 +125,10 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
           />
         </svg>
       </div>
-      <div
-        style={{
-          position: "absolute",
-          top: "40%",
-          textAlign: "center",
-          width: "100%",
-          fontSize: "2em",
-          fontWeight: "bold",
-          color: "var(--tfp-radial-progress-fill)",
-        }}
-      >
+      <div className={styles.chartRadialRateText}>
         {rate ? `${rate}%` : "-"}
       </div>
-      <div
-        style={{
-          position: "absolute",
-          bottom: "5px",
-          textAlign: "center",
-          width: "100%",
-          fontSize: "1em",
-          fontWeight: "bold",
-          color: "var(--tfp-radial-progress-fill)",
-        }}
-      >
+      <div className={styles.chartRadialRateLabel}>
         <span>{label}</span>
       </div>
     </div>
@@ -148,8 +156,7 @@ export const HomeDailyChart = () => {
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartTitle}>
-        The Human Toll{" "}
-        <span>&nbsp;&nbsp;|&nbsp;&nbsp;Daily Casualties Dataset</span>
+        The Human Toll <span>Daily Casualties Dataset</span>
       </div>
       <div className={styles.chartSubtitle}>Since October 7, 2023</div>
       <div className={styles.chartBreakdownTags}>
@@ -181,7 +188,14 @@ export const HomeDailyChart = () => {
           </div>
         )}
       </div>
-      <HomepageCasualtyChart />
+      <div className={styles.homeChartDesktop}>
+        <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />
+      </div>
+      <div className={styles.homeChartMobile}>
+        <HomepageCasualtyChartMobile
+          style={{ width: "100%", height: "auto" }}
+        />
+      </div>
       <div className={styles.chartSlider}>
         <div style={{ position: "relative", height: 30 }}>
           <div id="chartsliderlabel" className={styles.chartSliderLabel}>
@@ -199,13 +213,7 @@ export const HomeDailyChart = () => {
           list="days"
         />
       </div>
-      <div
-        style={{
-          borderBottom: "1px solid var(--tfp-chart-cta-box-border)",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className={styles.chartRadialsContainer}>
         <div className={styles.chartRadials}>
           <div>Of those killed:</div>
           <div>
@@ -226,7 +234,7 @@ export const HomeDailyChart = () => {
           </div>
         </div>
         <div className={styles.chartFooterCopy}>
-          <p>Use the slider above to explore the human impact over time.</p>
+          <p>Use the slider above to see the human impact over time.</p>
           <p>
             These counts do not account for those still lost in the rubble of
             destroyed buildings: estimated to be more than seven thousand.
@@ -245,21 +253,11 @@ export const HomeDailyChart = () => {
       >
         Start telling their story:
       </div>
-      <div
-        style={{
-          backgroundColor: "var(--tfp-chart-cta-box-fill)",
-          display: "flex",
-          justifyContent: "center",
-          padding: "20px",
-          paddingBottom: "45px",
-          borderBottomLeftRadius: "6px",
-          borderBottomRightRadius: "6px",
-        }}
-      >
+      <div className={styles.chartFooterButtons}>
         <Button to="/docs/casualties-daily" type="secondary">
           Learn more about this dataset
         </Button>
-        <div style={{ width: 10 }} />
+        <div style={{ width: 10, height: 10 }} />
         <Button to="/docs/casualties-daily" type="primary">
           Download CSV
         </Button>

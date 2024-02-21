@@ -13,6 +13,7 @@ const styles = {
     border: "2px solid var(--tfp-button-secondary-fg)",
     padding: "10px 20px",
     fontWeight: "bold",
+    textAlign: "center" as const,
     textDecoration: "none",
   },
   primary: {

@@ -36,7 +36,7 @@
   position: relative;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 40px 20px;
 }
 
 .chartTitle {
@@ -48,6 +48,9 @@
 .chartTitle span {
   color: var(--ifm-color-primary-light);
   font-weight: normal;
+  border-left: 1px solid var(--ifm-color-primary-lightest);
+  margin-left: 14px;
+  padding-left: 14px;
 }
 
 .chartSubtitle {
@@ -116,6 +119,32 @@
   text-align: center;
 }
 
+.chartRadialsContainer {
+  border-bottom: 1px solid var(--tfp-chart-cta-box-border);
+  display: flex;
+  justify-content: space-between;
+}
+
+.chartRadialRateLabel {
+  position: absolute;
+  bottom: 5px;
+  text-align: center;
+  width: 100%;
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--tfp-radial-progress-fill);
+}
+
+.chartRadialRateText {
+  position: absolute;
+  top: 40%;
+  text-align: center;
+  width: 100%;
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--tfp-radial-progress-fill);
+}
+
 .chartFooterCopy {
   display: flex;
   flex-grow: 1;
@@ -131,4 +160,103 @@
 
 .chartFooterCopy p {
   margin: 5px 0;
+}
+
+.chartFooterButtons {
+  background-color: var(--tfp-chart-cta-box-fill);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  padding-bottom: 45px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.homeChartDesktop {
+  display: block;
+}
+
+.homeChartMobile {
+  display: none;
+}
+
+@media screen and (min-width: 501px) and (max-width: 999px) {
+  .chartBreakdownTags {
+    position: relative;
+    top: -5px;
+    max-width: none;
+    height: 100px;
+    overflow: visible;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .chartTitle span {
+    border-left: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    display: block;
+    line-height: 1.1em;
+    font-size: 0.8em;
+    margin-left: 1px;
+    margin-bottom: 5px;
+  }
+
+  .chartSubtitle {
+    padding-left: 2px;
+  }
+
+  .chartBreakdownTags {
+    position: relative;
+    top: -5px;
+    max-width: none;
+    height: 150px;
+    overflow: visible;
+  }
+
+  .chartBreakdownTag {
+    font-size: 0.8em;
+  }
+
+  .chartRadials {
+    max-width: none;
+  }
+
+  .chartRadials > div:first-of-type {
+    top: 25px;
+  }
+
+  .chartRadialsContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+  }
+
+  .chartRadialRateLabel {
+    bottom: 8px;
+    font-size: 0.9em;
+  }
+
+  .chartRadialRateText {
+    top: 45%;
+    font-size: 1.8em;
+  }
+
+  .chartFooterCopy {
+    max-width: none;
+    margin-top: 10px;
+  }
+
+  .chartFooterButtons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .homeChartDesktop {
+    display: none;
+  }
+
+  .homeChartMobile {
+    display: block;
+  }
 }

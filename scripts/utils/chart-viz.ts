@@ -5,11 +5,6 @@ import { CasualtyDailyReportV2 } from "../../types/casualties-daily.types";
 
 const fs = require("fs");
 const D3Node = require("d3-node");
-const d3n = new D3Node();
-const { d3 } = d3n;
-
-const width = 1000;
-const height = 300;
 
 type SlimData = {
   date: CasualtyDailyReportV2["report_date"];
@@ -28,7 +23,85 @@ type MappedData = {
   slimData: SlimData[];
 };
 
-const getSvgDomain = (pathPoints: ReturnType<typeof pointAtLen>) => {
+const eventsToSkipOnMobile = ["Xmas", "Superbowl"];
+
+const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../casualties_daily.min.json");
+
+const data = dailyTimeSeries.reduce(
+  (
+    acc,
+    {
+      report_date,
+      ext_civdef_killed_cum,
+      ext_injured_cum,
+      ext_killed_children_cum,
+      ext_killed_cum,
+      ext_killed_women_cum,
+      ext_massacres_cum,
+      ext_med_killed_cum,
+      ext_press_killed_cum,
+    },
+    day: number
+  ) => ({
+    ...acc,
+    // just keep what we plan to surface in our UI
+    slimData: acc.slimData.concat({
+      date: report_date,
+      civdef: ext_civdef_killed_cum,
+      injured: ext_injured_cum,
+      children: ext_killed_children_cum,
+      killed: ext_killed_cum,
+      women: ext_killed_women_cum,
+      massacres: ext_massacres_cum,
+      medical: ext_med_killed_cum,
+      press: ext_press_killed_cum,
+    }),
+    chart: acc.chart.concat({
+      date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
+      value: ext_killed_cum,
+    }),
+  }),
+  {
+    chart: [],
+    slimData: [],
+  } as MappedData
+);
+
+const json: {
+  data: typeof data.slimData;
+  width: number;
+  height: number;
+  dayPoints: [number, number][];
+  eventDotRadius: number;
+  mobile: {
+    width: number;
+    height: number;
+    dayPoints: [number, number][];
+    eventDotRadius: number;
+  };
+} = {
+  data: data.slimData,
+  width: 0,
+  height: 0,
+  dayPoints: [],
+  eventDotRadius: 0,
+  mobile: {
+    width: 0,
+    height: 0,
+    dayPoints: [],
+    eventDotRadius: 0,
+  },
+};
+
+const getSvgDomain = ({
+  pathPoints,
+  width,
+  height,
+}: {
+  pathPoints: ReturnType<typeof pointAtLen>;
+  width: number;
+  height: number;
+}) => {
   const aspectRatio = width / height;
 
   // calc svg domain
@@ -36,7 +109,7 @@ const getSvgDomain = (pathPoints: ReturnType<typeof pointAtLen>) => {
   let maxPathLength = 0;
   let tries = 0;
 
-  const svgPathLengthSearchTryLimit = 100;
+  const svgPathLengthSearchTryLimit = 150;
   const svgPathSearchStartLength = width;
 
   while (!topRightSvgPos && tries < svgPathLengthSearchTryLimit) {
@@ -56,6 +129,13 @@ const getSvgDomain = (pathPoints: ReturnType<typeof pointAtLen>) => {
 };
 
 const render = async ({ mobile } = { mobile: false }) => {
+  const width = mobile ? 500 : 1000;
+  const height = 300;
+  const id = (elementId: string) => `${elementId}${mobile ? "Mobile" : ""}`;
+
+  const d3n = new D3Node();
+  const { d3 } = d3n;
+
   const svg = d3n
     .createSVG(width, height)
     .attr("viewBox", `0 0 ${width} ${height}`)
@@ -67,48 +147,6 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("d", `M0 ${height} h${width}`)
     .attr("stroke", "var(--tfp-chart-axis-line)")
     .attr("stroke-width", "4");
-
-  const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../casualties_daily.min.json");
-
-  const data = dailyTimeSeries.reduce(
-    (
-      acc,
-      {
-        report_date,
-        ext_civdef_killed_cum,
-        ext_injured_cum,
-        ext_killed_children_cum,
-        ext_killed_cum,
-        ext_killed_women_cum,
-        ext_massacres_cum,
-        ext_med_killed_cum,
-        ext_press_killed_cum,
-      },
-      day: number
-    ) => ({
-      ...acc,
-      // just keep what we plan to surface in our UI
-      slimData: acc.slimData.concat({
-        date: report_date,
-        civdef: ext_civdef_killed_cum,
-        injured: ext_injured_cum,
-        children: ext_killed_children_cum,
-        killed: ext_killed_cum,
-        women: ext_killed_women_cum,
-        massacres: ext_massacres_cum,
-        medical: ext_med_killed_cum,
-        press: ext_press_killed_cum,
-      }),
-      chart: acc.chart.concat({
-        date: d3.timeParse("%Y-%m-%d")(report_date),
-        value: ext_killed_cum,
-      }),
-    }),
-    {
-      chart: [],
-      slimData: [],
-    } as MappedData
-  );
 
   var x = d3
     .scaleTime()
@@ -146,15 +184,15 @@ const render = async ({ mobile } = { mobile: false }) => {
   const path = svg
     .append("path")
     .datum(data.chart)
-    .attr("id", linePathId)
-    .attr("fill", "url(#pathFillGradient)")
+    .attr("id", id(linePathId))
+    .attr("fill", `url(#${id("pathFillGradient")})`)
     .attr("stroke", "var(--ifm-color-primary-darker)")
     .attr("stroke-width", 3)
-    .attr("stroke-dasharray", "1060,1300")
+    .attr("stroke-dasharray", mobile ? "603,850" : "1060,1300")
     .attr("stroke-linecap", "round")
     .attr("d", pathData);
 
-  const desiredTickCount = 10;
+  const desiredTickCount = mobile ? 5 : 10;
   const xAxisPlan = days / desiredTickCount;
   const xAxisStep = Math.ceil(xAxisPlan / 5) * 5;
   const xAxisSteps: number[] = [0];
@@ -169,7 +207,7 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const pathDataValue = path.attr("d");
   const pathPoints = pointAtLen(pathDataValue);
-  const svgDomain = getSvgDomain(pathPoints);
+  const svgDomain = getSvgDomain({ pathPoints, width, height });
   const daySegmentLength = svgDomain.maxPathLength / days;
   const dayPoints = Array.from(new Array(days)).map((_, i) => {
     return pathPoints.at((i + 1) * daySegmentLength);
@@ -192,6 +230,10 @@ const render = async ({ mobile } = { mobile: false }) => {
   const eventLineLabelOffset = 25;
 
   chartEvents.forEach((chartEvent) => {
+    if (mobile && eventsToSkipOnMobile.includes(chartEvent.label)) {
+      return;
+    }
+
     const eventIndex = data.slimData.findIndex(
       ({ date }) => date === chartEvent.date
     );
@@ -208,7 +250,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       .attr("stroke", "white")
       .attr("fill", "#333")
       .attr("r", eventDotRadius)
-      .attr("filter", "url(#dotShadow)");
+      .attr("filter", `url(#${id("dotShadow")})`);
 
     // vertical dash line
     svg
@@ -234,13 +276,14 @@ const render = async ({ mobile } = { mobile: false }) => {
       .attr("x", dotX)
       .attr("y", height - eventLabelBottomOffset)
       .attr("fill", "#777")
+      .attr("font-size", mobile ? "1.2em" : "1em")
       .attr("text-anchor", "middle")
       .text(chartEvent.label);
   });
 
   svg
     .append("filter")
-    .attr("id", "dotShadow")
+    .attr("id", id("dotShadow"))
     .attr("filterUnits", "userSpaceOnUse")
     .attr("color-interpolation-filters", "sRGB")
     .append("feDropShadow")
@@ -256,9 +299,9 @@ const render = async ({ mobile } = { mobile: false }) => {
   const countLabelY = (height * 3) / 5;
   svg
     .append("text")
-    .attr("id", "chartcount")
+    .attr("id", id("chartcount"))
     .attr("text-anchor", "end")
-    .attr("font-size", 80)
+    .attr("font-size", mobile ? 60 : 80)
     .attr("font-weight", "bold")
     .attr("fill", "var(--tfp-chart-killed-count)")
     .attr("opacity", "0.6")
@@ -268,7 +311,7 @@ const render = async ({ mobile } = { mobile: false }) => {
   svg
     .append("text")
     .attr("text-anchor", "end")
-    .attr("font-size", 40)
+    .attr("font-size", mobile ? 35 : 40)
     .attr("font-weight", "bold")
     .attr("fill", "var(--tfp-chart-killed-count)")
     .attr("opacity", "0.6")
@@ -286,6 +329,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       .attr("y", height + 30)
       .attr("fill", "#777")
       .attr("text-anchor", "middle")
+      .attr("font-size", mobile ? "1.2em" : "1em")
       .text(lastTick ? "TODAY" : xAxisSteps[i]);
 
     if (lastTick) {
@@ -295,8 +339,8 @@ const render = async ({ mobile } = { mobile: false }) => {
 
       svg
         .append("path")
-        .attr("id", "chartsliderline")
-        .attr("d", `M${width} ${y} v${height - y}`)
+        .attr("id", id("chartsliderline"))
+        .attr("d", `M${width} ${0} v${height}`)
         .attr("opacity", "0.8")
         .attr("stroke", "var(--tfp-chart-today-line)")
         .attr("stroke-width", "2")
@@ -305,21 +349,21 @@ const render = async ({ mobile } = { mobile: false }) => {
 
       svg
         .append("circle")
-        .attr("id", "chartsliderdot")
+        .attr("id", id("chartsliderdot"))
         .attr("cx", width)
-        .attr("cy", y)
+        .attr("cy", 0)
         .attr("stroke-width", 2)
         .attr("stroke", "white")
         .attr("fill", "#CA3A32")
         .attr("r", eventDotRadius)
-        .attr("filter", "url(#dotShadow)");
+        .attr("filter", `url(#${id("dotShadow")})`);
     }
   });
 
   const defs = svg.append("defs");
 
   const pathFillGradient = defs.append("linearGradient");
-  pathFillGradient.attr("id", "pathFillGradient");
+  pathFillGradient.attr("id", id("pathFillGradient"));
   pathFillGradient.attr("x1", "0");
   pathFillGradient.attr("x2", "0");
   pathFillGradient.attr("y1", "0");
@@ -335,7 +379,9 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const svgStr = d3n.svgString();
 
-  const componentFilePath = "site/src/generated/daily-chart.tsx";
+  const componentFilePath = `site/src/generated/daily-chart${
+    mobile ? "-mobile" : ""
+  }.tsx`;
   const componentJs = await transform(
     svgStr,
     {
@@ -343,23 +389,35 @@ const render = async ({ mobile } = { mobile: false }) => {
       svgo: false,
       plugins: ["@svgr/plugin-jsx", "@svgr/plugin-prettier"],
     },
-    { componentName: "HomepageCasualtyChart", filePath: componentFilePath }
+    {
+      componentName: `HomepageCasualtyChart${mobile ? "Mobile" : ""}`,
+      filePath: componentFilePath,
+    }
   );
 
   fs.writeFileSync(
     componentFilePath,
     componentJs.replace("<style>", "{props.children}\n\t\t<style>")
   );
-  fs.writeFileSync(
-    "site/src/generated/daily-chart.json",
-    JSON.stringify({
-      data: data.slimData,
+
+  if (mobile) {
+    json.mobile = {
       width,
       height,
       dayPoints,
       eventDotRadius,
-    })
-  );
+    };
+    fs.writeFileSync(
+      `site/src/generated/daily-chart.json`,
+      JSON.stringify(json)
+    );
+  } else {
+    json.width = width;
+    json.height = height;
+    json.dayPoints = dayPoints;
+    json.eventDotRadius = eventDotRadius;
+  }
 };
 
 render();
+render({ mobile: true });
