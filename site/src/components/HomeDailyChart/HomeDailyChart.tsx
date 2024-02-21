@@ -6,6 +6,8 @@ import HomepageCasualtyChartMobile from "../../generated/daily-chart-mobile";
 import chartData from "../../generated/daily-chart.json";
 import styles from "./HomeDailyChart.styles.module.css";
 import { Button } from "../Button";
+import { useResourcePaths } from "@site/src/lib/resource-paths";
+import { ApiResource } from "../../../../types/api.types";
 
 const numFmt = new Intl.NumberFormat();
 
@@ -136,6 +138,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
 };
 
 export const HomeDailyChart = () => {
+  const { csv } = useResourcePaths(ApiResource.CasualtiesDailyV2);
   const [day, setDay] = useState(days - 1);
   const dayData = chartData.data[day];
 
@@ -258,16 +261,16 @@ export const HomeDailyChart = () => {
           Learn more about this dataset
         </Button>
         <div style={{ width: 10, height: 10 }} />
-        <Button to="/docs/casualties-daily" type="primary">
-          Download CSV
-        </Button>
+        {csv && (
+          <Button to={`/${csv.apiPath}/${csv.name}`} type="primary" newTab>
+            Download CSV
+          </Button>
+        )}
       </div>
       <div style={{ margin: "100px auto", textAlign: "center" }}>
         <hr />
         <p>This is a draft for feedback.</p>
-        <p>
-          Please focus feedback on the content above.
-        </p>
+        <p>Please focus feedback on the content above.</p>
         <hr />
       </div>
     </div>

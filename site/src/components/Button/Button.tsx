@@ -1,3 +1,4 @@
+import { ExternalWindowIcon } from "../ExternalWindowIcon";
 import "./Button.styles.module.css";
 
 type Props = {
@@ -25,6 +26,9 @@ const styles = {
     backgroundColor: "var(--tfp-button-secondary-bg)",
     color: "var(--tfp-button-secondary-fg)",
   },
+  iconContainer: {
+    marginLeft: 6,
+  },
 };
 
 export const Button = ({ to, type, newTab, children }: Props) => {
@@ -35,6 +39,11 @@ export const Button = ({ to, type, newTab, children }: Props) => {
       style={{ ...styles.base, ...styles[type] }}
     >
       {children}
+      {newTab && (
+        <span style={styles.iconContainer}>
+          <ExternalWindowIcon />
+        </span>
+      )}
     </a>
   );
 };
