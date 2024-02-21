@@ -264,10 +264,9 @@ export const HomeDailyChart = () => {
       </div>
       <div style={{ margin: "100px auto", textAlign: "center" }}>
         <hr />
-        <p>This is a draft for feedback (desktop only).</p>
+        <p>This is a draft for feedback.</p>
         <p>
-          Please focus feedback on the content above using desktop viewports
-          (not ready for review on mobile).
+          Please focus feedback on the content above.
         </p>
         <hr />
       </div>
