@@ -65,7 +65,7 @@ const render = async ({ mobile } = { mobile: false }) => {
   svg
     .append("path")
     .attr("d", `M0 ${height} h${width}`)
-    .attr("stroke", "#eee")
+    .attr("stroke", "var(--tfp-chart-axis-line)")
     .attr("stroke-width", "4");
 
   const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../casualties_daily.min.json");
@@ -148,7 +148,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     .datum(data.chart)
     .attr("id", linePathId)
     .attr("fill", "url(#pathFillGradient)")
-    .attr("stroke", "#347843")
+    .attr("stroke", "var(--ifm-color-primary-darker)")
     .attr("stroke-width", 3)
     .attr("stroke-dasharray", "1060,1300")
     .attr("stroke-linecap", "round")
@@ -185,12 +185,6 @@ const render = async ({ mobile } = { mobile: false }) => {
     }
     return points.concat([point]);
   }, [] as [number, number][]);
-
-  svg.append("style").text(`
-#${linePathId} {
-  stroke: var(ifm-color-primary-darkest);
-}
-`);
 
   const eventDotRadius = 9;
   const dotOffset = eventDotRadius * 2;
@@ -266,7 +260,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("text-anchor", "end")
     .attr("font-size", 80)
     .attr("font-weight", "bold")
-    .attr("fill", "#21af90")
+    .attr("fill", "var(--tfp-chart-killed-count)")
     .attr("opacity", "0.6")
     .attr("x", width - 10)
     .attr("y", countLabelY)
@@ -276,7 +270,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("text-anchor", "end")
     .attr("font-size", 40)
     .attr("font-weight", "bold")
-    .attr("fill", "#21af90")
+    .attr("fill", "var(--tfp-chart-killed-count)")
     .attr("opacity", "0.6")
     .attr("x", width - 12)
     .attr("y", countLabelY + 40)
@@ -302,9 +296,9 @@ const render = async ({ mobile } = { mobile: false }) => {
       svg
         .append("path")
         .attr("id", "chartsliderline")
-        .attr("d", `M${x} ${y} v${height - y}`)
+        .attr("d", `M${width} ${y} v${height - y}`)
         .attr("opacity", "0.8")
-        .attr("stroke", "#347843")
+        .attr("stroke", "var(--tfp-chart-today-line)")
         .attr("stroke-width", "2")
         .attr("stroke-dasharray", "5")
         .attr("stroke-linecap", "round");
@@ -312,7 +306,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       svg
         .append("circle")
         .attr("id", "chartsliderdot")
-        .attr("cx", x)
+        .attr("cx", width)
         .attr("cy", y)
         .attr("stroke-width", 2)
         .attr("stroke", "white")
@@ -326,7 +320,6 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const pathFillGradient = defs.append("linearGradient");
   pathFillGradient.attr("id", "pathFillGradient");
-  //x1="0" x2="0" y1="0" y2="1"
   pathFillGradient.attr("x1", "0");
   pathFillGradient.attr("x2", "0");
   pathFillGradient.attr("y1", "0");
@@ -334,11 +327,11 @@ const render = async ({ mobile } = { mobile: false }) => {
   pathFillGradient
     .append("stop")
     .attr("offset", "0")
-    .attr("stop-color", "#B3D2C0");
+    .attr("stop-color", "var(--tfp-chart-gradient-top-stop)");
   pathFillGradient
     .append("stop")
     .attr("offset", "1")
-    .attr("stop-color", "white");
+    .attr("stop-color", "var(--tfp-chart-gradient-bottom-stop)");
 
   const svgStr = d3n.svgString();
 

@@ -1,3 +1,37 @@
+:root {
+  --tfp-chart-gradient-top-stop: #b3d2c0;
+  --tfp-chart-gradient-bottom-stop: white;
+  --tfp-chart-axis-line: #eee;
+  --tfp-chart-today-line: #347843;
+  --tfp-chart-title: #444;
+  --tfp-chart-subtitle: #888;
+  --tfp-chart-tag-bg: white;
+  --tfp-chart-tag-border: #eee;
+  --tfp-chart-killed-count: #21af90;
+  --tfp-radial-section-title: #1fa588;
+  --tfp-radial-progress-track: #eee;
+  --tfp-radial-progress-fill: #29784c;
+  --tfp-chart-cta-box-fill: #f8f8f8;
+  --tfp-chart-cta-box-border: #eee;
+}
+
+[data-theme="dark"] {
+  --tfp-chart-gradient-top-stop: #1a8870;
+  --tfp-chart-gradient-bottom-stop: rgb(27, 27, 29);
+  --tfp-chart-axis-line: #444;
+  --tfp-chart-today-line: #25c2a0;
+  --tfp-chart-title: #eee;
+  --tfp-chart-subtitle: #ddd;
+  --tfp-chart-tag-bg: #222;
+  --tfp-chart-tag-border: #333;
+  --tfp-chart-killed-count: #4fddbf;
+  --tfp-radial-section-title: #1fa588;
+  --tfp-radial-progress-track: #333;
+  --tfp-radial-progress-fill: #1fa588;
+  --tfp-chart-cta-box-fill: #222;
+  --tfp-chart-cta-box-border: #333;
+}
+
 .chartContainer {
   position: relative;
   max-width: 1000px;
@@ -8,16 +42,16 @@
 .chartTitle {
   font-size: 2em;
   font-weight: bold;
-  color: #444;
+  color: var(--tfp-chart-title);
 }
 
 .chartTitle span {
-  color: #3cad6e;
+  color: var(--ifm-color-primary-light);
   font-weight: normal;
 }
 
 .chartSubtitle {
-  color: #888;
+  color: var(--tfp-chart-subtitle);
   padding-left: 4px;
   margin-bottom: 30px;
 }
@@ -33,8 +67,8 @@
 
 .chartBreakdownTag {
   display: inline-block;
-  background-color: white;
-  border: 1px solid #eee;
+  background-color: var(--tfp-chart-tag-bg);
+  border: 1px solid var(--tfp-chart-tag-border);
   padding: 3px 10px;
   margin-right: 5px;
   margin-bottom: 5px;
@@ -74,7 +108,7 @@
   text-align: center;
   font-weight: bold;
   font-size: 1.2em;
-  color: #29784c;
+  color: var(--tfp-radial-section-title);
 }
 
 .chartRadials > div:nth-of-type(2) {

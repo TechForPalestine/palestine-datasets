@@ -1,3 +1,5 @@
+import "./Button.styles.module.css";
+
 type Props = {
   to: string;
   type: "primary" | "secondary";
@@ -8,19 +10,19 @@ type Props = {
 const styles = {
   base: {
     borderRadius: 8,
-    border: "2px solid #222",
+    border: "2px solid var(--tfp-button-secondary-fg)",
     padding: "10px 20px",
     fontWeight: "bold",
     textDecoration: "none",
   },
   primary: {
-    borderColor: "#29784c",
-    backgroundColor: "#29784c",
-    color: "#EEE",
+    borderColor: "var(--tfp-button-primary-bg)",
+    backgroundColor: "var(--tfp-button-primary-bg)",
+    color: "var(--tfp-button-primary-fg)",
   },
   secondary: {
-    backgroundColor: "transparent",
-    color: "#222",
+    backgroundColor: "var(--tfp-button-secondary-bg)",
+    color: "var(--tfp-button-secondary-fg)",
   },
 };
 

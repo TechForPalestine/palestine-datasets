@@ -78,7 +78,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
             cx={radialProgressWidth / 2}
             cy={radialProgressHeight}
             r={radialProgressRadius}
-            stroke="#eee"
+            stroke="var(--tfp-radial-progress-track)"
             strokeWidth="15"
             transform={`translate(0,-${radialProgressHeight})`}
             fill="none"
@@ -87,7 +87,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
             cx={radialProgressWidth / 2}
             cy={radialProgressHeight}
             r={radialProgressRadius}
-            stroke="#29784c"
+            stroke="var(--tfp-radial-progress-fill)"
             strokeWidth="15"
             strokeLinecap="round"
             strokeDasharray={radialProgressCircum}
@@ -105,7 +105,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
           width: "100%",
           fontSize: "2em",
           fontWeight: "bold",
-          color: "#29784c",
+          color: "var(--tfp-radial-progress-fill)",
         }}
       >
         {rate ? `${rate}%` : "-"}
@@ -118,7 +118,7 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
           width: "100%",
           fontSize: "1em",
           fontWeight: "bold",
-          color: "#29784c",
+          color: "var(--tfp-radial-progress-fill)",
         }}
       >
         <span>{label}</span>
@@ -201,7 +201,7 @@ export const HomeDailyChart = () => {
       </div>
       <div
         style={{
-          borderBottom: "1px solid #eee",
+          borderBottom: "1px solid var(--tfp-chart-cta-box-border)",
           display: "flex",
           justifyContent: "space-between",
         }}
@@ -235,19 +235,19 @@ export const HomeDailyChart = () => {
       </div>
       <div
         style={{
-          backgroundColor: "#F8F8F8",
+          backgroundColor: "var(--tfp-chart-cta-box-fill)",
           fontSize: "1.5em",
           fontWeight: "bold",
           textAlign: "center",
-          color: "#33925d",
+          color: "var(--ifm-color-primary)",
           paddingTop: "30px",
         }}
       >
-        Start telling their story
+        Start telling their story:
       </div>
       <div
         style={{
-          backgroundColor: "#F8F8F8",
+          backgroundColor: "var(--tfp-chart-cta-box-fill)",
           display: "flex",
           justifyContent: "center",
           padding: "20px",
