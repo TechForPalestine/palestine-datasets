@@ -180,6 +180,24 @@
   display: none;
 }
 
+@media screen and (max-width: 900px) {
+  .chartRadialsContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+  }
+
+  .chartRadials {
+    max-width: none;
+    align-items: center;
+  }
+
+  .chartFooterCopy {
+    max-width: none;
+    margin-top: 10px;
+  }
+}
+
 @media screen and (min-width: 501px) and (max-width: 999px) {
   .chartBreakdownTags {
     position: relative;
@@ -218,18 +236,8 @@
     font-size: 0.8em;
   }
 
-  .chartRadials {
-    max-width: none;
-  }
-
   .chartRadials > div:first-of-type {
     top: 25px;
-  }
-
-  .chartRadialsContainer {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
   }
 
   .chartRadialRateLabel {
@@ -240,11 +248,6 @@
   .chartRadialRateText {
     top: 45%;
     font-size: 1.8em;
-  }
-
-  .chartFooterCopy {
-    max-width: none;
-    margin-top: 10px;
   }
 
   .chartFooterButtons {
