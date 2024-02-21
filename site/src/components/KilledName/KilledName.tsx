@@ -75,9 +75,7 @@ const KilledNameCard = ({
       const file = new File([blob], filename);
       const shareData = { files: [file] };
       const canShare = await navigator.canShare(shareData);
-      if (!canShare) {
-        alert("no share");
-      } else {
+      if (canShare) {
         await navigator.share(shareData);
         setSharing(false);
         return;
