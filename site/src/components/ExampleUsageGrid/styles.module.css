@@ -1,5 +1,13 @@
+:root {
+  --tfp-example-card-bg: rgb(245, 245, 245);
+}
+
+[data-theme="dark"] {
+  --tfp-example-card-bg: var(--ifm-navbar-background-color);
+}
+
 .exampleCard {
-  background-color: rgb(245, 245, 245);
+  background-color: var(--tfp-example-card-bg);
   box-shadow: 0px 0px 10px rgba(10, 10, 10, 0.2);
   margin-bottom: 20px;
   border-radius: 4px;
@@ -23,10 +31,4 @@
   padding: 10px;
   text-align: center;
   font-weight: bold;
-}
-
-[data-theme="dark"] {
-  .exampleCard {
-    background-color: var(--ifm-navbar-background-color);
-  }
 }
