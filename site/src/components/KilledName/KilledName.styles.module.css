@@ -1,3 +1,11 @@
+:root {
+  --tfp-card-explanation: #444;
+}
+
+[data-theme="dark"] {
+  --tfp-card-explanation: #aaa;
+}
+
 .title {
   font-size: 2em;
   font-weight: bold;
@@ -106,7 +114,7 @@
 }
 
 .explanation {
-  color: #444;
+  color: var(--tfp-card-explanation);
   font-size: 0.8em;
   text-align: center;
   max-width: 60%;
@@ -146,9 +154,7 @@
   }
 
   .card {
-    aspect-ratio: 1;
     max-width: 400px;
-    max-height: 400px;
     margin: 10px !important;
   }
 }
