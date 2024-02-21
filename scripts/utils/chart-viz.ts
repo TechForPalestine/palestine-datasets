@@ -97,10 +97,12 @@ const getSvgDomain = ({
   pathPoints,
   width,
   height,
+  mobile,
 }: {
   pathPoints: ReturnType<typeof pointAtLen>;
   width: number;
   height: number;
+  mobile: boolean;
 }) => {
   const aspectRatio = width / height;
 
@@ -119,6 +121,16 @@ const getSvgDomain = ({
       break;
     }
     tries++;
+  }
+
+  if (mobile) {
+    // the path calc lib produces a path length on mobile that
+    // leads to the event dots being in earlier spots on the
+    // chart line vs. the full desktop chart version. the full
+    // desktop version dots seem to be correct relative to the
+    // event dates and surrounding data, so we'll shift it on
+    // mobile to match the placement on desktop
+    maxPathLength = maxPathLength * 1.07;
   }
 
   if (!maxPathLength) {
@@ -207,7 +219,7 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const pathDataValue = path.attr("d");
   const pathPoints = pointAtLen(pathDataValue);
-  const svgDomain = getSvgDomain({ pathPoints, width, height });
+  const svgDomain = getSvgDomain({ pathPoints, width, height, mobile });
   const daySegmentLength = svgDomain.maxPathLength / days;
   const dayPoints = Array.from(new Array(days)).map((_, i) => {
     return pathPoints.at((i + 1) * daySegmentLength);
