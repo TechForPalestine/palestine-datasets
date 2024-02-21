@@ -23,7 +23,11 @@ const getPersonGroup = (person: KilledInGaza) => {
 
 const gatherUniqueFirstNames = (
   killedPersons: KilledInGaza[]
-): KilledFirstNameCounts => {
+): {
+  lists: KilledFirstNameCounts;
+  totalUniques: Record<string, number>;
+  totalPeople: Record<string, number>;
+} => {
   const counts = {
     man: new Map<string, number>(),
     woman: new Map<string, number>(),
@@ -40,16 +44,35 @@ const gatherUniqueFirstNames = (
     groupCounts.set(firstName, existingCount + 1);
   });
 
+  const totalUniques = {
+    man: counts.man.size,
+    woman: counts.woman.size,
+    boy: counts.boy.size,
+    girl: counts.girl.size,
+  };
+  const totalPeople = {
+    man: 0,
+    woman: 0,
+    boy: 0,
+    girl: 0,
+  };
+
   const countGroupKeys = Object.keys(counts) as Array<keyof typeof counts>;
-  return countGroupKeys.reduce(
+  const lists = countGroupKeys.reduce(
     (acc, groupKey) => ({
       ...acc,
       [groupKey]: (Array.from(counts[groupKey].entries()) as NameCountRank)
+        .map((nameCount) => {
+          totalPeople[groupKey] += nameCount[1];
+          return nameCount;
+        })
         .sort((a, b) => b[1] - a[1])
         .slice(0, topRankListLimit),
     }),
     {} as Record<keyof typeof counts, [string, number][]>
   );
+
+  return { lists, totalUniques, totalPeople };
 };
 
 const writePath = "site/src/generated/killed-in-gaza";
