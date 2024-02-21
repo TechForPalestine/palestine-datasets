@@ -14,7 +14,6 @@ type SlimData = {
   children: CasualtyDailyReportV2["ext_killed_children_cum"];
   women: CasualtyDailyReportV2["ext_killed_women_cum"];
   killed: CasualtyDailyReportV2["ext_killed_cum"];
-  massacres: CasualtyDailyReportV2["ext_massacres_cum"];
   medical: CasualtyDailyReportV2["ext_med_killed_cum"];
   press: CasualtyDailyReportV2["ext_press_killed_cum"];
 };
@@ -38,7 +37,6 @@ const data = dailyTimeSeries.reduce(
       ext_killed_children_cum,
       ext_killed_cum,
       ext_killed_women_cum,
-      ext_massacres_cum,
       ext_med_killed_cum,
       ext_press_killed_cum,
     },
@@ -53,7 +51,6 @@ const data = dailyTimeSeries.reduce(
       children: ext_killed_children_cum,
       killed: ext_killed_cum,
       women: ext_killed_women_cum,
-      massacres: ext_massacres_cum,
       medical: ext_med_killed_cum,
       press: ext_press_killed_cum,
     }),
