@@ -50,9 +50,7 @@ export default function Home(): JSX.Element {
       <main>
         <HomeDailyChart />
         <KilledName />
-        <HomepageFeatures />
-        <Spacer />
-        <DatasetPreview />
+        <div style={{ height: 40 }} />
       </main>
     </Layout>
   );

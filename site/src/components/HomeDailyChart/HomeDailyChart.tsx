@@ -267,12 +267,6 @@ export const HomeDailyChart = () => {
           </Button>
         )}
       </div>
-      <div style={{ margin: "100px auto", textAlign: "center" }}>
-        <hr />
-        <p>This is a draft for feedback.</p>
-        <p>Please focus feedback on the content above.</p>
-        <hr />
-      </div>
     </div>
   );
 };
