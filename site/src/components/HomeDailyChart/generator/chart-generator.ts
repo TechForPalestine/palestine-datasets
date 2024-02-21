@@ -95,12 +95,10 @@ const getSvgDomain = ({
   pathPoints,
   width,
   height,
-  mobile,
 }: {
   pathPoints: ReturnType<typeof pointAtLen>;
   width: number;
   height: number;
-  mobile: boolean;
 }) => {
   const aspectRatio = width / height;
 
@@ -119,16 +117,6 @@ const getSvgDomain = ({
       break;
     }
     tries++;
-  }
-
-  if (mobile) {
-    // the path calc lib produces a path length on mobile that
-    // leads to the event dots being in earlier spots on the
-    // chart line vs. the full desktop chart version. the full
-    // desktop version dots seem to be correct relative to the
-    // event dates and surrounding data, so we'll shift it on
-    // mobile to match the placement on desktop
-    maxPathLength = maxPathLength * 1.07;
   }
 
   if (!maxPathLength) {
@@ -226,17 +214,19 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const pathDataValue = path.attr("d");
   const pathPoints = pointAtLen(pathDataValue);
-  const svgDomain = getSvgDomain({ pathPoints, width, height, mobile });
+  const svgDomain = getSvgDomain({ pathPoints, width, height });
   const daySegmentLength = svgDomain.maxPathLength / days;
   const dayPoints = Array.from(new Array(days)).map((_, i) => {
     return pathPoints.at((i + 1) * daySegmentLength);
   });
 
-  const axisStepMinDistance = width * 0.05;
+  const axisStepMinDistance = width * 0.1;
   const xAxisPoints = xAxisSteps.reduce((points, stepValue) => {
     const stepProgress = ((stepValue + 1) / days) * svgDomain.maxPathLength;
     const point = pathPoints.at(stepProgress);
     const lastPointX = points[points.length - 1]?.[0] ?? 0;
+    // don't allow axis ticks too close together, particularly
+    // near the right-side end where TODAY takes up more space
     if (point[0] < lastPointX + axisStepMinDistance) {
       return points;
     }
@@ -252,11 +242,21 @@ const render = async ({ mobile } = { mobile: false }) => {
       return;
     }
 
+    let pathLen = svgDomain.maxPathLength;
+    if (mobile) {
+      // the path calc lib produces a path length on mobile that
+      // leads to the event dots being in earlier spots on the
+      // chart line vs. the full desktop chart version. the full
+      // desktop version dots seem to be correct relative to the
+      // event dates and surrounding data, so we'll shift it on
+      // mobile to match the placement on desktop
+      pathLen = pathLen * 1.07;
+    }
+
     const eventIndex = data.slimData.findIndex(
       ({ date }) => date === chartEvent.date
     );
-    const eventTimeProgress =
-      ((eventIndex + 1) / days) * svgDomain.maxPathLength;
+    const eventTimeProgress = ((eventIndex + 1) / days) * pathLen;
     const eventPoint = pathPoints.at(eventTimeProgress);
     helpers.addEventPoint({
       eventPoint,
