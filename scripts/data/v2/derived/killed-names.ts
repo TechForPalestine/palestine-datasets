@@ -14,7 +14,7 @@ type KilledFirstNameCounts = {
 const topRankListLimit = 20;
 
 const getPersonGroup = (person: KilledInGaza) => {
-  if (person.age >= 0 && person.age <= 18) {
+  if (person.age >= 0 && person.age < 18) {
     return person.sex === "f" ? "girl" : "boy";
   }
 
