@@ -1,3 +1,20 @@
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--tfp-chart-title);
+  text-align: center;
+  margin-top: 10px;
+  padding-bottom: 25px;
+}
+
+.title span {
+  color: var(--ifm-color-primary-light);
+  font-weight: normal;
+  border-left: 1px solid var(--ifm-color-primary-lightest);
+  margin-left: 14px;
+  padding-left: 14px;
+}
+
 .cardRow {
   max-width: 850px;
   margin: 0 auto;
@@ -11,9 +28,10 @@
   background-color: #222;
   padding: 20px 25px;
   padding-bottom: 10px;
-  max-width: 50%;
   background-image: url(/img/palestinian-woman.jpg);
-  background-size: contain;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   overflow: hidden;
 }
 
@@ -42,6 +60,19 @@
   line-height: 1.2em;
 }
 
+.shareButton {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #eee;
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.75em;
+}
+
 .count {
   font-size: 9em;
   font-weight: bold;
@@ -58,6 +89,10 @@
   color: #eee;
 }
 
+.labelSmall {
+  font-size: 1.5em;
+}
+
 .label span {
   color: #ca3a32;
 }
@@ -70,12 +105,36 @@
   padding-bottom: 10px;
 }
 
-.buttonRow {
-  margin-top: 20px;
+.explanation {
+  color: #444;
+  font-size: 0.8em;
   text-align: center;
+  max-width: 60%;
+  margin: 25px auto;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 @media screen and (max-width: 850px) {
+  .title span {
+    border-left: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    display: block;
+    line-height: 1.1em;
+    font-size: 0.8em;
+    margin-left: 1px;
+    margin-bottom: 5px;
+  }
+
+  .question {
+    max-width: 70%;
+  }
+
   .cardRow {
     flex-direction: column;
     align-items: center;
@@ -87,7 +146,16 @@
   }
 
   .card {
-    max-width: 375px;
+    aspect-ratio: 1;
+    max-width: 400px;
+    max-height: 400px;
     margin: 10px !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .buttonRow {
+    padding: 0 40px;
+    flex-direction: column-reverse;
   }
 }

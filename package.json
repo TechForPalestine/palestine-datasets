@@ -42,6 +42,7 @@
     "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
     "date-fns": "^3.3.1",
+    "html-to-image": "^1.11.11",
     "lodash": "^4.17.21",
     "point-at-length": "^1.1.0",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"

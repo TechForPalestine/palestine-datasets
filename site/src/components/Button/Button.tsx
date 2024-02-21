@@ -37,6 +37,7 @@ const styles = {
   },
   nonLink: {
     cursor: "pointer",
+    userSelect: "none" as const,
   },
 };
 
