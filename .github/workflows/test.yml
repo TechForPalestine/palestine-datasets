@@ -25,7 +25,7 @@ jobs:
       - name: stub generated
         run: |
           mkdir -p site/src/generated/killed-in-gaza
-          bun run scripts/utils/chart-viz.ts
+          bun run chart-viz
           bun run gen-summaries
           echo '{"pageCount": 0}' > site/src/generated/killed-in-gaza/page-info.json
       - name: run typechecks

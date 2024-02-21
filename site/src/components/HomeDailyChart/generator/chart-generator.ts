@@ -1,7 +1,8 @@
 import { transform } from "@svgr/core";
 import pointAtLen from "point-at-length";
 import chartEvents from "./chart_events.json";
-import { CasualtyDailyReportV2 } from "../../types/casualties-daily.types";
+import { CasualtyDailyReportV2 } from "../../../../../types/casualties-daily.types";
+import { bindHelpers } from "./svg-helpers";
 
 const fs = require("fs");
 const D3Node = require("d3-node");
@@ -25,7 +26,7 @@ type MappedData = {
 
 const eventsToSkipOnMobile = ["Xmas", "Superbowl"];
 
-const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../casualties_daily.min.json");
+const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../../../../casualties_daily.min.json");
 
 const data = dailyTimeSeries.reduce(
   (
@@ -140,6 +141,8 @@ const getSvgDomain = ({
   return { maxPathLength, aspectRatio };
 };
 
+const eventDotRadius = 9;
+
 const render = async ({ mobile } = { mobile: false }) => {
   const width = mobile ? 500 : 1000;
   const height = 300;
@@ -152,6 +155,13 @@ const render = async ({ mobile } = { mobile: false }) => {
     .createSVG(width, height)
     .attr("viewBox", `0 0 ${width} ${height}`)
     .attr("overflow", "visible");
+
+  const helpers = bindHelpers(svg, id, {
+    eventDotRadius,
+    width,
+    height,
+    mobile,
+  });
 
   // bottom axis line
   svg
@@ -236,7 +246,6 @@ const render = async ({ mobile } = { mobile: false }) => {
     return points.concat([point]);
   }, [] as [number, number][]);
 
-  const eventDotRadius = 9;
   const dotOffset = eventDotRadius * 2;
   const eventLabelBottomOffset = 20;
   const eventLineLabelOffset = 25;
@@ -252,142 +261,37 @@ const render = async ({ mobile } = { mobile: false }) => {
     const eventTimeProgress =
       ((eventIndex + 1) / days) * svgDomain.maxPathLength;
     const eventPoint = pathPoints.at(eventTimeProgress);
-    const dotX = eventPoint[0];
-    const dotY = eventPoint[1];
-    svg
-      .append("circle")
-      .attr("cx", dotX)
-      .attr("cy", dotY)
-      .attr("stroke-width", 2)
-      .attr("stroke", "white")
-      .attr("fill", "#333")
-      .attr("r", eventDotRadius)
-      .attr("filter", `url(#${id("dotShadow")})`);
-
-    // vertical dash line
-    svg
-      .append("path")
-      .attr(
-        "d",
-        `M${dotX} ${dotY + dotOffset} v${
-          height -
-          dotY -
-          dotOffset -
-          eventLineLabelOffset -
-          eventLabelBottomOffset
-        }`
-      )
-      .attr("stroke", "#AAA")
-      .attr("stroke-width", "2")
-      .attr("stroke-dasharray", "5")
-      .attr("stroke-linecap", "round")
-      .attr("opacity", "0.5");
-
-    svg
-      .append("text")
-      .attr("x", dotX)
-      .attr("y", height - eventLabelBottomOffset)
-      .attr("fill", "#777")
-      .attr("font-size", mobile ? "1.2em" : "1em")
-      .attr("text-anchor", "middle")
-      .text(chartEvent.label);
+    helpers.addEventPoint({
+      eventPoint,
+      eventLabel: chartEvent.label,
+      dotOffset,
+      eventLineLabelOffset,
+      eventLabelBottomOffset,
+    });
   });
 
-  svg
-    .append("filter")
-    .attr("id", id("dotShadow"))
-    .attr("filterUnits", "userSpaceOnUse")
-    .attr("color-interpolation-filters", "sRGB")
-    .append("feDropShadow")
-    .attr("dx", 2)
-    .attr("dy", 2)
-    .attr("stdDeviation", 2)
-    .attr("floodOpacity", 0.2);
+  helpers.addEventDotShadowFilter();
 
   // main count label
   const latestKilledValue = new Intl.NumberFormat().format(
     data.slimData[data.slimData.length - 1].killed
   );
-  const countLabelY = (height * 3) / 5;
-  svg
-    .append("text")
-    .attr("id", id("chartcount"))
-    .attr("text-anchor", "end")
-    .attr("font-size", mobile ? 60 : 80)
-    .attr("font-weight", "bold")
-    .attr("fill", "var(--tfp-chart-killed-count)")
-    .attr("opacity", "0.6")
-    .attr("x", width - 10)
-    .attr("y", countLabelY)
-    .text(latestKilledValue);
-  svg
-    .append("text")
-    .attr("text-anchor", "end")
-    .attr("font-size", mobile ? 35 : 40)
-    .attr("font-weight", "bold")
-    .attr("fill", "var(--tfp-chart-killed-count)")
-    .attr("opacity", "0.6")
-    .attr("x", width - 12)
-    .attr("y", countLabelY + 40)
-    .text("killed");
+  helpers.addKilledCountLabelOverlay(latestKilledValue);
 
   xAxisPoints.forEach((point, i) => {
     const lastTick = i === xAxisPoints.length - 1;
     const [x, y] = point;
-
-    svg
-      .append("text")
-      .attr("x", x - 10)
-      .attr("y", height + 30)
-      .attr("fill", "#777")
-      .attr("text-anchor", "middle")
-      .attr("font-size", mobile ? "1.2em" : "1em")
-      .text(lastTick ? "TODAY" : xAxisSteps[i]);
+    helpers.addAxisTickLabel({ i, x, xAxisSteps, lastTick });
 
     if (lastTick) {
       //
       // movable dot for "TODAY"
       //
-
-      svg
-        .append("path")
-        .attr("id", id("chartsliderline"))
-        .attr("d", `M${width} ${0} v${height}`)
-        .attr("opacity", "0.8")
-        .attr("stroke", "var(--tfp-chart-today-line)")
-        .attr("stroke-width", "2")
-        .attr("stroke-dasharray", "5")
-        .attr("stroke-linecap", "round");
-
-      svg
-        .append("circle")
-        .attr("id", id("chartsliderdot"))
-        .attr("cx", width)
-        .attr("cy", 0)
-        .attr("stroke-width", 2)
-        .attr("stroke", "white")
-        .attr("fill", "#CA3A32")
-        .attr("r", eventDotRadius)
-        .attr("filter", `url(#${id("dotShadow")})`);
+      helpers.addMovableDotLine();
     }
   });
 
-  const defs = svg.append("defs");
-
-  const pathFillGradient = defs.append("linearGradient");
-  pathFillGradient.attr("id", id("pathFillGradient"));
-  pathFillGradient.attr("x1", "0");
-  pathFillGradient.attr("x2", "0");
-  pathFillGradient.attr("y1", "0");
-  pathFillGradient.attr("y2", "1");
-  pathFillGradient
-    .append("stop")
-    .attr("offset", "0")
-    .attr("stop-color", "var(--tfp-chart-gradient-top-stop)");
-  pathFillGradient
-    .append("stop")
-    .attr("offset", "1")
-    .attr("stop-color", "var(--tfp-chart-gradient-bottom-stop)");
+  helpers.addGradientDefinition();
 
   const svgStr = d3n.svgString();
 
