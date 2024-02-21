@@ -70,6 +70,11 @@
   padding-bottom: 10px;
 }
 
+.buttonRow {
+  margin-top: 20px;
+  text-align: center;
+}
+
 @media screen and (max-width: 850px) {
   .cardRow {
     flex-direction: column;

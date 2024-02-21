@@ -1,11 +1,14 @@
+import { CSSProperties } from "react";
 import { ExternalWindowIcon } from "../ExternalWindowIcon";
 import "./Button.styles.module.css";
 
 type Props = {
-  to: string;
+  to?: string;
   type: "primary" | "secondary";
   newTab?: boolean;
   children: JSX.Element | string;
+  inline?: boolean;
+  onClick?: () => any;
 };
 
 const styles = {
@@ -29,14 +32,54 @@ const styles = {
   iconContainer: {
     marginLeft: 6,
   },
+  inline: {
+    display: "inline-block",
+  },
+  nonLink: {
+    cursor: "pointer",
+  },
 };
 
-export const Button = ({ to, type, newTab, children }: Props) => {
+const Link = ({
+  to,
+  onClick,
+  children,
+  style,
+}: {
+  to?: string;
+  children: any;
+  onClick?: () => any;
+  style: CSSProperties;
+}) => {
+  if (to) {
+    return (
+      <a href={to} style={style}>
+        {children}
+      </a>
+    );
+  }
+
+  return <div {...{ onClick, style }}>{children}</div>;
+};
+
+export const Button = ({
+  to,
+  onClick,
+  inline,
+  type,
+  newTab,
+  children,
+}: Props) => {
   return (
-    <a
-      href={to}
+    <Link
+      {...{ to, onClick }}
       {...(newTab ? { target: "_blank" } : {})}
-      style={{ ...styles.base, ...styles[type] }}
+      style={{
+        ...styles.base,
+        ...(inline ? styles.inline : {}),
+        ...(onClick ? styles.nonLink : {}),
+        ...styles[type],
+      }}
     >
       {children}
       {newTab && (
@@ -44,6 +87,6 @@ export const Button = ({ to, type, newTab, children }: Props) => {
           <ExternalWindowIcon />
         </span>
       )}
-    </a>
+    </Link>
   );
 };

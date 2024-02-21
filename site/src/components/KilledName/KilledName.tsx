@@ -3,9 +3,10 @@ import names from "../../generated/killed-in-gaza/name-freq-en.json";
 import summary from "../../generated/summary.min.json";
 import styles from "./KilledName.styles.module.css";
 import { useState } from "react";
+import { Button } from "..";
 
-const boyList = shuffle(names.lists.boy);
-const girlList = shuffle(names.lists.girl);
+let boyList = shuffle(names.lists.boy);
+let girlList = shuffle(names.lists.girl);
 const latestChildrenKilledTotal = summary.killed.children;
 const childrenInKilledNamesList =
   names.totalPeople.boy + names.totalPeople.girl;
@@ -46,10 +47,32 @@ export const KilledName = () => {
     { name: firstGirl[0], count: adjust(firstGirl[1]) },
   ]);
 
+  const loadMore = () => {
+    if (!boyList.length || !girlList.length) {
+      boyList = shuffle(names.lists.boy);
+      girlList = shuffle(names.lists.girl);
+    }
+
+    const nextBoy = boyList.shift();
+    const nextGirl = girlList.shift();
+
+    setCards([
+      { name: nextBoy[0], count: nextBoy[1] },
+      { name: nextGirl[0], count: nextGirl[1] },
+    ]);
+  };
+
   return (
-    <div className={styles.cardRow}>
-      <KilledNameCard {...cards[0]} />
-      <KilledNameCard {...cards[1]} />
+    <div>
+      <div className={styles.cardRow}>
+        <KilledNameCard {...cards[0]} />
+        <KilledNameCard {...cards[1]} />
+      </div>
+      <div className={styles.buttonRow}>
+        <Button type="primary" onClick={loadMore} inline>
+          Load More
+        </Button>
+      </div>
     </div>
   );
 };
