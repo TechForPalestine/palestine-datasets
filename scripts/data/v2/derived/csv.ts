@@ -40,10 +40,33 @@ writeManifestCsv(
   dailyRows
 );
 
-const wbDailyRowOrder = Object.keys(wbDailies[0]);
+const wbDailyRowOrder = Object.keys(wbDailies[0]).reduce(
+  (headerCols, header) => {
+    if (header === "verified") {
+      return headerCols.concat(
+        Object.keys(wbDailies[0].verified).map((key) => `verified.${key}`)
+      );
+    }
+    return headerCols.concat(header);
+  },
+  [] as string[]
+);
 const wbDailyRows = wbDailies.reduce(
-  (rows: string[][], record: Record<string, string>) => {
-    return rows.concat([wbDailyRowOrder.map((key) => record[key])]);
+  (
+    rows: string[][],
+    record: Record<string, string> & { verified: Record<string, string> }
+  ) => {
+    return rows.concat([
+      wbDailyRowOrder.map((key) => {
+        if (key.startsWith("verified.")) {
+          if (!record.verified) {
+            return "";
+          }
+          return record.verified[key.replace("verified.", "")];
+        }
+        return record[key];
+      }),
+    ]);
   },
   [wbDailyRowOrder.slice()] as string[][]
 );

@@ -91,6 +91,11 @@
       "file": "west_bank_daily.json",
       "name": "west_bank_daily.json",
       "apiPath": "api/v2"
+    },
+    "csv": {
+      "file": "site/src/generated/west_bank_daily.csv",
+      "name": "west_bank_daily.csv",
+      "apiPath": "api/v2"
     }
   },
   "KilledInGazaDerived_V2": {
