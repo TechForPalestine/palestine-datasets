@@ -26,9 +26,9 @@ const sidebars: SidebarsConfig = {
           link: { type: "doc", id: "killed-in-gaza" },
           items: ["killed-in-gaza-indexes", "killed-in-gaza-person"],
         },
+        "summary",
         "casualties-daily",
         "casualties-daily-west-bank",
-        "summary",
       ],
     },
 
