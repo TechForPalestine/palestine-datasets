@@ -55,7 +55,7 @@
 .contactBlock {
   background-color: var(--tfp-contact-bg);
   text-align: center;
-  padding: 40px 20px;
+  padding: 80px 20px;
   font-size: 1.7em;
   line-height: 1.2em;
   color: var(--tfp-contact-fg);
@@ -63,5 +63,5 @@
 
 .contactBlock > a {
   font-size: 0.7em;
-  margin-top: 15px;
+  margin-top: 25px;
 }

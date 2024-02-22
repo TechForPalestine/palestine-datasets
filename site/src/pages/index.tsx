@@ -48,7 +48,7 @@ export default function Home(): JSX.Element {
         <KilledName />
         <div style={{ height: 40 }} />
         <div className={styles.contactBlock}>
-          <div>Need help? Think we can collaborate?</div>
+          <div>Need help or want to collaborate?</div>
           <Button type="primary" to="/docs/contact" inline>
             Get in touch
           </Button>

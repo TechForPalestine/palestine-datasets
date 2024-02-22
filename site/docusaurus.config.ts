@@ -94,12 +94,13 @@ const config: Config = {
     },
     footer: {
       style: "dark",
-      links: [
-        {
-          label: "Tech For Palestine",
-          href: "https://techforpalestine.org/",
-        },
-      ],
+      logo: {
+        alt: "Tech For Palestine Logo",
+        src: "img/logo.svg",
+        href: "https://techforpalestine.org",
+        width: 80,
+        height: 65,
+      },
       copyright: `An open source initiative of the Tech For Palestine collective`,
     },
     prism: {
