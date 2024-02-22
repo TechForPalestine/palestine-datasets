@@ -1,12 +1,10 @@
 import clsx from "clsx";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
-import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
 import Translate from "@docusaurus/Translate";
-import DatasetPreview from "../components/DatasetPreview";
 import { Button, KilledHeaderMarquee } from "../components";
 import { HomeDailyChart } from "../components/HomeDailyChart";
 import { KilledName } from "../components/KilledName";
@@ -50,7 +48,7 @@ export default function Home(): JSX.Element {
         <KilledName />
         <div style={{ height: 40 }} />
         <div className={styles.contactBlock}>
-          <div>Need help? Think we can collaborate?</div>
+          <div>Need help or want to collaborate?</div>
           <Button type="primary" to="/docs/contact" inline>
             Get in touch
           </Button>

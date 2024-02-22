@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import { writeOffManifestJson } from "../../../utils/fs";
 import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 
@@ -76,6 +77,7 @@ const gatherUniqueFirstNames = (
 };
 
 const writePath = "site/src/generated/killed-in-gaza";
+execSync(`mkdir -p ${writePath}`);
 
 const generate = () => {
   const killedPersons: KilledInGaza[] = require(`../../../../${sourceFileForDerived}`);

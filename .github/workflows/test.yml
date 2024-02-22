@@ -28,5 +28,6 @@ jobs:
           bun run chart-viz
           bun run gen-summaries
           bun run gen-killed-derived
+          echo '{"pageCount": 0}' > site/src/generated/killed-in-gaza/page-info.json
       - name: run typechecks
         run: bun run types
