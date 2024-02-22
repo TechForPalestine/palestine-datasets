@@ -8,7 +8,7 @@ export const iconTypeForPerson = (
     return sex === "f" ? "elderly-woman" : "elderly-man";
   }
 
-  if (age <= 18) {
+  if (age < 18) {
     return sex === "f" ? "girl" : "boy";
   }
 

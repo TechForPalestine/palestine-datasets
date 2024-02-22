@@ -1,0 +1,180 @@
+:root {
+  --tfp-card-explanation: #444;
+}
+
+[data-theme="dark"] {
+  --tfp-card-explanation: #aaa;
+}
+
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--tfp-chart-title);
+  text-align: center;
+  margin-top: 10px;
+  padding-bottom: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 1.2em;
+}
+
+.title span {
+  color: var(--ifm-color-primary-light);
+  font-weight: normal;
+  border-left: 1px solid var(--ifm-color-primary-lightest);
+  margin-left: 14px;
+  padding-left: 14px;
+}
+
+.cardRow {
+  max-width: 850px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.card {
+  position: relative;
+  flex-grow: 1;
+  border-radius: 8px;
+  background-color: #222;
+  padding: 20px 25px;
+  padding-bottom: 10px;
+  background-image: url(/img/palestinian-woman.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.cardOpacity {
+  background-color: rgba(10, 10, 10, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.card:first-of-type {
+  margin-right: 6px;
+}
+
+.card:nth-of-type(2) {
+  margin-left: 6px;
+}
+
+.question {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #eee;
+  max-width: 60%;
+  line-height: 1.2em;
+}
+
+.shareButton {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #eee;
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.75em;
+}
+
+.count {
+  font-size: 9em;
+  font-weight: bold;
+  color: #ca3a32;
+  text-align: center;
+  line-height: 1.2em;
+}
+
+.label {
+  font-size: 1.8em;
+  font-weight: bold;
+  line-height: 1.2em;
+  text-align: center;
+  color: #eee;
+}
+
+.labelSmall {
+  font-size: 1.5em;
+}
+
+.label span {
+  color: #ca3a32;
+}
+
+.footnotes {
+  color: #ccc;
+  font-size: 0.7em;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.explanation {
+  color: var(--tfp-card-explanation);
+  font-size: 0.8em;
+  text-align: center;
+  max-width: 60%;
+  margin: 25px auto;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 850px) {
+  .title span {
+    border-left: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    display: block;
+    line-height: 1.1em;
+    font-size: 0.8em;
+    margin-left: 1px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .question {
+    max-width: 70%;
+  }
+
+  .cardRow {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card:first-of-type,
+  .card:nth-of-type(2) {
+    margin: 0;
+  }
+
+  .card {
+    max-width: 400px;
+    margin: 10px !important;
+  }
+
+  .card[class*="capturing"] {
+    margin: 0px !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .buttonRow {
+    padding: 0 40px;
+    flex-direction: column-reverse;
+  }
+
+  .explanation {
+    max-width: none;
+    padding: 0 20px;
+  }
+}
