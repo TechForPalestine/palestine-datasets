@@ -8,8 +8,7 @@ const repoUrl = "https://github.com/TechForPalestine/palestine-datasets";
 
 const config: Config = {
   title: siteTitle,
-  tagline:
-    "The human toll of Israel's ongoing genocide in Gaza in names & numbers",
+  tagline: "Telling their stories through names and numbers",
   favicon: "img/favicon.svg",
 
   url: "https://data.techforpalestine.org",

@@ -1,0 +1,13 @@
+:root {
+  --tfp-button-primary-bg: #29784c;
+  --tfp-button-primary-fg: #eee;
+  --tfp-button-secondary-bg: transparent;
+  --tfp-button-secondary-fg: #222;
+}
+
+[data-theme="dark"] {
+  --tfp-button-primary-bg: #21af90;
+  --tfp-button-primary-fg: #111;
+  --tfp-button-secondary-bg: transparent;
+  --tfp-button-secondary-fg: #ccc;
+}
