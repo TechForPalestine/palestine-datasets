@@ -27,6 +27,6 @@ jobs:
           mkdir -p site/src/generated/killed-in-gaza
           bun run chart-viz
           bun run gen-summaries
-          echo '{"pageCount": 0}' > site/src/generated/killed-in-gaza/page-info.json
+          bun run gen-killed-derived
       - name: run typechecks
         run: bun run types

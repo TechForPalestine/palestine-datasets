@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { parseISO } from "date-fns/parseISO";
 import { format } from "date-fns/format";
 import HomepageCasualtyChart from "../../generated/daily-chart";
@@ -8,6 +8,7 @@ import styles from "./HomeDailyChart.styles.module.css";
 import { Button } from "../Button";
 import { useResourcePaths } from "@site/src/lib/resource-paths";
 import { ApiResource } from "../../../../types/api.types";
+import { trackClick } from "@site/src/lib/clicks";
 
 const numFmt = new Intl.NumberFormat();
 
@@ -138,11 +139,17 @@ const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
 };
 
 export const HomeDailyChart = () => {
+  const tracked = useRef(false);
   const { csv } = useResourcePaths(ApiResource.CasualtiesDailyV2);
   const [day, setDay] = useState(days - 1);
   const dayData = chartData.data[day];
 
   const onSliderChange = (e) => {
+    if (!tracked.current) {
+      tracked.current = true;
+      trackClick("chart-slider");
+    }
+
     const { value } = e.target;
     setDay(+value);
     moveLine(+value);
@@ -266,12 +273,6 @@ export const HomeDailyChart = () => {
             Download CSV
           </Button>
         )}
-      </div>
-      <div style={{ margin: "100px auto", textAlign: "center" }}>
-        <hr />
-        <p>This is a draft for feedback.</p>
-        <p>Please focus feedback on the content above.</p>
-        <hr />
       </div>
     </div>
   );

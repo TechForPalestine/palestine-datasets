@@ -7,8 +7,9 @@ import Heading from "@theme/Heading";
 import styles from "./index.module.css";
 import Translate from "@docusaurus/Translate";
 import DatasetPreview from "../components/DatasetPreview";
-import { KilledHeaderMarquee } from "../components";
+import { Button, KilledHeaderMarquee } from "../components";
 import { HomeDailyChart } from "../components/HomeDailyChart";
+import { KilledName } from "../components/KilledName";
 
 const headerTextShadow = { textShadow: "2px 2px 1px rgba(10,10,10,0.3)" };
 
@@ -36,8 +37,6 @@ function HomepageHeader() {
   );
 }
 
-const Spacer = () => <div className={styles.spacer} />;
-
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -48,9 +47,14 @@ export default function Home(): JSX.Element {
       <HomepageHeader />
       <main>
         <HomeDailyChart />
-        <HomepageFeatures />
-        <Spacer />
-        <DatasetPreview />
+        <KilledName />
+        <div style={{ height: 40 }} />
+        <div className={styles.contactBlock}>
+          <div>Need help? Think we can collaborate?</div>
+          <Button type="primary" to="/docs/contact" inline>
+            Get in touch
+          </Button>
+        </div>
       </main>
     </Layout>
   );
