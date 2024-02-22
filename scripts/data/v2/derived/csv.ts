@@ -4,6 +4,7 @@ import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 
 const killedPersons = require("../../../../killed-in-gaza.json");
 const dailies = require("../../../../casualties_daily.json");
+const wbDailies = require("../../../../west_bank_daily.json");
 
 const writePath = "site/src/generated";
 
@@ -37,4 +38,17 @@ writeManifestCsv(
   ApiResource.CasualtiesDailyV2,
   `${writePath}/casualties_daily.csv`,
   dailyRows
+);
+
+const wbDailyRowOrder = Object.keys(wbDailies[0]);
+const wbDailyRows = wbDailies.reduce(
+  (rows: string[][], record: Record<string, string>) => {
+    return rows.concat([wbDailyRowOrder.map((key) => record[key])]);
+  },
+  [wbDailyRowOrder.slice()] as string[][]
+);
+writeManifestCsv(
+  ApiResource.WestBankDailyV2,
+  `${writePath}/west_bank_daily.csv`,
+  wbDailyRows
 );
