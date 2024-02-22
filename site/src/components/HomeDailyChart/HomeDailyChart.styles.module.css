@@ -1,0 +1,264 @@
+:root {
+  --tfp-chart-gradient-top-stop: #b3d2c0;
+  --tfp-chart-gradient-bottom-stop: white;
+  --tfp-chart-axis-line: #eee;
+  --tfp-chart-today-line: #347843;
+  --tfp-chart-title: #444;
+  --tfp-chart-subtitle: #888;
+  --tfp-chart-tag-bg: white;
+  --tfp-chart-tag-border: #eee;
+  --tfp-chart-killed-count: #21af90;
+  --tfp-radial-section-title: #1fa588;
+  --tfp-radial-progress-track: #eee;
+  --tfp-radial-progress-fill: #29784c;
+  --tfp-chart-cta-box-fill: #f8f8f8;
+  --tfp-chart-cta-box-border: #eee;
+}
+
+[data-theme="dark"] {
+  --tfp-chart-gradient-top-stop: #1a8870;
+  --tfp-chart-gradient-bottom-stop: rgb(27, 27, 29);
+  --tfp-chart-axis-line: #444;
+  --tfp-chart-today-line: #25c2a0;
+  --tfp-chart-title: #eee;
+  --tfp-chart-subtitle: #ddd;
+  --tfp-chart-tag-bg: #222;
+  --tfp-chart-tag-border: #333;
+  --tfp-chart-killed-count: #4fddbf;
+  --tfp-radial-section-title: #1fa588;
+  --tfp-radial-progress-track: #333;
+  --tfp-radial-progress-fill: #1fa588;
+  --tfp-chart-cta-box-fill: #222;
+  --tfp-chart-cta-box-border: #333;
+}
+
+.chartContainer {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.chartTitle {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--tfp-chart-title);
+}
+
+.chartTitle span {
+  color: var(--ifm-color-primary-light);
+  font-weight: normal;
+  border-left: 1px solid var(--ifm-color-primary-lightest);
+  margin-left: 14px;
+  padding-left: 14px;
+}
+
+.chartSubtitle {
+  color: var(--tfp-chart-subtitle);
+  padding-left: 4px;
+  margin-bottom: 30px;
+}
+
+.chartContainer svg {
+  max-width: 100%;
+}
+
+.chartBreakdownTags {
+  position: absolute;
+  max-width: 50%;
+}
+
+.chartBreakdownTag {
+  display: inline-block;
+  background-color: var(--tfp-chart-tag-bg);
+  border: 1px solid var(--tfp-chart-tag-border);
+  padding: 3px 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 6px;
+}
+
+.chartBreakdownTag span {
+  color: #ca3a32;
+}
+
+.chartSlider {
+  width: 100%;
+  padding-top: 40px;
+}
+
+.chartSliderLabel {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+}
+
+.chartSlider input[type="range"] {
+  width: 100%;
+  accent-color: var(--ifm-color-primary);
+}
+
+.chartRadials {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  max-width: 50%;
+}
+
+.chartRadials > div:first-of-type {
+  position: relative;
+  top: 18px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: var(--tfp-radial-section-title);
+}
+
+.chartRadials > div:nth-of-type(2) {
+  display: flex;
+  text-align: center;
+}
+
+.chartRadialsContainer {
+  border-bottom: 1px solid var(--tfp-chart-cta-box-border);
+  display: flex;
+  justify-content: space-between;
+}
+
+.chartRadialRateLabel {
+  position: absolute;
+  bottom: 5px;
+  text-align: center;
+  width: 100%;
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--tfp-radial-progress-fill);
+}
+
+.chartRadialRateText {
+  position: absolute;
+  top: 40%;
+  text-align: center;
+  width: 100%;
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--tfp-radial-progress-fill);
+}
+
+.chartFooterCopy {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10;
+  text-align: center;
+  font-size: 0.9em;
+  max-width: 50%;
+  padding-bottom: 5px;
+}
+
+.chartFooterCopy p {
+  margin: 5px 0;
+}
+
+.chartFooterButtons {
+  background-color: var(--tfp-chart-cta-box-fill);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  padding-bottom: 45px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.homeChartDesktop {
+  display: block;
+}
+
+.homeChartMobile {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .chartRadialsContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+  }
+
+  .chartRadials {
+    max-width: none;
+    align-items: center;
+  }
+
+  .chartFooterCopy {
+    max-width: none;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-width: 501px) and (max-width: 999px) {
+  .chartBreakdownTags {
+    position: relative;
+    top: -5px;
+    max-width: none;
+    height: 100px;
+    overflow: visible;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .chartTitle span {
+    border-left: 0px;
+    margin-left: 0px;
+    padding-left: 0px;
+    display: block;
+    line-height: 1.1em;
+    font-size: 0.8em;
+    margin-left: 1px;
+    margin-bottom: 5px;
+  }
+
+  .chartSubtitle {
+    padding-left: 2px;
+  }
+
+  .chartBreakdownTags {
+    position: relative;
+    top: -5px;
+    max-width: none;
+    height: 150px;
+    overflow: visible;
+  }
+
+  .chartBreakdownTag {
+    font-size: 0.8em;
+  }
+
+  .chartRadials > div:first-of-type {
+    top: 25px;
+  }
+
+  .chartRadialRateLabel {
+    bottom: 8px;
+    font-size: 0.9em;
+  }
+
+  .chartRadialRateText {
+    top: 45%;
+    font-size: 1.8em;
+  }
+
+  .chartFooterButtons {
+    flex-direction: column;
+  }
+
+  .homeChartDesktop {
+    display: none;
+  }
+
+  .homeChartMobile {
+    display: block;
+  }
+}

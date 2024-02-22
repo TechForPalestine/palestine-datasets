@@ -30,8 +30,12 @@ const stopMarquee = () => {
   const parent = getMarqueeContainer();
   const leftChild = document.querySelector("#marqueeLeft");
   const rightChild = document.querySelector("#marqueeRight");
-  marqueeLeftDiv = parent.removeChild(leftChild);
-  marqueeRightDiv = parent.removeChild(rightChild);
+  try {
+    marqueeLeftDiv = parent.removeChild(leftChild);
+    marqueeRightDiv = parent.removeChild(rightChild);
+  } catch (e) {
+    console.warn(e);
+  }
 };
 
 const startMarquee = () => {
