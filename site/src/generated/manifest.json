@@ -81,6 +81,18 @@
       "apiPath": "api/v1"
     }
   },
+  "WestBankDaily_V2": {
+    "minified": {
+      "file": "west_bank_daily.min.json",
+      "name": "west_bank_daily.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "west_bank_daily.json",
+      "name": "west_bank_daily.json",
+      "apiPath": "api/v2"
+    }
+  },
   "KilledInGazaDerived_V2": {
     "raw": {
       "folder": "site/src/generated/killed-in-gaza",

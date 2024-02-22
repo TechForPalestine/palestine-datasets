@@ -8,8 +8,22 @@ const formatValue = (colValue: string) => {
 };
 
 const rawValueFields = ["report_date", "report_source"];
-const addRecordField = (fieldKey: string, fieldValue: string) => {
+const addRecordField = (
+  fieldKey: string,
+  fieldValue: string,
+  record: Record<string, any>
+) => {
   const rawValue = rawValueFields.includes(fieldKey);
+  const isObjectValue = fieldKey.includes(".");
+  if (isObjectValue && fieldValue) {
+    const [objFieldKey, valueFieldKey] = fieldKey.split(".");
+    return {
+      [objFieldKey]: {
+        ...record[objFieldKey],
+        [valueFieldKey]: formatValue(fieldValue),
+      },
+    };
+  }
   return {
     [fieldKey]: rawValue ? fieldValue : formatValue(fieldValue),
   };
@@ -21,28 +35,47 @@ const addRecordField = (fieldKey: string, fieldValue: string) => {
  * @param rows spreadsheet rows for each report date with column values to reduce into a report object
  * @returns array of daily report objects
  */
-export const formatDailiesJson = (headerKeys: string[], rows: string[][]) => {
+export const formatDailiesJson = (
+  headerKeys: string[],
+  rows: string[][],
+  columnFilter = new Set<string>()
+) => {
   return rows.reverse().map((rowColumns) =>
     rowColumns.reduce(
       (dayRecord, colValue, colIndex) => ({
         ...dayRecord,
-        ...addRecordField(headerKeys[colIndex], colValue),
+        ...((columnFilter.size && columnFilter.has(headerKeys[colIndex])) ||
+        !columnFilter.size
+          ? addRecordField(headerKeys[colIndex], colValue, dayRecord)
+          : {}),
       }),
       {}
     )
   );
 };
 
+const yyyymmddFormat = /^202[3-4]-[0-1][0-9]-[0-3][0-9]$/;
+
 /**
  * our docs claim fields prefixed with ext_ are non-optional, so we should assert that
+ * we should also assert standard date format
  */
 export const validateDailiesJson = (
   json: Array<Record<string, number | string>>
 ) => {
   const uniqueFieldNames = new Set<string>();
-  json.forEach((record) =>
-    Object.keys(record).forEach((key) => uniqueFieldNames.add(key))
-  );
+  json.forEach((record) => {
+    // validate date format is as expected for the base daily dataset format
+    const dateValid = yyyymmddFormat.test(record.report_date as string);
+    if (!dateValid) {
+      throw new Error(
+        `Report date '${record.report_date}' is invalid, expected YYYY-MM-DD`
+      );
+    }
+
+    // track all of the field names we use in the dataset
+    Object.keys(record).forEach((key) => uniqueFieldNames.add(key));
+  });
   const extKeys = Array.from(uniqueFieldNames).filter((key) =>
     key.startsWith("ext_")
   );
