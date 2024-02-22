@@ -2,12 +2,12 @@ import * as html2Img from "html-to-image";
 import shuffle from "lodash/shuffle";
 import { format } from "date-fns/format";
 import { parseISO } from "date-fns/parseISO";
-import useIsBrowser from "@docusaurus/useIsBrowser";
 import names from "../../generated/killed-in-gaza/name-freq-en.json";
 import summary from "../../generated/summary.min.json";
 import styles from "./KilledName.styles.module.css";
 import { useEffect, useState } from "react";
 import { Button } from "..";
+import { trackClick } from "@site/src/lib/clicks";
 
 let boyList = shuffle(names.lists.boy);
 let girlList = shuffle(names.lists.girl);
@@ -59,10 +59,16 @@ const KilledNameCard = ({
 }) => {
   const [sharing, setSharing] = useState(false);
 
-  const shareCardImage = async (id: string, tryShare: boolean) => {
+  const shareCardImage = async (
+    id: string,
+    name: string,
+    tryShare: boolean
+  ) => {
     if (sharing) {
       return;
     }
+
+    trackClick("killed-name", { id, name });
 
     const filename = "tfp-names-behind-numbers.png";
     setSharing(true);
@@ -70,9 +76,12 @@ const KilledNameCard = ({
     if (!card) {
       return;
     }
+    card.classList.add("capturing");
     const blob = await html2Img.toBlob(card);
+    card.classList.remove("capturing");
+
     if (tryShare) {
-      const file = new File([blob], filename);
+      const file = new File([blob], filename, { type: "image/png" });
       const shareData = { files: [file] };
       const canShare = await navigator.canShare(shareData);
       if (canShare) {
@@ -104,7 +113,7 @@ const KilledNameCard = ({
         {!sharing && (shareState.shareable || shareState.saveable) && (
           <div
             className={styles.shareButton}
-            onClick={() => shareCardImage(id, shareState.shareable)}
+            onClick={() => shareCardImage(id, name, shareState.shareable)}
           >
             Share <ShareIcon />
           </div>
@@ -116,8 +125,7 @@ const KilledNameCard = ({
             name.length > 9 ? styles.labelSmall : "",
           ].join(" ")}
         >
-          children <span>under 18</span> named {name} have been{" "}
-          <span>killed</span>.
+          <span>children</span> named {name} have been <span>killed</span>.
         </div>
         <div className={styles.footnotes}>data.techforpalestine.org</div>
       </div>
@@ -186,9 +194,10 @@ export const KilledName = () => {
       </div>
       <div className={styles.explanation}>
         Source: Our <a href="/docs/killed-in-gaza">Killed in Gaza dataset</a> as
-        a first name population sample, with name counts derived from the latest
-        number of children killed as of {latestDailyUpdate} from our{" "}
-        <a href="/docs/summary">Summary dataset</a> based on the sample weight.
+        an under 18 population sample to arrive at first name weights, with name
+        counts derived (using the name weighting) from the latest number of
+        children killed from our <a href="/docs/summary">Summary dataset</a> as
+        of {latestDailyUpdate}.
       </div>
     </div>
   );

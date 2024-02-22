@@ -13,6 +13,9 @@
   text-align: center;
   margin-top: 10px;
   padding-bottom: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+  line-height: 1.2em;
 }
 
 .title span {
@@ -137,6 +140,7 @@
     font-size: 0.8em;
     margin-left: 1px;
     margin-bottom: 5px;
+    margin-top: 5px;
   }
 
   .question {
@@ -157,11 +161,20 @@
     max-width: 400px;
     margin: 10px !important;
   }
+
+  .card[class*="capturing"] {
+    margin: 0px !important;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .buttonRow {
     padding: 0 40px;
     flex-direction: column-reverse;
+  }
+
+  .explanation {
+    max-width: none;
+    padding: 0 20px;
   }
 }
