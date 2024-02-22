@@ -1,12 +1,10 @@
 import clsx from "clsx";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
-import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
 import Translate from "@docusaurus/Translate";
-import DatasetPreview from "../components/DatasetPreview";
 import { Button, KilledHeaderMarquee } from "../components";
 import { HomeDailyChart } from "../components/HomeDailyChart";
 import { KilledName } from "../components/KilledName";
