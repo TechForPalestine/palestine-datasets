@@ -59,13 +59,13 @@
   },
   "Summary_V2": {
     "minified": {
-      "file": "old/summary.v2.min.json",
-      "name": "summary.v2.min.json",
+      "file": "old/v2/summary.min.json",
+      "name": "summary.min.json",
       "apiPath": "api/v2"
     },
     "unminified": {
-      "file": "old/summary.v2.json",
-      "name": "summary.v2.json",
+      "file": "old/v2/summary.json",
+      "name": "summary.json",
       "apiPath": "api/v2"
     }
   },

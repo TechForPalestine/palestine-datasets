@@ -32,4 +32,4 @@ const previewData: PreviewDataV2 = {
   lastDailyUpdate: lastDailyReport.report_date,
 };
 
-writeJson(ApiResource.SummaryV2, "old/summary.v2.json", previewData);
+writeJson(ApiResource.SummaryV2, "old/v2/summary.json", previewData);
