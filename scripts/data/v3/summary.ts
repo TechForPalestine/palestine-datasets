@@ -2,11 +2,6 @@ import type { PreviewDataV3 } from "../../../types/summary.types";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 
-/**
- * script loads just what's required to provide a summary of the datasets
- * on the homepage, without loading all of the JSON
- */
-
 import killedPersons from "../../../killed-in-gaza.json";
 import gazaDailies from "../../../casualties_daily.json";
 import westBankDailies from "../../../west_bank_daily.json";
