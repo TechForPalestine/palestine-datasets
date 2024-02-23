@@ -46,7 +46,7 @@ const known_killed_in_gaza = killedPersons.reduce((acc, record) => {
   const [gender, ageGroup] = genderAge(record);
   return {
     ...acc,
-    records: acc.records + 1,
+    records: (acc.records ?? 0) + 1,
     [gender]: {
       ...acc[gender],
       [ageGroup]: (acc[gender]?.[ageGroup] ?? 0) + 1,

@@ -11,9 +11,10 @@ import { trackClick } from "@site/src/lib/clicks";
 
 let boyList = shuffle(names.lists.boy);
 let girlList = shuffle(names.lists.girl);
-const latestChildrenKilledTotal = summary.killed.children;
+const latestChildrenKilledTotal =
+  summary.gaza.killed.children + summary.west_bank.killed.children;
 const latestDailyUpdate = format(
-  parseISO(summary.lastDailyUpdate),
+  parseISO(summary.gaza.last_update),
   "MMMM do, yyyy"
 );
 const childrenInKilledNamesList =

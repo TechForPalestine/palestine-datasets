@@ -4,13 +4,15 @@ description: List of casualty numbers by day.
 
 # Daily Casualties - Gaza
 
+This dataset provides daily values for those killed and injured in the Gaza Strip since October 7th, 2023.
+
 import { DailyReportStatsLabel } from "@site/src/components";
 
-<DailyReportStatsLabel />
+<DailyReportStatsLabel area="gaza" />
 
 ## Usage
 
-The dataset is available as a single JSON array with an object for each report date since Oct 7, 2023. You can also download in CSV format below.
+The dataset is available as a single JSON array with an object for each report date. You can also download in CSV format below.
 
 import { JSONFileLinks } from "@site/src/components";
 
@@ -22,7 +24,7 @@ The file is updated in the morning (eastern time).
 
 ## Report Fields
 
-Each daily report in this JSON array will have the following fields for Gaza since Oct 7, 2023.
+Each daily report in this JSON array will have the following fields for Gaza.
 
 (optional fields will be omitted from the JSON if there is no value reported)
 
