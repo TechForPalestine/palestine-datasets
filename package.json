@@ -14,7 +14,7 @@
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
     "gen-killed-derived": "bun run scripts/data/v2/derived/killed-names.ts && bun run scripts/data/v2/derived/killed-indices.ts ",
     "gen-derived": "bun run gen-summaries && bun run gen-csv && bun run gen-killed-derived",
-    "gen-summaries": "bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
+    "gen-summaries": "bun run scripts/data/v3/summary.ts && bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts",
     "gen-all": "bun run gen-daily && bun run gen-daily-v1 && bun run gen-killed && bun run gen-killed-v1 && bun run gen-derived",
     "chart-viz": "bun run site/src/components/HomeDailyChart/generator/chart-generator.ts",
