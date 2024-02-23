@@ -4,37 +4,60 @@ description: JSON object with the latest numbers
 
 # Summary Data
 
-## Usage
+This dataset provides a summary of the latest values from each dataset:
 
-The dataset is available as a JSON object showing the latest cumulative values from the other datasets.
+- for [Killed in Gaza](/docs/killed-in-gaza) it provides composition information by gender and age group
+- for Daily Casualties in [Gaza](/docs/casualties-daily) and the [West Bank](/docs/casualties-daily-west-bank) it provides cumulative values from the latest reported day
+
+## Usage
 
 import { JSONFileLinks } from "@site/src/components";
 
-<JSONFileLinks resource="Summary_V2" />
+<JSONFileLinks resource="Summary_V3" />
 
 ---
 
 The file is updated whenever the other datasets are updated (typically daily).
 
-## Report Fields
+## Fields
 
-Each daily report in this JSON array will have the following fields:
+The object has three root-level fields:
 
-(optional fields will be omitted from the JSON if there is no value reported)
+### `gaza`
 
-| field name            | value                                                                             |
-| --------------------- | --------------------------------------------------------------------------------- |
-| killedInGazaListCount | number of records in the [Killed in Gaza](/docs/killed-in-gaza) dataset           |
-| killed.total          | cumulative number of people killed in Gaza since Oct 7                            |
-| killed.children       | cumulative number of children killed in Gaza since Oct 7                          |
-| killed.women          | cumulative number of women killed in Gaza since Oct 7                             |
-| killed.civilDefence   | cumulative number of emergency personnel killed in Gaza since Oct 7               |
-| killed.press          | cumulative number of press killed in Gaza since Oct 7                             |
-| killed.medical        | cumulative number of medical personnel killed in Gaza since Oct 7                 |
-| injured.total         | cumulative number of people injured in Gaza since Oct 7                           |
-| dailyReportCount      | number of days of reports                                                         |
-| lastDailyUpdate       | most recent report date in the [casualties_daily](/docs/casualties-daily) dataset |
+Has the latest cumulative values from the last daily report from our [Gaza Daily Casualties dataset](/docs/casualties-daily):
 
-## Source
+| field name           | value                                                         |
+| -------------------- | ------------------------------------------------------------- |
+| reports              | number of days with reports in the underlying data series     |
+| last_update          | YYYY-MM-DD for last report date including these values        |
+| massacres            | number of single events leading to multiple fatalities        |
+| killed.total         | total number of people killed to the report date              |
+| killed.children      | total number of children killed to the report date            |
+| killed.civil_defence | total number of emergency personnel killed to the report date |
+| killed.women         | total number of women killed to the report date               |
+| killed.press         | total number of journalists killed to the report date         |
+| killed.medical       | total number of medical personnel killed to the report date   |
+| injured.total        | total number of people injured to the report date             |
 
-Except for `killedInGazaListCount`, all of the fields in the summary dataset derive from the latest report values in our [Daily Casualties dataset](/docs/casualties-daily).
+### `west_bank`
+
+Has the latest cumulative values from the last daily report from our [West Bank Daily Casualties dataset](/docs/casualties-daily-west-bank):
+
+| field name       | value                                                     |
+| ---------------- | --------------------------------------------------------- |
+| reports          | number of days with reports in the underlying data series |
+| last_update      | YYYY-MM-DD for last report date including these values    |
+| settler_attacks  | number of attack events by settlers against civilians     |
+| killed.total     | total number of people killed to the report date          |
+| killed.children  | total number of children killed to the report date        |
+| injured.total    | total number of people injured to the report date         |
+| injured.children | total number of children injured to the report date       |
+
+### `known_killed_in_gaza`
+
+Has summary values showing the composition of names by gender & age grouping for our [Killed in Gaza dataset](/docs/killed-in-gaza):
+
+## Sources
+
+See the doc pages linked above for the underlying datasets these summaries are pulled from, for more information on sourcing.
