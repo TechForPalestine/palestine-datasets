@@ -26,14 +26,14 @@ const genderAge = (
   if (record.sex === "m") {
     gender = "male";
   }
-  if (record.age === -1) {
-    ageGroup = "no_age";
-  }
   if (record.age >= 65) {
     ageGroup = "senior";
   }
   if (record.age < 18) {
     ageGroup = "child";
+  }
+  if (record.age === -1) {
+    ageGroup = "no_age";
   }
 
   if (!gender) {

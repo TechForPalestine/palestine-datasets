@@ -16,6 +16,10 @@ export const KilledListCountLabel = () => {
           maleSenior: format(previewData.known_killed_in_gaza.male.senior),
           maleAdult: format(previewData.known_killed_in_gaza.male.adult),
           maleChild: format(previewData.known_killed_in_gaza.male.child),
+          noAge: format(
+            previewData.known_killed_in_gaza.male.no_age +
+              previewData.known_killed_in_gaza.female.no_age
+          ),
         }
       )}
     </div>
