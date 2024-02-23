@@ -1,0 +1,51 @@
+---
+description: List of casualty numbers by day.
+---
+
+# Daily Casualties - West Bank
+
+## Usage
+
+The dataset is available as a single JSON array with an object for each report date since Oct 7, 2023. You can also download in CSV format below.
+
+import { JSONFileLinks } from "@site/src/components";
+
+<JSONFileLinks resource="WestBankDaily_V2" />
+
+---
+
+The file is updated in the morning (eastern time).
+
+## Report Fields
+
+Each daily report in this JSON array will have the following fields for the West Bank since Oct 7, 2023. See source information below for difference between `verified` and root-level fields.
+
+(optional fields will be omitted from the JSON if there is no value reported)
+
+| field name                    | value                                                                                    | optional |
+| ----------------------------- | ---------------------------------------------------------------------------------------- | -------- |
+| report_date                   | date in YYYY-MM-DD                                                                       | no       |
+| verified.killed               | killed persons on the given report date                                                  | yes      |
+| verified.killed_cum           | cumulative number of confirmed killed persons to the report date                         | yes      |
+| verified.injured              | injured persons on the given report date                                                 | yes      |
+| verified.injured_cum          | cumulative number of injured persons to the report date                                  | yes      |
+| verified.killed_children      | number of children killed on the given report date                                       | yes      |
+| verified.killed_children_cum  | cumulative number of children killed to the report date                                  | yes      |
+| verified.injured_children     | number of children killed on the given report date                                       | yes      |
+| verified.injured_children_cum | cumulative number of children injured to the report date                                 | yes      |
+| killed_cum                    | same as `verified.killed_cum` but yet to be independently verified (see below)           | no       |
+| killed_children_cum           | same as `verified.killed_children_cum` but yet to be independently verified (see below)  | no       |
+| injured_cum                   | same as `verified.injured_cum` but yet to be independently verified (see below)          | no       |
+| injured_children_cum          | same as `verified.injured_children_cum` but yet to be independently verified (see below) | no       |
+| settler_attacks_cum           | cumulative number of attacks by settlers on civilians to the report date                 | no       |
+
+## Daily Sources
+
+For West Bank data, we depend on [UN OCHA](https://www.ochaopt.org/data/casualties).
+
+There are two types source material they provide that we use to build the time series:
+
+- `verified` - These are the ones independently verified by [UN OCHA personnel](https://www.ochaopt.org/data/casualties) and provided via their casualty database.
+- `flash-updates` - These are incidents reported to the UN, but [not yet verified](https://www.ochaopt.org/crisis) and they are the source of those root level values in the above report object.
+
+Verified values will lag the ones that come from Flash Updates, so the field will be missing (optional) on more recent report dates, but generally continuous going back through older report dates once populated values are encountered.
