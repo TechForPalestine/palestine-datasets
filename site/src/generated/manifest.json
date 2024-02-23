@@ -16,18 +16,6 @@
       "apiPath": "api/v2"
     }
   },
-  "CasualtiesDaily_V1": {
-    "minified": {
-      "file": "old/casualties_daily.min.json",
-      "name": "casualties_daily.min.json",
-      "apiPath": "api/v1"
-    },
-    "unminified": {
-      "file": "old/casualties_daily.json",
-      "name": "casualties_daily.json",
-      "apiPath": "api/v1"
-    }
-  },
   "KilledInGaza_V2": {
     "minified": {
       "file": "killed-in-gaza.min.json",
@@ -43,18 +31,6 @@
       "file": "site/src/generated/killed-in-gaza.csv",
       "name": "killed-in-gaza.csv",
       "apiPath": "api/v2"
-    }
-  },
-  "KilledInGaza_V1": {
-    "minified": {
-      "file": "old/martyrs.min.json",
-      "name": "martyrs.min.json",
-      "apiPath": "api/v1"
-    },
-    "unminified": {
-      "file": "old/martyrs.json",
-      "name": "martyrs.json",
-      "apiPath": "api/v1"
     }
   },
   "Summary_V2": {
