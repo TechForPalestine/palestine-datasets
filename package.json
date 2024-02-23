@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "gen-daily-v1": "bun run scripts/data/v1/casualties-daily.ts",
-    "gen-daily-v2": "bun run scripts/data/v2/casualties-daily.ts",
+    "gen-daily-v2": "bun run scripts/data/v2/gaza-daily.ts",
     "gen-daily": "bun run gen-daily-v2 && bun run gen-daily-v1",
     "gen-killed-v1": "bun run scripts/data/v1/martyrs.ts",
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
