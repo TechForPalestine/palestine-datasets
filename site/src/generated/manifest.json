@@ -59,13 +59,13 @@
   },
   "Summary_V2": {
     "minified": {
-      "file": "site/src/generated/summary.min.json",
-      "name": "summary.min.json",
+      "file": "old/summary.v2.min.json",
+      "name": "summary.v2.min.json",
       "apiPath": "api/v2"
     },
     "unminified": {
-      "file": "site/src/generated/summary.json",
-      "name": "summary.json",
+      "file": "old/summary.v2.json",
+      "name": "summary.v2.json",
       "apiPath": "api/v2"
     }
   },
@@ -102,6 +102,18 @@
     "raw": {
       "folder": "site/src/generated/killed-in-gaza",
       "apiPath": "api/v2"
+    }
+  },
+  "Summary_V3": {
+    "minified": {
+      "file": "site/src/generated/summary.min.json",
+      "name": "summary.min.json",
+      "apiPath": "api/v3"
+    },
+    "unminified": {
+      "file": "site/src/generated/summary.json",
+      "name": "summary.json",
+      "apiPath": "api/v3"
     }
   }
 }

@@ -7,6 +7,7 @@ export enum ApiResource {
   KilledInGazaDerivedV2 = "KilledInGazaDerived_V2",
   SummaryV1 = "Summary_V1",
   SummaryV2 = "Summary_V2",
+  SummaryV3 = "Summary_V3",
   WestBankDailyV2 = "WestBankDaily_V2",
 }
 export type ResourceFormat = "minified" | "unminified" | "csv" | "raw";
