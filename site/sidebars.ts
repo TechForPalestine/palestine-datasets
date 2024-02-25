@@ -16,8 +16,8 @@ const sidebars: SidebarsConfig = {
       type: "category",
       label: "Datasets",
       link: {
-        type: "generated-index",
-        title: "Datasets",
+        type: "doc",
+        id: "datasets",
       },
       items: [
         {

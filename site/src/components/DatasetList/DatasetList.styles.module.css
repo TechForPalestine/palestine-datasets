@@ -1,0 +1,64 @@
+.cardContainer {
+  --ifm-link-color: var(--ifm-color-emphasis-800);
+  --ifm-link-hover-color: var(--ifm-color-emphasis-700);
+  --ifm-link-hover-decoration: none;
+
+  box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
+  border: 1px solid #ddd;
+  transition: all var(--ifm-transition-fast) ease;
+  transition-property: border, box-shadow;
+  margin-bottom: 15px;
+}
+
+.cardContainer:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardHeader svg {
+  position: relative;
+  top: 4px;
+  margin-right: 10px;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+}
+
+.cardDescription {
+  font-size: 1rem;
+  line-height: 1.5em;
+}
+
+.cardTags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.cardTagIntro {
+  display: inline-block;
+  padding-right: 3px;
+  line-height: 1.4em;
+  margin-bottom: 6px;
+}
+
+.cardTagCell {
+  flex-grow: 1;
+}
+
+.cardTag {
+  display: inline-block;
+  border: 1px solid var(--ifm-color-primary-lightest);
+  color: var(--ifm-color-primary-darkest);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.9em;
+  margin-left: 6px;
+  margin-bottom: 6px;
+}
