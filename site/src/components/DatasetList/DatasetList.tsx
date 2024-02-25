@@ -17,14 +17,19 @@ type DatasetProps = {
 };
 
 const Dataset = ({ docId, label, href }: DatasetProps) => {
-  const doc = useDocById(docId);
-  const [description, applications] = doc.description.split(
-    "Useful applications include"
-  );
-  const tags: string[] = applications
-    ? applications.split(",").map((tag) => tag.trim().replace(/\.$/, ""))
-    : [];
-  return <CardLayout {...{ title: label, href, description, tags }} />;
+  try {
+    const doc = useDocById(docId);
+    const [description, applications] = doc.description.split(
+      "Useful applications include"
+    );
+    const tags: string[] = applications
+      ? applications.split(",").map((tag) => tag.trim().replace(/\.$/, ""))
+      : [];
+    return <CardLayout {...{ title: label, href, description, tags }} />;
+  } catch (e) {
+    console.log("error trying to render Dataset component for docId=" + docId);
+    return null;
+  }
 };
 
 const CategoryDataset = ({ label, href }: any) => {

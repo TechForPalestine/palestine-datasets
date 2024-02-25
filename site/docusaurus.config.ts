@@ -70,7 +70,7 @@ const config: Config = {
       },
       items: [
         {
-          to: "docs/category/datasets/",
+          to: "docs/datasets/",
           label: "Datasets",
         },
         {
