@@ -165,6 +165,8 @@ export const KilledName = () => {
       { name: nextBoy[0], count: adjust(nextBoy[1]) },
       { name: nextGirl[0], count: adjust(nextGirl[1]) },
     ]);
+
+    trackClick("killed-name-reload");
   };
 
   return (
