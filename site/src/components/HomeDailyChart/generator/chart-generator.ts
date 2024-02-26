@@ -141,7 +141,7 @@ const eventDotRadius = 9;
 // of dasharray and dashoffset to achieve this for the two graph sizes we generate.
 // note: this has an effect on the coordinates we get for event dots, etc.
 const mobileLinePathLen = 640;
-const mobileLineStartOffset = 35;
+const mobileLineStartOffset = 38;
 const desktopLinePathLen = 1060;
 const desktopLineStartOffset = 0;
 
@@ -248,6 +248,7 @@ const render = async ({ mobile } = { mobile: false }) => {
   const verticalDropThreshold = 4;
   const dayPoints = Array.from(new Array(days)).map((_, i) => {
     const coordinates = pathPoints.at((i + 1) * daySegmentLength);
+    const [x, y] = coordinates;
     // for some reason on mobile the visual chart path ends before the
     // the "data path" does, so without this limiter, the movable dot
     // would appear to drop off the cliff at the end of the chart so we'll
