@@ -82,7 +82,8 @@ const sliderLabels = chartData.data.map(
 
 export const HomeDailyChart = () => {
   const tracked = useRef(false);
-  const { csv } = useResourcePaths(ApiResource.CasualtiesDailyV2);
+  const { csv: gazaCsv } = useResourcePaths(ApiResource.CasualtiesDailyV2);
+  const { csv: westBankCsv } = useResourcePaths(ApiResource.WestBankDailyV2);
   const [day, setDay] = useState(days - 1);
   const dayData = chartData.data[day];
 
@@ -108,9 +109,11 @@ export const HomeDailyChart = () => {
   return (
     <div className={styles.chartContainer}>
       <div className={styles.chartTitle}>
-        The Human Toll <span>Daily Casualties Dataset</span>
+        The Human Toll <span>Daily Casualties Datasets</span>
       </div>
-      <div className={styles.chartSubtitle}>Since October 7, 2023</div>
+      <div className={styles.chartSubtitle}>
+        Since October 7, 2023 for Gaza and the West Bank
+      </div>
       <div className={styles.chartBreakdownTags}>
         <div className={styles.chartBreakdownTag}>
           {numFmt.format(dayData.injured)} <span>injured</span>
@@ -207,12 +210,26 @@ export const HomeDailyChart = () => {
       </div>
       <div className={styles.chartFooterButtons}>
         <Button to="/docs/casualties-daily" type="secondary">
-          Learn more about this dataset
+          Learn more about these datasets
         </Button>
         <div style={{ width: 10, height: 10 }} />
-        {csv && (
-          <Button to={`/${csv.apiPath}/${csv.name}`} type="primary" newTab>
-            Download CSV
+        {gazaCsv && (
+          <Button
+            to={`/${gazaCsv.apiPath}/${gazaCsv.name}`}
+            type="primary"
+            newTab
+          >
+            Download Gaza CSV
+          </Button>
+        )}
+        <div style={{ width: 10, height: 10 }} />
+        {westBankCsv && (
+          <Button
+            to={`/${westBankCsv.apiPath}/${westBankCsv.name}`}
+            type="primary"
+            newTab
+          >
+            Download West Bank CSV
           </Button>
         )}
       </div>

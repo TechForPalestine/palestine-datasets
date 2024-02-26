@@ -1,11 +1,12 @@
+import fs from "fs";
+import D3Node from "d3-node";
 import { transform } from "@svgr/core";
 import pointAtLen from "point-at-length";
 import chartEvents from "./chart_events.json";
+import gazaDailyTimeSeries from "../../../../../casualties_daily.min.json";
+import westBankDailyTimeSeries from "../../../../../west_bank_daily.min.json";
 import { CasualtyDailyReportV2 } from "../../../../../types/casualties-daily.types";
 import { bindHelpers } from "./svg-helpers";
-
-const fs = require("fs");
-const D3Node = require("d3-node");
 
 type SlimData = {
   date: CasualtyDailyReportV2["report_date"];
@@ -25,9 +26,37 @@ type MappedData = {
 
 const eventsToSkipOnMobile = ["Xmas", "Superbowl"];
 
-const dailyTimeSeries: CasualtyDailyReportV2[] = require("../../../../../casualties_daily.min.json");
+const lastWestBankReport =
+  westBankDailyTimeSeries[westBankDailyTimeSeries.length - 1];
+const westBankLookup = westBankDailyTimeSeries.reduce(
+  (acc, report) => ({
+    ...acc,
+    [report.report_date]: report,
+  }),
+  {} as Record<string, typeof lastWestBankReport>
+);
 
-const data = dailyTimeSeries.reduce(
+const getWestBankValue = (
+  reportDate: string,
+  initialKey: [
+    keyof typeof lastWestBankReport,
+    keyof (typeof lastWestBankReport)["verified"] | undefined
+  ],
+  fallbackKey?: keyof typeof lastWestBankReport
+) => {
+  const report = westBankLookup[reportDate] ?? lastWestBankReport;
+  const [key, subKey] = initialKey;
+  let value = report[key];
+  if (value && subKey) {
+    value = value[subKey];
+  }
+  if (typeof value !== "number") {
+    value = report[fallbackKey];
+  }
+  return typeof value === "number" ? value : 0;
+};
+
+const data = gazaDailyTimeSeries.reduce(
   (
     acc,
     {
@@ -47,9 +76,23 @@ const data = dailyTimeSeries.reduce(
     slimData: acc.slimData.concat({
       date: report_date,
       civdef: ext_civdef_killed_cum,
-      injured: ext_injured_cum,
-      children: ext_killed_children_cum,
-      killed: ext_killed_cum,
+      injured:
+        ext_injured_cum +
+        getWestBankValue(
+          report_date,
+          ["verified", "injured_cum"],
+          "injured_cum"
+        ),
+      children:
+        ext_killed_children_cum +
+        getWestBankValue(
+          report_date,
+          ["verified", "killed_children_cum"],
+          "killed_children_cum"
+        ),
+      killed:
+        ext_killed_cum +
+        getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum"),
       women: ext_killed_women_cum,
       medical: ext_med_killed_cum,
       press: ext_press_killed_cum,
