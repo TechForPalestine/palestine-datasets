@@ -9,6 +9,7 @@ import { Button } from "../Button";
 import { useResourcePaths } from "@site/src/lib/resource-paths";
 import { ApiResource } from "../../../../types/api.types";
 import { trackClick } from "@site/src/lib/clicks";
+import { HalfRadialProgress, radialProgressCircum } from "./HalfRadialProgress";
 
 const numFmt = new Intl.NumberFormat();
 
@@ -78,65 +79,6 @@ const moveLine = (day: number) => {
 const sliderLabels = chartData.data.map(
   (dayData, i) => `${format(parseISO(dayData.date), "MMMM do")} (Day ${i + 1})`
 );
-
-const radialProgressWidth = 250;
-const radialProgressHeight = radialProgressWidth / 2;
-const radialProgressRadius = radialProgressWidth * (80 / 200);
-const radialProgressCircum = Math.PI * (radialProgressRadius * 2);
-
-const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
-  return (
-    <div
-      style={{
-        position: "relative",
-        display: "inline-block",
-        textAlign: "center",
-      }}
-    >
-      <div
-        style={{
-          transform: "scale(-1,-1)",
-          position: "relative",
-          display: "inline-block",
-        }}
-      >
-        <svg
-          width={radialProgressWidth}
-          height={radialProgressHeight}
-          viewBox={`0 0 ${radialProgressWidth} ${radialProgressHeight}`}
-        >
-          <circle
-            cx={radialProgressWidth / 2}
-            cy={radialProgressHeight}
-            r={radialProgressRadius}
-            stroke="var(--tfp-radial-progress-track)"
-            strokeWidth="15"
-            transform={`translate(0,-${radialProgressHeight})`}
-            fill="none"
-          />
-          <circle
-            cx={radialProgressWidth / 2}
-            cy={radialProgressHeight}
-            r={radialProgressRadius}
-            stroke="var(--tfp-radial-progress-fill)"
-            strokeWidth="15"
-            strokeLinecap="round"
-            strokeDasharray={radialProgressCircum}
-            strokeDashoffset={strokeOffset}
-            transform={`translate(0,-${radialProgressHeight})`}
-            fill="none"
-          />
-        </svg>
-      </div>
-      <div className={styles.chartRadialRateText}>
-        {rate ? `${rate}%` : "-"}
-      </div>
-      <div className={styles.chartRadialRateLabel}>
-        <span>{label}</span>
-      </div>
-    </div>
-  );
-};
 
 export const HomeDailyChart = () => {
   const tracked = useRef(false);
