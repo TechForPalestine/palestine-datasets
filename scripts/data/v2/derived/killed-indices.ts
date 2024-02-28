@@ -119,29 +119,6 @@ const generate = () => {
     names: indices.english,
   });
 
-  const urlFamily = (familyEn: string) =>
-    encodeURIComponent(familyEn.replace(/[^a-zA-Z]+/g, "-").toLowerCase());
-  const familyNameIndex = Object.keys(indices.families).reduce(
-    (acc, familyEn) => ({
-      ...acc,
-      [familyEn]: urlFamily(familyEn),
-    }),
-    {} as Record<string, string>
-  );
-  Object.keys(familyNameIndex).forEach((familyEn) => {
-    const uriName = familyNameIndex[familyEn];
-    if (!uriName || familyEn.includes("/") || familyEn.includes("?")) {
-      return;
-    }
-    writeOffManifestJson(
-      `${writePath}/family-${uriName}.json`,
-      indices.families[familyEn]
-    );
-  });
-  writeOffManifestJson(
-    `${writePath}/families.json`,
-    Object.values(familyNameIndex)
-  );
   writeOffManifestJson(
     `${writePath}/families-list.json`,
     Object.values(indices.families).filter(
