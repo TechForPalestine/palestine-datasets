@@ -2,6 +2,7 @@ import type { PreviewDataV2 } from "../../../types/summary.types";
 import type { CasualtyDailyReportV2 } from "../../../types/casualties-daily.types";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
+import { execSync } from "child_process";
 
 /**
  * script loads just what's required to provide a summary of the datasets
@@ -32,8 +33,5 @@ const previewData: PreviewDataV2 = {
   lastDailyUpdate: lastDailyReport.report_date,
 };
 
-writeJson(
-  ApiResource.SummaryV2,
-  "site/src/generated/summary.json",
-  previewData
-);
+execSync("mkdir -p old/v2");
+writeJson(ApiResource.SummaryV2, "old/v2/summary.json", previewData);

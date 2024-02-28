@@ -40,3 +40,50 @@ export type PreviewDataV2 = {
     total: number;
   };
 };
+
+export type PreviewDataV3 = {
+  gaza: {
+    reports: number;
+    last_update: string;
+    massacres: number;
+    killed: {
+      total: number;
+      children: number;
+      civil_defence: number;
+      women: number;
+      press: number;
+      medical: number;
+    };
+    injured: {
+      total: number;
+    };
+  };
+  west_bank: {
+    reports: number;
+    last_update: string;
+    killed: {
+      total: number;
+      children: number;
+    };
+    injured: {
+      total: number;
+      children: number;
+    };
+    settler_attacks: number;
+  };
+  known_killed_in_gaza: {
+    records: number;
+    male: {
+      senior: number;
+      adult: number;
+      child: number;
+      no_age: number;
+    };
+    female: {
+      senior: number;
+      adult: number;
+      child: number;
+      no_age: number;
+    };
+  };
+};

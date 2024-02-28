@@ -16,8 +16,8 @@ const sidebars: SidebarsConfig = {
       type: "category",
       label: "Datasets",
       link: {
-        type: "generated-index",
-        title: "Datasets",
+        type: "doc",
+        id: "datasets",
       },
       items: [
         {
@@ -26,8 +26,9 @@ const sidebars: SidebarsConfig = {
           link: { type: "doc", id: "killed-in-gaza" },
           items: ["killed-in-gaza-indexes", "killed-in-gaza-person"],
         },
-        "casualties-daily",
         "summary",
+        "casualties-daily",
+        "casualties-daily-west-bank",
       ],
     },
 

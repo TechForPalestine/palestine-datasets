@@ -8,8 +8,7 @@ const repoUrl = "https://github.com/TechForPalestine/palestine-datasets";
 
 const config: Config = {
   title: siteTitle,
-  tagline:
-    "The human toll of Israel's ongoing genocide in Gaza in names & numbers",
+  tagline: "Telling their stories through names and numbers",
   favicon: "img/favicon.svg",
 
   url: "https://data.techforpalestine.org",
@@ -71,7 +70,7 @@ const config: Config = {
       },
       items: [
         {
-          to: "docs/category/datasets/",
+          to: "docs/datasets/",
           label: "Datasets",
         },
         {
@@ -95,12 +94,13 @@ const config: Config = {
     },
     footer: {
       style: "dark",
-      links: [
-        {
-          label: "Tech For Palestine",
-          href: "https://techforpalestine.org/",
-        },
-      ],
+      logo: {
+        alt: "Tech For Palestine Logo",
+        src: "img/logo.svg",
+        href: "https://techforpalestine.org",
+        width: 80,
+        height: 65,
+      },
       copyright: `An open source initiative of the Tech For Palestine collective`,
     },
     prism: {

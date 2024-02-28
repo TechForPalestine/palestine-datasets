@@ -17,12 +17,12 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
-:root footer {
+footer.footer {
   background-color: #eee;
   color: #111;
 }
 
-:root footer a {
+footer.footer a {
   color: var(--ifm-color-primary-darkest);
   font-weight: 600;
 }

@@ -7,16 +7,17 @@
     "site"
   ],
   "scripts": {
-    "gen-daily-v1": "bun run scripts/data/v1/casualties-daily.ts",
-    "gen-daily-v2": "bun run scripts/data/v2/casualties-daily.ts",
-    "gen-daily": "bun run gen-daily-v2 && bun run gen-daily-v1",
-    "gen-killed-v1": "bun run scripts/data/v1/martyrs.ts",
+    "gen-daily-v2": "bun run scripts/data/v2/gaza-daily.ts",
+    "gen-daily": "bun run gen-daily-v2 && bun run gen-wbdaily",
+    "gen-wbdaily": "bun run scripts/data/v2/west-bank-daily.ts",
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
-    "gen-killed-derived": "bun run scripts/data/v2/derived/killed-indices.ts",
+    "gen-killed-derived": "bun run scripts/data/v2/derived/killed-names.ts && bun run scripts/data/v2/derived/killed-indices.ts ",
     "gen-derived": "bun run gen-summaries && bun run gen-csv && bun run gen-killed-derived",
-    "gen-summaries": "bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
+    "gen-summaries": "bun run scripts/data/v3/summary.ts && bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts",
-    "gen-all": "bun run gen-daily && bun run gen-daily-v1 && bun run gen-killed && bun run gen-killed-v1 && bun run gen-derived",
+    "gen-all": "bun run gen-daily && bun run gen-killed && bun run gen-derived",
+    "chart-viz": "bun run site/src/components/HomeDailyChart/generator/chart-generator.ts",
+    "chart-viz-dev": "bun --watch site/src/components/HomeDailyChart/generator/chart-generator.ts",
     "flightcheck": "bun run types && bun run reset-manifest && bun run gen-all && bun run docs-build && bun run docs-serve",
     "docs-start": "cd site && bun run start",
     "docs-build": "./scripts/build/pre-build.sh && cd site && bun run build && cd .. && ./scripts/build/pre-deploy.sh",
@@ -33,11 +34,16 @@
     "@types/node": "^20.11.0"
   },
   "dependencies": {
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@svgr/plugin-prettier": "^8.1.0",
     "arabic-name-to-en": "^1.0.6",
     "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
     "date-fns": "^3.3.1",
+    "html-to-image": "^1.11.11",
     "lodash": "^4.17.21",
+    "point-at-length": "^1.1.0",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
   }
 }

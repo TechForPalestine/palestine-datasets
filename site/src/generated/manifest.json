@@ -16,18 +16,6 @@
       "apiPath": "api/v2"
     }
   },
-  "CasualtiesDaily_V1": {
-    "minified": {
-      "file": "old/casualties_daily.min.json",
-      "name": "casualties_daily.min.json",
-      "apiPath": "api/v1"
-    },
-    "unminified": {
-      "file": "old/casualties_daily.json",
-      "name": "casualties_daily.json",
-      "apiPath": "api/v1"
-    }
-  },
   "KilledInGaza_V2": {
     "minified": {
       "file": "killed-in-gaza.min.json",
@@ -45,26 +33,14 @@
       "apiPath": "api/v2"
     }
   },
-  "KilledInGaza_V1": {
-    "minified": {
-      "file": "old/martyrs.min.json",
-      "name": "martyrs.min.json",
-      "apiPath": "api/v1"
-    },
-    "unminified": {
-      "file": "old/martyrs.json",
-      "name": "martyrs.json",
-      "apiPath": "api/v1"
-    }
-  },
   "Summary_V2": {
     "minified": {
-      "file": "site/src/generated/summary.min.json",
+      "file": "old/v2/summary.min.json",
       "name": "summary.min.json",
       "apiPath": "api/v2"
     },
     "unminified": {
-      "file": "site/src/generated/summary.json",
+      "file": "old/v2/summary.json",
       "name": "summary.json",
       "apiPath": "api/v2"
     }
@@ -81,10 +57,39 @@
       "apiPath": "api/v1"
     }
   },
+  "WestBankDaily_V2": {
+    "minified": {
+      "file": "west_bank_daily.min.json",
+      "name": "west_bank_daily.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "west_bank_daily.json",
+      "name": "west_bank_daily.json",
+      "apiPath": "api/v2"
+    },
+    "csv": {
+      "file": "site/src/generated/west_bank_daily.csv",
+      "name": "west_bank_daily.csv",
+      "apiPath": "api/v2"
+    }
+  },
   "KilledInGazaDerived_V2": {
     "raw": {
       "folder": "site/src/generated/killed-in-gaza",
       "apiPath": "api/v2"
+    }
+  },
+  "Summary_V3": {
+    "minified": {
+      "file": "site/src/generated/summary.min.json",
+      "name": "summary.min.json",
+      "apiPath": "api/v3"
+    },
+    "unminified": {
+      "file": "site/src/generated/summary.json",
+      "name": "summary.json",
+      "apiPath": "api/v3"
     }
   }
 }

@@ -4,6 +4,7 @@ import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 
 const killedPersons = require("../../../../killed-in-gaza.json");
 const dailies = require("../../../../casualties_daily.json");
+const wbDailies = require("../../../../west_bank_daily.json");
 
 const writePath = "site/src/generated";
 
@@ -37,4 +38,40 @@ writeManifestCsv(
   ApiResource.CasualtiesDailyV2,
   `${writePath}/casualties_daily.csv`,
   dailyRows
+);
+
+const wbDailyRowOrder = Object.keys(wbDailies[0]).reduce(
+  (headerCols, header) => {
+    if (header === "verified") {
+      return headerCols.concat(
+        Object.keys(wbDailies[0].verified).map((key) => `verified.${key}`)
+      );
+    }
+    return headerCols.concat(header);
+  },
+  [] as string[]
+);
+const wbDailyRows = wbDailies.reduce(
+  (
+    rows: string[][],
+    record: Record<string, string> & { verified: Record<string, string> }
+  ) => {
+    return rows.concat([
+      wbDailyRowOrder.map((key) => {
+        if (key.startsWith("verified.")) {
+          if (!record.verified) {
+            return "";
+          }
+          return record.verified[key.replace("verified.", "")];
+        }
+        return record[key];
+      }),
+    ]);
+  },
+  [wbDailyRowOrder.slice()] as string[][]
+);
+writeManifestCsv(
+  ApiResource.WestBankDailyV2,
+  `${writePath}/west_bank_daily.csv`,
+  wbDailyRows
 );
