@@ -38,55 +38,73 @@ const generate = () => {
   const page: KilledInGaza[] = [];
   let pageCount = 1;
 
-  const indices = killedPersons.reduce(
-    (acc, record, i) => {
-      const lastRecord = i >= killedPersons.length - 1;
+  const indicesInit = {
+    english: {} as Record<string, string>,
+    arabic: {} as Record<string, string>,
+    families: {} as Record<
+      string,
+      { family_en: string; family_ar: string; members: KilledInGaza[] }
+    >,
+  };
 
-      // arabic name indexing
-      const arParts = record.name.split(" ").map(partMapper(arPartMap));
-      const arIdxName = arParts.join(" ");
-      const existingAr = acc.arabic[arIdxName];
+  const indices = killedPersons.reduce((acc, record, i): typeof indicesInit => {
+    const lastRecord = i >= killedPersons.length - 1;
 
-      // english name indexing
-      const enParts = record.en_name.split(" ").map(partMapper(enPartMap));
-      const enIdxName = enParts.join(" ");
-      const existingEn = acc.english[enIdxName];
+    // arabic name indexing
+    const arParts = record.name.split(" ");
+    const arIdxName = arParts.join(" ");
+    const existingAr = acc.arabic[arIdxName];
 
-      page.push(record);
-      if (page.length >= pagedResourceLimit || lastRecord) {
-        writeOffManifestJson(`${writePath}/page-${pageCount}.json`, page);
-        if (!lastRecord) {
-          pageCount += 1;
-          page.length = 0; // empty array for next page
-        }
+    // english name indexing
+    const enParts = record.en_name.split(" ");
+    const enIdxName = enParts.map(partMapper(enPartMap)).join(" ");
+    const existingEn = acc.english[enIdxName];
+
+    const enFamilyName = enParts.slice(1).join(" ").trim();
+    const arFamilyName = arParts.slice(1).join(" ").trim();
+    const familyGroup = acc.families[enFamilyName] ?? {
+      family_en: enFamilyName,
+      family_ar: arFamilyName,
+      members: [] as KilledInGaza[],
+    };
+
+    page.push(record);
+    if (page.length >= pagedResourceLimit || lastRecord) {
+      writeOffManifestJson(`${writePath}/page-${pageCount}.json`, page);
+      if (!lastRecord) {
+        pageCount += 1;
+        page.length = 0; // empty array for next page
       }
-
-      // individual record resource writing
-      if (validRecordIdForFileName(record.id)) {
-        writeOffManifestJson(`${writePath}/${record.id}.json`, record);
-      } else {
-        console.warn(
-          `invalid record ID for file name (skipped write): ${record.id}`
-        );
-      }
-
-      return {
-        ...acc,
-        english: {
-          ...acc.english,
-          [enIdxName]: existingEn ? `${existingEn},${record.id}` : record.id,
-        },
-        arabic: {
-          ...acc.arabic,
-          [arIdxName]: existingAr ? `${existingAr},${record.id}` : record.id,
-        },
-      };
-    },
-    {
-      english: {} as Record<string, string>,
-      arabic: {} as Record<string, string>,
     }
-  );
+
+    // individual record resource writing
+    if (validRecordIdForFileName(record.id)) {
+      writeOffManifestJson(`${writePath}/${record.id}.json`, record);
+    } else {
+      console.warn(
+        `invalid record ID for file name (skipped write): ${record.id}`
+      );
+    }
+
+    return {
+      ...acc,
+      english: {
+        ...acc.english,
+        [enIdxName]: existingEn ? `${existingEn},${record.id}` : record.id,
+      },
+      arabic: {
+        ...acc.arabic,
+        [arIdxName]: existingAr ? `${existingAr},${record.id}` : record.id,
+      },
+      families: {
+        ...acc.families,
+        [enFamilyName]: {
+          ...familyGroup,
+          members: familyGroup.members.concat(record),
+        },
+      },
+    };
+  }, indicesInit);
 
   writeOffManifestJson(`${writePath}/page-info.json`, {
     pageSize: pagedResourceLimit,
@@ -100,6 +118,36 @@ const generate = () => {
     index: Array.from(enPartMap.keys()),
     names: indices.english,
   });
+
+  const urlFamily = (familyEn: string) =>
+    encodeURIComponent(familyEn.replace(/[^a-zA-Z]+/g, "-").toLowerCase());
+  const familyNameIndex = Object.keys(indices.families).reduce(
+    (acc, familyEn) => ({
+      ...acc,
+      [familyEn]: urlFamily(familyEn),
+    }),
+    {} as Record<string, string>
+  );
+  Object.keys(familyNameIndex).forEach((familyEn) => {
+    const uriName = familyNameIndex[familyEn];
+    if (!uriName || familyEn.includes("/") || familyEn.includes("?")) {
+      return;
+    }
+    writeOffManifestJson(
+      `${writePath}/family-${uriName}.json`,
+      indices.families[familyEn]
+    );
+  });
+  writeOffManifestJson(
+    `${writePath}/families.json`,
+    Object.values(familyNameIndex)
+  );
+  writeOffManifestJson(
+    `${writePath}/families-list.json`,
+    Object.values(indices.families).filter(
+      (family) => family.members.length > 1
+    )
+  );
 
   addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
 };
