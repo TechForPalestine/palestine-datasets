@@ -20,12 +20,7 @@ const sidebars: SidebarsConfig = {
         id: "datasets",
       },
       items: [
-        {
-          type: "category",
-          label: "Killed in Gaza",
-          link: { type: "doc", id: "killed-in-gaza" },
-          items: ["killed-in-gaza-indexes", "killed-in-gaza-person"],
-        },
+        "killed-in-gaza",
         "summary",
         "casualties-daily",
         "casualties-daily-west-bank",

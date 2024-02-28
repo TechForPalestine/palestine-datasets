@@ -25,7 +25,6 @@ Currently this includes:
 
 - Summary of latest values from daily or aggregate numbers from Source Datasets
 - CSV formats for the two main datasets, above
-- Search indexes for the names in our Killed in Gaza dataset and individual API endpoints for each person
 
 ## Workflow
 

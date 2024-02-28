@@ -121,15 +121,6 @@ export const KilledPersonSearchResult = () => {
                       )}
                       <div className={styles.personCardLinkFooter}>
                         <a
-                          href={`/api/v2/killed-in-gaza/${person.id}.json`}
-                          target="_blank"
-                        >
-                          API Endpoint <ExternalWindowIcon />
-                        </a>
-                        <span
-                          style={{ width: "20px", display: "inline-block" }}
-                        />
-                        <a
                           href={correctionFormLink({
                             recordId: person.id,
                             arabicName: person.name,
