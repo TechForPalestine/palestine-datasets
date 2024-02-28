@@ -41,9 +41,3 @@ export const writeManifestCsv = (
   fs.writeFileSync(filePath, csvString);
   addToManifest(resource, { csv: filePath });
 };
-
-export const writeOffManifestCsv = (filePath: string, rows: any[]) => {
-  const fs = require("fs");
-  const csvString = rows.join("\n");
-  fs.writeFileSync(filePath, csvString);
-};
