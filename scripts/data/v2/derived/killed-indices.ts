@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
 import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
-import { writeOffManifestCsv, writeOffManifestJson } from "../../../utils/fs";
+import { writeOffManifestJson } from "../../../utils/fs";
 import { addFolderToManifest } from "../../../utils/manifest";
 import { ApiResource } from "../../../../types/api.types";
 import {
@@ -11,32 +11,6 @@ import {
 
 const sourceFileForDerived = "killed-in-gaza.min.json";
 const pagedResourceLimit = 100;
-
-const familyEntry = (
-  record: KilledInGaza,
-  nameParts: string[]
-): [string, string] => {
-  const [firstName] = nameParts;
-  let age: number | string = record.age;
-  if (age === -1) {
-    age = "?";
-  }
-  if (age === 0) {
-    age = "<1";
-  }
-  return [record.id, `${firstName} (${age})`];
-};
-
-const appendEntry = (
-  existingEntries: [string, string, number],
-  entry: [string, string]
-): [string, string, number] => {
-  return [
-    `${existingEntries[0]} & ${entry[0]}`,
-    `${existingEntries[1]} & ${entry[1]}`,
-    existingEntries[2] + 1,
-  ];
-};
 
 const generate = () => {
   const killedPersons: KilledInGaza[] = require(`../../../../${sourceFileForDerived}`);
@@ -67,8 +41,10 @@ const generate = () => {
   const indicesInit = {
     english: {} as Record<string, string>,
     arabic: {} as Record<string, string>,
-    familiesEnglish: {} as Record<string, [string, string, number]>,
-    familiesArabic: {} as Record<string, [string, string, number]>,
+    families: {} as Record<
+      string,
+      { family_en: string; family_ar: string; members: KilledInGaza[] }
+    >,
   };
 
   const indices = killedPersons.reduce((acc, record, i): typeof indicesInit => {
@@ -84,15 +60,13 @@ const generate = () => {
     const enIdxName = enParts.map(partMapper(enPartMap)).join(" ");
     const existingEn = acc.english[enIdxName];
 
-    // english family lookup
-    const enFamilyName = enParts.slice(1).join(" ");
-    const existingEnFamily = acc.familiesEnglish[enFamilyName];
-    const enFamilyEntry = familyEntry(record, enParts);
-
-    // arabic family lookup
-    const arFamilyName = arParts.slice(1).join(" ");
-    const existingArFamily = acc.familiesArabic[arFamilyName];
-    const arFamilyEntry = familyEntry(record, arParts);
+    const enFamilyName = enParts.slice(1).join(" ").trim();
+    const arFamilyName = arParts.slice(1).join(" ").trim();
+    const familyGroup = acc.families[enFamilyName] ?? {
+      family_en: enFamilyName,
+      family_ar: arFamilyName,
+      members: [] as KilledInGaza[],
+    };
 
     page.push(record);
     if (page.length >= pagedResourceLimit || lastRecord) {
@@ -122,17 +96,12 @@ const generate = () => {
         ...acc.arabic,
         [arIdxName]: existingAr ? `${existingAr},${record.id}` : record.id,
       },
-      familiesEnglish: {
-        ...acc.familiesEnglish,
-        [enFamilyName]: existingEnFamily
-          ? appendEntry(existingEnFamily, enFamilyEntry)
-          : [...enFamilyEntry, 1],
-      },
-      familiesArabic: {
-        ...acc.familiesArabic,
-        [arFamilyName]: existingArFamily
-          ? appendEntry(existingArFamily, arFamilyEntry)
-          : [...arFamilyEntry, 1],
+      families: {
+        ...acc.families,
+        [enFamilyName]: {
+          ...familyGroup,
+          members: familyGroup.members.concat(record),
+        },
       },
     };
   }, indicesInit);
@@ -150,32 +119,34 @@ const generate = () => {
     names: indices.english,
   });
 
-  const familyCsvHeader = [
-    "family name",
-    "names and ages",
-    "record IDs",
-    "members",
-  ].join(",");
-  const familyCsv = (lookup: Record<string, [string, string, number]>) => {
-    return [familyCsvHeader].concat(
-      Object.entries(lookup)
-        .filter(
-          ([familyName]) =>
-            !!familyName.trim() && familyName.includes("?") === false
-        )
-        .sort((a, b) => b[1][2] - a[1][2])
-        .map(([familyName, [recordIds, namesAndAges, count]]) =>
-          [familyName, namesAndAges, recordIds, count].join(",")
-        )
-    );
-  };
-  writeOffManifestCsv(
-    `${writePath}/_families-en.csv`,
-    familyCsv(indices.familiesEnglish)
+  const urlFamily = (familyEn: string) =>
+    encodeURIComponent(familyEn.replace(/[^a-zA-Z]+/g, "-").toLowerCase());
+  const familyNameIndex = Object.keys(indices.families).reduce(
+    (acc, familyEn) => ({
+      ...acc,
+      [familyEn]: urlFamily(familyEn),
+    }),
+    {} as Record<string, string>
   );
-  writeOffManifestCsv(
-    `${writePath}/_families-ar.csv`,
-    familyCsv(indices.familiesArabic)
+  Object.keys(familyNameIndex).forEach((familyEn) => {
+    const uriName = familyNameIndex[familyEn];
+    if (!uriName || familyEn.includes("/") || familyEn.includes("?")) {
+      return;
+    }
+    writeOffManifestJson(
+      `${writePath}/family-${uriName}.json`,
+      indices.families[familyEn]
+    );
+  });
+  writeOffManifestJson(
+    `${writePath}/families.json`,
+    Object.values(familyNameIndex)
+  );
+  writeOffManifestJson(
+    `${writePath}/families-list.json`,
+    Object.values(indices.families).filter(
+      (family) => family.members.length > 1
+    )
   );
 
   addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
