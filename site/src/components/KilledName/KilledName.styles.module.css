@@ -120,7 +120,8 @@
   color: var(--tfp-card-explanation);
   font-size: 0.8em;
   text-align: center;
-  max-width: 60%;
+  max-width: 800px;
+  padding: 0 40px;
   margin: 25px auto;
 }
 
