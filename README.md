@@ -4,10 +4,11 @@
 
 [data.techforpalestine.org](https://data.techforpalestine.org)
 
-This repo provides an open source dataset intended to show the human toll of Israel's war on Gaza. This is not limited to Gaza and may include the West Bank. There are two primary datasets:
+This repo provides an open source dataset intended to show the human toll of Israel's hostilities across Palestine since Oct 7, 2023. There are three primary datasets:
 
 - `killed-in-gaza.json` has a list of known fatalities in Gaza with their name, age, sex
-- `casualties_daily.json` has daily reports of aggregate killed & injury counts from October 7th to the latest reported day
+- `casualties_daily.json` has daily reports of aggregate killed & injury counts for Gaza
+- `west_bank_daily.json` has daily reports of aggregate killed & injured counts for West Bank along with number of settler attacks
 
 There's also the source for the static documentation website under `site/`.
 
@@ -29,9 +30,7 @@ Prerequisites:
 
 ### Documentation Site
 
-To run the site locally use `bun run docs-start`
-
-To run the site locally in Arabic use `bun run docs-start --locale ar`
+To run the site locally use `bun docs-start`
 
 ### Discussion / Planning
 
