@@ -52,7 +52,7 @@ const generate = () => {
 
     // arabic name indexing
     const arParts = record.name.split(" ");
-    const arIdxName = arParts.join(" ");
+    const arIdxName = arParts.map(partMapper(arPartMap)).join(" ");
     const existingAr = acc.arabic[arIdxName];
 
     // english name indexing
