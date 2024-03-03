@@ -121,9 +121,7 @@ const generate = () => {
 
   writeOffManifestJson(
     `${writePath}/families-list.json`,
-    Object.values(indices.families).filter(
-      (family) => family.members.length > 1
-    )
+    Object.values(indices.families)
   );
 
   addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
