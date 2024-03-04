@@ -2204,5 +2204,29 @@
     "injured_cum": 4611,
     "injured_children_cum": 709,
     "settler_attacks_cum": 603
+  },
+  {
+    "report_date": "2024-03-02",
+    "killed_cum": 411,
+    "killed_children_cum": 105,
+    "injured_cum": 4612,
+    "injured_children_cum": 710,
+    "settler_attacks_cum": 603
+  },
+  {
+    "report_date": "2024-03-03",
+    "killed_cum": 411,
+    "killed_children_cum": 105,
+    "injured_cum": 4612,
+    "injured_children_cum": 710,
+    "settler_attacks_cum": 603
+  },
+  {
+    "report_date": "2024-03-04",
+    "killed_cum": 412,
+    "killed_children_cum": 106,
+    "injured_cum": 4623,
+    "injured_children_cum": 710,
+    "settler_attacks_cum": 607
   }
 ]
