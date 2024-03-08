@@ -58,4 +58,4 @@ If the issue is with one of our source datasets and it's a specific change to a 
 
 ### All other ideas / suggestions / issues
 
-Best to open an issue in this repo with your suggestion or question, or chat with us in the [Discord channel](https://discord.com/channels/1186702814341234740/1193636245784494222) so that we can align with you or advise on next steps.
+Best to open an issue in this repo with your suggestion or question, or chat with us in the [Discord channel](https://discord.com/channels/1186702814341234740/1194895627298025473) so that we can align with you or advise on next steps.
