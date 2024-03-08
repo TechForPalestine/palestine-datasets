@@ -3032,5 +3032,23 @@
     "ext_civdef_killed_cum": 48,
     "ext_med_killed_cum": 364,
     "ext_press_killed_cum": 133
+  },
+  {
+    "report_date": "2024-03-08",
+    "report_source": "mohtel",
+    "ext_massacres_cum": 2711,
+    "killed": 78,
+    "killed_cum": 30878,
+    "ext_killed": 78,
+    "ext_killed_cum": 30878,
+    "ext_killed_children_cum": 13430,
+    "ext_killed_women_cum": 8900,
+    "injured": 104,
+    "injured_cum": 72402,
+    "ext_injured": 104,
+    "ext_injured_cum": 72402,
+    "ext_civdef_killed_cum": 48,
+    "ext_med_killed_cum": 364,
+    "ext_press_killed_cum": 133
   }
 ]
