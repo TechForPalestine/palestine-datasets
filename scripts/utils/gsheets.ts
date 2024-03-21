@@ -1,6 +1,7 @@
 export enum SheetTab {
   CasualtiesDaily = "casualties_daily",
   WestBankDaily = "westbank",
+  InfrastructureDamaged = "infrastructure"
 }
 
 type GSheetsResponse = {
