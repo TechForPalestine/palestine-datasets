@@ -2364,5 +2364,13 @@
     "injured_cum": 4690,
     "injured_children_cum": 725,
     "settler_attacks_cum": 660
+  },
+  {
+    "report_date": "2024-03-22",
+    "killed_cum": 434,
+    "killed_children_cum": 107,
+    "injured_cum": 5000,
+    "injured_children_cum": 725,
+    "settler_attacks_cum": 660
   }
 ]
