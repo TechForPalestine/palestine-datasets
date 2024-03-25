@@ -23,6 +23,7 @@ const columnFilter = new Set([
   "killed_children_cum",
   "injured_children_cum",
   "settler_attacks_cum",
+  "flash_source",
 ]);
 
 const generateJsonFromGSheet = async () => {

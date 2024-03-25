@@ -28,22 +28,23 @@ Each daily report in this JSON array will have the following fields for the West
 
 (optional fields will be omitted from the JSON if there is no value reported)
 
-| field name                    | value                                                                                    | optional |
-| ----------------------------- | ---------------------------------------------------------------------------------------- | -------- |
-| report_date                   | date in YYYY-MM-DD                                                                       | no       |
-| verified.killed               | killed persons on the given report date                                                  | yes      |
-| verified.killed_cum           | cumulative number of confirmed killed persons to the report date                         | yes      |
-| verified.injured              | injured persons on the given report date                                                 | yes      |
-| verified.injured_cum          | cumulative number of injured persons to the report date                                  | yes      |
-| verified.killed_children      | number of children killed on the given report date                                       | yes      |
-| verified.killed_children_cum  | cumulative number of children killed to the report date                                  | yes      |
-| verified.injured_children     | number of children killed on the given report date                                       | yes      |
-| verified.injured_children_cum | cumulative number of children injured to the report date                                 | yes      |
-| killed_cum                    | same as `verified.killed_cum` but yet to be independently verified (see below)           | no       |
-| killed_children_cum           | same as `verified.killed_children_cum` but yet to be independently verified (see below)  | no       |
-| injured_cum                   | same as `verified.injured_cum` but yet to be independently verified (see below)          | no       |
-| injured_children_cum          | same as `verified.injured_children_cum` but yet to be independently verified (see below) | no       |
-| settler_attacks_cum           | cumulative number of attacks by settlers on civilians to the report date                 | no       |
+| field name                    | value                                                                                      | optional |
+| ----------------------------- | ------------------------------------------------------------------------------------------ | -------- |
+| report_date                   | date in YYYY-MM-DD                                                                         | no       |
+| verified.killed               | killed persons on the given report date                                                    | yes      |
+| verified.killed_cum           | cumulative number of confirmed killed persons to the report date                           | yes      |
+| verified.injured              | injured persons on the given report date                                                   | yes      |
+| verified.injured_cum          | cumulative number of injured persons to the report date                                    | yes      |
+| verified.killed_children      | number of children killed on the given report date                                         | yes      |
+| verified.killed_children_cum  | cumulative number of children killed to the report date                                    | yes      |
+| verified.injured_children     | number of children killed on the given report date                                         | yes      |
+| verified.injured_children_cum | cumulative number of children injured to the report date                                   | yes      |
+| killed_cum                    | same as `verified.killed_cum` but yet to be independently verified (see below)             | no       |
+| killed_children_cum           | same as `verified.killed_children_cum` but yet to be independently verified (see below)    | no       |
+| injured_cum                   | same as `verified.injured_cum` but yet to be independently verified (see below)            | no       |
+| injured_children_cum          | same as `verified.injured_children_cum` but yet to be independently verified (see below)   | no       |
+| settler_attacks_cum           | cumulative number of attacks by settlers on civilians to the report date                   | no       |
+| flash_source                  | either `un` or `fill`, see [March 25 update](/updates/west-bank-frequency) for more detail | no       |
 
 ## Daily Sources
 
@@ -55,3 +56,5 @@ There are two types source material they provide that we use to build the time s
 - `flash-updates` - These are incidents reported to the UN, but [not yet verified](https://www.ochaopt.org/crisis) and they are the source of those root level values in the above report object.
 
 Verified values will lag the ones that come from Flash Updates, so the field will be missing (optional) on more recent report dates, but generally continuous going back through older report dates once populated values are encountered.
+
+Flash Updates occasionally miss days and [as of March 25](/updates/west-bank-frequency) are only available for the West Bank on a weekly basis.

@@ -7,7 +7,7 @@ const formatValue = (colValue: string) => {
   return undefined;
 };
 
-const rawValueFields = ["report_date", "report_source"];
+const rawValueFields = ["report_date", "report_source", "flash_source"];
 const addRecordField = (
   fieldKey: string,
   fieldValue: string,
