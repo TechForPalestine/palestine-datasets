@@ -91,5 +91,17 @@
       "name": "summary.json",
       "apiPath": "api/v3"
     }
+  },
+  "InfrastructureDamaged_V3": {
+    "minified": {
+      "file": "infrastructure-damaged.min.json",
+      "name": "infrastructure-damaged.min.json",
+      "apiPath": "api/v3"
+    },
+    "unminified": {
+      "file": "infrastructure-damaged.json",
+      "name": "infrastructure-damaged.json",
+      "apiPath": "api/v3"
+    }
   }
 }
