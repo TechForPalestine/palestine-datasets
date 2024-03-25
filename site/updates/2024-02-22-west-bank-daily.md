@@ -2,7 +2,7 @@
 title: West Bank Daily & V3 Summary
 description: We've added a new dataset covering the West Bank
 slug: west-bank-daily
-tags: [daily-casualties, summary]
+tags: [daily-casualties, summary, west-bank]
 ---
 
 In a continuing effort to provide data that can be used to tell the Palestinian story since October 7th, we're adding a [new Daily Casualties dataset for the West Bank](/docs/casualties-daily-west-bank). This dataset aims to complement our existing [time series for Gaza](/docs/casualties-daily) so that they can be combined as needed.

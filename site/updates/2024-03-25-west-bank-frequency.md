@@ -7,7 +7,7 @@ tags: [daily-casualties, west-bank]
 
 The United Nations Office for the Coordination of Humanitarian Affairs (UN OCHA) announced today in their regular [Flash Update](https://www.ochaopt.org/content/hostilities-gaza-strip-and-israel-flash-update-146) that their reporting frequency would be changing from the cadence we've grown used to.
 
-For the West Bank in particular, for which our dataset is affected, Flash Reports will only be issued on a weekly basis and the wider report on the region will be issued at most three times a week.
+For the West Bank in particular, for which [our dataset](/docs/casualties-daily-west-bank) is affected, Flash Reports will only be issued on a weekly basis and the wider report on the region will be issued at most three times a week.
 
 Going forward we will continue to update our daily datasets for Gaza and the West Bank at the same time, but we've now introduced a new field to the West Bank daily casualties dataset called `flash_source`. This field will be one of the following values:
 
