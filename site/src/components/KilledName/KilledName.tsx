@@ -187,7 +187,7 @@ export const KilledName = () => {
         />
       </div>
       <div className={styles.buttonRow}>
-        <Button inline type="secondary" to="/docs/killed-in-gaza">
+        <Button inline type="secondary" to="/docs/summary">
           Learn more about this dataset
         </Button>
         <div style={{ width: 10, height: 10 }} />
