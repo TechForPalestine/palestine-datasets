@@ -17,6 +17,7 @@ type SlimData = {
   killed: CasualtyDailyReportV2["ext_killed_cum"];
   medical: CasualtyDailyReportV2["ext_med_killed_cum"];
   press: CasualtyDailyReportV2["ext_press_killed_cum"];
+  settlerActs: number;
 };
 
 type MappedData = {
@@ -96,6 +97,7 @@ const data = gazaDailyTimeSeries.reduce(
       women: ext_killed_women_cum,
       medical: ext_med_killed_cum,
       press: ext_press_killed_cum,
+      settlerActs: westBankLookup[report_date].settler_attacks_cum,
     }),
     chart: acc.chart.concat({
       date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
@@ -351,6 +353,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       dayPoints,
       eventDotRadius,
     };
+    // mobile is the last one to render so it renders the data json which backs both
     fs.writeFileSync(
       `site/src/generated/daily-chart.json`,
       JSON.stringify(json)

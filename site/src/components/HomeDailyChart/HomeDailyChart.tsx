@@ -142,6 +142,12 @@ export const HomeDailyChart = () => {
             <span>killed</span>
           </div>
         )}
+        <br />
+        {!!dayData.settlerActs && (
+          <div className={styles.chartBreakdownTag}>
+            {numFmt.format(dayData.settlerActs)} settler <span>attacks</span>
+          </div>
+        )}
       </div>
       <div className={styles.homeChartDesktop}>
         <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />
