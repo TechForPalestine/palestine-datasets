@@ -6,3 +6,4 @@ bun run chart-viz
 bun run gen-summaries
 bun run gen-csv
 bun run download-killed-derived
+bun run gen-killed-child-names
