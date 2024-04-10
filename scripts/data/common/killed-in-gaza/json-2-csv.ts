@@ -89,7 +89,7 @@ const parseDob = (dob: string, age: string) => {
 };
 
 const fixRow = (row: string[]) => {
-  const name = row[nameIdx];
+  let name = row[nameIdx];
   const sex = row[sexIdx];
   let dob = row[dobIdx];
   const age = row[ageIdx];
@@ -108,7 +108,7 @@ const fixRow = (row: string[]) => {
   const identJustNumbers = ident.replace(/[^0-9-]+/g, "");
   if (ident.length - identJustNumbers.length > 10) {
     const nonNumbers = ident.replace(identJustNumbers, "");
-    row[nameIdx] = name ? appendName(name, nonNumbers) : nonNumbers;
+    name = row[nameIdx] = name ? appendName(name, nonNumbers) : nonNumbers;
     row[identIdx] = `"${identJustNumbers}"`;
     cleanedRows.identWithNonNumbers.add(idx);
   } else if (ident.length - identJustNumbers.length > 2) {
@@ -131,19 +131,19 @@ const fixRow = (row: string[]) => {
       console.log("oop");
     }
     if (sex.endsWith('ذكر"')) {
-      row[nameIdx] = sex.replace("ذكر", "");
+      name = row[nameIdx] = sex.replace("ذكر", "");
       row[sexIdx] = '"M"';
       cleanedRows.sexWithMaleName.add(idx);
     }
 
     if (sex.endsWith('أنثى"')) {
-      row[nameIdx] = sex.replace("أنثى", "");
+      name = row[nameIdx] = sex.replace("أنثى", "");
       row[sexIdx] = '"F"';
       cleanedRows.sexWithFemaleName.add(idx);
     }
 
     if (sex.endsWith('ىانث"')) {
-      row[nameIdx] = sex.replace("ىانث", "");
+      name = row[nameIdx] = sex.replace("ىانث", "");
       row[sexIdx] = '"F"';
       cleanedRows.sexWithAnthName.add(idx);
     }
@@ -160,7 +160,7 @@ const fixRow = (row: string[]) => {
     if (match) {
       const withoutDob = row[dobIdx].replace(match[0], "");
       dob = row[dobIdx] = '"' + match[0] + '"';
-      row[nameIdx] = appendName(name, withoutDob);
+      name = row[nameIdx] = appendName(name, withoutDob);
       cleanedRows.longDob.add(idx);
     }
   }
@@ -183,7 +183,7 @@ const fixRow = (row: string[]) => {
   }
 
   if (rawAge && name.includes(rawAge)) {
-    row[nameIdx] = name.replace(rawAge, "").trim();
+    name = row[nameIdx] = name.replace(rawAge, "").trim();
     cleanedRows.nameWithAge.add(idx);
   }
 
@@ -193,6 +193,16 @@ const fixRow = (row: string[]) => {
   } else if (dob === age) {
     dob = row[dobIdx] = '""';
     cleanedRows.ageInDob.add(idx);
+  }
+
+  if (/\s[0-9]\s/.test(name)) {
+    name = row[nameIdx] = quote(
+      name
+        .replace(/\b[0-9]\b/g, " ")
+        .replace(/^"/, "")
+        .replace(/"$/, "")
+        .trim()
+    );
   }
 
   // only specific-case fixes below this
