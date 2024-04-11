@@ -290,32 +290,41 @@ const mergedRecordConflictAccepts: ReconcileResults = {
   [reportingSource]: [],
 };
 
+const newRecordsWithInvalidDob: string[] = [];
+
 const addIfBetter = (
   lookup: Map<string, NewRecord | (ExistingRecord & { age?: string })>,
   record: NewRecord,
   results: { skips: ReconcileResults; accepts: ReconcileResults }
 ) => {
-  const priorRecord = lookup.get(record.id);
-  if (!priorRecord) {
-    lookup.set(record.id, record);
-    return;
-  }
-  const diff = getDiff(priorRecord, record);
-  const source = record.source as Source;
   const age = record.age ? +dequote(record.age) : -1;
   const dob = record.dob ? normalizeDateStr(record.dob) : null;
   let validDob = true;
   let dobFixed = false;
   if (age !== -1 && dob) {
     const dobCheckResult = validateDobAgeWithinYear(age, dob, record.id);
-    console.log(">>", dobCheckResult, record.id);
     if (!dobCheckResult[0]) {
       validDob = false;
     } else if (dobCheckResult[1]) {
       dobFixed = true;
-      record.dob = `"${dobCheckResult[1]}"`;
+      record.dob = dobCheckResult[1];
+    } else {
+      record.dob = normalizeDateStr(record.dob);
     }
   }
+
+  const priorRecord = lookup.get(record.id);
+  if (!priorRecord) {
+    if (validDob) {
+      lookup.set(record.id, record);
+    } else {
+      newRecordsWithInvalidDob.push(record.id);
+    }
+    return;
+  }
+
+  const diff = getDiff(priorRecord, record);
+  const source = record.source as Source;
 
   if (
     diff.age === false ||
@@ -331,7 +340,10 @@ const addIfBetter = (
     results.skips[source].push(record.id);
     return;
   }
-  if (diff.name && typeof diff.name === "number" && diff.name > 0.5) {
+  if (
+    (diff.name && typeof diff.name === "number" && diff.name > 0.5) ||
+    record.name_ar_raw.includes("0")
+  ) {
     results.skips.name.push(record.id);
     results.skips[source].push(record.id);
     return;
@@ -486,7 +498,11 @@ async function reconcileCSVs(
   const existingConflictDiffs = Array.from(existingConflicts.keys()).reduce(
     (acc, id) => {
       const record = existingRecords.get(id) as ExistingRecord;
-      return acc.concat(getDiff(record, newRecordLookup.get(id) as NewRecord));
+      const newRecord = newRecordLookup.get(id);
+      if (!newRecord) {
+        return acc;
+      }
+      return acc.concat(getDiff(record, newRecord));
     },
     [] as Array<ReturnType<typeof getDiff>>
   );
@@ -588,6 +604,7 @@ async function reconcileCSVs(
     overlapCountDist,
     newDuplicates: newDuplicates.size,
     newConflicts: newConflicts.size,
+    newRecordsWithInvalidDob: newRecordsWithInvalidDob.length,
     newRecordConflictSkips: sumArrayLookup(newRecordConflictSkips),
     newRecordConflictAccepts: sumArrayLookup(newRecordConflictAccepts),
     mergedRecordConflictSkips: sumArrayLookup(mergedRecordConflictSkips),
@@ -604,6 +621,19 @@ async function reconcileCSVs(
     //   (diff) => typeof diff.dob === "number" && diff.dob > 0.4
     // ),
   });
+
+  const csvHeader = ["id", "name_ar_raw", "dob", "sex"];
+  const rows: string[] = [];
+  for (const key of mergedRecords.keys()) {
+    const record = mergedRecords.get(key) as NewRecord | ExistingRecord;
+    rows.push(
+      csvHeader.map((header) => record[header as keyof typeof record]).join(",")
+    );
+  }
+  fs.writeFileSync(
+    path.resolve(__dirname, "data/raw.csv"),
+    [csvHeader.join(","), ...rows].join("\r\n")
+  );
 }
 
 // Usage example
