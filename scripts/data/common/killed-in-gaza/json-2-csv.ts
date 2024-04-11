@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const dateFns = require("date-fns");
 const rawJson = require("./data/raw-v2.json");
 const arUtils = require("arabic-utils");
 
@@ -64,6 +65,9 @@ const cleanedRows = {
   sexWithMaleName: new Set<string>(),
   sexWithAnthName: new Set<string>(),
   sexWithFemaleName: new Set<string>(),
+  dobDateFirstPart: new Set<string>(),
+  dobDateSecondPart: new Set<string>(),
+  dobAgeMismatch: new Set<string>(),
 };
 
 const appendName = (name: string, append: string) => {
@@ -75,7 +79,7 @@ const appendName = (name: string, append: string) => {
 };
 
 const parseDob = (dob: string, age: string) => {
-  const [date, month, year] = dob.split(/[/-]/);
+  const [month, date, year] = dob.split(/[/-]/);
   if (!date || !month || !year) {
     return null;
   }
@@ -98,14 +102,6 @@ const fixRow = (row: string[]) => {
   const ident = row[identIdx];
   const rawIdx = idx.replace(/"/g, "");
 
-  // if (idx.includes("10904")) {
-  //   console.log({ dob, ident, idx });
-  // }
-
-  if (ident.includes("802023796")) {
-    console.log(row);
-  }
-
   const identJustNumbers = ident.replace(/[^0-9-]+/g, "");
   if (ident.length - identJustNumbers.length > 10) {
     const nonNumbers = ident.replace(identJustNumbers, "");
@@ -122,7 +118,10 @@ const fixRow = (row: string[]) => {
     cleanedRows.identEmpty.add(idx);
   }
 
-  if (ident.length > 0 && /^[^0-9]+$/.test(ident)) {
+  if (
+    ident.length > 0 &&
+    (/^[^0-9]+$/.test(ident) || /^[0]+$/.test(identJustNumbers))
+  ) {
     row[identIdx] = `v0329-o-${rawIdx}`;
     cleanedRows.identOverflow.add(idx);
   }
@@ -217,11 +216,33 @@ const fixRow = (row: string[]) => {
     dob = row[dobIdx] = '""';
   }
 
-  // reformat dob to expected format for raw.csv
+  if (dob.includes("-")) {
+    const [part1, part2] = dob.split("-");
+    if (part1 && part2 && +part1 > 12) {
+      cleanedRows.dobDateFirstPart.add(idx);
+    }
+    if (part1 && part2 && +part2 > 12) {
+      cleanedRows.dobDateSecondPart.add(idx);
+    }
+  }
+
+  // reformat dob to expected format for raw.csv & strip invalid for DOB
   const parsedDob = row[dobIdx]
     ? parseDob(row[dobIdx].replace(/"/g, ""), row[ageIdx].replace(/"/g, ""))
     : null;
+  const rawAgeParsed = +row[ageIdx].replace(/["]+/g, "");
   if (parsedDob) {
+    if (rawAgeParsed) {
+      const dobDate = new Date(parsedDob.split("-").reverse().join("-"));
+      const diff = Math.abs(
+        dateFns.differenceInMonths(new Date(2024, 0, 5), dobDate) / 12 -
+          rawAgeParsed
+      );
+      if (diff > 2) {
+        row[ageIdx] = '""';
+        cleanedRows.dobAgeMismatch.add(idx);
+      }
+    }
     dob = row[dobIdx] = `"${parsedDob}"`;
   }
 
