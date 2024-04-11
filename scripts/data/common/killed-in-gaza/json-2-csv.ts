@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const rawJson = require("./data/raw-v2.json");
+const arUtils = require("arabic-utils");
 
 const {
   pageTables: [firstPage, ...remainingPages],
@@ -204,6 +205,9 @@ const fixRow = (row: string[]) => {
         .trim()
     );
   }
+
+  const normalizedName = new arUtils.ArabicClass(stripQuotes(name)).normalize();
+  name = row[nameIdx] = normalizedName;
 
   // only specific-case fixes below this
   if (dob.includes('"الشاعر0.58"')) {
