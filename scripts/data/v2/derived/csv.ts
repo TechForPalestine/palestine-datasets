@@ -13,6 +13,7 @@ const killedRowOrder: (keyof KilledInGaza)[] = [
   "name",
   "en_name",
   "age",
+  "dob",
   "sex",
 ];
 const killedRows = killedPersons.reduce(
