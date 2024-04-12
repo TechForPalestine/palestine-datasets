@@ -77,24 +77,21 @@ const generate = () => {
       }
     }
 
-    // individual record resource writing
-    if (validRecordIdForFileName(record.id)) {
-      writeOffManifestJson(`${writePath}/${record.id}.json`, record);
-    } else {
-      console.warn(
-        `invalid record ID for file name (skipped write): ${record.id}`
-      );
-    }
+    const recordPageId = `${pageCount}.${page.length - 1}`;
 
     return {
       ...acc,
       english: {
         ...acc.english,
-        [enIdxName]: existingEn ? `${existingEn},${record.id}` : record.id,
+        [enIdxName]: existingEn
+          ? `${existingEn},${recordPageId}`
+          : recordPageId,
       },
       arabic: {
         ...acc.arabic,
-        [arIdxName]: existingAr ? `${existingAr},${record.id}` : record.id,
+        [arIdxName]: existingAr
+          ? `${existingAr},${recordPageId}`
+          : recordPageId,
       },
       families: {
         ...acc.families,
