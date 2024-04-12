@@ -78,13 +78,13 @@ const generate = () => {
     }
 
     // individual record resource writing
-    // if (validRecordIdForFileName(record.id)) {
-    //   writeOffManifestJson(`${writePath}/${record.id}.json`, record);
-    // } else {
-    //   console.warn(
-    //     `invalid record ID for file name (skipped write): ${record.id}`
-    //   );
-    // }
+    if (validRecordIdForFileName(record.id)) {
+      writeOffManifestJson(`${writePath}/${record.id}.json`, record);
+    } else {
+      console.warn(
+        `invalid record ID for file name (skipped write): ${record.id}`
+      );
+    }
 
     return {
       ...acc,
