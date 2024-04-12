@@ -8,21 +8,34 @@ import { parseISO } from "date-fns/parseISO";
 import { format } from "date-fns/format";
 import { ExternalWindowIcon } from "../ExternalWindowIcon";
 
-const fetchPerson = async (id: string): Promise<KilledInGaza | undefined> => {
+const pageCache = new Map<string, KilledInGaza[]>();
+
+const fetchPersonPage = async (
+  id: string
+): Promise<KilledInGaza | undefined> => {
+  const [pageIndex, personIndex] = id.split(".");
+  if (pageCache.has(pageIndex)) {
+    return pageCache.get(pageIndex)[+personIndex];
+  }
+
   try {
-    const response = await fetch(`/api/v2/killed-in-gaza/${id}.json`);
+    const response = await fetch(
+      `/api/v2/killed-in-gaza/page-${pageIndex}.json`
+    );
     if (!response.ok || response.status !== 200) {
       return;
     }
 
-    return response.json();
+    const pageResults = await response.json();
+    pageCache.set(pageIndex, pageResults);
+    return pageResults[+personIndex];
   } catch (_) {
     // fail silent
   }
 };
 
 const fetchAllPeople = async (ids: string[]) => {
-  const results = await Promise.all(ids.map((id) => fetchPerson(id)));
+  const results = await Promise.all(ids.map((id) => fetchPersonPage(id)));
   const matches = results.filter((result) => !!result);
   return matches;
 };
