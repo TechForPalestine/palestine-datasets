@@ -84,7 +84,10 @@ const parseDob = (dob: string, age: string) => {
     return null;
   }
   let fullYear = year;
-  let thisCentury = age ? +age < 15 : +year < 15;
+  let thisCentury = age ? +age <= 24 : +year < 24;
+  if (thisCentury && +year + 2000 > new Date().getFullYear()) {
+    thisCentury = false;
+  }
   if (fullYear.length === 2) {
     fullYear = thisCentury ? `20${year}` : `19${year}`;
   }
@@ -93,28 +96,30 @@ const parseDob = (dob: string, age: string) => {
   }-${fullYear}`;
 };
 
+const existingRecordAgeRefDate = new Date(2024, 0, 5);
+
 const fixRow = (row: string[]) => {
   let name = row[nameIdx];
   const sex = row[sexIdx];
   let dob = row[dobIdx];
   const age = row[ageIdx];
   const idx = row[indexIdx];
-  const ident = row[identIdx];
+  let ident = row[identIdx];
   const rawIdx = idx.replace(/"/g, "");
 
-  const identJustNumbers = ident.replace(/[^0-9-]+/g, "");
+  const identJustNumbers = ident.match(/[0-9]{4,12}/)?.[0] || "";
   if (ident.length - identJustNumbers.length > 10) {
     const nonNumbers = ident.replace(identJustNumbers, "");
     name = row[nameIdx] = name ? appendName(name, nonNumbers) : nonNumbers;
-    row[identIdx] = `"${identJustNumbers}"`;
+    ident = row[identIdx] = `"${identJustNumbers}"`;
     cleanedRows.identWithNonNumbers.add(idx);
   } else if (ident.length - identJustNumbers.length > 2) {
     // ignore small diff other than surrounding quotes
-    row[identIdx] = `"${identJustNumbers}"`;
+    ident = row[identIdx] = `"${identJustNumbers}"`;
   }
 
   if (!ident.length) {
-    row[identIdx] = `v0329-e-${rawIdx}`;
+    ident = row[identIdx] = `v0329-e-${rawIdx}`;
     cleanedRows.identEmpty.add(idx);
   }
 
@@ -122,14 +127,11 @@ const fixRow = (row: string[]) => {
     ident.length > 0 &&
     (/^[^0-9]+$/.test(ident) || /^[0]+$/.test(identJustNumbers))
   ) {
-    row[identIdx] = `v0329-o-${rawIdx}`;
+    ident = row[identIdx] = `v0329-o-${rawIdx}`;
     cleanedRows.identOverflow.add(idx);
   }
 
   if (stripQuotes(sex).length > 5) {
-    if (ident.includes("802023796")) {
-      console.log("oop");
-    }
     if (sex.endsWith('ذكر"')) {
       name = row[nameIdx] = sex.replace("ذكر", "");
       row[sexIdx] = '"M"';
@@ -180,6 +182,15 @@ const fixRow = (row: string[]) => {
   } else if (dob.replace(/[#"]+/g, "").length === 0) {
     dob = row[dobIdx] = '""';
     cleanedRows.dobWithHashes.add(idx);
+  }
+
+  // handle combo case: "سهام00ابومدين804690015"
+  if (name.includes(stripQuotes(ident))) {
+    name = row[nameIdx] = name.replace(stripQuotes(ident), "").trim();
+    cleanedRows.identInName.add(idx);
+  }
+  if (name.includes("00")) {
+    name = row[nameIdx] = name.replace("00", "").trim();
   }
 
   if (rawAge && name.includes(rawAge)) {
@@ -235,7 +246,7 @@ const fixRow = (row: string[]) => {
     if (rawAgeParsed) {
       const dobDate = new Date(parsedDob.split("-").reverse().join("-"));
       const diff = Math.abs(
-        dateFns.differenceInMonths(new Date(2024, 0, 5), dobDate) / 12 -
+        dateFns.differenceInMonths(existingRecordAgeRefDate, dobDate) / 12 -
           rawAgeParsed
       );
       if (diff > 2) {
@@ -276,6 +287,7 @@ console.log(
   )
 );
 
+console.log("dob mismatch", cleanedRows.dobAgeMismatch);
 console.log("misordered", count);
 
 const rtlChars = "\u0591-\u07FF\u200F\u202B\u202E\uFB1D-\uFDFD\uFE70-\uFEFC",
