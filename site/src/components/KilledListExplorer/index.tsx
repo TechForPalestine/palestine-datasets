@@ -8,7 +8,12 @@ import {
   useInstantSearch,
 } from "react-instantsearch";
 import styles from "./styles.module.css";
-import { LangOption, SearchPerson, fetchIndex } from "../../lib/search-index";
+import {
+  LangOption,
+  SearchPerson,
+  fetchIndex,
+  listSort,
+} from "../../lib/search-index";
 
 const hitsLimit = 100;
 
@@ -23,7 +28,8 @@ const createSearchClient = () => {
     ]) => {
       const hits = fuse
         .search(query || initialQuery, { limit })
-        .filter((hit) => hit.item.name.includes("?") === false);
+        .filter((hit) => hit.item.name.includes("?") === false)
+        .sort((a, b) => listSort(a.item, b.item));
       return Promise.resolve({
         results: [
           {

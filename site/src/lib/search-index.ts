@@ -1,5 +1,23 @@
 export type SearchPerson = { name: string; count: number; key: string };
 
+export const listSort = (a: SearchPerson, b: SearchPerson) => {
+  const aNames = a.name.split(" ").length;
+  const bNames = b.name.split(" ").length;
+  if (aNames > 2 && bNames > 2) {
+    return a.name.localeCompare(b.name);
+  }
+
+  if (aNames > 2 && bNames <= 2) {
+    return -1;
+  }
+
+  if (bNames > 2 && aNames <= 2) {
+    return 1;
+  }
+
+  return a.name.localeCompare(b.name);
+};
+
 /**
  * buildNameList does a simple replace of name parts from the response `index` key
  * into the indexed names in the `names` object so we can search by name for records
@@ -24,23 +42,7 @@ const buildNameList = (json: {
         key: ids,
       });
     }, [] as Array<SearchPerson>)
-    .sort((a, b) => {
-      const aNames = a.name.split(" ").length;
-      const bNames = b.name.split(" ").length;
-      if (aNames > 2 && bNames > 2) {
-        return a.name.localeCompare(b.name);
-      }
-
-      if (aNames > 2 && bNames <= 2) {
-        return -1;
-      }
-
-      if (bNames > 2 && aNames <= 2) {
-        return 1;
-      }
-
-      return a.name.localeCompare(b.name);
-    });
+    .sort();
 };
 
 export type LangOption = "ar" | "en";
