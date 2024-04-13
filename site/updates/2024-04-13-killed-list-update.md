@@ -1,11 +1,13 @@
 ---
-title: Names Added to Killed in Gaza
+title: Killed in Gaza 03-29 Update
 description: We've received an update from the Ministry of Health and merged those changes with our existing list.
 slug: killed-in-gaza-update-2
 tags: [killed-in-gaza, gaza]
 ---
 
-On April 3rd, we received an updated list of names of those killed in Gaza up to March 29th. The list was in a PDF format that differed slightly from the initial lists that were distributed in CSV format. It also included the source of the record which is one of either the Ministry of Health ("سجالت وزارة الصحة"), or a submission made from the public ("تبيلغ ذوي الشهداء"). You can [download the original Ministry of Health PDF here](/sources/20240329gaza.pdf). You can also [download our Killed in Gaza list before the merge in CSV format here](/sources/20240413killed-in-gaza.csv) to compare how individual records may have changed.
+On April 3rd, we received an updated list of names of those killed in Gaza up to March 29th. We've incorporated new records and existing record changes from that update.
+
+The new list was in a PDF format that differed slightly from the initial lists that were distributed in CSV format. It also included the source of the record being one of either the Ministry of Health ("سجالت وزارة الصحة"), or a submission made from the public ("تبيلغ ذوي الشهداء"). You can <a href="/sources/20240329gaza.pdf">download the Ministry of Health PDF here</a>. You can also <a href="/sources/20240413killed-in-gaza.csv">download our Killed in Gaza list from before in CSV format here</a> to compare how individual records may have changed.
 
 ## Change Summary
 
