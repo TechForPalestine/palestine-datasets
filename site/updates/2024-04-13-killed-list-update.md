@@ -23,10 +23,8 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 | Girls           |  2,247 | 15.9 |
 | Senior Men      |    328 |  2.3 |
 | Senior Women    |    282 |  2.0 |
-|                 |        |
 | Male (no age)   |    565 |  4.0 |
 | Female (no age) |    432 |  3.1 |
-|                 |        |      |
 | Total Persons   | 14,140 |      |
 
 ### Demographics of Newly Added Records
@@ -39,10 +37,8 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 | Girls           |    774 | 11.3 |
 | Sr. Men         |    259 |  3.8 |
 | Sr. Women       |    137 |  2.0 |
-|                 |        |      |
 | Male (no age)   |    207 |  3.0 |
 | Female (no age) |     91 |  1.3 |
-|                 |        |      |
 | Total Persons   |  6,841 |      |
 
 ### Demographics of Our Updated List After Merge
@@ -55,29 +51,25 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 | Girls           |  2,999 | 14.3 |
 | Sr. Men         |    591 |  2.8 |
 | Sr. Women       |    422 |  2.0 |
-|                 |        |      |
 | Male (no age)   |    721 |  3.4 |
 | Female (no age) |    507 |  2.4 |
-|                 |        |      |
 | Total Persons   | 20,786 |      |
 
 ### Demographics of Removed Records
 
 195 records in our prior list were not present in the latest list release (by identification number) so we removed them.
 
-| Demographic     | Number | Percent |
-| --------------- | -----: | ------: |
-| Men             |     63 |    32.3 |
-| Women           |     27 |    13.8 |
-| Boys            |     33 |    16.9 |
-| Girls           |     11 |     5.6 |
-| Sr. Men         |      4 |     2.1 |
-| Sr. Women       |      2 |     1.0 |
-|                 |        |         |
-| Male (no age)   |     43 |    22.1 |
-| Female (no age) |     12 |     6.2 |
-|                 |        |         |
-| Total Persons   |    195 |         |
+| Demographic     | Number |    % |
+| --------------- | -----: | ---: |
+| Men             |     63 | 32.3 |
+| Women           |     27 | 13.8 |
+| Boys            |     33 | 16.9 |
+| Girls           |     11 |  5.6 |
+| Sr. Men         |      4 |  2.1 |
+| Sr. Women       |      2 |  1.0 |
+| Male (no age)   |     43 | 22.1 |
+| Female (no age) |     12 |  6.2 |
+| Total Persons   |    195 |      |
 
 ## Merge Methodology / Commentary
 
