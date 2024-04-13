@@ -567,6 +567,19 @@ async function reconcileCSVs(
     child: 0,
     noDemo: 0,
   };
+  const removedDemographics: DemoDistribution = {
+    srmen: 0,
+    srwomen: 0,
+    men: 0,
+    women: 0,
+    boys: 0,
+    girls: 0,
+    male: 0,
+    female: 0,
+    adult: 0,
+    child: 0,
+    noDemo: 0,
+  };
   let overlapDuplicateCount = 0;
   let overlapConflictCount = 0;
   const overlapCountDist: Record<number, number> = {};
@@ -576,6 +589,8 @@ async function reconcileCSVs(
     existingDemographics[demo]++;
 
     if (!newRecordLookup.has(key)) {
+      const rmDemo = getRecordDemo(existingRecords.get(key) as ExistingRecord);
+      removedDemographics[rmDemo]++;
       recordsToRemove.add(key);
     }
 
@@ -745,9 +760,14 @@ async function reconcileCSVs(
     ),
     addedDemographics: renderDemoDist(addedDemographics, recordsToAdd.size),
     mergedDemographics: renderDemoDist(mergedDemographics, mergedRecords.size),
+    removedDemographics: renderDemoDist(
+      removedDemographics,
+      recordsToRemove.size
+    ),
     addedConflicts,
     addedDuplicates,
     removed: recordsToRemove.size,
+    removedSample: Array.from(recordsToRemove.keys()).slice(0, 10),
     removedPct: recordsToRemove.size / newRecordLookup.size,
     overlap: overlap,
     overlapPct: overlap / existingRecords.size,
@@ -792,6 +812,9 @@ async function reconcileCSVs(
     header === "age" && value ? `"${value}"` : value;
   const rows: string[] = [];
   for (const key of mergedRecords.keys()) {
+    if (recordsToRemove.has(key)) {
+      continue;
+    }
     const record = mergedRecords.get(key) as NewRecord | ExistingRecord;
     rows.push(
       csvHeader
