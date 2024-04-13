@@ -24,7 +24,23 @@ const buildNameList = (json: {
         key: ids,
       });
     }, [] as Array<SearchPerson>)
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      const aNames = a.name.split(" ").length;
+      const bNames = b.name.split(" ").length;
+      if (aNames > 2 && bNames > 2) {
+        return a.name.localeCompare(b.name);
+      }
+
+      if (aNames > 2 && bNames <= 2) {
+        return -1;
+      }
+
+      if (bNames > 2 && aNames <= 2) {
+        return 1;
+      }
+
+      return a.name.localeCompare(b.name);
+    });
 };
 
 export type LangOption = "ar" | "en";
