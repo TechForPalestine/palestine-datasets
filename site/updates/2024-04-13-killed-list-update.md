@@ -13,51 +13,51 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 
 ### Demographics of Our List Before Merge
 
-| Demographic     | Number | Percent |
-| --------------- | -----: | ------: |
-| Senior Men      |    328 |     2.3 |
-| Senior Women    |    282 |     2.0 |
-| Men             |  4,594 |    32.5 |
-| Women           |  3,147 |    22.3 |
-| Boys            |  2,545 |    18.0 |
-| Girls           |  2,247 |    15.9 |
+| Demographic     | Number |    % |
+| --------------- | -----: | ---: |
+| Senior Men      |    328 |  2.3 |
+| Senior Women    |    282 |  2.0 |
+| Men             |  4,594 | 32.5 |
+| Women           |  3,147 | 22.3 |
+| Boys            |  2,545 | 18.0 |
+| Girls           |  2,247 | 15.9 |
 |                 |        |
-| Male (no age)   |    565 |     4.0 |
-| Female (no age) |    432 |     3.1 |
-|                 |        |         |
-| Total Persons   | 14,140 |         |
+| Male (no age)   |    565 |  4.0 |
+| Female (no age) |    432 |  3.1 |
+|                 |        |      |
+| Total Persons   | 14,140 |      |
 
 ### Demographics of Newly Added Records
 
-| Demographic     | Number | Percent |
-| --------------- | -----: | ------: |
-| Sr. Men         |    259 |     3.8 |
-| Sr. Women       |    137 |     2.0 |
-| Men             |  3,181 |    46.5 |
-| Women           |  1,205 |    17.6 |
-| Boys            |    987 |    14.4 |
-| Girls           |    774 |    11.3 |
-|                 |        |         |
-| Male (no age)   |    207 |     3.0 |
-| Female (no age) |     91 |     1.3 |
-|                 |        |         |
-| Total Persons   |  6,841 |         |
+| Demographic     | Number |    % |
+| --------------- | -----: | ---: |
+| Sr. Men         |    259 |  3.8 |
+| Sr. Women       |    137 |  2.0 |
+| Men             |  3,181 | 46.5 |
+| Women           |  1,205 | 17.6 |
+| Boys            |    987 | 14.4 |
+| Girls           |    774 | 11.3 |
+|                 |        |      |
+| Male (no age)   |    207 |  3.0 |
+| Female (no age) |     91 |  1.3 |
+|                 |        |      |
+| Total Persons   |  6,841 |      |
 
 ### Demographics of Our Updated List After Merge
 
-| Demographic     | Number | Percent |
-| --------------- | -----: | ------: |
-| Sr. Men         |    595 |     2.8 |
-| Sr. Women       |    424 |     2.0 |
-| Men             |  7,808 |    37.2 |
-| Women           |  4,362 |    20.8 |
-| Boys            |  3,499 |    16.7 |
-| Girls           |  3,010 |    14.3 |
-|                 |        |         |
-| Male (no age)   |    764 |     3.6 |
-| Female (no age) |    519 |     2.5 |
-|                 |        |         |
-| Total Persons   | 20,981 |         |
+| Demographic     | Number |    % |
+| --------------- | -----: | ---: |
+| Sr. Men         |    595 |  2.8 |
+| Sr. Women       |    424 |  2.0 |
+| Men             |  7,808 | 37.2 |
+| Women           |  4,362 | 20.8 |
+| Boys            |  3,499 | 16.7 |
+| Girls           |  3,010 | 14.3 |
+|                 |        |      |
+| Male (no age)   |    764 |  3.6 |
+| Female (no age) |    519 |  2.5 |
+|                 |        |      |
+| Total Persons   | 20,981 |      |
 
 ## Merge Methodology / Commentary
 

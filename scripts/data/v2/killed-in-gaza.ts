@@ -6,7 +6,7 @@ import { readCsv } from "../../utils/csv";
 
 const jsonFileName = "killed-in-gaza.json";
 
-const expectedFields = ["id", "name_ar_raw", "dob", "sex", "name_en"];
+const expectedFields = ["id", "name_ar_raw", "dob", "age", "sex", "name_en"];
 
 interface MappedRecord extends Record<string, string | number> {
   id: string;
@@ -43,6 +43,10 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
     case "sex":
       value = sexMapping[fieldValue as keyof typeof sexMapping] ?? "";
       break;
+    case "age":
+      const rawValue = fieldValue.replace(/["]/g, "").trim();
+      value = rawValue ? parseInt(rawValue, 10) : -1;
+      break;
   }
 
   if (fieldKey === "name_ar_raw") {
@@ -75,7 +79,6 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
 
 const handleColumn = (
   headerKeys: string[],
-  rowValues: string[],
   currentColValue: string,
   currentColIndex: number
 ) => {
@@ -95,7 +98,7 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
       return rowColumns.reduce(
         (dayRecord, colValue, colIndex) => ({
           ...dayRecord,
-          ...handleColumn(headerKeys, rowColumns, colValue, colIndex),
+          ...handleColumn(headerKeys, colValue, colIndex),
         }),
         {} as MappedRecord
       );
