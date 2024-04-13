@@ -17,12 +17,12 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 
 | Demographic     | Number |    % |
 | --------------- | -----: | ---: |
-| Senior Men      |    328 |  2.3 |
-| Senior Women    |    282 |  2.0 |
 | Men             |  4,594 | 32.5 |
 | Women           |  3,147 | 22.3 |
 | Boys            |  2,545 | 18.0 |
 | Girls           |  2,247 | 15.9 |
+| Senior Men      |    328 |  2.3 |
+| Senior Women    |    282 |  2.0 |
 |                 |        |
 | Male (no age)   |    565 |  4.0 |
 | Female (no age) |    432 |  3.1 |
@@ -33,12 +33,12 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 
 | Demographic     | Number |    % |
 | --------------- | -----: | ---: |
-| Sr. Men         |    259 |  3.8 |
-| Sr. Women       |    137 |  2.0 |
 | Men             |  3,181 | 46.5 |
 | Women           |  1,205 | 17.6 |
 | Boys            |    987 | 14.4 |
 | Girls           |    774 | 11.3 |
+| Sr. Men         |    259 |  3.8 |
+| Sr. Women       |    137 |  2.0 |
 |                 |        |      |
 | Male (no age)   |    207 |  3.0 |
 | Female (no age) |     91 |  1.3 |
@@ -49,17 +49,35 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 
 | Demographic     | Number |    % |
 | --------------- | -----: | ---: |
-| Sr. Men         |    595 |  2.8 |
-| Sr. Women       |    424 |  2.0 |
-| Men             |  7,808 | 37.2 |
-| Women           |  4,362 | 20.8 |
-| Boys            |  3,499 | 16.7 |
-| Girls           |  3,010 | 14.3 |
+| Men             |  7,745 | 36.9 |
+| Women           |  4,335 | 20.7 |
+| Boys            |  3,466 | 16.5 |
+| Girls           |  2,999 | 14.3 |
+| Sr. Men         |    591 |  2.8 |
+| Sr. Women       |    422 |  2.0 |
 |                 |        |      |
-| Male (no age)   |    764 |  3.6 |
-| Female (no age) |    519 |  2.5 |
+| Male (no age)   |    721 |  3.4 |
+| Female (no age) |    507 |  2.4 |
 |                 |        |      |
-| Total Persons   | 20,981 |      |
+| Total Persons   | 20,786 |      |
+
+### Demographics of Removed Records
+
+195 records in our prior list were not present in the latest list release (by identification number) so we removed them.
+
+| Demographic     | Number | Percent |
+| --------------- | -----: | ------: |
+| Men             |     63 |    32.3 |
+| Women           |     27 |    13.8 |
+| Boys            |     33 |    16.9 |
+| Girls           |     11 |     5.6 |
+| Sr. Men         |      4 |     2.1 |
+| Sr. Women       |      2 |     1.0 |
+|                 |        |         |
+| Male (no age)   |     43 |    22.1 |
+| Female (no age) |     12 |     6.2 |
+|                 |        |         |
+| Total Persons   |    195 |         |
 
 ## Merge Methodology / Commentary
 

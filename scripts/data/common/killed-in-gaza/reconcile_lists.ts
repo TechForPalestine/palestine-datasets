@@ -624,6 +624,9 @@ async function reconcileCSVs(
   }
 
   for (const key of mergedRecords.keys()) {
+    if (recordsToRemove.has(key)) {
+      continue;
+    }
     const demo = getRecordDemo(
       mergedRecords.get(key) as NewRecord | ExistingRecord
     );
