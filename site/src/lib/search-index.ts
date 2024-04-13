@@ -11,18 +11,20 @@ const buildNameList = (json: {
   index: string[];
   names: Record<string, string>;
 }) => {
-  return Object.entries(json.names).reduce((acc, [indexedName, ids]) => {
-    const name = indexedName
-      .split(" ")
-      // minus one for use with zero-based array
-      .map((index) => json.index[+index - 1])
-      .join(" ");
-    return acc.concat({
-      name,
-      count: ids.split(",").length,
-      key: ids,
-    });
-  }, [] as Array<SearchPerson>);
+  return Object.entries(json.names)
+    .reduce((acc, [indexedName, ids]) => {
+      const name = indexedName
+        .split(" ")
+        // minus one for use with zero-based array
+        .map((index) => json.index[+index - 1])
+        .join(" ");
+      return acc.concat({
+        name,
+        count: ids.split(",").length,
+        key: ids,
+      });
+    }, [] as Array<SearchPerson>)
+    .sort((a, b) => a.name.localeCompare(b.name));
 };
 
 export type LangOption = "ar" | "en";
