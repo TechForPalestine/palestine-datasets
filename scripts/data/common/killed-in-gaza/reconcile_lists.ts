@@ -789,7 +789,7 @@ async function reconcileCSVs(
 
   const csvHeader = ["id", "name_ar_raw", "dob", "age", "sex"];
   const format = (value: string, header: string) =>
-    header === "age" ? `"${value}"` : value;
+    header === "age" && value ? `"${value}"` : value;
   const rows: string[] = [];
   for (const key of mergedRecords.keys()) {
     const record = mergedRecords.get(key) as NewRecord | ExistingRecord;
