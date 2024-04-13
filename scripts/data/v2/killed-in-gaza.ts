@@ -1,6 +1,5 @@
 import fs from "fs";
 import toEnName from "arabic-name-to-en";
-import { differenceInMonths } from "date-fns";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 import { readCsv } from "../../utils/csv";
@@ -22,8 +21,6 @@ const sexMapping = {
   M: "m",
   F: "f",
 };
-
-const ageReferenceDate = new Date(2024, 0, 5, 0, 0, 0);
 
 const namesFallbackTranslated = new Map<string, number>();
 const idsEncountered = new Set<string>();
@@ -83,19 +80,6 @@ const handleColumn = (
   currentColIndex: number
 ) => {
   const currentKey = headerKeys[currentColIndex];
-
-  if (currentKey === "dob") {
-    // calc age using dob and static reference date for consistency
-    // source spreadsheet used a formula using "today" as reference date
-    // which led to drift
-    const dob = rowValues[currentColIndex];
-    if (!dob) {
-      return { age: -1, dob };
-    }
-    const age = Math.round(differenceInMonths(ageReferenceDate, dob) / 12);
-    return { age, dob };
-  }
-
   return addSingleRecordField(currentKey, currentColValue);
 };
 

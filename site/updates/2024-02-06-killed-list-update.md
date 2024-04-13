@@ -2,7 +2,7 @@
 title: Improved Name Translations
 description: Describing the latest changes to our list of names dataset, and what to look out for.
 slug: killed-in-gaza-update-1
-tags: [killed-in-gaza]
+tags: [killed-in-gaza, gaza]
 ---
 
 We've made some significant changes to our previously published [Killed in Gaza list](/docs/killed-in-gaza), which has the names of those known to have been killed in Gaza since October 7th. This post provides more detail on our new methodology and what to expect about the changes.

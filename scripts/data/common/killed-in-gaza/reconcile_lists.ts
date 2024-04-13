@@ -204,6 +204,8 @@ const getDiff = (
 };
 
 type DemoDistribution = {
+  srmen: number;
+  srwomen: number;
   men: number;
   women: number;
   boys: number;
@@ -215,7 +217,9 @@ type DemoDistribution = {
   noDemo: number;
 };
 
-const getRecordDemo = (record: NewRecord): keyof DemoDistribution => {
+const getRecordDemo = (
+  record: NewRecord | (ExistingRecord & { age?: string })
+): keyof DemoDistribution => {
   const age = record.age ? +record.age : -1;
   if (age === -1 || Number.isNaN(age)) {
     if (record.sex === "M") {
@@ -223,6 +227,16 @@ const getRecordDemo = (record: NewRecord): keyof DemoDistribution => {
     }
     if (record.sex === "F") {
       return "female";
+    }
+    return "noDemo";
+  }
+
+  if (age >= 65) {
+    if (record.sex === "M") {
+      return "srmen";
+    }
+    if (record.sex === "F") {
+      return "srwomen";
     }
     return "noDemo";
   }
@@ -249,12 +263,30 @@ const getRecordDemo = (record: NewRecord): keyof DemoDistribution => {
 const reportingSource = "تبيلغ ذوي الشهداء";
 const ministrySource = "سجالت وزارة الصحة";
 type Source = typeof reportingSource | typeof ministrySource;
-type ReconcileResults = Record<
+type ReconcileSkips = Record<
   "age" | "dob" | "sex" | "name" | "سجالت وزارة الصحة" | "تبيلغ ذوي الشهداء",
   string[]
 >;
+type ReconcileAccepts = {
+  ageAdded: string[];
+  ageSame: string[];
+  ageChangeOk: string[];
+  ageDirty: string[];
+  dobAdded: string[];
+  dobFixed: string[];
+  dobDirty: string[];
+  nameSame: string[];
+  nameChangeOk: string[];
+  sexAdded: string[];
+  [ministrySource]: string[];
+  [reportingSource]: string[];
+};
+type FreeAccepts = {
+  newRecordsFromMinistry: string[];
+  newRecordsFromSubmissions: string[];
+};
 
-const newRecordConflictSkips: ReconcileResults = {
+const newRecordConflictSkips: ReconcileSkips = {
   age: [],
   dob: [],
   sex: [],
@@ -263,7 +295,22 @@ const newRecordConflictSkips: ReconcileResults = {
   [reportingSource]: [],
 };
 
-const newRecordConflictAccepts: ReconcileResults = {
+const newRecordConflictAccepts: ReconcileAccepts = {
+  ageAdded: [],
+  ageSame: [],
+  ageChangeOk: [],
+  ageDirty: [],
+  dobAdded: [],
+  dobFixed: [],
+  dobDirty: [],
+  nameSame: [],
+  nameChangeOk: [],
+  sexAdded: [],
+  [ministrySource]: [],
+  [reportingSource]: [],
+};
+
+const mergedRecordConflictSkips: ReconcileSkips = {
   age: [],
   dob: [],
   sex: [],
@@ -272,31 +319,40 @@ const newRecordConflictAccepts: ReconcileResults = {
   [reportingSource]: [],
 };
 
-const mergedRecordConflictSkips: ReconcileResults = {
-  age: [],
-  dob: [],
-  sex: [],
-  name: [],
+const mergedRecordConflictAccepts: ReconcileAccepts = {
+  ageAdded: [],
+  ageSame: [],
+  ageChangeOk: [],
+  ageDirty: [],
+  dobAdded: [],
+  dobFixed: [],
+  dobDirty: [],
+  nameSame: [],
+  nameChangeOk: [],
+  sexAdded: [],
   [ministrySource]: [],
   [reportingSource]: [],
 };
 
-const mergedRecordConflictAccepts: ReconcileResults = {
-  age: [],
-  dob: [],
-  sex: [],
-  name: [],
-  [ministrySource]: [],
-  [reportingSource]: [],
+const mergedRecordFreeAccepts: FreeAccepts = {
+  newRecordsFromMinistry: [],
+  newRecordsFromSubmissions: [],
 };
+
+const distributionStep = (pct: number) => Math.round(pct * 10) * 10;
 
 const newRecordsWithInvalidDob: string[] = [];
 const nameDiffThreshold = 0.3;
+const nameChangeAcceptDist: Record<number, number> = {};
 
-const addIfBetter = (
+const addIfAcceptable = (
   lookup: Map<string, NewRecord | (ExistingRecord & { age?: string })>,
   record: NewRecord,
-  results: { skips: ReconcileResults; accepts: ReconcileResults }
+  results: {
+    skips: ReconcileSkips;
+    accepts: ReconcileAccepts;
+    freeAccepts?: FreeAccepts;
+  }
 ) => {
   const age = record.age ? +dequote(record.age) : -1;
   const dob = record.dob ? normalizeDateStr(record.dob) : null;
@@ -317,6 +373,11 @@ const addIfBetter = (
   const priorRecord = lookup.get(record.id);
   if (!priorRecord) {
     if (validDob) {
+      if (record.source === ministrySource) {
+        results.freeAccepts?.newRecordsFromMinistry.push(record.id);
+      } else if (record.source === reportingSource) {
+        results.freeAccepts?.newRecordsFromSubmissions.push(record.id);
+      }
       lookup.set(record.id, record);
     } else {
       newRecordsWithInvalidDob.push(record.id);
@@ -357,21 +418,38 @@ const addIfBetter = (
     return;
   }
 
-  if (diff.age === true || typeof diff.age === "number") {
-    results.accepts.age.push(record.id);
+  if (diff.age === 0) {
+    results.accepts.ageSame.push(record.id);
+  } else if (diff.age === true) {
+    results.accepts.ageDirty.push(record.id);
+    results.accepts.ageAdded.push(record.id);
+  } else if (typeof diff.age === "number") {
+    results.accepts.ageDirty.push(record.id);
+    results.accepts.ageChangeOk.push(record.id);
   }
-  if (diff.dob === true || dobFixed) {
-    results.accepts.dob.push(record.id);
+  if (diff.dob === true) {
+    results.accepts.dobDirty.push(record.id);
+    results.accepts.dobAdded.push(record.id);
+  }
+  if (dobFixed) {
+    results.accepts.dobDirty.push(record.id);
+    results.accepts.dobFixed.push(record.id);
   }
   if (
     diff.name &&
     typeof diff.name === "number" &&
-    diff.name <= nameDiffThreshold
+    diff.name <= nameDiffThreshold &&
+    diff.name !== 0
   ) {
-    results.accepts.name.push(record.id);
+    const distKey = distributionStep(diff.name as number) || 0;
+    const existingDistCount = nameChangeAcceptDist[distKey] || 0;
+    nameChangeAcceptDist[distKey] = existingDistCount + 1;
+    results.accepts.nameChangeOk.push(record.id);
+  } else {
+    results.accepts.nameSame.push(record.id);
   }
   if (diff.sex === true) {
-    results.accepts.sex.push(record.id);
+    results.accepts.sexAdded.push(record.id);
   }
   results.accepts[source].push(record.id);
   lookup.set(record.id, record);
@@ -423,7 +501,7 @@ async function reconcileCSVs(
       newConflicts.set(record.id, [...conflicts, record]);
     }
 
-    addIfBetter(newRecordLookup, record, {
+    addIfAcceptable(newRecordLookup, record, {
       skips: newRecordConflictSkips,
       accepts: newRecordConflictAccepts,
     });
@@ -436,16 +514,49 @@ async function reconcileCSVs(
     } else if (existingRecord) {
       existingConflicts.add(existingRecord.id);
     }
+  });
 
-    addIfBetter(mergedRecords, record, {
+  console.log("new record lookup size:", newRecordLookup.size);
+  for (const key of newRecordLookup.keys()) {
+    const record = newRecordLookup.get(key) as NewRecord;
+    addIfAcceptable(mergedRecords, record, {
       skips: mergedRecordConflictSkips,
       accepts: mergedRecordConflictAccepts,
+      freeAccepts: mergedRecordFreeAccepts,
     });
-  });
+  }
 
   const recordsToRemove = new Set<string>();
   const recordsToAdd = new Set<string>();
+  const existingDemographics: DemoDistribution = {
+    srmen: 0,
+    srwomen: 0,
+    men: 0,
+    women: 0,
+    boys: 0,
+    girls: 0,
+    male: 0,
+    female: 0,
+    adult: 0,
+    child: 0,
+    noDemo: 0,
+  };
   const addedDemographics: DemoDistribution = {
+    srmen: 0,
+    srwomen: 0,
+    men: 0,
+    women: 0,
+    boys: 0,
+    girls: 0,
+    male: 0,
+    female: 0,
+    adult: 0,
+    child: 0,
+    noDemo: 0,
+  };
+  const mergedDemographics: DemoDistribution = {
+    srmen: 0,
+    srwomen: 0,
     men: 0,
     women: 0,
     boys: 0,
@@ -461,6 +572,9 @@ async function reconcileCSVs(
   const overlapCountDist: Record<number, number> = {};
 
   for (const key of existingRecords.keys()) {
+    const demo = getRecordDemo(existingRecords.get(key) as ExistingRecord);
+    existingDemographics[demo]++;
+
     if (!newRecordLookup.has(key)) {
       recordsToRemove.add(key);
     }
@@ -494,6 +608,13 @@ async function reconcileCSVs(
     }
   }
 
+  for (const key of mergedRecords.keys()) {
+    const demo = getRecordDemo(
+      mergedRecords.get(key) as NewRecord | ExistingRecord
+    );
+    mergedDemographics[demo]++;
+  }
+
   const overlap = existingDuplicates.size + existingConflicts.size;
   const estMergedListSize =
     existingRecords.size -
@@ -514,7 +635,6 @@ async function reconcileCSVs(
     [] as Array<ReturnType<typeof getDiff>>
   );
 
-  const distributionStep = (pct: number) => Math.round(pct * 10) * 10;
   const handleDiffAge = (
     age: boolean | number | undefined,
     acc: { removed: number; concerning: number; ok: number }
@@ -583,6 +703,34 @@ async function reconcileCSVs(
     }
   );
 
+  const renderDemoDist = (dist: DemoDistribution, pctBasis: number) =>
+    (Object.keys(dist) as Array<keyof DemoDistribution>).reduce(
+      (acc, key) => ({
+        ...acc,
+        [`${key}Pct`]: dist[key] / pctBasis,
+      }),
+      dist
+    );
+
+  const mergedRecordConflictChangeDist = [
+    ...mergedRecordConflictAccepts[ministrySource],
+    ...mergedRecordConflictAccepts[reportingSource],
+  ].reduce((acc, id) => {
+    const age = mergedRecordConflictAccepts.ageDirty.includes(id);
+    const dob = mergedRecordConflictAccepts.dobDirty.includes(id);
+    const name = mergedRecordConflictAccepts.nameChangeOk.includes(id);
+    const sex = mergedRecordConflictAccepts.sexAdded.includes(id);
+    const key =
+      [age ? "age" : "", dob ? "dob" : "", name ? "name" : "", sex ? "sex" : ""]
+        .filter(Boolean)
+        .join("_") || "unchanged";
+    const existingValue = acc[key] || [];
+    return {
+      ...acc,
+      [key]: existingValue.concat(id),
+    };
+  }, {} as Record<string, string[]>);
+
   console.log("summary", {
     estMergedListSize,
     estMergedListSizeChg:
@@ -591,15 +739,12 @@ async function reconcileCSVs(
     priorListSizeOfLatestKilled: existingRecords.size / 33_175,
     added: recordsToAdd.size,
     addedPct: recordsToAdd.size / newRecordLookup.size,
-    addedDemographics: (
-      Object.keys(addedDemographics) as Array<keyof DemoDistribution>
-    ).reduce(
-      (acc, key) => ({
-        ...acc,
-        [`${key}Pct`]: addedDemographics[key] / recordsToAdd.size,
-      }),
-      addedDemographics
+    existingDemographics: renderDemoDist(
+      existingDemographics,
+      existingRecords.size
     ),
+    addedDemographics: renderDemoDist(addedDemographics, recordsToAdd.size),
+    mergedDemographics: renderDemoDist(mergedDemographics, mergedRecords.size),
     addedConflicts,
     addedDuplicates,
     removed: recordsToRemove.size,
@@ -612,10 +757,23 @@ async function reconcileCSVs(
     newDuplicates: newDuplicates.size,
     newConflicts: newConflicts.size,
     newRecordsWithInvalidDob: newRecordsWithInvalidDob.length,
+    newRecordsFromMinistry:
+      mergedRecordFreeAccepts.newRecordsFromMinistry.length,
+    newRecordsFromSubmissions:
+      mergedRecordFreeAccepts.newRecordsFromSubmissions.length,
     newRecordConflictSkips: sumArrayLookup(newRecordConflictSkips),
     newRecordConflictAccepts: sumArrayLookup(newRecordConflictAccepts),
     mergedRecordConflictSkips: sumArrayLookup(mergedRecordConflictSkips),
     mergedRecordConflictAccepts: sumArrayLookup(mergedRecordConflictAccepts),
+    mergedRecordConflictChangeDist: sumArrayLookup(
+      mergedRecordConflictChangeDist
+    ),
+    nameChangeAcceptDist,
+    mergedRecordConflictChange_ageDob: mergedRecordConflictChangeDist.age_dob,
+    mergedRecordConflictChangeDist_ageDobName:
+      mergedRecordConflictChangeDist.age_dob_name,
+    someAgeAndNameChanges: mergedRecordConflictChangeDist.age_name.slice(0, 10),
+    someAgeOnlyChanges: mergedRecordConflictChangeDist.age.slice(0, 10),
     existingConflictsDistribution,
 
     /* big name diffs */
@@ -629,18 +787,26 @@ async function reconcileCSVs(
     // ),
   });
 
-  const csvHeader = ["id", "name_ar_raw", "dob", "sex"];
+  const csvHeader = ["id", "name_ar_raw", "dob", "age", "sex"];
+  const format = (value: string, header: string) =>
+    header === "age" ? `"${value}"` : value;
   const rows: string[] = [];
   for (const key of mergedRecords.keys()) {
     const record = mergedRecords.get(key) as NewRecord | ExistingRecord;
     rows.push(
-      csvHeader.map((header) => record[header as keyof typeof record]).join(",")
+      csvHeader
+        .map((header) => format(record[header as keyof typeof record], header))
+        .join(",")
     );
   }
-  fs.writeFileSync(
-    path.resolve(__dirname, "data/raw.csv"),
-    [csvHeader.join(","), ...rows].join("\r\n")
-  );
+  const newListLength = rows.length;
+  console.log("new list length:", newListLength);
+  if (process.argv.includes("--write")) {
+    fs.writeFileSync(
+      path.resolve(__dirname, "data/raw.csv"),
+      [csvHeader.join(","), ...rows].join("\r\n")
+    );
+  }
 }
 
 // Usage example
