@@ -291,6 +291,7 @@ const mergedRecordConflictAccepts: ReconcileResults = {
 };
 
 const newRecordsWithInvalidDob: string[] = [];
+const nameDiffThreshold = 0.3;
 
 const addIfBetter = (
   lookup: Map<string, NewRecord | (ExistingRecord & { age?: string })>,
@@ -341,7 +342,9 @@ const addIfBetter = (
     return;
   }
   if (
-    (diff.name && typeof diff.name === "number" && diff.name > 0.5) ||
+    (diff.name &&
+      typeof diff.name === "number" &&
+      diff.name > nameDiffThreshold) ||
     record.name_ar_raw.includes("0")
   ) {
     results.skips.name.push(record.id);
@@ -360,7 +363,11 @@ const addIfBetter = (
   if (diff.dob === true || dobFixed) {
     results.accepts.dob.push(record.id);
   }
-  if (diff.name && typeof diff.name === "number" && diff.name <= 0.5) {
+  if (
+    diff.name &&
+    typeof diff.name === "number" &&
+    diff.name <= nameDiffThreshold
+  ) {
     results.accepts.name.push(record.id);
   }
   if (diff.sex === true) {
