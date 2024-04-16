@@ -16,3 +16,9 @@ site/static/api
 analytics/
 jsoncheck/
 ci-tmp/
+
+# KiG PDF parsing local files
+downloads/
+pdfs/
+pdfservices-api-credentials.json
+config/pdfservices-*
