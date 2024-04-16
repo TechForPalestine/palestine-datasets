@@ -30,6 +30,8 @@ const adjust = (count: number) =>
 const firstBoy: [string, number] = boyList.shift();
 const firstGirl: [string, number] = girlList.shift();
 
+const formatter = new Intl.NumberFormat("en-US");
+
 const ShareIcon = () => {
   return (
     <svg
@@ -119,7 +121,24 @@ const KilledNameCard = ({
             Share <ShareIcon />
           </div>
         )}
-        <div className={styles.count}>{count}</div>
+        <svg
+          width="100%"
+          height="140"
+          viewBox="0 0 500 75"
+          className="count"
+          preserveAspectRatio="xMinYMid meet"
+        >
+          <text
+            x="50%"
+            y={count > 999 ? 105 : 120}
+            text-anchor="middle"
+            font-size={count > 999 ? 170 : 200}
+            font-weight="bold"
+            fill="#ca3a32"
+          >
+            {formatter.format(count)}
+          </text>
+        </svg>
         <div
           className={[
             styles.label,
