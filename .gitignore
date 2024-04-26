@@ -15,3 +15,9 @@ site/static/api
 analytics/
 jsoncheck/
 ci-tmp/
+
+# PDF processing
+/pdfs/
+/downloads/
+/pdfservices-*
+/config/pdfservices-*
