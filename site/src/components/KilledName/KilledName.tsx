@@ -27,8 +27,8 @@ const childrenInKilledNamesList =
 const adjust = (count: number) =>
   Math.round((count / childrenInKilledNamesList) * latestChildrenKilledTotal);
 
-const firstBoy: [string, number] = boyList.shift();
-const firstGirl: [string, number] = girlList.shift();
+const firstBoy = boyList.shift() as [string, number];
+const firstGirl = girlList.shift() as [string, number];
 
 const formatter = new Intl.NumberFormat("en-US");
 
@@ -177,8 +177,8 @@ export const KilledName = () => {
       girlList = shuffle(names.lists.girl);
     }
 
-    const nextBoy = boyList.shift();
-    const nextGirl = girlList.shift();
+    const nextBoy = boyList.shift() as [string, number];
+    const nextGirl = girlList.shift() as [string, number];
 
     setCards([
       { name: nextBoy[0], count: adjust(nextBoy[1]) },
