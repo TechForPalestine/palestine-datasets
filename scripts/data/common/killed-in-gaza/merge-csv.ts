@@ -30,10 +30,14 @@ const arHeaderPartials = Object.keys(headerLookup);
 
 const issues = {
   ageInvalid: new Set<string>(),
+  ageParsedDiff: new Set<string>(),
+  ageInDob: new Set<string>(),
   identInName: new Set<string>(),
   nameWithNumbers: new Set<string>(),
   identWithNonNumbers: new Set<string>(),
   dobAgeMismatch: new Set<string>(),
+  dobNot3Parts: new Set<string>(),
+  dobDatePartSwappedToEnd: new Set<string>(),
 };
 
 const formatRecordValue = (
@@ -55,12 +59,74 @@ const formatRecordValue = (
     }
     return value.trim();
   }
+  if (header === "age" && !!value.trim()) {
+    if (/[/-]/.test(value)) {
+      return "";
+    }
+    if (value.trim() === "سنتان") {
+      return "2";
+    }
+    if (value.trim().includes("#")) {
+      return "";
+    }
+    const parsed = parseFloat(value.trim());
+    if (parsed.toString() !== value.trim()) {
+      issues.ageParsedDiff.add(id);
+      const numeric = value.trim().replace(/\D/g, "");
+      const parsedNumeric = parseFloat(numeric);
+      if (parsedNumeric.toString() === numeric) {
+        return numeric;
+      } else {
+        return "";
+      }
+    }
+  }
   if (header === "dob") {
+    if (id.includes("939320776")) {
+      console.log({ id, value });
+    }
     if (value.includes("#")) {
       return "";
     }
     if (!!value && value.trim().length < 6) {
       return "";
+    }
+    const parts = value
+      .trim()
+      .split(/[-/]/)
+      .map((p) => (p.trim().length === 1 ? `0${p.trim()}` : p.trim()));
+    let dirtyDob: string[] | undefined;
+    if (!!value.trim() && parts.length !== 3) {
+      issues.dobNot3Parts.add(id);
+      return "";
+    } else if (+(parts[2] ?? 0) > 1000) {
+      dirtyDob = parts.reverse();
+    } else if ((parts.reduce((sum, p) => sum + +p, 0) ?? 0) < 300) {
+      // year in short form ("88")
+      const reversed = parts.slice().reverse();
+
+      if (reversed[0] === "0002" || reversed[0] === "0001") {
+        reversed[0] = "00"; // assume got reversed via RTL
+      }
+
+      if (reversed[0] === "0196") {
+        reversed[0] = "1960";
+      }
+
+      reversed[0] =
+        +reversed[0] >= 0 && +reversed[0] <= 24
+          ? `20${reversed[0]}`
+          : `19${reversed[0]}`;
+      dirtyDob = reversed;
+    }
+
+    if (dirtyDob && +dirtyDob[1] > 12) {
+      issues.dobDatePartSwappedToEnd.add(id);
+      dirtyDob = [dirtyDob[0], dirtyDob[2], dirtyDob[1]];
+    }
+
+    if (dirtyDob) {
+      return dirtyDob.join("-");
     }
   }
   // strip "yes" from start of names and any other single chars
@@ -112,6 +178,11 @@ for (const filepath of files) {
         [header]: formatRecordValue(cell, header, id, index),
       };
     }, {} as Record<string, string>);
+    if (record.dob && !record.age && record.dob.length < 4) {
+      record.age = record.dob;
+      record.dob = "";
+      issues.ageInDob.add(id);
+    }
     if (
       !record.id ||
       record.id.startsWith("INVALID") ||
