@@ -29,7 +29,8 @@
     "sort-list-csvs": "bun run scripts/data/common/killed-in-gaza/sort-csv.ts",
     "download-killed-derived": "bun run scripts/build/download-killed-derived.ts",
     "patch-deps": "./patches/docusaurus-utils.sh",
-    "postinstall": "bun run patch-deps"
+    "install-cms": "bun build site/static/cms/main.js --outfile=site/static/cms/decap.js",
+    "postinstall": "bun run patch-deps && bun run install-cms"
   },
   "devDependencies": {
     "@types/node": "^20.11.0"
@@ -42,6 +43,7 @@
     "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
     "date-fns": "^3.3.1",
+    "decap-cms-app": "^3.1.10",
     "fastest-levenshtein": "^1.0.16",
     "html-to-image": "^1.11.11",
     "lodash": "^4.17.21",

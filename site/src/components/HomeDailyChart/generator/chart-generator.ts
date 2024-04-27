@@ -25,7 +25,7 @@ type MappedData = {
   slimData: SlimData[];
 };
 
-const eventsToSkipOnMobile = ["Xmas", "Superbowl", "Ramadan"];
+const eventsToSkipOnMobile = ["Xmas", "Superbowl", "Easter"];
 
 const lastWestBankReport =
   westBankDailyTimeSeries[westBankDailyTimeSeries.length - 1];
@@ -101,7 +101,9 @@ const data = gazaDailyTimeSeries.reduce(
     }),
     chart: acc.chart.concat({
       date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
-      value: ext_killed_cum,
+      value:
+        ext_killed_cum +
+        getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum"),
     }),
   }),
   {

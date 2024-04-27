@@ -27,8 +27,10 @@ const childrenInKilledNamesList =
 const adjust = (count: number) =>
   Math.round((count / childrenInKilledNamesList) * latestChildrenKilledTotal);
 
-const firstBoy: [string, number] = boyList.shift();
-const firstGirl: [string, number] = girlList.shift();
+const firstBoy = boyList.shift() as [string, number];
+const firstGirl = girlList.shift() as [string, number];
+
+const formatter = new Intl.NumberFormat("en-US");
 
 const ShareIcon = () => {
   return (
@@ -119,7 +121,24 @@ const KilledNameCard = ({
             Share <ShareIcon />
           </div>
         )}
-        <div className={styles.count}>{count}</div>
+        <svg
+          width="100%"
+          height="140"
+          viewBox="0 0 500 75"
+          className="count"
+          preserveAspectRatio="xMinYMid meet"
+        >
+          <text
+            x="50%"
+            y={count > 999 ? 105 : 120}
+            text-anchor="middle"
+            font-size={count > 999 ? 170 : 200}
+            font-weight="bold"
+            fill="#ca3a32"
+          >
+            {formatter.format(count)}
+          </text>
+        </svg>
         <div
           className={[
             styles.label,
@@ -158,8 +177,8 @@ export const KilledName = () => {
       girlList = shuffle(names.lists.girl);
     }
 
-    const nextBoy = boyList.shift();
-    const nextGirl = girlList.shift();
+    const nextBoy = boyList.shift() as [string, number];
+    const nextGirl = girlList.shift() as [string, number];
 
     setCards([
       { name: nextBoy[0], count: adjust(nextBoy[1]) },

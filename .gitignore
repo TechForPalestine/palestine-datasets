@@ -17,8 +17,8 @@ analytics/
 jsoncheck/
 ci-tmp/
 
-# KiG PDF parsing local files
-downloads/
-pdfs/
-pdfservices-api-credentials.json
-config/pdfservices-*
+# PDF processing
+/pdfs/
+/downloads/
+/pdfservices-*
+/config/pdfservices-*
