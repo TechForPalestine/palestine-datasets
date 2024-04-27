@@ -2840,8 +2840,8 @@
   },
   {
     "report_date": "2024-04-25",
-    "killed_cum": 469,
-    "killed_children_cum": 115,
+    "killed_cum": 470,
+    "killed_children_cum": 116,
     "injured_cum": 4974,
     "injured_children_cum": 743,
     "settler_attacks_cum": 794,
@@ -2849,8 +2849,17 @@
   },
   {
     "report_date": "2024-04-26",
-    "killed_cum": 469,
-    "killed_children_cum": 115,
+    "killed_cum": 470,
+    "killed_children_cum": 116,
+    "injured_cum": 4974,
+    "injured_children_cum": 743,
+    "settler_attacks_cum": 794,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-04-27",
+    "killed_cum": 470,
+    "killed_children_cum": 116,
     "injured_cum": 4974,
     "injured_children_cum": 743,
     "settler_attacks_cum": 794,
