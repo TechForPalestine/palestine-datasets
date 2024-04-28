@@ -20,6 +20,16 @@ type NewRecord = {
   source: string;
 };
 
+const arMapParts = new Set(
+  fs
+    .readFileSync(
+      "scripts/data/common/killed-in-gaza/data/dict_ar_en.csv",
+      "utf8"
+    )
+    .split("\n")
+    .map((line) => line.split(",")[0])
+);
+
 const dequote = (value: string) => {
   if (value.startsWith('"') && value.endsWith('"')) {
     return value.slice(1, -1);
@@ -261,10 +271,10 @@ const getRecordDemo = (
 };
 
 const reportingSource = "تبيلغ ذوي الشهداء";
-const ministrySource = "سجالت وزارة الصحة";
+const ministrySource = "سجلات وزارة الصحة";
 type Source = typeof reportingSource | typeof ministrySource;
 type ReconcileSkips = Record<
-  "age" | "dob" | "sex" | "name" | "سجالت وزارة الصحة" | "تبيلغ ذوي الشهداء",
+  "age" | "dob" | "sex" | "name" | "سجلات وزارة الصحة" | "تبيلغ ذوي الشهداء",
   string[]
 >;
 type ReconcileAccepts = {
@@ -276,6 +286,7 @@ type ReconcileAccepts = {
   dobFixed: string[];
   dobDirty: string[];
   nameSame: string[];
+  nameKept: string[];
   nameChangeOk: string[];
   sexAdded: string[];
   [ministrySource]: string[];
@@ -304,6 +315,7 @@ const newRecordConflictAccepts: ReconcileAccepts = {
   dobFixed: [],
   dobDirty: [],
   nameSame: [],
+  nameKept: [],
   nameChangeOk: [],
   sexAdded: [],
   [ministrySource]: [],
@@ -328,6 +340,7 @@ const mergedRecordConflictAccepts: ReconcileAccepts = {
   dobFixed: [],
   dobDirty: [],
   nameSame: [],
+  nameKept: [],
   nameChangeOk: [],
   sexAdded: [],
   [ministrySource]: [],
@@ -388,6 +401,24 @@ const addIfAcceptable = (
   const diff = getDiff(priorRecord, record);
   const source = record.source as Source;
 
+  let copyOldName = false;
+  const priorNameLookupHits = priorRecord.name_ar_raw
+    .split(" ")
+    .filter((part) => arMapParts.has(part)).length;
+  const newNameLookupHits = record.name_ar_raw
+    .split(" ")
+    .filter((part) => arMapParts.has(part)).length;
+  const knownSingleCharMiddleInsertIssue =
+    record.name_ar_raw.includes(" ن ") &&
+    !priorRecord.name_ar_raw.includes(" ن ");
+
+  if (
+    priorNameLookupHits > newNameLookupHits ||
+    knownSingleCharMiddleInsertIssue
+  ) {
+    copyOldName = true;
+  }
+
   if (
     diff.age === false ||
     (typeof diff.age === "number" && diff.age > 1) ||
@@ -402,7 +433,10 @@ const addIfAcceptable = (
     results.skips[source].push(record.id);
     return;
   }
-  if (
+  if (copyOldName) {
+    record.name_ar_raw = priorRecord.name_ar_raw;
+    results.accepts.nameKept.push(record.id);
+  } else if (
     (diff.name &&
       typeof diff.name === "number" &&
       diff.name > nameDiffThreshold) ||
@@ -450,6 +484,9 @@ const addIfAcceptable = (
   }
   if (diff.sex === true) {
     results.accepts.sexAdded.push(record.id);
+  }
+  if (!results.accepts[source]) {
+    throw new Error(`Invalid source: '${source}' found in addIfAcceptable`);
   }
   results.accepts[source].push(record.id);
   lookup.set(record.id, record);
@@ -501,12 +538,13 @@ async function reconcileCSVs(
       newConflicts.set(record.id, [...conflicts, record]);
     }
 
+    // add new records to empty lookup to allow new record reconciling dupes first
     addIfAcceptable(newRecordLookup, record, {
       skips: newRecordConflictSkips,
       accepts: newRecordConflictAccepts,
     });
 
-    // check for dupe in new records vs existing records
+    // check for dupe in new records vs existing records for reporting purposes
     const existingRecord = existingRecords.get(record.id);
     if (existingRecord && isDupe(existingRecord, record)) {
       const existingDupes = existingDuplicates.get(record.id) || [];
@@ -516,6 +554,7 @@ async function reconcileCSVs(
     }
   });
 
+  // re-loop over new records that have been de-duped and merge with existing
   console.log("new record lookup size:", newRecordLookup.size);
   for (const key of newRecordLookup.keys()) {
     const record = newRecordLookup.get(key) as NewRecord;
@@ -762,7 +801,10 @@ async function reconcileCSVs(
       existingRecords.size
     ),
     addedDemographics: renderDemoDist(addedDemographics, recordsToAdd.size),
-    mergedDemographics: renderDemoDist(mergedDemographics, mergedRecords.size),
+    mergedDemographics: renderDemoDist(
+      mergedDemographics,
+      mergedRecords.size - recordsToRemove.size
+    ),
     removedDemographics: renderDemoDist(
       removedDemographics,
       recordsToRemove.size
@@ -770,7 +812,9 @@ async function reconcileCSVs(
     addedConflicts,
     addedDuplicates,
     removed: recordsToRemove.size,
-    removedSample: Array.from(recordsToRemove.keys()).slice(0, 10),
+    removedSample: Array.from(recordsToRemove.keys())
+      .slice(0, 10)
+      .concat(Array.from(recordsToRemove.keys()).slice(-10)),
     removedPct: recordsToRemove.size / newRecordLookup.size,
     overlap: overlap,
     overlapPct: overlap / existingRecords.size,
@@ -835,8 +879,8 @@ async function reconcileCSVs(
   }
 }
 
-// Usage example
 reconcileCSVs(
   path.resolve(__dirname, "data/raw.csv"),
-  path.resolve(__dirname, "data/raw-v2.csv")
+  "downloads/merged.csv"
+  // path.resolve(__dirname, "data/raw-v2.csv")
 );

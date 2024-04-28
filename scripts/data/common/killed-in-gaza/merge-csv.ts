@@ -1,13 +1,24 @@
 import fs from "fs";
 import { ArabicClass } from "arabic-utils";
 
-const files = new Array(46)
+const pdfFolders = new Array(46)
   .fill(1)
   .map((i, idx) => i + idx * 10)
-  .map(
-    (i) => `downloads/${i.toString().padStart(3, "0")}/tables/fileoutpart0.csv`
-  )
+  .map((i) => `downloads/${i.toString().padStart(3, "0")}`)
   .sort();
+
+const files = [] as string[];
+pdfFolders.forEach((folder) => {
+  const folderFiles = fs
+    .readdirSync(folder + "/tables")
+    .filter((file) => file.endsWith(".csv"))
+    .map((file) => `${folder}/tables/${file}`);
+  files.push(...folderFiles);
+});
+
+files.sort();
+// console.log(">>", files.join("\n"));
+// process.exit(0);
 
 let headers: string[] = [];
 const headerLookup = {
@@ -34,6 +45,8 @@ const issues = {
   ageInDob: new Set<string>(),
   identInName: new Set<string>(),
   nameWithNumbers: new Set<string>(),
+  nameStartingWithSingleChar: new Set<string>(),
+  nameEndingWithSingleChar: new Set<string>(),
   identWithNonNumbers: new Set<string>(),
   dobAgeMismatch: new Set<string>(),
   dobNot3Parts: new Set<string>(),
@@ -82,9 +95,6 @@ const formatRecordValue = (
     }
   }
   if (header === "dob") {
-    if (id.includes("939320776")) {
-      console.log({ id, value });
-    }
     if (value.includes("#")) {
       return "";
     }
@@ -104,13 +114,22 @@ const formatRecordValue = (
     } else if ((parts.reduce((sum, p) => sum + +p, 0) ?? 0) < 300) {
       // year in short form ("88")
       const reversed = parts.slice().reverse();
+      let fixed = false;
 
-      if (reversed[0] === "0002" || reversed[0] === "0001") {
+      if (
+        reversed[0] === "0002" ||
+        reversed[0] === "0001" ||
+        reversed[0] === "0200"
+      ) {
         reversed[0] = "00"; // assume got reversed via RTL
       }
 
-      if (reversed[0] === "0196") {
-        reversed[0] = "1960";
+      if (reversed[0] === "0005") {
+        reversed[0] = "05";
+      }
+
+      if (reversed[0] === "0196" || reversed[0] === "1960") {
+        reversed[0] = "60";
       }
 
       reversed[0] =
@@ -132,21 +151,33 @@ const formatRecordValue = (
   // strip "yes" from start of names and any other single chars
   // figure out a way to get name to match for 15yr old girl case
   if (header === "name_ar_raw") {
+    let cleanedName = value.trim();
+
     if (id && value.includes(id)) {
       issues.identInName.add(value);
-    } else if (value.match(/\d/)) {
+    }
+    if (value.match(/\d/)) {
       if (value.includes("00")) {
-        return value.trim().replace("00", "");
+        cleanedName = value.trim().replace("00", "");
       }
       const spacedNumbers = value.match(/\b[0-9]+\b/);
       if (spacedNumbers) {
-        return value.trim().replace(/\b[0-9]+\b/g, " ");
+        cleanedName = value.trim().replace(/\b[0-9]+\b/g, " ");
       }
       issues.nameWithNumbers.add(id);
     }
+    while (/^[^\s]\s+/.test(cleanedName)) {
+      cleanedName = cleanedName.replace(/^[^\s]\s+/, "");
+      issues.nameStartingWithSingleChar.add(id);
+    }
+    while (/\s+[^\s]?$/.test(cleanedName)) {
+      cleanedName = cleanedName.replace(/\s+[^\s]?$/, "");
+      issues.nameEndingWithSingleChar.add(id);
+    }
 
-    return new ArabicClass(value.trim()).normalize();
+    return new ArabicClass(cleanedName).normalize();
   }
+
   return value.trim();
 };
 
@@ -167,8 +198,15 @@ for (const filepath of files) {
   }
   const idIdx = headers.indexOf("id");
   const indexIdx = headers.indexOf("index");
-  rows.forEach((row) => {
-    const cells = row.split(",");
+
+  const iterateRow = (cells: string[]) => {
+    if (cells.length !== headers.length) {
+      console.log("encountered row with length:", cells.length);
+      if (cells.length === 12) {
+        console.log(cells, headers);
+        process.exit(0);
+      }
+    }
     const id = cells[idIdx];
     const index = cells[indexIdx];
     const record = cells.reduce((rec, cell, idx) => {
@@ -193,6 +231,48 @@ for (const filepath of files) {
       return;
     }
     records.push(record);
+  };
+
+  const handleCombinedRow = (cells: string[]) => {
+    const splitPoint =
+      cells.slice(1).findIndex((cell) => cell.includes("سجلات وزارة الصحة ")) +
+      1;
+    if (splitPoint <= 0) {
+      console.log("could not find split point in combined row:", cells);
+      process.exit(1);
+      return;
+    }
+
+    const firstRow = cells.slice(0, splitPoint);
+    const secondRow = cells.slice(splitPoint);
+    [firstRow, secondRow].forEach((row) => {
+      if (row.length === headers.length) {
+        iterateRow(row);
+      } else if (
+        row.length === 5 &&
+        Object.keys(genders).includes(row[1].trim())
+      ) {
+        row.splice(1, 0, "");
+        row.splice(3, 0, "");
+        iterateRow(row);
+      } else {
+        console.log("unhandled row with bad length:", row.length, "-->", row);
+        process.exit(1);
+      }
+    });
+  };
+
+  rows.forEach((row) => {
+    const cells = row.split(",");
+    if (cells.length === headers.length) {
+      iterateRow(cells);
+    } else if (cells.length === 12) {
+      handleCombinedRow(cells);
+    } else if (cells.length === 1 && cells[0].trim() === "") {
+      // no-op empty row
+    } else {
+      console.log("encountered row with length:", cells.length, "-->", cells);
+    }
   });
 }
 

@@ -29,31 +29,33 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 
 ### Demographics of Newly Added Records
 
-| Demographic     | Number |    % |
-| --------------- | -----: | ---: |
-| Men             |  3,181 | 46.5 |
-| Women           |  1,205 | 17.6 |
-| Boys            |    987 | 14.4 |
-| Girls           |    774 | 11.3 |
-| Sr. Men         |    259 |  3.8 |
-| Sr. Women       |    137 |  2.0 |
-| Male (no age)   |    207 |  3.0 |
-| Female (no age) |     91 |  1.3 |
-| Total Persons   |  6,841 |      |
+| Demographic     | Number | %    |
+| --------------- | ------ | ---- |
+| Men             | 3,163  | 49.1 |
+| Women           | 1,179  | 18.3 |
+| Boys            | 929    | 14.4 |
+| Girls           | 735    | 11.4 |
+| Sr. Men         | 233    | 3.6  |
+| Sr. Women       | 124    | 1.9  |
+| Male (no age)   | 51     | 0.8  |
+| Female (no age) | 31     | 0.5  |
+| Total Persons   | 6,445  |      |
+
+### Demographics of Our Updated List After Merge
 
 ### Demographics of Our Updated List After Merge
 
 | Demographic     | Number |    % |
 | --------------- | -----: | ---: |
-| Men             |  7,745 | 36.9 |
-| Women           |  4,335 | 20.7 |
-| Boys            |  3,466 | 16.5 |
-| Girls           |  2,999 | 14.3 |
-| Sr. Men         |    591 |  2.8 |
-| Sr. Women       |    422 |  2.0 |
-| Male (no age)   |    721 |  3.4 |
-| Female (no age) |    507 |  2.4 |
-| Total Persons   | 20,786 |      |
+| Men             |  8,115 | 39.8 |
+| Women           |  4,597 | 22.5 |
+| Boys            |  3,402 | 16.7 |
+| Girls           |  2,956 | 14.5 |
+| Sr. Men         |    566 |  2.8 |
+| Sr. Women       |    410 |  2.0 |
+| Male (no age)   |    182 |  0.9 |
+| Female (no age) |    162 |  0.8 |
+| Total Persons   | 20,390 |      |
 
 ### Demographics of Removed Records
 
@@ -94,11 +96,9 @@ At this stage we worked to determine common issues with the parsed data and foun
 - age was sometimes repeated in both the age and date of birth columns (no date of birth)
   - we removed any age values from the date of birth column
 - identification number field sometimes had non-number values or was clearly invalid
-  - we created a new unique value based on the index of the record in the PDF, ie: `v0329-e-1000` where the middle character could be either `e` meaning the ident field we encountered was empty, or `o` meaning it had another invalid value or overflow from another column
+  - we dropped these records
 - date of birth field was full of hashes (`#`)
   - we removed these and left the date of birth empty
-- female gender was represented by two different arabic words (`أنثى` or `ىانث`)
-  - we consolidated these
 
 This was an iterative process of gathering stats, updating cleaning logic, and reviewing the output in our standard format to assess how to repeat with refined logic.
 
@@ -107,7 +107,7 @@ This was an iterative process of gathering stats, updating cleaning logic, and r
 We focused on assessing record conflicts based on the provided identification number only. If our existing list had a record with the same identification value, we checked the field changes (the "diff") to determine whether the change was acceptable using the following methodology:
 
 - if the age only changed by a year, we allowed the change as it's likely a reference date or rounding issue (the initial Ministry list was provided in a form that had an unfixed reference date of the current day and our prior list fixed that to January 5, 2024 per source dating)
-- if a comparison of names using Levenshtein Distance led to a change amounting to less than 30% of the original name's length, we allowed the change (based on a sampled manual review of the changes this seemed acceptable, but we will continue refining this method with the help of those fluent in arabic)
+- if a comparison of names using Levenshtein Distance led to a change amounting to less than 30% of the original name's length, we allowed the change, but only if the new name didn't rely more on our fallback auto translation library than it did before
 - if an age or date of birth was not on the existing record and it was on the incoming one, we accepted it
 
 This process helped us narrow in on specific record sets to refine our approach.
@@ -116,10 +116,10 @@ Where there were changes in names for existing records by identification ID with
 
 | change % upper bound | number of occurrences |
 | -------------------: | --------------------: |
-|                   0% |                 1,306 |
-|                  10% |                 4,146 |
-|                  20% |                 1,327 |
-|                  30% |                   242 |
+|                   0% |                 3,255 |
+|                  10% |                 4,506 |
+|                  20% |                   518 |
+|                  30% |                    56 |
 
 (the change threshold upper bound means that 20% would include a 12% or 18% change to the original name)
 
@@ -127,9 +127,10 @@ In terms of overall types of record changes across those already in our list at 
 
 | fields affected           | number of occurences |
 | ------------------------- | -------------------: |
-| Name                      |                5,381 |
-| None (Duplicate)          |                2,911 |
-| Age and Name              |                1,585 |
-| Only Age                  |                  800 |
-| Age, Birth Date, and Name |                    5 |
-| Age and Birth Date        |                    1 |
+| Name                      |                6,158 |
+| None (Duplicate)          |                4,089 |
+| Age and Name              |                2,113 |
+| Only Age                  |                1,557 |
+| Age, Birth Date, and Name |                   10 |
+| Age and Birth Date        |                   12 |
+| Birth Date and Name       |                    1 |
