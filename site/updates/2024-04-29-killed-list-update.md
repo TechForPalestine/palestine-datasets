@@ -71,6 +71,8 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 | Female (no age) |     12 |  6.2 |
 | Total Persons   |    195 |      |
 
+We believe the higher ratio of Men in this revised list reflects the addition of community-reported sourcing. These records likely include more of those lost or missing for which remains were not received by health authorities as was the case for most of the records in the initial list distributed in January.
+
 ## Merge Methodology / Commentary
 
 Incorporating the new list required a few steps:
