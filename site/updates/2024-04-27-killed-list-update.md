@@ -43,8 +43,6 @@ The following tables summarize the demographic changes in our [Killed in Gaza li
 
 ### Demographics of Our Updated List After Merge
 
-### Demographics of Our Updated List After Merge
-
 | Demographic     | Number |    % |
 | --------------- | -----: | ---: |
 | Men             |  8,115 | 39.8 |
