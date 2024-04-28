@@ -9,6 +9,8 @@ On April 3rd, we received an updated list of names of those killed in Gaza up to
 
 The new list was in a PDF format that differed slightly from the initial lists that were distributed in CSV format. It also included the source of the record being one of either the Ministry of Health ("سجالت وزارة الصحة"), or a submission made from the public ("تبيلغ ذوي الشهداء"). You can <a href="/sources/20240329gaza.pdf">download the Ministry of Health PDF here</a>. You can also <a href="/sources/20240413killed-in-gaza.csv">download our Killed in Gaza list from before in CSV format here</a> to compare how individual records may have changed.
 
+We've added a new `source` field to the records to indicate the reported source of the record as noted above.
+
 ## Change Summary
 
 The following tables summarize the demographic changes in our [Killed in Gaza list](/docs/killed-in-gaza) following its merge with the abovenoted Ministry list:

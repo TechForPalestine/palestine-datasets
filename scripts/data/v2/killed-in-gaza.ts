@@ -6,7 +6,15 @@ import { readCsv } from "../../utils/csv";
 
 const jsonFileName = "killed-in-gaza.json";
 
-const expectedFields = ["id", "name_ar_raw", "dob", "age", "sex", "name_en"];
+const expectedFields = [
+  "id",
+  "name_ar_raw",
+  "dob",
+  "age",
+  "sex",
+  "name_en",
+  "source",
+];
 
 interface MappedRecord extends Record<string, string | number> {
   id: string;

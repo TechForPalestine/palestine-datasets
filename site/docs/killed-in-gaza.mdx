@@ -26,14 +26,15 @@ import { JSONFileLinks } from "@site/src/components";
 
 Each record will have the following fields:
 
-| Key     | Value                                                                                            |
-| ------- | ------------------------------------------------------------------------------------------------ |
-| name    | original arabic name from the source list                                                        |
-| en_name | english name translation<br/>(`?` indicates part of the name was "unknown" in the arabic source) |
-| id      | unique string (do not depend on format, it may change)                                           |
-| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                     |
-| sex     | string of one of `m` for male or `f` for female                                                  |
-| age     | age as a number or `-1` if unavailable                                                           |
+| Key     | Value                                                                                                       |
+| ------- | ----------------------------------------------------------------------------------------------------------- |
+| name    | original arabic name from the source list                                                                   |
+| en_name | english name translation<br/>(`?` indicates part of the name was "unknown" in the arabic source)            |
+| id      | unique string (do not depend on format, it may change)                                                      |
+| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                                |
+| sex     | string of one of `m` for male or `f` for female                                                             |
+| age     | age as a number or `-1` if unavailable                                                                      |
+| source  | string indicating the source of the record (either `h` for "Ministry of Health" or `c` "Public Submission") |
 
 ---
 
@@ -59,3 +60,7 @@ Additional details about the list provided by the ministry in January:
 3. The unidentified persons whose bodies were handed over by the occupation were not counted.
 4. Those who were buried by their families without passing through hospitals were not counted.
 5. The victims in Gaza and North Gaza were not counted after the date of stopping the information system in November.
+
+## Prior Versions
+
+- January list CSV captured prior to the April update: <a href="/sources/20240413killed-in-gaza.csv">Download</a>

@@ -272,6 +272,10 @@ const getRecordDemo = (
 
 const reportingSource = "تبيلغ ذوي الشهداء";
 const ministrySource = "سجلات وزارة الصحة";
+const sourceMapping = {
+  [reportingSource]: "c",
+  [ministrySource]: "h",
+};
 type Source = typeof reportingSource | typeof ministrySource;
 type ReconcileSkips = Record<
   "age" | "dob" | "sex" | "name" | "سجلات وزارة الصحة" | "تبيلغ ذوي الشهداء",
@@ -854,10 +858,11 @@ async function reconcileCSVs(
     // ),
   });
 
-  const csvHeader = ["id", "name_ar_raw", "dob", "age", "sex"];
+  const csvHeader = ["id", "name_ar_raw", "dob", "age", "sex", "source"];
   const format = (value: string, header: string) =>
     header === "age" && value ? `"${value}"` : value;
   const rows: string[] = [];
+  const communityRecords = new Set<string>();
   for (const key of mergedRecords.keys()) {
     if (recordsToRemove.has(key)) {
       continue;
@@ -865,12 +870,23 @@ async function reconcileCSVs(
     const record = mergedRecords.get(key) as NewRecord | ExistingRecord;
     rows.push(
       csvHeader
-        .map((header) => format(record[header as keyof typeof record], header))
+        .map((header) => {
+          if (header === "source") {
+            const shortSource =
+              sourceMapping[record[header as keyof typeof record] as Source];
+            if (shortSource === "c") {
+              communityRecords.add(record.id);
+            }
+            return shortSource;
+          }
+          return format(record[header as keyof typeof record], header);
+        })
         .join(",")
     );
   }
   const newListLength = rows.length;
   console.log("new list length:", newListLength);
+  console.log("new list community records:", communityRecords.size);
   if (process.argv.includes("--write")) {
     fs.writeFileSync(
       path.resolve(__dirname, "data/raw.csv"),
