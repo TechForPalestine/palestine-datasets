@@ -64,9 +64,9 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
           if (/[\u{0600}-\u{06FF}]+/u.test(namePart)) {
             const existingCount = namesFallbackTranslated.get(namePart) ?? 0;
             namesFallbackTranslated.set(namePart, existingCount + 1);
-            return toEnName(namePart);
+            return toEnName(namePart).trim();
           }
-          return namePart;
+          return namePart.trim();
         })
         .join(" "),
     };
