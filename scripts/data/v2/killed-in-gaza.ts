@@ -1,13 +1,20 @@
 import fs from "fs";
 import toEnName from "arabic-name-to-en";
-import { differenceInMonths } from "date-fns";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 import { readCsv } from "../../utils/csv";
 
 const jsonFileName = "killed-in-gaza.json";
 
-const expectedFields = ["id", "name_ar_raw", "dob", "sex", "name_en"];
+const expectedFields = [
+  "id",
+  "name_ar_raw",
+  "dob",
+  "age",
+  "sex",
+  "name_en",
+  "source",
+];
 
 interface MappedRecord extends Record<string, string | number> {
   id: string;
@@ -22,8 +29,6 @@ const sexMapping = {
   M: "m",
   F: "f",
 };
-
-const ageReferenceDate = new Date(2024, 0, 5, 0, 0, 0);
 
 const namesFallbackTranslated = new Map<string, number>();
 const idsEncountered = new Set<string>();
@@ -46,6 +51,10 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
     case "sex":
       value = sexMapping[fieldValue as keyof typeof sexMapping] ?? "";
       break;
+    case "age":
+      const rawValue = fieldValue.replace(/["]/g, "").trim();
+      value = rawValue ? parseInt(rawValue, 10) : -1;
+      break;
   }
 
   if (fieldKey === "name_ar_raw") {
@@ -63,9 +72,9 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
           if (/[\u{0600}-\u{06FF}]+/u.test(namePart)) {
             const existingCount = namesFallbackTranslated.get(namePart) ?? 0;
             namesFallbackTranslated.set(namePart, existingCount + 1);
-            return toEnName(namePart);
+            return toEnName(namePart).trim();
           }
-          return namePart;
+          return namePart.trim();
         })
         .join(" "),
     };
@@ -78,24 +87,10 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
 
 const handleColumn = (
   headerKeys: string[],
-  rowValues: string[],
   currentColValue: string,
   currentColIndex: number
 ) => {
   const currentKey = headerKeys[currentColIndex];
-
-  if (currentKey === "dob") {
-    // calc age using dob and static reference date for consistency
-    // source spreadsheet used a formula using "today" as reference date
-    // which led to drift
-    const dob = rowValues[currentColIndex];
-    if (!dob) {
-      return { age: -1, dob };
-    }
-    const age = Math.round(differenceInMonths(ageReferenceDate, dob) / 12);
-    return { age, dob };
-  }
-
   return addSingleRecordField(currentKey, currentColValue);
 };
 
@@ -111,7 +106,7 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
       return rowColumns.reduce(
         (dayRecord, colValue, colIndex) => ({
           ...dayRecord,
-          ...handleColumn(headerKeys, rowColumns, colValue, colIndex),
+          ...handleColumn(headerKeys, colValue, colIndex),
         }),
         {} as MappedRecord
       );
