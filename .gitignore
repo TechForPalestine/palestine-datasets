@@ -2,6 +2,7 @@
 node_modules/
 .tool-versions
 
+scripts/data/common/killed-in-gaza/data/raw-v2*
 scripts/data/common/killed-in-gaza/output/*
 !scripts/data/common/killed-in-gaza/output/.gitkeep
 
