@@ -873,7 +873,8 @@ async function reconcileCSVs(
         .map((header) => {
           if (header === "source") {
             const shortSource =
-              sourceMapping[record[header as keyof typeof record] as Source];
+              sourceMapping[record[header as keyof typeof record] as Source] ??
+              "h";
             if (shortSource === "c") {
               communityRecords.add(record.id);
             }
