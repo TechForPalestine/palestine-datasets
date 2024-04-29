@@ -3,9 +3,12 @@ ar,en
 آدم,adam
 آسر,asr
 آسيا,asia
+آسيا,asia
 آلاء,alaa
 آمال,aamal
+آمال,amal
 آمنة,amnah
+آمنه,amena
 آمنه,amnah
 آنيا,ania
 آيات,ayat
@@ -17,6 +20,7 @@ ar,en
 آيه,ayah
 آيه,ayah
 أبرار,abarar
+أبرار,abrar
 أبو,abu
 أبوحمادة,abohamadah
 أبودقة,abodqh
@@ -36,16 +40,20 @@ ar,en
 أدم,adam
 أدهم,adhm
 أروى,aroa
+أروى,arwa
 أريام,araiam
 أريج,arij
 أريح,arih
 أزاد,azad
+أزهار,azhaar
 أزهار,azuhar
 أسامة,osama
 أسامة,usamah
+أسامه,usama
 أسامه,usamah
 أسد,assad
 أسعد,asaad
+أسعد,assad
 أسماء,asamaa
 أسيد,asaid
 أسيل,asail
@@ -60,10 +68,13 @@ ar,en
 ألمى,alma
 ألين,alain
 ألينا,alina
+أمال,amal
 أماني,amani
 أمجد,amjad
+أمجد,amjad
 أمل,amal
 أمل,aml
+أمنة,amena
 أمنة,amnah
 أمنه,amnah
 أمير,ameer
@@ -78,6 +89,7 @@ ar,en
 أنهار,anhaar
 أنوار,anwaar
 أنور,anwar
+أنيس,anees
 أنيس,aneis
 أنيسه,aneisuah
 أهل,ahl
@@ -116,6 +128,7 @@ ar,en
 إيلينا,iilina
 إيمان,iiaman
 إيمان,iman
+إيناس,enas
 إيناس,iinas
 إيهاب,iihab
 ئائر,aaar
@@ -130,6 +143,9 @@ ar,en
 ابريك,abrik
 ابريكه,abrikah
 ابمن,ayman
+ابن-الهام,son of elham
+ابن/اسراء,son of israa
+ابن/انوار,son of anwar
 ابن/رحيمة,son of rahima
 ابن/نبيلة,son of nabila
 ابناسراء,son of israa
@@ -661,6 +677,7 @@ ar,en
 استيتان,astitan
 اسحاق,asahaq
 اسحق,asahaq
+اسر,aasr
 اسراء,asraa
 اسعد,asaad
 اسعود,asaaod
@@ -1307,6 +1324,7 @@ ar,en
 القيشاوي,aliqaishaoi
 القيق,aliqaiq
 الكاس,alkas
+الكاظمى,al-kadhmi
 الكاظمي,alkazmai
 الكباريتي,alkbariti
 الكحلوت,alkhilot
@@ -1472,6 +1490,7 @@ ar,en
 امال,amal
 امامة,amamah
 امامه,amamuah
+امان,amaan
 اماني,amanei
 امبارك,ambark
 امتثال,amtthal
@@ -1479,6 +1498,7 @@ ar,en
 امجاد,amjad
 امجد,amjad
 امل,aml
+امنة,amena
 امنه,amna
 امنية,amaniah
 امير,amir
@@ -1608,7 +1628,11 @@ ar,en
 بن,bn
 بنات,bnat
 بنان,bnan
+بنت-الهام,daugther of elham
 بنت,bint
+بنت/زينب,daughter of zainab
+بنت/عائشة,daughter of aysha
+بنت\محمد,daughter of mohammad
 بنتزينب,bntzainab
 بنتمحمد,bintemuhammad
 بهاء,bhaa
@@ -1791,6 +1815,7 @@ ar,en
 حسان,hassan
 حسبالله,hassaballah
 حسن,hassan
+حسناء,hasnaa
 حسنات,hasanat
 حسنه,hasanuah
 حسني,hasani
@@ -1798,6 +1823,7 @@ ar,en
 حسونة,husaonah
 حسونه,hassouna
 حسي,hassi
+حسيب,haseeb
 حسين,hussain
 حشمت,hshmt
 حشمه,hshmuah
@@ -1810,6 +1836,7 @@ ar,en
 حلاوه,hlaoah
 حلحول,halhul
 حلس,helles
+حلمى,helmi
 حلمي,hlamai
 حلوة,hiloah
 حلوق,hiloq
@@ -1820,6 +1847,7 @@ ar,en
 حماد,hamad
 حمادة,hamadah
 حماده,hamadah
+حماس,hammas
 حمام,hamam
 حمتو,hamto
 حمد,hamd
@@ -1828,6 +1856,7 @@ ar,en
 حمدقه,hamdqah
 حمده,hamdah
 حمدونه,hamdonuah
+حمدى,hamdi
 حمدي,hamdi
 حمديه,hamdiah
 حمزة,hamzah
@@ -1900,6 +1929,7 @@ ar,en
 خيري,khairi
 خيرية,khairiah
 خيريه,khairiah
+د.سليمان,suleiman
 دادر,dadr
 داربيه,darabiah
 دارين,darin
@@ -2021,6 +2051,7 @@ ar,en
 رجاء,rjaa
 رجب,rajab
 رحاب,rahab
+رحمة,rahma
 رحمه,rahmah
 رحيق,rahaiq
 رحيمه,rahaiamuah
@@ -2188,6 +2219,7 @@ ar,en
 سالمم,salamm
 سالمه,salima
 سالي,sally
+سام,sam
 سامح,sameh
 سامر,samer
 سامى,sama
@@ -2401,6 +2433,7 @@ ar,en
 شهرزاد,shuhrzad
 شهوان,shahwan
 شهيرة,shahirah
+شوقى,shawki
 شوقي,shoqai
 شوكت,shokt
 شومر,shomar
@@ -2515,6 +2548,7 @@ ar,en
 عائشة,aaashah
 عائشة,ayisha
 عائشه,aaashaah
+عائشه,aisha
 عابد,abed
 عابدين,abedin
 عادل,adel
@@ -2741,6 +2775,7 @@ ar,en
 عوض,aodh
 عوضالله,awadallah
 عوكل,aokal
+عون,aun
 عوني,aoni
 عويص,aois
 عويضة,aoidhah
@@ -2815,6 +2850,8 @@ ar,en
 فايق,faiq
 فايقة,faiqah
 فايقه,faiqah
+فتح,fath
+فتحى,fathi
 فتحىي,fathi
 فتحي,fathi
 فتحية,fathiah
@@ -2833,6 +2870,7 @@ ar,en
 فدوى,fadwa
 فدوي,fdoi
 فرات,farat
+فراج,faraj
 فراس,faras
 فرج,faraj
 فرجالله,farajallah
@@ -2871,6 +2909,7 @@ ar,en
 فنانه,fananuah
 فنقه,fanqah
 فهد,fhad
+فهمى,fahmi
 فهمي,fahmi
 فهيم,fhaiam
 فهيمه,fhaiamuah
@@ -3051,6 +3090,7 @@ ar,en
 ليندا,linada
 لينه,lainuah
 مأمون,mamon
+مأمون,mamoon
 مؤزر,muzr
 مؤمن,momin
 مؤمن,mumun
@@ -3253,6 +3293,7 @@ ar,en
 موسي,mousai
 موفق,mofaq
 مولى,mola
+مومن,momin
 مونس,monis
 موىس,mousa
 مي,mai
@@ -3479,6 +3520,7 @@ ar,en
 هيكل,hikal
 هيلن,hailn
 وئام,waam
+وئام,wiam
 وائل,wael
 وائل,wael
 وائله,waelah
