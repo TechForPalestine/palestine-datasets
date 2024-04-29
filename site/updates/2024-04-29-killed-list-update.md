@@ -93,8 +93,6 @@ At this stage we worked to determine common issues with the parsed data and foun
 
 - date of birth formats were not standardized (ie: long year vs. short year)
   - we worked to normalize these, and if the format was hard to decipher we validated against the provided age
-- some numerical values ended up merged into the name field (age, identification number)
-  - we used pattern matching to clean these values and move them into the correct column position
 - age was sometimes repeated in both the age and date of birth columns (no date of birth)
   - we removed any age values from the date of birth column
 - identification number field sometimes had non-number values or was clearly invalid
