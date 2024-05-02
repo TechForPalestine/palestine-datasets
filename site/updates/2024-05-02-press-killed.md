@@ -1,0 +1,159 @@
+---
+title: World Press Freedom Day
+description: Paying tribute to those who gave their lives trying to shed light on what's happening in Gaza.
+slug: world-press-freedom-day
+tags: [press, journalists, gaza]
+---
+
+May 3rd is [World Press Freedom Day](https://www.un.org/en/observances/press-freedom-day). It acts as a reminder to governments of the need to respect commitments to press freedom. It is an opportunity to:
+
+- celebrate the fundamental principles of press freedom;
+- assess the state of press freedom throughout the world;
+- defend the media from attacks on their independence;
+- and pay tribute to journalists who have lost their lives in the line of duty
+
+As of today and according to government sources in Gaza, 141 journalists & media workers have made the ultimate sacrifice in their efforts documenting what's happening in Gaza. Israel and its military have shown time and again that they actively target these essential workers and their families to prevent their stories from getting out to the world.
+
+Their names follow below, and you can also [download a CSV with notes](https://data.techforpalestine.org/api/v2/press_killed_in_gaza.csv). You can [learn more about the dataset](https://data.techforpalestine.org/docs/press-killed-in-gaza) we'll be continuing to update while the attacks are ongoing.
+
+- Aaid al-Najar • عائد النجار
+- Aasm al-Barash • عاصم البرش
+- Aasm Kamal Mousa • عاصم كمال موسى
+- Abd Aodah • عبدالكريم عودة
+- Abdal-hadi Habib • عبدالهادي حبيب
+- Abdalihamaid Aliqurinaoi • عبدالحميد القريناوي
+- Abdalrahamun Saymaa • عبدالرحمن صايمة
+- Abdalrahamun Shehab • عبدالرحمن شهاب
+- Abdul-halim Aodh • عبدالحليم عوض
+- Abdul-wahab Aoni Abu Aun • عبدالوهاب عوني أبو عون
+- Abdullah Alwan • عبدالله علوان
+- Abdullah Bares • عبدالله بريص
+- Abdullah Daroish • عبدالله درويش
+- Adel Zarab • عادل زعرب
+- Adham Husaonah • أدهم حسونة
+- Ahmed Abu Absah • أحمد أبو عبسة
+- Ahmed Abu Mhadi • أحمد أبو مهادي
+- Ahmed Aliqura • أحمد القرا
+- Ahmed Badir • أحمد بدير
+- Ahmed Fatima • أحمد فطيمة
+- Ahmed Jamal al-Madhoun • أحمد جمال المدهون
+- Ahmed Khair Addeen • أحمد خير الدين
+- Ahmed Shehab • أحمد شهاب
+- Alaa Aataallah • علا عطاالله
+- Alaa Hassan Alhmus • آلاء حسن الهمص
+- Alaaa Alnmar • علاء النمر
+- Ali Ashour • علي عاشور
+- Ali Nisaman • علي نسمان
+- Ali Salem Abu Ajwa • علي سالم أبو عجوة
+- Amal Zuhad • أمل زهد
+- Amaro Abu Haya • عمرو أبو حية
+- Anas Abu Shamala • أنس أبو شمالة
+- Angham Ahmed Adwan • أنغام أحمد عدوان
+- Assad Shmlkh • أسعد شملخ
+- Ayat Khadoura • آيات خضورة
+- Bilal Jadallah • بلال جادالله
+- Dr. Mahmoud Emad Issa • د. محمود عماد عيسى
+- Dr. Rizq Alghrablai • د. رزق الغرابلي
+- Dr. Zaid Abu Zaid • د. زيد أبو زايد
+- Duaa Jabbour • دعاء الجبور
+- Duaa Shraf • دعاء شرف
+- Emad Alohaidi • عماد الوحيدي
+- Essam al-Loulo • عصام اللولو
+- Essam Bhar • عصام بهار
+- Eyad Ahmed Alrawagh • إياد أحمد الرواغ
+- Eyad Motar • اياد مطر
+- Fawad Abu Khamish • فؤاد أبو خماش
+- Hamadah al-Yaziji • حمادة اليازجي
+- Hamzah Wael Aldhdoh • حمزة وائل الدحدوح
+- Hanan Aiad • حنان عياد
+- Hani al-Madhoun • هاني المدهون
+- Hanin Aliqtshan • حنين القطشان
+- Hassan Farajallah • حسان فرجالله
+- Heba Alabdlah • هبة العبادلة
+- Hitham Harara • هيثم حرارة
+- Hsham Alnwajhah • هشام النواجحة
+- Hthifah al-Najar • حذيفة النجار
+- Hthifah Lolo • حذيفة لولو
+- Husam Ammar • حسام عمار
+- Husam Mubarak • حسام مبارك
+- Husaonah Esleem • حسونة إسليم
+- Ibrahem Lafii • ابراهيم لافي
+- Ikram al-Shafi'i • أكرم الشافعي
+- Iman al-Aqailai • إيمان العقيلي
+- Jabr Abu Hadaros • جبر أبو هدروس
+- Jamal Alfaqaaoi • جمال الفقعاوي
+- Jamal Hniah • جمال هنية
+- Khalil Abu Aathra • خليل أبو عاذرة
+- Mahmoud Abu Tharefa • محمود أبو ظريفة
+- Mahmoud Moshtaha • محمود مشتهى
+- Mahmoud Motar • محمود مطر
+- Mahmoud Salem • محمود سالم
+- Majed Kshko • ماجد كشكو
+- Marawan Alswaf • مروان الصواف
+- Mjad Arnads • مجد عرندس
+- Mousa al-Barash • موسى البرش
+- Mshal Shahwan • مشعل شهوان
+- Muhammad Abdal-fattah Aataallah • محمد عبدالفتاح عطاالله
+- Muhammad Abdalkhaliq Alaf • محمد عبدالخالق العف
+- Muhammad Abu Dayra • محمد أبو داير
+- Muhammad Abu Hassira • محمد أبو حصيرة
+- Muhammad Abu Hatab • محمد أبو حطب
+- Muhammad Abu huwaidi • محمد أبو هويدي
+- Muhammad Abu Motar • محمد أبو مطر
+- Muhammad Abu Rizq • محمد أبو رزق
+- Muhammad Abu Sakheel • محمد أبو سخيل
+- Muhammad Abu Samra • محمد أبو سمرة
+- Muhammad Aiish • محمد عياش
+- Muhammad al-Jaja • محمد الجاجة
+- Muhammad al-Salhi • محمد الصالحي
+- Muhammad Albiari • محمد البياري
+- Muhammad Alhasani • محمد الحسني
+- Muhammad Ali • محمد علي
+- Muhammad Alrifi • محمد الريفي
+- Muhammad Alsaid Abu Sakheel • محمد السيد أبو سخيل
+- Muhammad Alshoarabji • محمد الشوربجي
+- Muhammad Althalatheeny • محمد الثلاثيني
+- Muhammad Alzq • محمد الزق
+- Muhammad Baloshah • محمد بعلوشة
+- Muhammad Bsam Aljml • محمد بسام الجمل
+- Muhammad Farajallah • محمد فرجالله
+- Muhammad Jarghoun • محمد جرغون
+- Muhammad Khair Addeen • محمد خير الدين
+- Muhammad Khidr Salama • محمد خضر سلامة
+- Muhammad Labad • محمد لبد
+- Muhammad Raslan Shanyoura • محمد رسلان شنيورة
+- Muhammad Tishreen Yaghi • محمد تشرين ياغي
+- Muhammad Yunus al-Zaytouniyah • محمد يونس الزيتونية
+- Muntsar Alswaf • منتصر الصواف
+- Musab Abu Zaid • مصعب أبو زايد
+- Musab Ashour • مصعب عاشور
+- Mustafa Alnqaib • مصطفى النقيب
+- Mustafa Alswaf • مصطفى الصواف
+- Mustafa Bkir • مصطفى بكير
+- Mustafa Thraia • مصطفى ثريا
+- Nadr Alnazlai • نادر النزلي
+- Nafath Abd al-Jawad • نافذ عبد الجواد
+- Nizmai Alnadiam • نظمي النديم
+- Nrmain Qawas • نرمين قواس
+- Rajab Alnqaib • رجب النقيب
+- Rami Badir • رامي بدير
+- Rushdi Alsraj • رشدي السراج
+- Saeed Altoil • سعيد الطويل
+- Salam Mema • سلام ميمة
+- Salma Mukhiamar • سلمى مخيمر
+- Samaih al-Nadi • سميح النادي
+- Samer Abu Daqqa • سامر أبو دقة
+- Sari Munasoar • ساري منصور
+- Sayed Halabi • سائد حلبي
+- Shaimaa Aljzar • شيماء الجزار
+- Sharif Akasha • شريف عكاشة
+- Tariq Alsaid Abu Sakheel • طارق السيد أبو سخيل
+- Wael Rajab Abu Fanonna • وائل رجب أبو فنونة
+- Yahya Abu Manih • يحيى أبو منيع
+- Yaqob al-Barash • يعقوب البرش
+- Yasr Abu Namoos • ياسر أبو ناموس
+- Yasr Mmdoh • ياسر ممدوح
+- Yazin Alzoidi • يزن الزويدي
+- Zahir al-Afghani • زاهر الأفغاني
+
+You can read more about some of these individuals and how they lived, worked, and were killed, through the Committe to Protect Journalists' [searchable database](https://cpj.org/data/killed/2024/?status=Killed&motiveConfirmed%5B%5D=Confirmed&type%5B%5D=Journalist&cc_fips%5B%5D=IS&start_year=2023&end_year=2024&group_by=location) and [Israel/Gaza tracker page](https://cpj.org/2024/05/journalist-casualties-in-the-israel-gaza-conflict/).
