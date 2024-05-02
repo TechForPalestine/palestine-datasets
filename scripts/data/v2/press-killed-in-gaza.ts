@@ -1,3 +1,4 @@
+import { execSync } from "child_process";
 import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
 import { writeManifestCsv } from "../../utils/fs";
@@ -68,6 +69,7 @@ const generateFromGSheet = async () => {
 
   const csvCols = ["name", "name_en", "notes"];
   const writePath = "site/src/generated";
+  execSync(`mkdir -p ${writePath}`);
   writeManifestCsv(
     ApiResource.PressKilledInGazaV2,
     `${writePath}/press_killed_in_gaza.csv`,
