@@ -14,7 +14,7 @@ May 3rd is [World Press Freedom Day](https://www.un.org/en/observances/press-fre
 
 As of today and according to government sources in Gaza, 141 journalists & media workers have made the ultimate sacrifice in their efforts documenting what's happening in Gaza. Israel and its military have shown time and again that they actively target these essential workers and their families to prevent their stories from getting out to the world.
 
-Their names follow below, and you can also [download a CSV with notes](https://data.techforpalestine.org/api/v2/press_killed_in_gaza.csv). You can [learn more about the dataset](https://data.techforpalestine.org/docs/press-killed-in-gaza) we'll be continuing to update while the attacks are ongoing.
+Their names follow below ([or download the full CSV](https://data.techforpalestine.org/api/v2/press_killed_in_gaza.csv)).
 
 - Aaid al-Najar • عائد النجار
 - Aasm al-Barash • عاصم البرش
@@ -157,3 +157,5 @@ Their names follow below, and you can also [download a CSV with notes](https://d
 - Zahir al-Afghani • زاهر الأفغاني
 
 You can read more about some of these individuals and how they lived, worked, and were killed, through the Committee to Protect Journalists who have a [searchable database](https://cpj.org/data/killed/2024/?status=Killed&motiveConfirmed%5B%5D=Confirmed&type%5B%5D=Journalist&cc_fips%5B%5D=IS&start_year=2023&end_year=2024&group_by=location) and [Israel/Gaza tracker page](https://cpj.org/2024/05/journalist-casualties-in-the-israel-gaza-conflict/).
+
+You can [visit the Press Killed in Gaza dataset page](https://data.techforpalestine.org/docs/press-killed-in-gaza) to learn more about how we source updates and find other ways to work with the list. We'll continue to update the dataset as long as the attacks are ongoing and the Gaza Media Office provides updates.
