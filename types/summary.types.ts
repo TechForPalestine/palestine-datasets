@@ -86,4 +86,7 @@ export type PreviewDataV3 = {
       no_age: number;
     };
   };
+  known_press_killed_in_gaza: {
+    records: number;
+  };
 };
