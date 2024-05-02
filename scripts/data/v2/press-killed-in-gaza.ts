@@ -71,7 +71,12 @@ const generateFromGSheet = async () => {
   writeManifestCsv(
     ApiResource.PressKilledInGazaV2,
     `${writePath}/press_killed_in_gaza.csv`,
-    [csvCols, ...jsonArray.map((record) => csvCols.map((col) => record[col]))]
+    [
+      csvCols,
+      ...jsonArray.map((record) =>
+        csvCols.map((col) => record[col as keyof typeof record])
+      ),
+    ]
   );
 };
 
