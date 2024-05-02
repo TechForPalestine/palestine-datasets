@@ -1,5 +1,6 @@
 import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
+import { writeManifestCsv } from "../../utils/fs";
 import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
 import {
   getArToArMap,
@@ -39,7 +40,7 @@ const validateTranslations = (press: { name_en: string }[]) => {
   });
 };
 
-const generateJsonFromGSheet = async () => {
+const generateFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.Journalists);
   const [headerKeys, ...rows] = sheetJson.values;
   const headerIdxLookup = columnFilter.reduce(
@@ -64,6 +65,14 @@ const generateJsonFromGSheet = async () => {
   if (untranslatedParts.size) {
     console.log("untranslated parts:", [...untranslatedParts].join(", "));
   }
+
+  const csvCols = ["name", "name_en", "notes"];
+  const writePath = "site/src/generated";
+  writeManifestCsv(
+    ApiResource.PressKilledInGazaV2,
+    `${writePath}/press_killed_in_gaza.csv`,
+    [csvCols, ...jsonArray.map((record) => csvCols.map((col) => record[col]))]
+  );
 };
 
-generateJsonFromGSheet();
+generateFromGSheet();
