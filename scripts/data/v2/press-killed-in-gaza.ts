@@ -1,7 +1,5 @@
-import { execSync } from "child_process";
 import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
-import { writeManifestCsv } from "../../utils/fs";
 import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
 import {
   getArToArMap,
@@ -41,7 +39,7 @@ const validateTranslations = (press: { name_en: string }[]) => {
   });
 };
 
-const generateFromGSheet = async () => {
+const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.Journalists);
   const [headerKeys, ...rows] = sheetJson.values;
   const headerIdxLookup = columnFilter.reduce(
@@ -66,20 +64,6 @@ const generateFromGSheet = async () => {
   if (untranslatedParts.size) {
     console.log("untranslated parts:", [...untranslatedParts].join(", "));
   }
-
-  const csvCols = ["name", "name_en", "notes"];
-  const writePath = "site/src/generated";
-  execSync(`mkdir -p ${writePath}`);
-  writeManifestCsv(
-    ApiResource.PressKilledInGazaV2,
-    `${writePath}/press_killed_in_gaza.csv`,
-    [
-      csvCols,
-      ...jsonArray.map((record) =>
-        csvCols.map((col) => record[col as keyof typeof record])
-      ),
-    ]
-  );
 };
 
-generateFromGSheet();
+generateJsonFromGSheet();
