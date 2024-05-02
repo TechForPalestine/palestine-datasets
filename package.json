@@ -17,7 +17,7 @@
     "gen-derived": "bun run gen-summaries && bun run gen-csv && bun run gen-killed-derived",
     "gen-summaries": "bun run scripts/data/v3/summary.ts && bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts",
-    "gen-all": "bun run gen-daily && bun run gen-killed && bun run gen-derived",
+    "gen-all": "bun run gen-daily && bun run gen-killed && bun run gen-killed-press && bun run gen-derived",
     "chart-viz": "bun run site/src/components/HomeDailyChart/generator/chart-generator.ts",
     "chart-viz-dev": "bun --watch site/src/components/HomeDailyChart/generator/chart-generator.ts",
     "flightcheck": "bun run types && bun run reset-manifest && bun run gen-all && bun run docs-build && bun run docs-serve",
