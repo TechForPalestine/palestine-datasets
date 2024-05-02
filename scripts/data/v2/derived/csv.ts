@@ -88,7 +88,9 @@ writeManifestCsv(
     csvCols,
     ...pressKilled.map((record: Record<string, string>) =>
       csvCols.map((col, i) =>
-        i === notesColIdx ? `"${record[col]}"` : record[col]
+        i === notesColIdx
+          ? `"${record[col].replace(/["]/g, "'")}"`
+          : record[col]
       )
     ),
   ]
