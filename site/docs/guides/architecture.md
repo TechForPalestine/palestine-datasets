@@ -1,5 +1,4 @@
 ---
-title: Architecture Guide
 description: Overview of how our repo & API build is setup
 ---
 

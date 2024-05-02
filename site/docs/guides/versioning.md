@@ -1,5 +1,4 @@
 ---
-title: Versioning Guide
 description: Guidelines for keeping our APIs stable
 ---
 

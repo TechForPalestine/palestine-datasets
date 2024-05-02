@@ -1,5 +1,4 @@
 ---
-title: Contributing Guide
 description: Tips on how to get involved or get in touch
 ---
 
