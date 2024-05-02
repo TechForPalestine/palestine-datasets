@@ -156,4 +156,4 @@ Their names follow below, and you can also [download a CSV with notes](https://d
 - Yazin Alzoidi • يزن الزويدي
 - Zahir al-Afghani • زاهر الأفغاني
 
-You can read more about some of these individuals and how they lived, worked, and were killed, through the Committe to Protect Journalists' [searchable database](https://cpj.org/data/killed/2024/?status=Killed&motiveConfirmed%5B%5D=Confirmed&type%5B%5D=Journalist&cc_fips%5B%5D=IS&start_year=2023&end_year=2024&group_by=location) and [Israel/Gaza tracker page](https://cpj.org/2024/05/journalist-casualties-in-the-israel-gaza-conflict/).
+You can read more about some of these individuals and how they lived, worked, and were killed, through the Committee to Protect Journalists who have a [searchable database](https://cpj.org/data/killed/2024/?status=Killed&motiveConfirmed%5B%5D=Confirmed&type%5B%5D=Journalist&cc_fips%5B%5D=IS&start_year=2023&end_year=2024&group_by=location) and [Israel/Gaza tracker page](https://cpj.org/2024/05/journalist-casualties-in-the-israel-gaza-conflict/).
