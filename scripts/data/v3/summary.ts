@@ -3,6 +3,7 @@ import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 
 import killedPersons from "../../../killed-in-gaza.json";
+import killedPress from "../../../press_killed_in_gaza.json";
 import gazaDailies from "../../../casualties_daily.json";
 import westBankDailies from "../../../west_bank_daily.json";
 
@@ -88,6 +89,9 @@ const previewData: PreviewDataV3 = {
     },
   },
   known_killed_in_gaza,
+  known_press_killed_in_gaza: {
+    records: killedPress.length,
+  },
 };
 
 writeJson(

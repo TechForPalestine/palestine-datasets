@@ -1,0 +1,38 @@
+---
+title: Press Killed in Gaza
+description: List of known journalist victims in Gaza with their arabic name, english name, and notes. Useful applications include tributes, search, transparency impact.
+---
+
+# Press Killed in Gaza
+
+import { PressKilledListCountLabel } from "@site/src/components";
+
+<PressKilledListCountLabel />
+
+## Usage
+
+The dataset is available as a single JSON array with an object for each journalist killed in Gaza. You can also download in CSV format below.
+
+import { JSONFileLinks } from "@site/src/components";
+
+<JSONFileLinks resource="PressKilledInGaza_V2" />
+
+---
+
+## Fields
+
+Each record will have the following fields:
+
+| Key     | Value                                                                      |
+| ------- | -------------------------------------------------------------------------- |
+| name    | original arabic name from the source list                                  |
+| name_en | english name translation                                                   |
+| notes   | includes agency they worked for & available detail on how they were killed |
+
+---
+
+## Source
+
+The file is updated when a new list is released by Gaza's Government Media Office or when we receive incremental updates about new individual incidents. We source these from the [Ministry's Telegram Channel](https://t.me/s/mediagovps).
+
+The ministry has previously released photos of some of those killed, which you can retrieve in Arabic and English from their [public Google Drive](https://drive.google.com/drive/u/0/folders/1GLRsBdatR9rWyLbQKIh3crQe1xvinzna). As of writing, it includes photos for just over half of the list.

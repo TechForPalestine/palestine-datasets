@@ -21,6 +21,7 @@ const sidebars: SidebarsConfig = {
       },
       items: [
         "killed-in-gaza",
+        "press-killed-in-gaza",
         "summary",
         "casualties-daily",
         "casualties-daily-west-bank",

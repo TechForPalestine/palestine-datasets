@@ -2,6 +2,9 @@
   "killed-in-gaza-names-count": {
     "message": "There are {count} in this list of names of those known to have been killed in Gaza since October 7, 2023. Of these, {femaleSenior} were senior ladies, {maleSenior} were senior men, {femaleAdult} were women, {maleAdult} were men, {femaleChild} were girls and {maleChild} were boys. {noAge} had no birthdate from which to calculate age."
   },
+  "press-killed-in-gaza-names-count": {
+    "message": "There are {count} in this list of names of journalists known to have been killed in Gaza since October 7, 2023."
+  },
   "daily-report-stats-label": {
     "message": "There are currently {count} days of reports from 2023-10-07 to {lastDate} and we update the list daily as new reports are released."
   }

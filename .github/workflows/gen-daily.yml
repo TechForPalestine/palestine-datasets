@@ -18,7 +18,10 @@ jobs:
         run: bun install
 
       - name: generate daily datasets
-        run: bun run gen-daily
+        run: |
+          bun run gen-daily
+          mkdir -p site/src/generated/killed-in-gaza
+          bun run gen-killed-press
         env:
           TFP_SHEET_KEY: ${{ secrets.TFP_SHEET_KEY }}
 
