@@ -80,13 +80,16 @@ writeManifestCsv(
 );
 
 const csvCols = ["name", "name_en", "notes"];
+const notesColIdx = csvCols.indexOf("notes");
 writeManifestCsv(
   ApiResource.PressKilledInGazaV2,
   `${writePath}/press_killed_in_gaza.csv`,
   [
     csvCols,
     ...pressKilled.map((record: Record<string, string>) =>
-      csvCols.map((col) => record[col])
+      csvCols.map((col, i) =>
+        i === notesColIdx ? `"${record[col]}"` : record[col]
+      )
     ),
   ]
 );
