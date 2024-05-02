@@ -124,7 +124,7 @@ function CardIcon({ tags }: { tags: string[] }) {
     );
   }
 
-  if (tags.includes("demographics")) {
+  if (tags.includes("search")) {
     return (
       <svg
         width="24"
