@@ -91,5 +91,17 @@
       "name": "summary.json",
       "apiPath": "api/v3"
     }
+  },
+  "PressKilledInGaza_V2": {
+    "minified": {
+      "file": "press_killed_in_gaza.min.json",
+      "name": "press_killed_in_gaza.min.json",
+      "apiPath": "api/v2"
+    },
+    "unminified": {
+      "file": "press_killed_in_gaza.json",
+      "name": "press_killed_in_gaza.json",
+      "apiPath": "api/v2"
+    }
   }
 }

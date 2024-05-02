@@ -3,6 +3,7 @@ export enum ApiResource {
   CasualtiesDailyV2 = "CasualtiesDaily_V2",
   KilledInGazaV2 = "KilledInGaza_V2",
   KilledInGazaDerivedV2 = "KilledInGazaDerived_V2",
+  PressKilledInGazaV2 = "PressKilledInGaza_V2",
   SummaryV1 = "Summary_V1",
   SummaryV2 = "Summary_V2",
   SummaryV3 = "Summary_V3",
