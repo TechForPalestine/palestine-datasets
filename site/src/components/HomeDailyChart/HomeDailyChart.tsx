@@ -198,7 +198,7 @@ export const HomeDailyChart = () => {
           <p>Use the slider above to see the human impact over time.</p>
           <p>
             These counts do not account for those still lost in the rubble of
-            destroyed buildings: estimated to be more than seven thousand.
+            destroyed buildings: estimated to be more than ten thousand.
           </p>
         </div>
       </div>
