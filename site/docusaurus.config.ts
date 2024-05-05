@@ -8,7 +8,8 @@ const repoUrl = "https://github.com/TechForPalestine/palestine-datasets";
 
 const config: Config = {
   title: siteTitle,
-  tagline: "Telling their stories through names and numbers",
+  tagline:
+    "Telling their stories through names and numbers. We provide datasets relevant to the ongoing human catastrophe in Palestine since October 7.",
   favicon: "img/favicon.svg",
 
   url: "https://data.techforpalestine.org",
@@ -60,8 +61,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    // image: "img/docusaurus-social-card.jpg",
+    image: "img/metathumbnail.png",
     navbar: {
       title: siteTitle,
       logo: {

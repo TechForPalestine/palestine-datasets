@@ -28,7 +28,11 @@ function HomepageHeader() {
           className={`hero__subtitle ${styles.heroSubtitle}`}
           style={{ ...headerTextShadow, lineHeight: "1.3em" }}
         >
-          {<Translate>{siteConfig.tagline}</Translate>}
+          {
+            <Translate>
+              Telling their stories through names and numbers
+            </Translate>
+          }
         </p>
       </div>
     </header>
@@ -38,10 +42,7 @@ function HomepageHeader() {
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout
-      title={`${siteConfig.title} - Home`}
-      description={siteConfig.tagline}
-    >
+    <Layout title="" description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
         <HomeDailyChart />
