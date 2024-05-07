@@ -214,30 +214,35 @@ export const HomeDailyChart = () => {
       >
         Start telling their story:
       </div>
-      <div className={styles.chartFooterButtons}>
-        <Button to="/docs/casualties-daily" type="secondary">
-          Learn more about these datasets
-        </Button>
-        <div style={{ width: 10, height: 10 }} />
-        {gazaCsv && (
-          <Button
-            to={`/${gazaCsv.apiPath}/${gazaCsv.name}`}
-            type="primary"
-            newTab
-          >
-            Download Gaza CSV
+      <div className={styles.chartFooterButtonsContainer}>
+        <div className={styles.chartFooterButtons}>
+          <Button to="/docs/casualties-daily" type="secondary">
+            Learn more about these datasets
           </Button>
-        )}
-        <div style={{ width: 10, height: 10 }} />
-        {westBankCsv && (
-          <Button
-            to={`/${westBankCsv.apiPath}/${westBankCsv.name}`}
-            type="primary"
-            newTab
-          >
-            Download West Bank CSV
-          </Button>
-        )}
+          <div style={{ width: 10, height: 10 }} />
+          {gazaCsv && (
+            <Button
+              to={`/${gazaCsv.apiPath}/${gazaCsv.name}`}
+              type="primary"
+              newTab
+            >
+              Download Gaza CSV
+            </Button>
+          )}
+          <div style={{ width: 10, height: 10 }} />
+          {westBankCsv && (
+            <Button
+              to={`/${westBankCsv.apiPath}/${westBankCsv.name}`}
+              type="primary"
+              newTab
+            >
+              Download West Bank CSV
+            </Button>
+          )}
+        </div>
+        <div className={styles.chartFooterJsonMessage}>
+          (Also available as a JSON API)
+        </div>
       </div>
     </div>
   );

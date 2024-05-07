@@ -165,14 +165,23 @@
   margin: 5px 0;
 }
 
-.chartFooterButtons {
+.chartFooterButtonsContainer {
   background-color: var(--tfp-chart-cta-box-fill);
-  display: flex;
-  justify-content: center;
   padding: 20px;
-  padding-bottom: 45px;
+  padding-bottom: 20px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+}
+
+.chartFooterButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.chartFooterJsonMessage {
+  margin-top: 20px;
+  text-align: center;
+  color: #777;
 }
 
 .homeChartDesktop {
