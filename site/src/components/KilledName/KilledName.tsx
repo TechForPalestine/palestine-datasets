@@ -206,7 +206,11 @@ export const KilledName = () => {
         />
       </div>
       <div className={styles.buttonRow}>
-        <Button inline type="secondary" to="/docs/summary">
+        <Button
+          inline
+          type="secondary"
+          to="/docs/summary/#killed-children-by-name-usage"
+        >
           Learn more about this dataset
         </Button>
         <div style={{ width: 10, height: 10 }} />
@@ -215,11 +219,17 @@ export const KilledName = () => {
         </Button>
       </div>
       <div className={styles.explanation}>
-        Source: Our <a href="/docs/killed-in-gaza">Killed in Gaza dataset</a> as
-        an under 18 population sample to arrive at first name weights, with name
-        counts derived (using the name weighting) from the latest number of
-        children killed from our <a href="/docs/summary">Summary dataset</a> as
-        of {latestDailyUpdate}.
+        Source: Our{" "}
+        <a href="/docs/killed-in-gaza/#child-name-counts">
+          Killed in Gaza dataset
+        </a>{" "}
+        as an under 18 population sample to arrive at first name weights, with
+        name counts derived (using the name weighting) from the latest number of
+        children killed from our{" "}
+        <a href="/docs/summary/#killed-children-by-name-usage">
+          Summary dataset
+        </a>{" "}
+        as of {latestDailyUpdate}.
       </div>
     </div>
   );

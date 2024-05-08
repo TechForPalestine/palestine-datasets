@@ -80,6 +80,14 @@ Includes the count of records in the [Press Killed in Gaza dataset](/docs/press-
 
 If you want the latest number of journalists killed in Gaza, consider using the `killed.press` value from the `gaza` section, above. This value is reported independently and while we aim to keep it in sync, the name list updates may lag the daily casualties counts.
 
+## Killed Children by Name Usage
+
+This dataset, combined with the [count of child names](/docs/killed-in-gaza/#child-name-counts) from our Killed in Gaza dataset, is used to derive an estimate of how many children with a particular name have been killed so far across Gaza and the West Bank. The logic for this calculation can be [seen here in javascript on Github](https://github.com/TechForPalestine/palestine-datasets/blob/main/scripts/data/v2/derived/killed-child-name-counts.ts). It's available as a JSON API that updates as both this summary dataset and our Killed in Gaza names list receive updates:
+
+```
+https://data.techforpalestine.org/api/v2/killed-in-gaza/child-name-counts-en.json
+```
+
 ## Sources
 
 See the doc pages linked above for the underlying datasets these summaries are pulled from, for more information on sourcing.
