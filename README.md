@@ -9,6 +9,9 @@ This repo provides an open source dataset intended to show the human toll of Isr
 - `killed-in-gaza.json` has a list of known fatalities in Gaza with their name, age, sex
 - `casualties_daily.json` has daily reports of aggregate killed & injury counts for Gaza
 - `west_bank_daily.json` has daily reports of aggregate killed & injured counts for West Bank along with number of settler attacks
+- `press_killed_in_gaza.json` has a list of journalists known to have been killed in Gaza
+
+Note that the JSON files in this repo are intended for tracking historical changes and manual access/download. If you're building a system that relies on pulling in regular updates please see our [API docs](https://data.techforpalestine.org/docs/datasets/) for versioned endpoints instead.
 
 There's also the source for the static documentation website under `site/`.
 
