@@ -53,6 +53,18 @@ Each daily report in this JSON array will have the following fields for Gaza.
 | press_killed_cum        | cumulative number of journalists killed to the report date       | yes      |
 | ext_press_killed_cum    | same as `press_martyed_cum` but extrapolated (see below)         | no       |
 
+## Update Interval
+
+We update this dataset everyday, but some values are updated less frequently (typically at least once a week):
+
+- `killed_children_cum`
+- `killed_women_cum`
+- `civdef_killed_cum`
+- `med_killed_cum`
+- `press_killed_cum`
+
+If there's no updated value for the given report date, the last reported value is used (since all of these fields are cumulative). This necessarily also applies to their corresponding `ext_`-prefixed fields.
+
 ## Daily Sources
 
 There are four source values for daily casualty reports we use to build the time series:
