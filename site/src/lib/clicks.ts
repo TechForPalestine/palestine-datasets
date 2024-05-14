@@ -1,6 +1,10 @@
 const trackerHost = "https://tfp-click.swj.io";
 
-type ClickName = "killed-name" | "killed-name-reload" | "chart-slider";
+type ClickName =
+  | "killed-name"
+  | "killed-name-reload"
+  | "chart-slider"
+  | "search-btn";
 
 export const trackClick = (name: ClickName, extra?: Record<string, any>) => {
   const url = window.location.href;

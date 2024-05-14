@@ -14,6 +14,7 @@ import {
   fetchIndex,
   listSort,
 } from "../../lib/search-index";
+import { trackClick } from "@site/src/lib/clicks";
 
 const hitsLimit = 100;
 
@@ -144,6 +145,7 @@ export const KilledListExplorer = () => {
       searchClient.current.loadList(existingList, lang);
       preventPageScroll();
       setOpen(lang);
+      trackClick("search-btn", { lang, loaded: true });
       return;
     }
 
@@ -155,6 +157,7 @@ export const KilledListExplorer = () => {
       setTotalCount(personList.length);
       preventPageScroll();
       setOpen(lang);
+      trackClick("search-btn", { lang, loaded: false });
     } finally {
       setLoading("idle");
     }
