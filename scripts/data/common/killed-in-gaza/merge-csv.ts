@@ -51,6 +51,9 @@ const issues = {
   dobAgeMismatch: new Set<string>(),
   dobNot3Parts: new Set<string>(),
   dobDatePartSwappedToEnd: new Set<string>(),
+  ministrySource: new Set<string>(),
+  publicSource: new Set<string>(),
+  otherSource: new Set<string>(),
 };
 
 const formatRecordValue = (
@@ -62,6 +65,19 @@ const formatRecordValue = (
   if (header === "sex") {
     const enSex = genders[value.trim() as keyof typeof genders];
     return enSex || value.trim();
+  }
+  if (header === "source") {
+    switch (value.trim()) {
+      case "سجلات وزارة الصحة":
+        issues.ministrySource.add(id);
+        break;
+      case "تبيلغ ذوي الشهداء":
+        issues.publicSource.add(id);
+        break;
+      default:
+        issues.otherSource.add(id);
+        break;
+    }
   }
   if (header === "id") {
     if (!value.trim()) {
