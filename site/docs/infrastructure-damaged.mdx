@@ -1,0 +1,56 @@
+---
+description: Daily reports on the impact of IDF attacks on civilian infrastructure in Gaza, resulting in a partial or total damage. Useful applications include time series, trend analysis, timelines.
+---
+
+# Infrastructure Damaged
+
+This dataset provides daily values for the damaged infrastructure as a result of the IDF attacks on Gaza since October 7th, 2023.
+
+
+## Usage
+
+The dataset is available as a single JSON array with an object for each report date. You can also download in CSV format below.
+
+import { JSONFileLinks } from "@site/src/components";
+
+<JSONFileLinks resource="InfrastructureDamaged_V3" />
+
+---
+
+The file is updated in the morning (eastern time).
+
+## Report Fields
+
+Each daily report in this JSON array will have the following fields.
+
+(optional fields will be omitted from the JSON if there is no value reported)
+
+| field name                                | value                                                                                                  | optional |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------ | -------- |
+| report_date                               | date in YYYY-MM-DD                                                                                     | no       |
+| civic_buildings.destroyed                 | cumulative number of civic buildings destroyed to the report date                                      | yes      |
+| civic_buildings.ext_destroyed             | same as `civic_buildings.destroyed` but extrapolated (see below)                                       | no       |
+| educational_buildings.destroyed           | cumulative number of educational buildings (schools, universities, etc) destroyed to the report date   | yes      |
+| educational_buildings.ext_destroyed       | same as `educational_buildings.destroyed` but extrapolated (see below)                                 | no       |
+| educational_buildings.damaged             | cumulative number of educational buildings partially damaged to the report date                        | yes      |                          
+| educational_buildings.ext_damaged         | same as `educational_buildings.damaged` but extrapolated (see below)                                   | no       |
+| places_of_worship.mosques_destroyed       | cumulative number of mosques destroyed to the report date                                              | yes      |
+| places_of_worship.ext_mosques_destroyed   | same as `places_of_worship.mosques_destroyed` but extrapolated (see below)                             | no       |
+| places_of_worship.mosques_damaged         | cumulative number of mosques partially damaged to the report date                                      | yes      |
+| places_of_worship.ext_mosques_damaged     | same as `places_of_worship.mosques_damaged` but extrapolated (see below)                               | no       |
+| places_of_worship.churches_destroyed      | cumulative number of churches destroyed to the report date                                             | yes      |
+| places_of_worship.ext_churches_destroyed  | same as `places_of_worship.churches_destroyed` but extrapolated (see below)                            | no       |
+| residential.destroyed                     | cumulative number of residential units destroyed to the report date                                    | yes      |
+| residential.ext_destroyed                 | same as `residential.destroyed` but extrapolated (see below)                                           | no       |
+
+## Data Sources
+
+For infrastructure damage data, we depend on [Government Media Office (GMO) in Gaza ](https://t.me/s/mediagovps).
+Reports are provided roughly once every week (as of 2024) and it's unclear how frequently government officials are updating these numbers between reports. For that reason they should be treated as estimates, especially given the magnitude and the difficulty for non-combatants to enter certain regions in Gaza where Israeli forces are present.
+
+## Extrapolated (ext_ fields)
+Since official numbers weren't always available, and it can be useful to have a timeseries where all dates have values, we're providing the same official fields in extrapolated form using the following methodology:
+
+if the missing field is a cumulative one, and we have an official report for an infrastructure damage, we calculate the cumulative using the daily increment. If the missing field is a daily increment, and we have cumulative counts, we subtract the reported cumulative count from the prior period for the missing daily count. If we are missing both sets of numbers for a given reporting period, we average the difference between surrounding periods.
+
+

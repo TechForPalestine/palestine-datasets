@@ -16,6 +16,7 @@
     "gen-killed-child-names": "bun run scripts/data/v2/derived/killed-child-name-counts.ts",
     "gen-derived": "bun run gen-summaries && bun run gen-csv && bun run gen-killed-derived",
     "gen-summaries": "bun run scripts/data/v3/summary.ts && bun run scripts/data/v2/summary.ts && bun run scripts/data/v1/summary.ts",
+    "gen-infrastructure": "bun run scripts/data/v3/infrastructure-damaged.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts",
     "gen-all": "bun run gen-daily && bun run gen-killed && bun run gen-killed-press && bun run gen-derived",
     "chart-viz": "bun run site/src/components/HomeDailyChart/generator/chart-generator.ts",
