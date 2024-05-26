@@ -33,7 +33,7 @@
     "postinstall": "bun run patch-deps"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0"
+    "@types/node": "^20.12.12"
   },
   "dependencies": {
     "@svgr/core": "^8.1.0",

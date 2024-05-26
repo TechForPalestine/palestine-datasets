@@ -1,9 +1,28 @@
 import { execSync } from "child_process";
 
 const apiKey = process.env.KEY ?? "";
-const token = process.env.TOKEN ?? "";
+const secret = process.env.SECRET ?? "";
+// const token = process.env.TOKEN ?? "";
 
-const getUploadUrl = async () => {
+const generateToken = async () => {
+  const response = await fetch("https://pdf-services.adobe.io/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams({
+      'client_id': apiKey,
+      'client_secret': secret
+    })
+  });
+  if(!response.ok || response.status>299) {
+    throw new Error(`Failed to generate token (${response.status})`);
+  }
+  const data = await response.json()
+  return data.access_token
+}
+
+const getUploadUrl = async (token: string) => {
   const response = await fetch("https://pdf-services.adobe.io/assets", {
     method: "POST",
     headers: {
@@ -38,7 +57,7 @@ const makePayload = (assetID: string) => ({
   notifiers: [],
 });
 
-const startExtraction = async (assetID: string) => {
+const startExtraction = async (assetID: string, token: string) => {
   const response = await fetch(
     `https://pdf-services.adobe.io/operation/extractpdf`,
     {
@@ -63,7 +82,8 @@ const downloadFile = async (fileUrl: string) => {
 };
 
 const pollForExtraction = async (
-  pollUrl: string
+  pollUrl: string,
+  token: string
 ): Promise<boolean | undefined> => {
   console.log("polling...");
   const response = await fetch(pollUrl, {
@@ -77,7 +97,7 @@ const pollForExtraction = async (
   if (data.status === "in progress") {
     console.log("in progress... waiting 10 seconds...");
     await new Promise((resolve) => setTimeout(resolve, 10_000));
-    return pollForExtraction(pollUrl);
+    return pollForExtraction(pollUrl, token);
   } else if (data.status === "done") {
     console.log("done! >> ", data);
     await downloadFile(data.resource.downloadUri);
@@ -90,24 +110,25 @@ const pollForExtraction = async (
 };
 
 const files: string[] = [
-  // ie:
-  // "./pdfs/181_20240329gaza.pdf",
+  "2024-05-01-part-1.pdf"
 ];
 
 const run = async () => {
+  console.log("Generating token.")
+  const token = await generateToken()
   for (const file of files) {
     console.log(`Processing ${file}`);
-    const { uploadUri, assetID } = await getUploadUrl();
+    const { uploadUri, assetID } = await getUploadUrl(token);
     console.log(`Uploading ${file} (${assetID})`);
     await uploadFile(file, uploadUri);
     console.log(`Starting extraction for ${file}`);
-    const pollUrl = await startExtraction(assetID);
+    const pollUrl = await startExtraction(assetID, token);
     if (!pollUrl) {
       console.error("No pollUrl returned! Ending");
       return;
     }
     console.log(`Polling for extraction for ${file}`);
-    const downloaded = await pollForExtraction(pollUrl);
+    const downloaded = await pollForExtraction(pollUrl, token);
     if (downloaded === false) {
       console.error("Failed to extract & download file, aborting.");
       return;
