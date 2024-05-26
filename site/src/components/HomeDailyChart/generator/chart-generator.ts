@@ -25,7 +25,7 @@ type MappedData = {
   slimData: SlimData[];
 };
 
-const eventsToSkipOnMobile = ["Superbowl", "Easter"];
+const eventsToSkipOnMobile = ["Thanksgiving", "NYE", "Superbowl", "Easter"];
 
 const lastWestBankReport =
   westBankDailyTimeSeries[westBankDailyTimeSeries.length - 1];
