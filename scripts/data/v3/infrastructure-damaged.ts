@@ -1,10 +1,6 @@
 import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
 import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
-import {
-  formatDailiesJson,
-  validateDailiesJson,
-} from "../common/casualties-daily";
 
 const jsonFileName = "infrastructure-damaged.json";
 
@@ -29,14 +25,13 @@ const columnFilter = new Set([
 const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.InfrastructureDamaged);
   const [, headerKeys, ...rows] = sheetJson.values;
-  
+
   const jsonArray = formatInfrastructreJson(headerKeys, rows, columnFilter);
-  
+
   validateJson(jsonArray);
 
   writeJson(ApiResource.InfrastructureDamagedV3, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
-
 };
 
 const yyyymmddFormat = /^202[3-4]-[0-1][0-9]-[0-3][0-9]$/;
@@ -45,9 +40,7 @@ const yyyymmddFormat = /^202[3-4]-[0-1][0-9]-[0-3][0-9]$/;
  * our docs claim fields prefixed with ext_ are non-optional, so we should assert that
  * we should also assert standard date format
  */
-export const validateJson = (
-  json: Array<Record<string, any>>
-) => {
+export const validateJson = (json: Array<Record<string, any>>) => {
   const uniqueFieldNames = new Set<string>();
   json.forEach((record) => {
     // validate date format is as expected for the base daily dataset format
@@ -59,37 +52,35 @@ export const validateJson = (
     }
 
     // track all of the field names we use in the dataset
-    Object.keys(record).forEach((key) => uniqueFieldNames.add(key));
+    Object.keys(record).forEach((key) => {
+      if (typeof record[key] === "object") {
+        Object.keys(record[key]).forEach((subKey) => {
+          uniqueFieldNames.add(`${key}.${subKey}`);
+        });
+      } else {
+        uniqueFieldNames.add(key);
+      }
+    });
   });
-  const extKeys = Array.from(uniqueFieldNames).filter((key) =>
-    key.startsWith("ext_")
+  const extKeys = Array.from(uniqueFieldNames).filter(
+    (key) => key.includes(".ext_") || key.startsWith("ext_")
   );
   json.forEach((record) => {
     extKeys.forEach((expectedKey) => {
-      if(typeof record[expectedKey] === "object"){
-          for(const value in record[expectedKey]){
-            if (typeof value !== "string" && typeof value !== "number") {
-              throw new Error(
-                `Record for ${record.report_date} is missing expected key: ${expectedKey}`
-              );
-            }
-          }
-          
-        
-      }else{
-        const value = record[expectedKey];
-        if (typeof value !== "string" && typeof value !== "number") {
+      const keyParts = expectedKey.split(".");
+      while (keyParts.length > 1) {
+        const keyPart = keyParts.shift();
+        if (typeof keyPart !== "string") {
+          return;
+        }
+        if (!record[keyPart]) {
           throw new Error(
-            `Record for ${record.report_date} is missing expected key: ${expectedKey}`
+            `Record for ${record.report_date} is missing expected key: ${expectedKey} (on part ${keyPart})`
           );
         }
       }
     });
-    
   });
-      
-   
-   
 };
 
 generateJsonFromGSheet();
@@ -98,9 +89,8 @@ const formatInfrastructreJson = (
   headerKeys: string[],
   rows: string[][],
   columnFilter = new Set<string>()
-  ) => {
-
-    return rows.reverse().map((rowColumns) =>
+) => {
+  return rows.reverse().map((rowColumns) =>
     rowColumns.reduce(
       (dayRecord, colValue, colIndex) => ({
         ...dayRecord,
@@ -135,7 +125,6 @@ const addRecordField = (
     [fieldKey]: rawValue ? fieldValue : formatValue(fieldValue),
   };
 };
-
 
 const formatValue = (colValue: string) => {
   // not empty string, coerce into int
