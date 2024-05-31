@@ -4623,5 +4623,41 @@
     "residential": {
       "ext_destroyed": 87000
     }
+  },
+  {
+    "report_date": "2024-05-30",
+    "civic_buildings": {
+      "ext_destroyed": 190
+    },
+    "educational_buildings": {
+      "ext_destroyed": 109,
+      "ext_damaged": 316
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 604,
+      "ext_mosques_damaged": 200,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 87000
+    }
+  },
+  {
+    "report_date": "2024-05-31",
+    "civic_buildings": {
+      "ext_destroyed": 190
+    },
+    "educational_buildings": {
+      "ext_destroyed": 109,
+      "ext_damaged": 316
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 604,
+      "ext_mosques_damaged": 200,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 87000
+    }
   }
 ]
