@@ -5,7 +5,6 @@ node_modules/
 scripts/data/common/killed-in-gaza/output/*
 scripts/data/common/killed-in-gaza/data/raw-*.*
 !scripts/data/common/killed-in-gaza/output/.gitkeep
-scripts/data/common/killed-in-gaza/raw
 
 old/**
 !old/gitkeep.md
