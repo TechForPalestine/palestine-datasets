@@ -92,6 +92,18 @@
       "apiPath": "api/v3"
     }
   },
+  "InfrastructureDamaged_V3": {
+    "minified": {
+      "file": "infrastructure-damaged.min.json",
+      "name": "infrastructure-damaged.min.json",
+      "apiPath": "api/v3"
+    },
+    "unminified": {
+      "file": "infrastructure-damaged.json",
+      "name": "infrastructure-damaged.json",
+      "apiPath": "api/v3"
+    }
+  },
   "PressKilledInGaza_V2": {
     "minified": {
       "file": "press_killed_in_gaza.min.json",
