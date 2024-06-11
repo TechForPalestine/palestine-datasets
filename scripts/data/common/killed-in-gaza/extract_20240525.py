@@ -44,8 +44,6 @@ sex_mapping = {
 }
 df['sex'] = df['sex'].replace(sex_mapping)
 
-
+# fixing the order of the columns to match data/raw.csv
 df = df[["id", "name_ar_raw", "dob", "age", "sex", "source"]]
 print(df.head())
-print(df['sex'].unique())
-
