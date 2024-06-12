@@ -25,7 +25,7 @@ const sidebars: SidebarsConfig = {
         "summary",
         "casualties-daily",
         "casualties-daily-west-bank",
-        "infrastructure-damaged"
+        "infrastructure-damaged",
       ],
     },
 
@@ -44,11 +44,6 @@ const sidebars: SidebarsConfig = {
       label: "Contributing",
       link: { type: "doc", id: "guides/contributing" },
       items: ["guides/architecture", "guides/versioning"],
-    },
-    {
-      type: "link",
-      label: "Contact us",
-      href: "/docs/contact",
     },
   ],
 };

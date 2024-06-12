@@ -1,13 +1,3 @@
-:root {
-  --tfp-contact-bg: #f8f8f8;
-  --tfp-contact-fg: #555;
-}
-
-[data-theme="dark"] {
-  --tfp-contact-bg: #222;
-  --tfp-contact-fg: #aaa;
-}
-
 /**
  * CSS files with the .module.css suffix will be treated as CSS modules
  * and scoped locally.
@@ -50,18 +40,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.contactBlock {
-  background-color: var(--tfp-contact-bg);
-  text-align: center;
-  padding: 80px 20px;
-  font-size: 1.7em;
-  line-height: 1.2em;
-  color: var(--tfp-contact-fg);
-}
-
-.contactBlock > a {
-  font-size: 0.7em;
-  margin-top: 25px;
 }
