@@ -371,6 +371,8 @@ const addIfAcceptable = (
     freeAccepts?: FreeAccepts;
   }
 ) => {
+  console.log(lookup)
+  console.log(record)
   const age = record.age ? +dequote(record.age) : -1;
   const dob = record.dob ? normalizeDateStr(record.dob) : null;
   let validDob = true;
@@ -547,7 +549,7 @@ async function reconcileCSVs(
       skips: newRecordConflictSkips,
       accepts: newRecordConflictAccepts,
     });
-
+    console.log(record)
     // check for dupe in new records vs existing records for reporting purposes
     const existingRecord = existingRecords.get(record.id);
     if (existingRecord && isDupe(existingRecord, record)) {
@@ -896,8 +898,7 @@ async function reconcileCSVs(
   }
 }
 
-reconcileCSVs(
-  path.resolve(__dirname, "data/raw.csv"),
-  "downloads/merged.csv"
-  // path.resolve(__dirname, "data/raw-v2.csv")
-);
+// reconcile current data (raw.csv) with new csv file
+// make sure there is no empty new line at the end of the csv file
+const incoming_file = "scripts/data/common/killed-in-gaza/output/20240501.csv"
+reconcileCSVs(path.resolve(__dirname, "data/raw.csv"), incoming_file);
