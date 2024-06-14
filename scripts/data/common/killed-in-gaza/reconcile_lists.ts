@@ -371,7 +371,6 @@ const addIfAcceptable = (
     freeAccepts?: FreeAccepts;
   }
 ) => {
-  console.log(lookup)
   console.log(record)
   const age = record.age ? +dequote(record.age) : -1;
   const dob = record.dob ? normalizeDateStr(record.dob) : null;

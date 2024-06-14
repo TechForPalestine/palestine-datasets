@@ -40,15 +40,15 @@ df.loc[mask, 'name_ar_raw'] = df.loc[mask, 'id']
 df.loc[mask, 'id'] = pd.NA
 
 # remove wrong characters from id column
-incorrect_ids = [
-    'طفلةة','تحت الركام','-','مولود','_','طفلة','.','ال اعرف','ك',
-    'طفلل','طففل','طفل','طفلة حديث','طفل...خدج','طفل ...خدج','طفللل', '0'
-]
-incorrect_ids_pattern = '[' + ''.join(incorrect_ids) + ']'
-df['id'] = df['id'].str.replace(incorrect_ids_pattern, '', regex=True)
-df['id'] = df['id'].replace('', pd.NA)
-# replace all NaNs in 'id' column with '000000000'
-df['id'] = df['id'].fillna('000000000')
+# incorrect_ids = [
+#     'طفلةة','تحت الركام','-','مولود','_','طفلة','.','ال اعرف','ك',
+#     'طفلل','طففل','طفل','طفلة حديث','طفل...خدج','طفل ...خدج','طفللل', '0'
+# ]
+# incorrect_ids_pattern = '[' + ''.join(incorrect_ids) + ']'
+# df['id'] = df['id'].str.replace(incorrect_ids_pattern, '', regex=True)
+# df['id'] = df['id'].replace('', pd.NA)
+# # replace all NaNs in 'id' column with '000000000'
+# df['id'] = df['id'].fillna('000000000')
 
 # calculate dob from age keeping the date the list was published
 # as the reference date
