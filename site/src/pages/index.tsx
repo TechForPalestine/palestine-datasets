@@ -48,12 +48,6 @@ export default function Home(): JSX.Element {
         <HomeDailyChart />
         <KilledName />
         <div style={{ height: 40 }} />
-        <div className={styles.contactBlock}>
-          <div>Need help or want to collaborate?</div>
-          <Button type="primary" to="/docs/contact" inline>
-            Get in touch
-          </Button>
-        </div>
       </main>
     </Layout>
   );

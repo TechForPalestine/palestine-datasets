@@ -272,13 +272,21 @@ const getRecordDemo = (
 
 const reportingSource = "تبيلغ ذوي الشهداء";
 const ministrySource = "سجلات وزارة الصحة";
+const unknownSource = "unknown";
 const sourceMapping = {
   [reportingSource]: "c",
   [ministrySource]: "h",
+  [unknownSource]: "u",
 };
 type Source = typeof reportingSource | typeof ministrySource;
 type ReconcileSkips = Record<
-  "age" | "dob" | "sex" | "name" | "سجلات وزارة الصحة" | "تبيلغ ذوي الشهداء",
+  | "age"
+  | "dob"
+  | "sex"
+  | "name"
+  | "سجلات وزارة الصحة"
+  | "تبيلغ ذوي الشهداء"
+  | "unknown",
   string[]
 >;
 type ReconcileAccepts = {
@@ -295,10 +303,12 @@ type ReconcileAccepts = {
   sexAdded: string[];
   [ministrySource]: string[];
   [reportingSource]: string[];
+  [unknownSource]: string[];
 };
 type FreeAccepts = {
   newRecordsFromMinistry: string[];
   newRecordsFromSubmissions: string[];
+  newRecordsFromUnknownSource: string[];
 };
 
 const newRecordConflictSkips: ReconcileSkips = {
@@ -308,6 +318,7 @@ const newRecordConflictSkips: ReconcileSkips = {
   name: [],
   [ministrySource]: [],
   [reportingSource]: [],
+  [unknownSource]: [],
 };
 
 const newRecordConflictAccepts: ReconcileAccepts = {
@@ -324,6 +335,7 @@ const newRecordConflictAccepts: ReconcileAccepts = {
   sexAdded: [],
   [ministrySource]: [],
   [reportingSource]: [],
+  [unknownSource]: [],
 };
 
 const mergedRecordConflictSkips: ReconcileSkips = {
@@ -333,6 +345,7 @@ const mergedRecordConflictSkips: ReconcileSkips = {
   name: [],
   [ministrySource]: [],
   [reportingSource]: [],
+  [unknownSource]: [],
 };
 
 const mergedRecordConflictAccepts: ReconcileAccepts = {
@@ -349,11 +362,13 @@ const mergedRecordConflictAccepts: ReconcileAccepts = {
   sexAdded: [],
   [ministrySource]: [],
   [reportingSource]: [],
+  [unknownSource]: [],
 };
 
 const mergedRecordFreeAccepts: FreeAccepts = {
   newRecordsFromMinistry: [],
   newRecordsFromSubmissions: [],
+  newRecordsFromUnknownSource: [],
 };
 
 const distributionStep = (pct: number) => Math.round(pct * 10) * 10;
@@ -362,6 +377,15 @@ const newRecordsWithInvalidDob: string[] = [];
 const nameDiffThreshold = 0.3;
 const nameChangeAcceptDist: Record<number, number> = {};
 
+/**
+ * addIfAcceptable will add a record to the provided lookup if it meets
+ * certain criteria as commented inline
+ *
+ * @param lookup Map of records to add if acceptable
+ * @param record a person record from a CSV
+ * @param results stats objects for tracking skips (rejections) and accepts (additions to lookup Map)
+ * @returns
+ */
 const addIfAcceptable = (
   lookup: Map<string, NewRecord | (ExistingRecord & { age?: string })>,
   record: NewRecord,
@@ -371,7 +395,12 @@ const addIfAcceptable = (
     freeAccepts?: FreeAccepts;
   }
 ) => {
-  console.log(record)
+  //
+  // validate the DOB based on expected date format, and check whether the age matches the DOB
+  // within a tolerance of 1 year
+  //
+  // will rewrite the DOB if required (ie. month and date are swapped)
+  //
   const age = record.age ? +dequote(record.age) : -1;
   const dob = record.dob ? normalizeDateStr(record.dob) : null;
   let validDob = true;
@@ -388,6 +417,10 @@ const addIfAcceptable = (
     }
   }
 
+  //
+  // if there's no prior record in the lookup, we don't have a conflict or duplicate,
+  // so add it and track the source for stats
+  //
   const priorRecord = lookup.get(record.id);
   if (!priorRecord) {
     if (validDob) {
@@ -395,6 +428,8 @@ const addIfAcceptable = (
         results.freeAccepts?.newRecordsFromMinistry.push(record.id);
       } else if (record.source === reportingSource) {
         results.freeAccepts?.newRecordsFromSubmissions.push(record.id);
+      } else if (record.source === unknownSource) {
+        results.freeAccepts?.newRecordsFromUnknownSource.push(record.id);
       }
       lookup.set(record.id, record);
     } else {
@@ -403,9 +438,15 @@ const addIfAcceptable = (
     return;
   }
 
+  //
+  // diff this record with the existing one to determine what's changed
+  //
   const diff = getDiff(priorRecord, record);
   const source = record.source as Source;
 
+  //
+  // determine how much of the new vs. old name exists in our dictionaries
+  //
   let copyOldName = false;
   const priorNameLookupHits = priorRecord.name_ar_raw
     .split(" ")
@@ -417,6 +458,11 @@ const addIfAcceptable = (
     record.name_ar_raw.includes(" ن ") &&
     !priorRecord.name_ar_raw.includes(" ن ");
 
+  //
+  // if the old name is more complete translation-wise,
+  // or there's a known issue with the pdf parsing (single char issue),
+  // keep the existing name
+  //
   if (
     priorNameLookupHits > newNameLookupHits ||
     knownSingleCharMiddleInsertIssue
@@ -424,6 +470,10 @@ const addIfAcceptable = (
     copyOldName = true;
   }
 
+  //
+  // if the age is invalid, or the age is more than 1 year off,
+  // or the age is not set and the DOB is invalid, skip this record
+  //
   if (
     diff.age === false ||
     (typeof diff.age === "number" && diff.age > 1) ||
@@ -433,11 +483,20 @@ const addIfAcceptable = (
     results.skips[source].push(record.id);
     return;
   }
+
+  //
+  // if the sex isn't in the new record or it's changed, skip
+  //
   if (diff.sex === false || diff.sex === 1) {
     results.skips.sex.push(record.id);
     results.skips[source].push(record.id);
     return;
   }
+
+  //
+  // handle keeping the old name, otherwise skip this record if
+  // the new name is too different or contains 0s
+  //
   if (copyOldName) {
     record.name_ar_raw = priorRecord.name_ar_raw;
     results.accepts.nameKept.push(record.id);
@@ -451,12 +510,19 @@ const addIfAcceptable = (
     results.skips[source].push(record.id);
     return;
   }
+
+  //
+  // if there's no DOB, skip
+  //
   if (diff.dob === false) {
     results.skips.dob.push(record.id);
     results.skips[source].push(record.id);
     return;
   }
 
+  //
+  // track what's different about the age, or if the same
+  //
   if (diff.age === 0) {
     results.accepts.ageSame.push(record.id);
   } else if (diff.age === true) {
@@ -466,6 +532,10 @@ const addIfAcceptable = (
     results.accepts.ageDirty.push(record.id);
     results.accepts.ageChangeOk.push(record.id);
   }
+
+  //
+  // track what's different about the DOB
+  //
   if (diff.dob === true) {
     results.accepts.dobDirty.push(record.id);
     results.accepts.dobAdded.push(record.id);
@@ -474,6 +544,10 @@ const addIfAcceptable = (
     results.accepts.dobDirty.push(record.id);
     results.accepts.dobFixed.push(record.id);
   }
+
+  //
+  // if the new name is within our change threshold or the same, track it
+  //
   if (
     diff.name &&
     typeof diff.name === "number" &&
@@ -487,6 +561,10 @@ const addIfAcceptable = (
   } else {
     results.accepts.nameSame.push(record.id);
   }
+
+  //
+  // if sex is added in this record vs. old, track that addition
+  //
   if (diff.sex === true) {
     results.accepts.sexAdded.push(record.id);
   }
@@ -506,6 +584,15 @@ const sumArrayLookup = (lookup: Record<string, any[]>) =>
     {} as Record<keyof typeof lookup, number>
   );
 
+/**
+ * main
+ *
+ * takes two CSVs and merges them into a single CSV while tracking acceptance and rejection stats
+ * will only overwrite the existing CSV if the --write flag is passed when running this script
+ *
+ * @param existingCSVPath path to our existing source of truth CSV (raw.csv)
+ * @param newCSVPath path to a CSV representing updated data that we want to merge into our existing CSV
+ */
 async function reconcileCSVs(
   existingCSVPath: string,
   newCSVPath: string
@@ -524,6 +611,9 @@ async function reconcileCSVs(
     existingRecords
   );
 
+  //
+  // for each record in the new CSV, track duplicates and conflicts
+  //
   newRecords.forEach((record, index) => {
     if (record.sex && record.sex !== "M" && record.sex !== "F") {
       throw new Error(
