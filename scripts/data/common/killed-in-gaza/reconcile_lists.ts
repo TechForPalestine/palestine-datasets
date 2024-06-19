@@ -638,7 +638,7 @@ async function reconcileCSVs(
       skips: newRecordConflictSkips,
       accepts: newRecordConflictAccepts,
     });
-    console.log(record)
+
     // check for dupe in new records vs existing records for reporting purposes
     const existingRecord = existingRecords.get(record.id);
     if (existingRecord && isDupe(existingRecord, record)) {
