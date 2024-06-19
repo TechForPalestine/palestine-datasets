@@ -56,8 +56,9 @@ df['age'] = pd.to_numeric(df['age'], errors='coerce')
 reference_date = pd.to_datetime('2024-04-30')
 df['dob'] = reference_date - pd.to_timedelta(df['age']*365, unit='D')
 
-# marking the source for all rows as h
-df['source'] = 'h'
+# marking the source for all rows as unknown since the published pdf did not have
+# any information if it is from MoH or publicily submitted
+df['source'] = 'u'
 
 # checking all distinct values for sex column and
 # replacing with english naming
