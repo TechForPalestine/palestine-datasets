@@ -22,9 +22,6 @@ header_en = ["sex", "location", "age", "id", "name_ar_raw", "serial_no"]
 df = pd.read_excel(file_path, skiprows=1, names=header_en)
 
 logging.info("applying file specfic cleaning on the file")
-# filtering only the columns to comply with schema in data/raw.csv
-df = df[["id", "name_ar_raw", "age", "sex"]]
-
 # removing one column which has empty values for all columns except sex
 df = df[df['sex'] != 'ل']
 
@@ -39,16 +36,21 @@ mask = df['name_ar_raw'].isna() & ~df['id'].isna()
 df.loc[mask, 'name_ar_raw'] = df.loc[mask, 'id']
 df.loc[mask, 'id'] = pd.NA
 
-# remove wrong characters from id column
-# incorrect_ids = [
-#     'طفلةة','تحت الركام','-','مولود','_','طفلة','.','ال اعرف','ك',
-#     'طفلل','طففل','طفل','طفلة حديث','طفل...خدج','طفل ...خدج','طفللل', '0'
-# ]
-# incorrect_ids_pattern = '[' + ''.join(incorrect_ids) + ']'
-# df['id'] = df['id'].str.replace(incorrect_ids_pattern, '', regex=True)
-# df['id'] = df['id'].replace('', pd.NA)
-# # replace all NaNs in 'id' column with '000000000'
-# df['id'] = df['id'].fillna('000000000')
+# fixing id column
+# - replace zero integer with string
+# - for given incorrect ids replace them with NA -> 000000000 -> missing-20240501-<serial_no>
+# - remove duplicates based on id 
+df.loc[df['id'] == 0, 'id'] = '0'
+incorrect_ids = [
+    'طفلةة','تحت الركام','-','مولود','_','طفلة','.','ال اعرف','ك',
+    'طفلل','طففل','طفل','طفلة حديث','طفل...خدج','طفل ...خدج','طفللل', '0'
+]
+df['id'] = df['id'].replace(incorrect_ids, pd.NA)
+df['id'] = df['id'].fillna('000000000')
+df.loc[df['id'] == '000000000', 'id'] = 'missing-20240501-' + df['serial_no'].astype(int).astype(str)
+logging.info("following dupes are removed")
+logging.info([df.duplicated(['id'], keep=False)])
+df = df.drop_duplicates(subset='id')
 
 # calculate dob from age keeping the date the list was published
 # as the reference date

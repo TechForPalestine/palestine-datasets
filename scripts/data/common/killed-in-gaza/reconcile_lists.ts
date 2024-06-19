@@ -474,6 +474,8 @@ const addIfAcceptable = (
   // if the age is invalid, or the age is more than 1 year off,
   // or the age is not set and the DOB is invalid, skip this record
   //
+  console.log(record)
+  console.log(results)
   if (
     diff.age === false ||
     (typeof diff.age === "number" && diff.age > 1) ||
@@ -623,6 +625,9 @@ async function reconcileCSVs(
 
     // check for dupes in new records
     const newDupes = newDuplicates.get(record.id) || [];
+    if (newDupes.length != 0) {
+      console.log(newDupes)
+    }
     const priorNewRecord = newRecordLookup.get(record.id);
     if (priorNewRecord && isDupe(priorNewRecord, record)) {
       newDuplicates.set(record.id, [...newDupes, priorNewRecord, record]);
