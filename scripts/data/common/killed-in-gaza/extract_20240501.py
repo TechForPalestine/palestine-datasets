@@ -54,7 +54,8 @@ df = df.drop_duplicates(subset='id')
 
 # calculate dob from age keeping the date the list was published
 # as the reference date
-df['age'] = pd.to_numeric(df['age'], errors='coerce')
+df['age'] = pd.to_numeric(df['age'], downcast='integer', errors='coerce')
+df['age'] = df['age'].astype('Int64')
 reference_date = pd.to_datetime('2024-04-30')
 df['dob'] = reference_date - pd.to_timedelta(df['age']*365, unit='D')
 
