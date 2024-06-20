@@ -958,6 +958,7 @@ async function reconcileCSVs(
   const format = (value: string, header: string) =>
     header === "age" && value ? `"${value}"` : value;
   const rows: string[] = [];
+  console.log(format)
   const communityRecords = new Set<string>();
   for (const key of mergedRecords.keys()) {
     if (recordsToRemove.has(key)) {
