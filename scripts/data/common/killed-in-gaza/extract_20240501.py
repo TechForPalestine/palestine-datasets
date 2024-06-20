@@ -49,7 +49,7 @@ df['id'] = df['id'].replace(incorrect_ids, pd.NA)
 df['id'] = df['id'].fillna('000000000')
 df.loc[df['id'] == '000000000', 'id'] = 'missing-20240501-' + df['serial_no'].astype(int).astype(str)
 logging.info("following dupes are removed")
-logging.info([df.duplicated(['id'], keep=False)])
+# logging.info([df.duplicated(['id'], keep=False)])
 df = df.drop_duplicates(subset='id')
 
 # calculate dob from age keeping the date the list was published
@@ -60,7 +60,7 @@ df['dob'] = reference_date - pd.to_timedelta(df['age']*365, unit='D')
 
 # marking the source for all rows as unknown since the published pdf did not have
 # any information if it is from MoH or publicily submitted
-df['source'] = 'u'
+df['source'] = 'unknown'
 
 # checking all distinct values for sex column and
 # replacing with english naming

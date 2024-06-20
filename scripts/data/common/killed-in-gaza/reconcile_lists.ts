@@ -474,8 +474,7 @@ const addIfAcceptable = (
   // if the age is invalid, or the age is more than 1 year off,
   // or the age is not set and the DOB is invalid, skip this record
   //
-  console.log(record)
-  console.log(results)
+
   if (
     diff.age === false ||
     (typeof diff.age === "number" && diff.age > 1) ||
@@ -872,6 +871,7 @@ async function reconcileCSVs(
   const mergedRecordConflictChangeDist = [
     ...mergedRecordConflictAccepts[ministrySource],
     ...mergedRecordConflictAccepts[reportingSource],
+    ...mergedRecordConflictAccepts[unknownSource],
   ].reduce((acc, id) => {
     const age = mergedRecordConflictAccepts.ageDirty.includes(id);
     const dob = mergedRecordConflictAccepts.dobDirty.includes(id);
