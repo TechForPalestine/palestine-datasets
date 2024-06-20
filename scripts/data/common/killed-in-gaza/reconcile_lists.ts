@@ -989,7 +989,8 @@ async function reconcileCSVs(
   }
 }
 
-// reconcile current data (raw.csv) with new csv file
-// make sure there is no empty new line at the end of the csv file
-const incoming_file = "scripts/data/common/killed-in-gaza/output/20240501.csv"
-reconcileCSVs(path.resolve(__dirname, "data/raw.csv"), incoming_file);
+reconcileCSVs(
+  path.resolve(__dirname, "data/raw.csv"),
+  "scripts/data/common/killed-in-gaza/output/20240501.csv"
+  // path.resolve(__dirname, "data/raw-v2.csv")
+);
