@@ -981,11 +981,11 @@ async function reconcileCSVs(
   console.log("new list length:", newListLength);
   console.log("new list community records:", communityRecords.size);
   if (process.argv.includes("--write")) {
-  fs.appendFileSync(
-      path.resolve(__dirname, "data/raw.csv"),
-      '\r\n' + [...rows].join("\r\n")
-    );
-  }
+    fs.appendFileSync(
+        path.resolve(__dirname, "data/raw.csv"),
+        '\r\n' + [...rows].join("\r\n")
+      );
+    }
 }
 
 reconcileCSVs(
