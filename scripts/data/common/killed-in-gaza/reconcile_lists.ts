@@ -610,7 +610,6 @@ async function reconcileCSVs(
   const mergedRecords = new Map<string, NewRecord | ExistingRecord>(
     existingRecords
   );
-  console.log("1_"+mergedRecords.keys())
   //
   // for each record in the new CSV, track duplicates and conflicts
   //
@@ -659,7 +658,6 @@ async function reconcileCSVs(
       freeAccepts: mergedRecordFreeAccepts,
     });
   }
-  console.log("2_"+mergedRecords.keys())
 
   const recordsToRemove = new Set<string>();
   const recordsToAdd = new Set<string>();
@@ -956,9 +954,6 @@ async function reconcileCSVs(
     header === "age" && value ? `"${value}"` : value;
   const rows: string[] = [];
   const communityRecords = new Set<string>();
-
-  console.log("3_"+mergedRecords.keys())
-
   for (const key of mergedRecords.keys()) {
     if (recordsToRemove.has(key)) {
       continue;
