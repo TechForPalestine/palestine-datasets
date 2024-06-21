@@ -128,6 +128,7 @@ const validateDobAgeWithinYear = (
   const diff = Math.abs(age - ageFromDob);
   return [diff < 2, flipped ? dob : undefined];
 };
+
 const addExistingAge = (record: ExistingRecord) => {
   const dobDate = record.dob ? new Date(record.dob) : null;
   if (dobDate && Number.isNaN(dobDate.getTime())) {
@@ -278,7 +279,7 @@ const sourceMapping = {
   [ministrySource]: "h",
   [unknownSource]: "u",
 };
-type Source = typeof reportingSource | typeof ministrySource;
+type Source = typeof reportingSource | typeof ministrySource | typeof unknownSource;
 type ReconcileSkips = Record<
   | "age"
   | "dob"
@@ -610,6 +611,7 @@ async function reconcileCSVs(
   const mergedRecords = new Map<string, NewRecord | ExistingRecord>(
     existingRecords
   );
+
   //
   // for each record in the new CSV, track duplicates and conflicts
   //
@@ -983,12 +985,12 @@ async function reconcileCSVs(
     fs.writeFileSync(
       path.resolve(__dirname, "data/raw.csv"),
       [csvHeader.join(","), ...rows].join("\r\n")
-      );
-    }
+    );
+  }
 }
 
 reconcileCSVs(
   path.resolve(__dirname, "data/raw.csv"),
-  "scripts/data/common/killed-in-gaza/output/20240501.csv"
+  "scripts/data/common/killed-in-gaza/output/raw_20240501_merged.csv"
   // path.resolve(__dirname, "data/raw-v2.csv")
 );
