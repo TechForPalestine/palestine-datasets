@@ -981,9 +981,9 @@ async function reconcileCSVs(
   console.log("new list length:", newListLength);
   console.log("new list community records:", communityRecords.size);
   if (process.argv.includes("--write")) {
-    fs.appendFileSync(
+    fs.writeFileSync(
       path.resolve(__dirname, "data/raw.csv"),
-      '\r\n' + [...rows].join("\r\n")
+      [csvHeader.join(","), ...rows].join("\r\n")
       );
     }
 }
