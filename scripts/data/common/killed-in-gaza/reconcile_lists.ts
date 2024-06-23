@@ -991,6 +991,6 @@ async function reconcileCSVs(
 
 reconcileCSVs(
   path.resolve(__dirname, "data/raw.csv"),
-  "scripts/data/common/killed-in-gaza/output/raw_20240501_merged.csv"
+  "scripts/data/common/killed-in-gaza/output/20240501.csv"
   // path.resolve(__dirname, "data/raw-v2.csv")
 );
