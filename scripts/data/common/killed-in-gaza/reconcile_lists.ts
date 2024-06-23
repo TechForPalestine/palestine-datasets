@@ -8,6 +8,7 @@ type ExistingRecord = {
   name_ar_raw: string;
   dob: string;
   sex: "M" | "F";
+  age: string;
 };
 
 type NewRecord = {
@@ -53,18 +54,14 @@ const readCsv = <T>(file: string) => {
   });
 };
 
-const readCsvToMap = <T, V extends T>(
-  file: string,
-  mapKey: keyof T,
-  transform: (rec: T) => V
-) => {
+const readCsvToMap = <T>(file: string, mapKey: keyof T) => {
   const csvRecords = readCsv<T>(file);
-  const records = new Map<string, V>();
+  const records = new Map<string, T>();
   if (typeof csvRecords[0][mapKey] !== "string") {
     throw new Error(`Invalid map key: ${mapKey.toString()}`);
   }
   csvRecords.forEach((record) => {
-    records.set(record[mapKey] as string, transform(record));
+    records.set(record[mapKey] as string, record);
   });
   return records;
 };
@@ -127,22 +124,6 @@ const validateDobAgeWithinYear = (
   );
   const diff = Math.abs(age - ageFromDob);
   return [diff < 2, flipped ? dob : undefined];
-};
-const addExistingAge = (record: ExistingRecord) => {
-  const dobDate = record.dob ? new Date(record.dob) : null;
-  if (dobDate && Number.isNaN(dobDate.getTime())) {
-    throw new Error(
-      `Invalid date found in addExistingAge transform: ${record.dob}`
-    );
-  }
-  return {
-    ...record,
-    age: record.dob
-      ? Math.round(
-          differenceInMonths(existingRecordAgeRefDate, record.dob) / 12
-        ).toString()
-      : undefined,
-  };
 };
 
 const normalizeDateStr = (dateStr: string) => {
@@ -597,10 +578,7 @@ async function reconcileCSVs(
   existingCSVPath: string,
   newCSVPath: string
 ): Promise<void> {
-  const existingRecords = readCsvToMap<
-    ExistingRecord,
-    ExistingRecord & { age?: string }
-  >(existingCSVPath, "id", addExistingAge);
+  const existingRecords = readCsvToMap<ExistingRecord>(existingCSVPath, "id");
   const newRecords = readCsv<NewRecord>(newCSVPath);
   const newDuplicates = new Map<string, NewRecord[]>();
   const newConflicts = new Map<string, NewRecord[]>();
