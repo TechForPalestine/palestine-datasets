@@ -56,9 +56,7 @@ df = df.drop_duplicates(subset='id')
 # as the reference date
 df['age'] = pd.to_numeric(df['age'], downcast='integer', errors='coerce')
 df['age'] = df['age'].astype('Int64')
-reference_date = pd.to_datetime('2024-04-30')
-df['dob'] = reference_date - pd.to_timedelta(df['age']*365, unit='D')
-# df['age'] = df['age'].astype(str)
+
 # marking the source for all rows as unknown since the published pdf did not have
 # any information if it is from MoH or publicily submitted
 df['source'] = 'unknown'
@@ -76,7 +74,7 @@ sex_mapping = {
 df['sex'] = df['sex'].replace(sex_mapping)
 
 # fixing the order of the columns to match data/raw.csv
-df = df[["id", "name_ar_raw", "dob", "age", "sex", "source"]]
+df = df[["id", "name_ar_raw", "age", "sex", "source"]]
 
 logging.info("creating csv file with cleaned version of data")
 # writing to a csv and removing new line since script reconcile_lists.ts
@@ -85,29 +83,3 @@ file_out = f"{working_dir}output/20240501.csv"
 df.to_csv(file_out, index=False)
 file_data = open(file_out, 'rb').read()
 open(file_out, 'wb').write(file_data[:-1])
-
-
-import pandas as pd
-import glob
-
-# Define the path to your CSV files. You can use a wildcard to select multiple files.
-# placed raw.csv from data/ here and combined new and old file together and then
-# feed to reconcile_lists.ts script
-file_path = 'scripts/data/common/killed-in-gaza/output/*.csv'
-
-# Use glob to get all the file paths that match the wildcard
-all_files = glob.glob(file_path)
-
-# Create an empty list to store the DataFrames
-dataframes = []
-
-# Loop through the list of files and read each one into a DataFrame, then append it to the list
-for file in all_files:
-    df = pd.read_csv(file)
-    dataframes.append(df)
-
-# Concatenate all the DataFrames into a single DataFrame
-merged_df = pd.concat(dataframes, ignore_index=True)
-
-# Optionally, save the merged DataFrame to a new CSV file
-merged_df.to_csv('scripts/data/common/killed-in-gaza/output/raw_20240501_merged.csv', index=False)

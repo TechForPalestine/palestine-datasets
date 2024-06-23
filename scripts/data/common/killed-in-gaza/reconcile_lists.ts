@@ -71,6 +71,8 @@ const readCsvToMap = <T, V extends T>(
 
 const stripQuotes = (value: string) => value.replace(/"/g, "");
 
+// if age diff between new and existing value is less than 2 and there is less
+// than 15% difference in length of raw arabic names than it is a dupe
 const isDupe = (
   recordA: NewRecord | (ExistingRecord & { age?: string }),
   recordB: NewRecord
@@ -106,6 +108,7 @@ const flipDateParts = (dob: string) => {
   return `${year}-${month}-${date}`;
 };
 
+// TODO: how is this Ref Date determined
 const existingRecordAgeRefDate = new Date(2024, 0, 5, 0, 0, 0);
 const validateDobAgeWithinYear = (
   age: number,
@@ -129,20 +132,26 @@ const validateDobAgeWithinYear = (
   return [diff < 2, flipped ? dob : undefined];
 };
 
+// if dob exists, calculate age from dob and reference date
+// else use existing age value from the record
 const addExistingAge = (record: ExistingRecord) => {
   const dobDate = record.dob ? new Date(record.dob) : null;
-  if (dobDate && Number.isNaN(dobDate.getTime())) {
-    throw new Error(
-      `Invalid date found in addExistingAge transform: ${record.dob}`
-    );
+  let age: string | undefined
+  if(dobDate) {
+    if (Number.isNaN(dobDate.getTime())) {
+      throw new Error(
+        `Invalid date found in addExistingAge transform: ${record.dob}`
+      );
+    }
+    else {
+      age = Math.round(
+            differenceInMonths(existingRecordAgeRefDate, record.dob) / 12
+          ).toString()    
+    }
   }
+
   return {
-    ...record,
-    age: record.dob
-      ? Math.round(
-          differenceInMonths(existingRecordAgeRefDate, record.dob) / 12
-        ).toString()
-      : undefined,
+    ...record, age: age !== undefined ? age: record.age,
   };
 };
 
@@ -207,7 +216,7 @@ const getDiff = (
     diff.sex = 1;
   }
 
-  // if (recordA.id === "931542690") {
+  // if (recordA.id === "44073191") {
   //   console.log({ ageA, ageB, dobA, dobB, nameA, nameB, sexA, sexB, diff });
   // }
 
