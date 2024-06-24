@@ -8,6 +8,7 @@ type ExistingRecord = {
   name_ar_raw: string;
   dob: string;
   sex: "M" | "F";
+  age: string;
 };
 
 type NewRecord = {
@@ -53,18 +54,14 @@ const readCsv = <T>(file: string) => {
   });
 };
 
-const readCsvToMap = <T, V extends T>(
-  file: string,
-  mapKey: keyof T,
-  transform: (rec: T) => V
-) => {
+const readCsvToMap = <T>(file: string, mapKey: keyof T) => {
   const csvRecords = readCsv<T>(file);
-  const records = new Map<string, V>();
+  const records = new Map<string, T>();
   if (typeof csvRecords[0][mapKey] !== "string") {
     throw new Error(`Invalid map key: ${mapKey.toString()}`);
   }
   csvRecords.forEach((record) => {
-    records.set(record[mapKey] as string, transform(record));
+    records.set(record[mapKey] as string, record);
   });
   return records;
 };
@@ -108,7 +105,11 @@ const flipDateParts = (dob: string) => {
   return `${year}-${month}-${date}`;
 };
 
-// TODO: how is this Ref Date determined
+// initial date of list release - 2024-01-05
+// latest date of list release is - 2024-05-01
+// probably OK to keep for now as it's close to the 
+// "midpoint" of the timeframe so far
+// has to be updated if new list comes in future
 const existingRecordAgeRefDate = new Date(2024, 0, 5, 0, 0, 0);
 const validateDobAgeWithinYear = (
   age: number,
@@ -122,7 +123,7 @@ const validateDobAgeWithinYear = (
       return validateDobAgeWithinYear(age, flipDateParts(dob), ref, true);
     }
     throw new Error(
-      `Invalid date found in addExistingAge transform: ${dob} (${ref})`
+      `Invalid date found: ${dob} (${ref})`
     );
   }
   const ageFromDob = Math.round(
@@ -130,29 +131,6 @@ const validateDobAgeWithinYear = (
   );
   const diff = Math.abs(age - ageFromDob);
   return [diff < 2, flipped ? dob : undefined];
-};
-
-// if dob exists, calculate age from dob and reference date
-// else use existing age value from the record
-const addExistingAge = (record: ExistingRecord) => {
-  const dobDate = record.dob ? new Date(record.dob) : null;
-  let age: string | undefined
-  if(dobDate) {
-    if (Number.isNaN(dobDate.getTime())) {
-      throw new Error(
-        `Invalid date found in addExistingAge transform: ${record.dob}`
-      );
-    }
-    else {
-      age = Math.round(
-            differenceInMonths(existingRecordAgeRefDate, record.dob) / 12
-          ).toString()    
-    }
-  }
-
-  return {
-    ...record, age: age !== undefined ? age: record.age,
-  };
 };
 
 const normalizeDateStr = (dateStr: string) => {
@@ -607,10 +585,7 @@ async function reconcileCSVs(
   existingCSVPath: string,
   newCSVPath: string
 ): Promise<void> {
-  const existingRecords = readCsvToMap<
-    ExistingRecord,
-    ExistingRecord & { age?: string }
-  >(existingCSVPath, "id", addExistingAge);
+  const existingRecords = readCsvToMap<ExistingRecord>(existingCSVPath, "id");
   const newRecords = readCsv<NewRecord>(newCSVPath);
   const newDuplicates = new Map<string, NewRecord[]>();
   const newConflicts = new Map<string, NewRecord[]>();
