@@ -5090,5 +5090,23 @@
       "destroyed": 150000,
       "ext_destroyed": 150000
     }
+  },
+  {
+    "report_date": "2024-06-23",
+    "civic_buildings": {
+      "ext_destroyed": 194
+    },
+    "educational_buildings": {
+      "ext_destroyed": 110,
+      "ext_damaged": 321
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 608,
+      "ext_mosques_damaged": 209,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
   }
 ]
