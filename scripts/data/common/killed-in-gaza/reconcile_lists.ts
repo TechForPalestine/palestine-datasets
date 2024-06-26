@@ -8,6 +8,7 @@ type ExistingRecord = {
   name_ar_raw: string;
   dob: string;
   sex: "M" | "F";
+  age: string;
 };
 
 type NewRecord = {
@@ -53,24 +54,22 @@ const readCsv = <T>(file: string) => {
   });
 };
 
-const readCsvToMap = <T, V extends T>(
-  file: string,
-  mapKey: keyof T,
-  transform: (rec: T) => V
-) => {
+const readCsvToMap = <T>(file: string, mapKey: keyof T) => {
   const csvRecords = readCsv<T>(file);
-  const records = new Map<string, V>();
+  const records = new Map<string, T>();
   if (typeof csvRecords[0][mapKey] !== "string") {
     throw new Error(`Invalid map key: ${mapKey.toString()}`);
   }
   csvRecords.forEach((record) => {
-    records.set(record[mapKey] as string, transform(record));
+    records.set(record[mapKey] as string, record);
   });
   return records;
 };
 
 const stripQuotes = (value: string) => value.replace(/"/g, "");
 
+// if age diff between new and existing value is less than 2 and there is less
+// than 15% difference in length of raw arabic names than it is a dupe
 const isDupe = (
   recordA: NewRecord | (ExistingRecord & { age?: string }),
   recordB: NewRecord
@@ -106,6 +105,11 @@ const flipDateParts = (dob: string) => {
   return `${year}-${month}-${date}`;
 };
 
+// initial date of list release - 2024-01-05
+// latest date of list release is - 2024-05-01
+// probably OK to keep for now as it's close to the 
+// "midpoint" of the timeframe so far
+// has to be updated if new list comes in future
 const existingRecordAgeRefDate = new Date(2024, 0, 5, 0, 0, 0);
 const validateDobAgeWithinYear = (
   age: number,
@@ -119,7 +123,7 @@ const validateDobAgeWithinYear = (
       return validateDobAgeWithinYear(age, flipDateParts(dob), ref, true);
     }
     throw new Error(
-      `Invalid date found in addExistingAge transform: ${dob} (${ref})`
+      `Invalid date found: ${dob} (${ref})`
     );
   }
   const ageFromDob = Math.round(
@@ -127,22 +131,6 @@ const validateDobAgeWithinYear = (
   );
   const diff = Math.abs(age - ageFromDob);
   return [diff < 2, flipped ? dob : undefined];
-};
-const addExistingAge = (record: ExistingRecord) => {
-  const dobDate = record.dob ? new Date(record.dob) : null;
-  if (dobDate && Number.isNaN(dobDate.getTime())) {
-    throw new Error(
-      `Invalid date found in addExistingAge transform: ${record.dob}`
-    );
-  }
-  return {
-    ...record,
-    age: record.dob
-      ? Math.round(
-          differenceInMonths(existingRecordAgeRefDate, record.dob) / 12
-        ).toString()
-      : undefined,
-  };
 };
 
 const normalizeDateStr = (dateStr: string) => {
@@ -206,7 +194,7 @@ const getDiff = (
     diff.sex = 1;
   }
 
-  // if (recordA.id === "931542690") {
+  // if (recordA.id === "44073191") {
   //   console.log({ ageA, ageB, dobA, dobB, nameA, nameB, sexA, sexB, diff });
   // }
 
@@ -278,7 +266,7 @@ const sourceMapping = {
   [ministrySource]: "h",
   [unknownSource]: "u",
 };
-type Source = typeof reportingSource | typeof ministrySource;
+type Source = typeof reportingSource | typeof ministrySource | typeof unknownSource;
 type ReconcileSkips = Record<
   | "age"
   | "dob"
@@ -597,10 +585,7 @@ async function reconcileCSVs(
   existingCSVPath: string,
   newCSVPath: string
 ): Promise<void> {
-  const existingRecords = readCsvToMap<
-    ExistingRecord,
-    ExistingRecord & { age?: string }
-  >(existingCSVPath, "id", addExistingAge);
+  const existingRecords = readCsvToMap<ExistingRecord>(existingCSVPath, "id");
   const newRecords = readCsv<NewRecord>(newCSVPath);
   const newDuplicates = new Map<string, NewRecord[]>();
   const newConflicts = new Map<string, NewRecord[]>();
@@ -867,6 +852,7 @@ async function reconcileCSVs(
   const mergedRecordConflictChangeDist = [
     ...mergedRecordConflictAccepts[ministrySource],
     ...mergedRecordConflictAccepts[reportingSource],
+    ...mergedRecordConflictAccepts[unknownSource],
   ].reduce((acc, id) => {
     const age = mergedRecordConflictAccepts.ageDirty.includes(id);
     const dob = mergedRecordConflictAccepts.dobDirty.includes(id);
@@ -989,6 +975,6 @@ async function reconcileCSVs(
 
 reconcileCSVs(
   path.resolve(__dirname, "data/raw.csv"),
-  "downloads/merged.csv"
+  "scripts/data/common/killed-in-gaza/output/20240501.csv"
   // path.resolve(__dirname, "data/raw-v2.csv")
 );
