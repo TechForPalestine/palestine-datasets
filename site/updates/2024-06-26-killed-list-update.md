@@ -7,7 +7,7 @@ tags: [killed-in-gaza, gaza]
 
 On May 5th, we received an updated list of names of those killed in Gaza up to April 30th. We've incorporated new records and existing record changes from that update.
 
-The new list was in a PDF format that differed slightly from the prior lists that were distributed in CSV & PFD format. You can <a href="/sources/20240430gaza.pdf">download the Ministry of Health PDF here</a> that was used as the source for this update.
+The new list was in a PDF format that differed slightly from the prior lists that were distributed in CSV & PDF format. You can <a href="/sources/20240430gaza.pdf">download the Ministry of Health PDF here</a> that was used as the source for this update.
 
 We noted the following changes to their reporting format:
 
