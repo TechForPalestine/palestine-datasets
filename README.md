@@ -8,7 +8,7 @@ This repo provides an open source dataset intended to show the human toll of Isr
 
 - `killed-in-gaza.json` has a list of known fatalities in Gaza with their name, age, sex
 - `casualties_daily.json` has daily reports of aggregate killed & injury counts for Gaza
-- `west_bank_daily.json` has daily reports of aggregate killed, injured, and settler attack counts for the West Bank
+- `west_bank_daily.json` has daily reports of killed, injured, and settler attack counts for the West Bank
 - `press_killed_in_gaza.json` has a list of journalists known to have been killed in Gaza
 - `infrastructure-damaged.json` has weekly reports of damage estimates to human infrastructure
 
