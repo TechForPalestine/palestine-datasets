@@ -763,5 +763,30 @@
     "name": "محمد محمود أبو شريعة",
     "name_en": "Muhammad Mahmoud Abu Shariah",
     "notes": "Journalist and media professional at Shams News Agency"
+  },
+  {
+    "name": "سعدي مدوخ",
+    "name_en": "Saaudai مدوخ",
+    "notes": "Director of Deep Shot Media Production Company"
+  },
+  {
+    "name": "أديب سكر",
+    "name_en": "أديب Skar",
+    "notes": "Media professional at Deep Shot Media Production Company"
+  },
+  {
+    "name": "أمجد جحجوح",
+    "name_en": "Amjad Jhajoh",
+    "notes": "Journalist and media professional at the Palestine Media Agency"
+  },
+  {
+    "name": "وفاء أبو ضبعان",
+    "name_en": "Wfaa Abu ضبعان",
+    "notes": "Producer and presenter of programs at the Islamic University Radio in Gaza"
+  },
+  {
+    "name": "رزق أبو شكيان",
+    "name_en": "Rizq Abu Shkian",
+    "notes": "Journalist and media professional at the Palestine Media Agency"
   }
 ]
