@@ -131,9 +131,9 @@ const KilledNameCard = ({
           <text
             x="50%"
             y={count > 999 ? 105 : 120}
-            text-anchor="middle"
-            font-size={count > 999 ? 170 : 200}
-            font-weight="bold"
+            textAnchor="middle"
+            fontSize={count > 999 ? 170 : 200}
+            fontWeight="bold"
             fill="#ca3a32"
           >
             {formatter.format(count)}
