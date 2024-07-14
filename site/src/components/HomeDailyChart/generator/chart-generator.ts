@@ -57,6 +57,8 @@ const getWestBankValue = (
   return typeof value === "number" ? value : 0;
 };
 
+let lastChildrenKilledReportPct = 0;
+let lastWomenKilledReportPct = 0;
 const data = gazaDailyTimeSeries.reduce(
   (
     acc,
@@ -64,48 +66,83 @@ const data = gazaDailyTimeSeries.reduce(
       report_date,
       ext_civdef_killed_cum,
       ext_injured_cum,
+      killed_children_cum,
       ext_killed_children_cum,
       ext_killed_cum,
+      killed_women_cum,
       ext_killed_women_cum,
       ext_med_killed_cum,
       ext_press_killed_cum,
     },
     day: number
-  ) => ({
-    ...acc,
-    // just keep what we plan to surface in our UI
-    slimData: acc.slimData.concat({
-      date: report_date,
-      civdef: ext_civdef_killed_cum,
-      injured:
-        ext_injured_cum +
-        getWestBankValue(
-          report_date,
-          ["verified", "injured_cum"],
-          "injured_cum"
-        ),
-      children:
-        ext_killed_children_cum +
-        getWestBankValue(
-          report_date,
-          ["verified", "killed_children_cum"],
-          "killed_children_cum"
-        ),
-      killed:
-        ext_killed_cum +
-        getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum"),
-      women: ext_killed_women_cum,
-      medical: ext_med_killed_cum,
-      press: ext_press_killed_cum,
-      settlerActs: westBankLookup[report_date].settler_attacks_cum,
-    }),
-    chart: acc.chart.concat({
-      date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
-      value:
-        ext_killed_cum +
-        getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum"),
-    }),
-  }),
+  ) => {
+    let children =
+      ext_killed_children_cum +
+      getWestBankValue(
+        report_date,
+        ["verified", "killed_children_cum"],
+        "killed_children_cum"
+      );
+    let women = ext_killed_women_cum;
+
+    let killed =
+      ext_killed_cum +
+      getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
+
+    if (killed_children_cum) {
+      lastChildrenKilledReportPct =
+        (killed_children_cum +
+          getWestBankValue(
+            report_date,
+            ["verified", "killed_children_cum"],
+            "killed_children_cum"
+          )) /
+        killed;
+    }
+
+    if (killed_women_cum) {
+      lastWomenKilledReportPct = killed_women_cum / killed;
+    }
+
+    if (lastChildrenKilledReportPct > 0) {
+      children = Math.floor(killed * lastChildrenKilledReportPct);
+    }
+    if (lastWomenKilledReportPct > 0) {
+      women = Math.floor(killed * lastWomenKilledReportPct);
+    }
+
+    return {
+      ...acc,
+      // just keep what we plan to surface in our UI
+      slimData: acc.slimData.concat({
+        date: report_date,
+        civdef: ext_civdef_killed_cum,
+        injured:
+          ext_injured_cum +
+          getWestBankValue(
+            report_date,
+            ["verified", "injured_cum"],
+            "injured_cum"
+          ),
+        children,
+        killed,
+        women,
+        medical: ext_med_killed_cum,
+        press: ext_press_killed_cum,
+        settlerActs: westBankLookup[report_date].settler_attacks_cum,
+      }),
+      chart: acc.chart.concat({
+        date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
+        value:
+          ext_killed_cum +
+          getWestBankValue(
+            report_date,
+            ["verified", "killed_cum"],
+            "killed_cum"
+          ),
+      }),
+    };
+  },
   {
     chart: [],
     slimData: [],
