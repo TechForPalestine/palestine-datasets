@@ -2,7 +2,7 @@
   "name": "palestine-numbers",
   "private": true,
   "repository": "https://github.com/TechForPalestine/palestine-numbers",
-  "license": "MIT",
+  "license": "Unlicense",
   "workspaces": [
     "site"
   ],
