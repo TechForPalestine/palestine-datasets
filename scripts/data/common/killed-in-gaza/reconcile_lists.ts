@@ -258,8 +258,8 @@ const getRecordDemo = (
   }
 };
 
-const reportingSource = "تبيلغ ذوي الشهداء";
-const ministrySource = "سجلات وزارة الصحة";
+const reportingSource = "تبليغ ذوي الشهداء";
+const ministrySource = "سجالت وزارة الصحة";
 const unknownSource = "unknown";
 const sourceMapping = {
   [reportingSource]: "c",
@@ -272,8 +272,8 @@ type ReconcileSkips = Record<
   | "dob"
   | "sex"
   | "name"
-  | "سجلات وزارة الصحة"
-  | "تبيلغ ذوي الشهداء"
+  | "سجالت وزارة الصحة"
+  | "تبليغ ذوي الشهداء"
   | "unknown",
   string[]
 >;
@@ -975,6 +975,5 @@ async function reconcileCSVs(
 
 reconcileCSVs(
   path.resolve(__dirname, "data/raw.csv"),
-  "scripts/data/common/killed-in-gaza/output/20240501.csv"
-  // path.resolve(__dirname, "data/raw-v2.csv")
+  "scripts/data/common/killed-in-gaza/output/20240501_input_reconcile.csv"
 );
