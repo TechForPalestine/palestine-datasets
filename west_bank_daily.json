@@ -4032,12 +4032,12 @@
     "verified": {
       "killed": 1,
       "killed_cum": 480,
-      "injured": 0,
-      "injured_cum": 5000,
+      "injured": 15,
+      "injured_cum": 5015,
       "killed_children": 0,
       "killed_children_cum": 116,
-      "injured_children": 0,
-      "injured_children_cum": 772
+      "injured_children": 3,
+      "injured_children_cum": 775
     },
     "killed_cum": 479,
     "killed_children_cum": 116,
@@ -4048,6 +4048,12 @@
   },
   {
     "report_date": "2024-05-07",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 480,
+      "killed_children": 0,
+      "killed_children_cum": 116
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4057,6 +4063,12 @@
   },
   {
     "report_date": "2024-05-08",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 480,
+      "killed_children": 0,
+      "killed_children_cum": 116
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4066,6 +4078,14 @@
   },
   {
     "report_date": "2024-05-09",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 480,
+      "injured_cum": 5019,
+      "killed_children": 0,
+      "killed_children_cum": 116,
+      "injured_children_cum": 777
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4075,6 +4095,12 @@
   },
   {
     "report_date": "2024-05-10",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 480,
+      "killed_children": 0,
+      "killed_children_cum": 116
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4084,6 +4110,12 @@
   },
   {
     "report_date": "2024-05-11",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 480,
+      "killed_children": 0,
+      "killed_children_cum": 116
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4093,6 +4125,14 @@
   },
   {
     "report_date": "2024-05-12",
+    "verified": {
+      "killed": 1,
+      "killed_cum": 481,
+      "injured_cum": 5027,
+      "killed_children": 0,
+      "killed_children_cum": 116,
+      "injured_children_cum": 780
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4102,6 +4142,14 @@
   },
   {
     "report_date": "2024-05-13",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 481,
+      "injured_cum": 5041,
+      "killed_children": 0,
+      "killed_children_cum": 116,
+      "injured_children_cum": 780
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4111,6 +4159,14 @@
   },
   {
     "report_date": "2024-05-14",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 481,
+      "injured_cum": 5044,
+      "killed_children": 0,
+      "killed_children_cum": 116,
+      "injured_children_cum": 780
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5000,
@@ -4120,6 +4176,14 @@
   },
   {
     "report_date": "2024-05-15",
+    "verified": {
+      "killed": 4,
+      "killed_cum": 485,
+      "injured_cum": 5047,
+      "killed_children": 0,
+      "killed_children_cum": 116,
+      "injured_children_cum": 781
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5040,
@@ -4129,6 +4193,14 @@
   },
   {
     "report_date": "2024-05-16",
+    "verified": {
+      "killed": 1,
+      "killed_cum": 486,
+      "injured_cum": 5056,
+      "killed_children": 1,
+      "killed_children_cum": 117,
+      "injured_children_cum": 784
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5040,
@@ -4138,6 +4210,14 @@
   },
   {
     "report_date": "2024-05-17",
+    "verified": {
+      "killed": 3,
+      "killed_cum": 489,
+      "injured_cum": 5072,
+      "killed_children": 0,
+      "killed_children_cum": 117,
+      "injured_children_cum": 786
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5040,
@@ -4147,6 +4227,14 @@
   },
   {
     "report_date": "2024-05-18",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 489,
+      "injured_cum": 5075,
+      "killed_children": 0,
+      "killed_children_cum": 117,
+      "injured_children_cum": 787
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5040,
@@ -4156,6 +4244,14 @@
   },
   {
     "report_date": "2024-05-19",
+    "verified": {
+      "killed": 1,
+      "killed_cum": 490,
+      "injured_cum": 5076,
+      "killed_children": 0,
+      "killed_children_cum": 117,
+      "injured_children_cum": 787
+    },
     "killed_cum": 480,
     "killed_children_cum": 116,
     "injured_cum": 5040,
@@ -4165,6 +4261,14 @@
   },
   {
     "report_date": "2024-05-20",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 490,
+      "injured_cum": 5079,
+      "killed_children": 0,
+      "killed_children_cum": 117,
+      "injured_children_cum": 787
+    },
     "killed_cum": 489,
     "killed_children_cum": 117,
     "injured_cum": 5100,
@@ -4174,6 +4278,14 @@
   },
   {
     "report_date": "2024-05-21",
+    "verified": {
+      "killed": 12,
+      "killed_cum": 502,
+      "injured_cum": 5102,
+      "killed_children": 4,
+      "killed_children_cum": 121,
+      "injured_children_cum": 787
+    },
     "killed_cum": 489,
     "killed_children_cum": 117,
     "injured_cum": 5100,
@@ -4183,6 +4295,12 @@
   },
   {
     "report_date": "2024-05-22",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 502,
+      "killed_children": 0,
+      "killed_children_cum": 121
+    },
     "killed_cum": 497,
     "killed_children_cum": 119,
     "injured_cum": 5100,
@@ -4192,6 +4310,14 @@
   },
   {
     "report_date": "2024-05-23",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 502,
+      "injured_cum": 5105,
+      "killed_children": 0,
+      "killed_children_cum": 121,
+      "injured_children_cum": 789
+    },
     "killed_cum": 497,
     "killed_children_cum": 119,
     "injured_cum": 5100,
@@ -4201,6 +4327,14 @@
   },
   {
     "report_date": "2024-05-24",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 502,
+      "injured_cum": 5107,
+      "killed_children": 0,
+      "killed_children_cum": 121,
+      "injured_children_cum": 791
+    },
     "killed_cum": 497,
     "killed_children_cum": 119,
     "injured_cum": 5100,
@@ -4210,6 +4344,14 @@
   },
   {
     "report_date": "2024-05-25",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 502,
+      "injured_cum": 5113,
+      "killed_children": 0,
+      "killed_children_cum": 121,
+      "injured_children_cum": 793
+    },
     "killed_cum": 497,
     "killed_children_cum": 119,
     "injured_cum": 5100,
@@ -4219,6 +4361,14 @@
   },
   {
     "report_date": "2024-05-26",
+    "verified": {
+      "killed": 1,
+      "killed_cum": 503,
+      "injured_cum": 5118,
+      "killed_children": 1,
+      "killed_children_cum": 122,
+      "injured_children_cum": 796
+    },
     "killed_cum": 497,
     "killed_children_cum": 119,
     "injured_cum": 5100,
@@ -4228,6 +4378,14 @@
   },
   {
     "report_date": "2024-05-27",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 503,
+      "injured_cum": 5123,
+      "killed_children": 0,
+      "killed_children_cum": 122,
+      "injured_children_cum": 797
+    },
     "killed_cum": 502,
     "killed_children_cum": 122,
     "injured_cum": 5135,
@@ -4237,6 +4395,14 @@
   },
   {
     "report_date": "2024-05-28",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 503,
+      "injured_cum": 5130,
+      "killed_children": 0,
+      "killed_children_cum": 122,
+      "injured_children_cum": 797
+    },
     "killed_cum": 502,
     "killed_children_cum": 122,
     "injured_cum": 5135,
@@ -4246,6 +4412,14 @@
   },
   {
     "report_date": "2024-05-29",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 503,
+      "injured_cum": 5132,
+      "killed_children": 0,
+      "killed_children_cum": 122,
+      "injured_children_cum": 798
+    },
     "killed_cum": 502,
     "killed_children_cum": 122,
     "injured_cum": 5135,
@@ -4255,6 +4429,14 @@
   },
   {
     "report_date": "2024-05-30",
+    "verified": {
+      "killed": 1,
+      "killed_cum": 504,
+      "injured_cum": 5146,
+      "killed_children": 0,
+      "killed_children_cum": 122,
+      "injured_children_cum": 799
+    },
     "killed_cum": 502,
     "killed_children_cum": 122,
     "injured_cum": 5135,
@@ -4264,6 +4446,14 @@
   },
   {
     "report_date": "2024-05-31",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 504,
+      "injured_cum": 5147,
+      "killed_children": 0,
+      "killed_children_cum": 122,
+      "injured_children_cum": 799
+    },
     "killed_cum": 502,
     "killed_children_cum": 122,
     "injured_cum": 5135,
@@ -4273,6 +4463,14 @@
   },
   {
     "report_date": "2024-06-01",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 504,
+      "injured_cum": 5153,
+      "killed_children": 0,
+      "killed_children_cum": 122,
+      "injured_children_cum": 799
+    },
     "killed_cum": 502,
     "killed_children_cum": 122,
     "injured_cum": 5135,
@@ -4282,6 +4480,14 @@
   },
   {
     "report_date": "2024-06-02",
+    "verified": {
+      "killed": 2,
+      "killed_cum": 506,
+      "injured_cum": 5155,
+      "killed_children": 2,
+      "killed_children_cum": 124,
+      "injured_children_cum": 799
+    },
     "killed_cum": 502,
     "killed_children_cum": 122,
     "injured_cum": 5135,
@@ -4291,6 +4497,14 @@
   },
   {
     "report_date": "2024-06-03",
+    "verified": {
+      "killed": 3,
+      "killed_cum": 509,
+      "injured_cum": 5164,
+      "killed_children": 0,
+      "killed_children_cum": 124,
+      "injured_children_cum": 799
+    },
     "killed_cum": 508,
     "killed_children_cum": 124,
     "injured_cum": 5150,
@@ -4300,6 +4514,14 @@
   },
   {
     "report_date": "2024-06-04",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 509,
+      "injured_cum": 5167,
+      "killed_children": 0,
+      "killed_children_cum": 124,
+      "injured_children_cum": 799
+    },
     "killed_cum": 508,
     "killed_children_cum": 124,
     "injured_cum": 5150,
@@ -4309,6 +4531,14 @@
   },
   {
     "report_date": "2024-06-05",
+    "verified": {
+      "killed": 0,
+      "killed_cum": 509,
+      "injured_cum": 5174,
+      "killed_children": 0,
+      "killed_children_cum": 124,
+      "injured_children_cum": 799
+    },
     "killed_cum": 508,
     "killed_children_cum": 124,
     "injured_cum": 5150,
@@ -4318,6 +4548,14 @@
   },
   {
     "report_date": "2024-06-06",
+    "verified": {
+      "killed": 4,
+      "killed_cum": 513,
+      "injured_cum": 5199,
+      "killed_children": 1,
+      "killed_children_cum": 125,
+      "injured_children_cum": 800
+    },
     "killed_cum": 508,
     "killed_children_cum": 124,
     "injured_cum": 5150,
@@ -4795,17 +5033,17 @@
   },
   {
     "report_date": "2024-07-29",
-    "killed_cum": 563,
+    "killed_cum": 569,
     "killed_children_cum": 132,
     "injured_cum": 5500,
     "injured_children_cum": 850,
     "settler_attacks_cum": 1143,
-    "flash_source": "fill"
+    "flash_source": "un"
   },
   {
     "report_date": "2024-07-30",
-    "killed_cum": 563,
-    "killed_children_cum": 132,
+    "killed_cum": 570,
+    "killed_children_cum": 133,
     "injured_cum": 5500,
     "injured_children_cum": 850,
     "settler_attacks_cum": 1143,
@@ -4813,8 +5051,35 @@
   },
   {
     "report_date": "2024-07-31",
-    "killed_cum": 563,
-    "killed_children_cum": 132,
+    "killed_cum": 570,
+    "killed_children_cum": 133,
+    "injured_cum": 5500,
+    "injured_children_cum": 850,
+    "settler_attacks_cum": 1143,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-08-01",
+    "killed_cum": 570,
+    "killed_children_cum": 133,
+    "injured_cum": 5500,
+    "injured_children_cum": 850,
+    "settler_attacks_cum": 1143,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-08-02",
+    "killed_cum": 570,
+    "killed_children_cum": 133,
+    "injured_cum": 5500,
+    "injured_children_cum": 850,
+    "settler_attacks_cum": 1143,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-08-03",
+    "killed_cum": 570,
+    "killed_children_cum": 133,
     "injured_cum": 5500,
     "injured_children_cum": 850,
     "settler_attacks_cum": 1143,
