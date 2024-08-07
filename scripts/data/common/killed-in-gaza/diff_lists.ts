@@ -15,6 +15,8 @@ enum DiffValue {
   Unchanged,
 }
 
+const ageDiffs: Record<number, number> = {};
+
 const diffValueOrder = ["name", "dob", "age", "sex", "source"];
 
 const diffRecord = (
@@ -60,6 +62,8 @@ const diffRecord = (
   if (!existing.age.trim() && newRecord.age.trim()) {
     age = DiffValue.New;
   } else if (existing.age.trim() !== newRecord.age.trim()) {
+    const changeDiff = +existing.age.trim() - +newRecord.age.trim();
+    ageDiffs[changeDiff] = (ageDiffs[changeDiff] ?? 0) + 1;
     age = DiffValue.Updated;
   } else {
     age = DiffValue.Unchanged;
@@ -158,6 +162,25 @@ console.log(
     .join("\n")
 );
 console.log(JSON.stringify(statsWithoutUpdatedRecords, null, 2));
+
+console.log(
+  "age change differences above/below 10:",
+  JSON.stringify(
+    Object.keys(ageDiffs).reduce((acc, diff) => {
+      const diffCount = ageDiffs[diff as any];
+      if (Math.abs(diffCount) >= 10) {
+        return {
+          ...acc,
+          [diff]: diffCount,
+        };
+      }
+
+      return acc;
+    }, {}),
+    null,
+    2
+  )
+);
 
 const inspectFlag = process.argv.indexOf("--inspect");
 const inspectFlagValue = process.argv[inspectFlag + 1];
