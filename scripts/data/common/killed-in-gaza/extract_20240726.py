@@ -31,6 +31,13 @@ sex_mapping = {
 }
 df['sex'] = df['sex'].replace(sex_mapping)
 
+# replacing source with abbreviated english naming
+source_mapping = {
+    "تبليغ ذوي الشهداء": "c", # community sourcing
+    "سجالت وزارة الصحة": "h", # health ministry
+}
+df['source'] = df['source'].replace(source_mapping)
+
 # changing dob format from dd-mm-yy to yyyy-mm-dd
 def convert_dob(dob, age):
     date, month, year = [part.zfill(2) for part in dob.split("-")]
@@ -46,7 +53,7 @@ df = df[["index", "name_ar_raw", "id", "dob", "sex", "age", "source"]]
 logging.info("creating csv file with cleaned version of data")
 # writing to a csv and removing new line since script reconcile_lists.ts
 # excepts no new line as end of file
-file_out = f"{working_dir}/output/20240501_input_reconcile.csv"
+file_out = f"{working_dir}/output/20240726_input_reconcile_w_src.csv"
 df.to_csv(file_out, index=False)
 file_data = open(file_out, 'rb').read()
 open(file_out, 'wb').write(file_data[:-1])
