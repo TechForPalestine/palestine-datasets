@@ -137,9 +137,14 @@ async function diffCSVs(existingCSVPath: string, newCSVPath: string) {
   });
 }
 
+const newCsvFilename = process.argv.find((arg) => arg.endsWith(".csv"));
+if (!newCsvFilename) {
+  throw new Error("No new CSV filename provided as argument");
+}
+
 diffCSVs(
   "scripts/data/common/killed-in-gaza/data/raw.csv",
-  "scripts/data/common/killed-in-gaza/output/20240726_input_reconcile.csv"
+  `scripts/data/common/killed-in-gaza/output/${newCsvFilename}`
 );
 
 const leftPad = (value: string, length: number) => {
