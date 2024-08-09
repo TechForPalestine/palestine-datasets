@@ -1,5 +1,9 @@
 import { ExistingRecord, NewRecord, sourceMapping } from "./constants";
-import { readCsv, readCsvToMap } from "./utils";
+import {
+  differenceBetweenAgeBasedDobAndReportedDob,
+  readCsv,
+  readCsvToMap,
+} from "./utils";
 
 const stats = {
   new: 0,
@@ -16,6 +20,7 @@ enum DiffValue {
 }
 
 const ageDiffs: Record<number, number> = {};
+const dobDiffs: Record<number, number> = {};
 
 const diffValueOrder = ["name", "dob", "age", "sex", "source"];
 
@@ -88,6 +93,16 @@ const diffRecord = (
   // special case: if source was "unknown" before, count it as unchanged
   if (existing.source === "u" && incomingSource !== "u") {
     source = DiffValue.Unchanged;
+  }
+
+  if (newRecord.dob.trim() && newRecord.age.trim()) {
+    const diffYears = differenceBetweenAgeBasedDobAndReportedDob(
+      +newRecord.age.trim(),
+      newRecord.dob.trim()
+    );
+    if (typeof diffYears === "number" && !Number.isNaN(diffYears)) {
+      dobDiffs[diffYears] = (dobDiffs[diffYears] ?? 0) + 1;
+    }
   }
 
   // align with diffValueOrder above
@@ -181,6 +196,8 @@ console.log(
     2
   )
 );
+
+console.log("dob change differences:", JSON.stringify(dobDiffs, null, 2));
 
 const inspectFlag = process.argv.indexOf("--inspect");
 const inspectFlagValue = process.argv[inspectFlag + 1];
