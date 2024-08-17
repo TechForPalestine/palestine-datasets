@@ -10,7 +10,6 @@ const jsonFileName = "west_bank_daily.json";
 
 const columnFilter = new Set([
   "report_date",
-  "report_period",
   "verified.killed",
   "verified.killed_cum",
   "verified.injured",
