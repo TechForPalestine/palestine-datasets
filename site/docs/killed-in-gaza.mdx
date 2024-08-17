@@ -4,7 +4,7 @@ description: List of known victims with their arabic name, english name, birth d
 
 # Killed in Gaza
 
-Last updated on June 25th, 2024 (see source info below).
+Last updated on August 9, 2024 (see source info below).
 
 import { KilledListCountLabel, KilledListExplorer } from "@site/src/components";
 
@@ -25,15 +25,15 @@ import { JSONFileLinks } from "@site/src/components";
 
 Each record will have the following fields:
 
-| Key     | Value                                                                                                                               |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| name    | original arabic name from the source list                                                                                           |
-| en_name | english name translation<br/>(`?` indicates part of the name was "unknown" in the arabic source)                                    |
-| id      | unique string (do not depend on format, it may change)                                                                              |
-| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                                                        |
-| sex     | string of one of `m` for male or `f` for female                                                                                     |
-| age     | age as a number or `-1` if unavailable                                                                                              |
-| source  | string indicating the source of the record (either `h` for "Ministry of Health", `c` for "Public Submission", or `u` for "Unknown") |
+| Key     | Value                                                                                                         |
+| ------- | ------------------------------------------------------------------------------------------------------------- |
+| name    | original arabic name from the source list                                                                     |
+| en_name | english name translation                                                                                      |
+| id      | unique string (do not depend on format, it may change), and it may not be provided                            |
+| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                                  |
+| sex     | string of one of `m` for male or `f` for female                                                               |
+| age     | age as a number or `-1` if unavailable                                                                        |
+| source  | string indicating the source of the record (either `h` for "Ministry of Health", `c` for "Public Submission") |
 
 ---
 
@@ -55,15 +55,16 @@ This dataset is used to derive estimates of children killed for our home page na
 
 The file is updated when a new list is released by Gaza's Ministry of Health.
 
-This list incorporates three releases from the Ministry of Health:
+This list incorporates four releases from the Ministry of Health:
 
 - The first was as of January 5th for hospitals reporting in the South and November 2nd for the North. Additionally, 21 records were included from an earlier release as [noted in our Feburary update](/updates/killed-in-gaza-update-1#notable-changes).
 - The second was as of March 29th, 2024 and it included submissions from the public to the Ministry (ie: families of those killed). We detailed the changes in our [April 13th update](/updates/killed-in-gaza-update-2).
 - The third was as of April 30th, 2024 and released on May 5th from the Ministry. We detailed the changes in our [June 26th update](/updates/killed-in-gaza-update-3).
+- The fourth was as of June 30th, 2024 and released on July 24th from the Ministry. We detailed the changes in our [August 9th update](/updates/killed-in-gaza-update-4).
 
-It's worth noting that the second and third lists likely overweight men relative to the aggregate dataset we track in [Daily Casualties - Gaza](/docs/casualties-daily) due to the inclusion of community-reported names. This community sourcing means that the list has started to account for those lost or missing (for which remains were never received by health authorities or hospitals). Both our daily casualties dataset and the initial January version of this list were based on official health ministry records which relied on those that made it to a hospital or reporting center.
+It's worth noting that the subsequent list updates likely overweight men relative to the aggregate dataset we track in [Daily Casualties - Gaza](/docs/casualties-daily) due to the inclusion of community-reported names. This community sourcing means that the list has started to account for those lost or missing (for which remains were never received by health authorities or hospitals). Both our daily casualties dataset and the initial January version of this list were based on official health ministry records which relied on those that made it to a hospital or reporting center.
 
-Additional details about the list provided by the ministry in January:
+Additional details about the list provided by the ministry in the initial January update:
 
 1. The missing persons and the bodies of those trapped under the rubble were not counted.
 2. The unidentified people who arrived at hospitals were not counted.
@@ -73,4 +74,5 @@ Additional details about the list provided by the ministry in January:
 
 ## Prior Versions
 
-- January list CSV captured prior to the April update: <a href="/sources/20240413killed-in-gaza.csv">Download</a>
+- January list CSV captured prior to the April update: <a href="/sources/20240413killed-in-gaza.csv">Download CSV</a>
+- Our list of names prior to the June update: <a href="/sources/20240808killed-in-gaza.csv">Download CSV</a>
