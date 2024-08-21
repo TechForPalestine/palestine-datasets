@@ -790,6 +790,11 @@
     "notes": "Journalist and media professional at the Palestine Media Agency"
   },
   {
+    "name": "محمد منهل أبو عرمانة",
+    "name_en": "Muhammad Munuhl Abu عرمانة",
+    "notes": ""
+  },
+  {
     "name": "محمد عبدالله مشمش",
     "name_en": "Muhammad Abdullah Mshmsh",
     "notes": "Program Director at Sawt Al-Aqsa Radio"
@@ -838,5 +843,10 @@
     "name": "إبراهيم مروان محارب",
     "name_en": "Ibrahim Marawan Maharab",
     "notes": "He works as a journalist and correspondent with several media outlets"
+  },
+  {
+    "name": "حمزة عبدالرحمن مرتجى",
+    "name_en": "Hamzah Abdalrahamun Martja",
+    "notes": "worked as a photographer and journalist with several media outlets"
   }
 ]
