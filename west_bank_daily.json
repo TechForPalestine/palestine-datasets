@@ -5291,5 +5291,23 @@
     "injured_children_cum": 912,
     "settler_attacks_cum": 1270,
     "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-08-27",
+    "killed_cum": 607,
+    "killed_children_cum": 137,
+    "injured_cum": 5803,
+    "injured_children_cum": 912,
+    "settler_attacks_cum": 1270,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-08-28",
+    "killed_cum": 607,
+    "killed_children_cum": 137,
+    "injured_cum": 5803,
+    "injured_children_cum": 912,
+    "settler_attacks_cum": 1270,
+    "flash_source": "fill"
   }
 ]
