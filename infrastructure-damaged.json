@@ -6337,5 +6337,102 @@
       "destroyed": 150000,
       "ext_destroyed": 150000
     }
+  },
+  {
+    "report_date": "2024-08-27",
+    "civic_buildings": {
+      "ext_destroyed": 199
+    },
+    "educational_buildings": {
+      "ext_destroyed": 122,
+      "ext_damaged": 334
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 610,
+      "ext_mosques_damaged": 214,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-08-28",
+    "civic_buildings": {
+      "ext_destroyed": 199
+    },
+    "educational_buildings": {
+      "ext_destroyed": 122,
+      "ext_damaged": 334
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 610,
+      "ext_mosques_damaged": 214,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-08-29",
+    "civic_buildings": {
+      "ext_destroyed": 199
+    },
+    "educational_buildings": {
+      "ext_destroyed": 122,
+      "ext_damaged": 334
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 610,
+      "ext_mosques_damaged": 214,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-08-30",
+    "civic_buildings": {
+      "ext_destroyed": 199
+    },
+    "educational_buildings": {
+      "ext_destroyed": 122,
+      "ext_damaged": 334
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 610,
+      "ext_mosques_damaged": 214,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-08-31",
+    "civic_buildings": {
+      "destroyed": 200,
+      "ext_destroyed": 200
+    },
+    "educational_buildings": {
+      "destroyed": 122,
+      "ext_destroyed": 122,
+      "damaged": 334,
+      "ext_damaged": 334
+    },
+    "places_of_worship": {
+      "mosques_destroyed": 610,
+      "ext_mosques_destroyed": 610,
+      "mosques_damaged": 214,
+      "ext_mosques_damaged": 214,
+      "churches_destroyed": 3,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "destroyed": 150000,
+      "ext_destroyed": 150000
+    }
   }
 ]
