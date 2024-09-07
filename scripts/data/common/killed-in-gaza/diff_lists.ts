@@ -21,6 +21,8 @@ enum DiffValue {
 
 const ageDiffs: Record<number, number> = {};
 const dobDiffs: Record<number, number> = {};
+const ageDefinedPreviouslyNeg1 = new Set<string>();
+const invalidAges = new Set<string>();
 
 const diffValueOrder = ["name", "dob", "age", "sex", "source"];
 
@@ -28,9 +30,24 @@ const diffRecord = (
   existing: ExistingRecord | undefined,
   newRecord: NewRecord
 ) => {
+  if (
+    +newRecord.age.trim() > 150 ||
+    Number.isNaN(+newRecord.age.trim()) ||
+    +newRecord.age.trim() < 0
+  ) {
+    invalidAges.add(newRecord.id);
+  }
+
   if (!existing) {
     stats.new++;
     return;
+  }
+
+  if (
+    (existing.age.includes("-1") && !newRecord.age.includes("-1")) ||
+    (!existing.age.trim() && newRecord.age.trim())
+  ) {
+    ageDefinedPreviouslyNeg1.add(existing.id);
   }
 
   let incomingSource = newRecord.source;
@@ -206,6 +223,21 @@ console.log(
   "dob change differences (years diff):",
   JSON.stringify(dobDiffs, null, 2)
 );
+
+console.log(
+  "records with previously unavailable ages (-1)",
+  ageDefinedPreviouslyNeg1.size,
+  "sample:",
+  Array.from(ageDefinedPreviouslyNeg1).slice(0, 5)
+);
+console.log(
+  "invalid ages (above 150, isNaN or negative):",
+  invalidAges.size,
+  "sample:",
+  Array.from(invalidAges).slice(0, 5)
+);
+
+console.log("");
 
 const inspectFlag = process.argv.indexOf("--inspect");
 const inspectFlagValue = process.argv[inspectFlag + 1];
