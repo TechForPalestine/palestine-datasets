@@ -47,7 +47,7 @@ It's a pretty iterative process to work through all the obvious issues but a wor
 - scanning the merged list (`downloads/merged.csv`, not committed) after running the merge script for things to fix and updating merge csv to fix
 - once happy with the merged result of the new dataset, run reconcile without `--write` to assess the diff/dupe reconciliation stats for any obvious issues
 - if you're written the `raw.csv` input recently (it's different from the live version), reset it to the live branch: `git checkout main scripts/data/common/killed-in-gaza/data/raw.csv`
-- run the diff to understand the changes: `bun run scripts/data/common/killed-in-gaza/diff_lists.ts 20240726_input_reconcile.csv` with the new file to diff against raw.cs in the output subfolder
+- run the diff to understand the changes: `bun run scripts/data/common/killed-in-gaza/diff_lists.ts 20240726_input_reconcile.csv` with the new file to diff against raw.csv in the output subfolder
   - you can add the `--inspect` flag with a value of one of the diff groups (ie: `1-0-2-1-1` for `name changed, dob new, sex changed, source changed` to see record IDs that you can manually verify)
 - if you're happy with the diff output, copy your new file to replace & overwrite the raw.csv in source control
 - push and once CI completes, pull again for the resulting JSON files
