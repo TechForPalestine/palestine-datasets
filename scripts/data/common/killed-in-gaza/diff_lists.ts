@@ -202,7 +202,10 @@ console.log(
   )
 );
 
-console.log("dob change differences:", JSON.stringify(dobDiffs, null, 2));
+console.log(
+  "dob change differences (years diff):",
+  JSON.stringify(dobDiffs, null, 2)
+);
 
 const inspectFlag = process.argv.indexOf("--inspect");
 const inspectFlagValue = process.argv[inspectFlag + 1];
