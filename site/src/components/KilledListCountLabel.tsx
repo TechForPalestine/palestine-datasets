@@ -1,9 +1,6 @@
 import { translate } from "@docusaurus/Translate";
 import previewData from "@site/src/generated/summary.json";
 
-console.log({ previewData });
-// TODO: need to figure out what happened to -1 ages (?)
-
 const format = (count: number) => new Intl.NumberFormat().format(count);
 
 export const KilledListCountLabel = () => {
