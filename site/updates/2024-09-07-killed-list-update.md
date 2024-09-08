@@ -36,10 +36,9 @@ The following tables summarize the updated demographics of the [Killed in Gaza l
 | Demographic   | Number | %     |
 | ------------- | ------ | ----- |
 | Senior Men    | 982    | 3.5%  |
-| Senior Women  | 650    | 2.3%  |
-| Men           | 11,590 | 41.1% |
-| Women         | 5,635  | 20.0% |
-| Boys          | 5,193  | 18.4% |
-| Girls         | 4,131  | 14.7% |
-| Unknown Age   | 4      | 0.0%  |
+| Senior Women  | 655    | 2.3%  |
+| Men           | 11,583 | 41.1% |
+| Women         | 5,614  | 19.9% |
+| Boys          | 5,202  | 18.5% |
+| Girls         | 4,149  | 14.7% |
 | Total Persons | 28,185 |       |

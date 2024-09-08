@@ -1,6 +1,6 @@
 {
   "killed-in-gaza-names-count": {
-    "message": "There are {count} in this list of names of those known to have been killed in Gaza since October 7, 2023. Of these, {femaleSenior} were senior ladies, {maleSenior} were senior men, {femaleAdult} were women, {maleAdult} were men, {femaleChild} were girls and {maleChild} were boys. {noAge} had no birthdate from which to calculate age."
+    "message": "There are {count} in this list of names of those known to have been killed in Gaza since October 7, 2023. Of these, {femaleSenior} were senior ladies, {maleSenior} were senior men, {femaleAdult} were women, {maleAdult} were men, {femaleChild} were girls and {maleChild} were boys."
   },
   "press-killed-in-gaza-names-count": {
     "message": "There are {count} in this list of names of journalists known to have been killed in Gaza since October 7, 2023."
