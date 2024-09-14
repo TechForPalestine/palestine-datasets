@@ -186,6 +186,7 @@
 
 .homeChartDesktop {
   display: block;
+  padding-top: 20px;
 }
 
 .homeChartMobile {
@@ -212,11 +213,14 @@
 
 @media screen and (min-width: 501px) and (max-width: 999px) {
   .chartBreakdownTags {
-    position: relative;
-    top: -5px;
+    position: absolute;
     max-width: none;
     height: 100px;
     overflow: visible;
+  }
+
+  .homeChartDesktop {
+    padding-top: 100px;
   }
 }
 
