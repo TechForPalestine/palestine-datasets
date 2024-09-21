@@ -7181,7 +7181,7 @@
     "injured_cum": 95760,
     "ext_injured": 209,
     "ext_injured_cum": 95760,
-    "ext_civdef_killed_cum": null,
+    "ext_civdef_killed_cum": 83,
     "ext_med_killed_cum": 885,
     "ext_press_killed_cum": 173
   }
