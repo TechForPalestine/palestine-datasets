@@ -6,11 +6,26 @@ import {
 } from "./utils";
 
 const stats = {
+  total: 0,
   new: 0,
   updated: 0,
   unchanged: 0,
   removed: 0,
   updatedRecords: new Map<string, string[]>(),
+  demographics: {
+    "elderly-woman": 0,
+    "elderly-man": 0,
+    woman: 0,
+    man: 0,
+    "teen-boy": 0,
+    "teen-girl": 0,
+    "preteen-girl": 0,
+    "preteen-boy": 0,
+    "toddler-girl": 0,
+    "toddler-boy": 0,
+    "baby-girl": 0,
+    "baby-boy": 0,
+  },
 };
 
 enum DiffValue {
@@ -26,10 +41,52 @@ const invalidAges = new Set<string>();
 
 const diffValueOrder = ["name", "dob", "age", "sex", "source"];
 
+const genderValues = new Set();
+const sourceValues = new Set();
+const sourceCount = { h: 0, j: 0, c: 0 };
+
+export const personGroup = (
+  ageUnparsed: string,
+  sex: "M" | "F"
+): keyof (typeof stats)["demographics"] => {
+  if (ageUnparsed === "-1" || !ageUnparsed) {
+    return sex === "F" ? "woman" : "man";
+  }
+
+  const age = +ageUnparsed;
+
+  if (age >= 65) {
+    return sex === "F" ? "elderly-woman" : "elderly-man";
+  }
+
+  if (age === 0) {
+    return sex === "F" ? "baby-girl" : "baby-boy";
+  }
+
+  if (age < 3) {
+    return sex === "F" ? "toddler-girl" : "toddler-boy";
+  }
+
+  if (age < 12) {
+    return sex === "F" ? "preteen-girl" : "preteen-boy";
+  }
+
+  if (age < 18) {
+    return sex === "F" ? "teen-girl" : "teen-boy";
+  }
+
+  return sex === "F" ? "woman" : "man";
+};
+
 const diffRecord = (
   existing: ExistingRecord | undefined,
   newRecord: NewRecord
 ) => {
+  genderValues.add(newRecord.sex);
+  sourceValues.add(newRecord.source);
+  const newSrc = newRecord.source as keyof typeof sourceCount;
+  sourceCount[newSrc] = sourceCount[newSrc] + 1;
+
   if (
     +newRecord.age.trim() > 150 ||
     Number.isNaN(+newRecord.age.trim()) ||
@@ -139,6 +196,9 @@ async function diffCSVs(existingCSVPath: string, newCSVPath: string) {
   const newRecords = readCsv<NewRecord>(newCSVPath);
   const newRecordIds = new Set<string>();
   newRecords.forEach((newRecord) => {
+    stats.total++;
+    const group = personGroup(newRecord.age, newRecord.sex);
+    stats.demographics[group] = stats.demographics[group] + 1;
     newRecordIds.add(newRecord.id);
     const existingRecord = existingRecords.get(newRecord.id);
     const diff = diffRecord(existingRecord, newRecord);
@@ -236,7 +296,28 @@ console.log(
   "sample:",
   Array.from(invalidAges).slice(0, 5)
 );
-
+console.log("unique gender values:", Array.from(genderValues).join(", "));
+console.log("unique source values:", Array.from(sourceValues).join(", "));
+console.log("source counts:", JSON.stringify(sourceCount, null, 2));
+console.log("");
+console.log("Demographics:", JSON.stringify(stats.demographics, null, 2));
+console.log(
+  "Demographics percentages:",
+  JSON.stringify(
+    Object.keys(stats.demographics).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]:
+          (stats.demographics[key as keyof (typeof stats)["demographics"]] /
+            stats.total) *
+          100,
+      }),
+      {}
+    ),
+    null,
+    2
+  )
+);
 console.log("");
 
 const inspectFlag = process.argv.indexOf("--inspect");
