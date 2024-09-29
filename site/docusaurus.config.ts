@@ -10,7 +10,7 @@ const config: Config = {
   title: siteTitle,
   tagline:
     "Telling their stories through names and numbers. We provide datasets relevant to the ongoing human catastrophe in Palestine since October 7.",
-  favicon: "img/favicon.svg",
+  favicon: "img/tfp-mark-header.png",
 
   url: "https://data.techforpalestine.org",
   baseUrl: "/",
@@ -66,7 +66,7 @@ const config: Config = {
       title: siteTitle,
       logo: {
         alt: `${siteTitle} Logo`,
-        src: "img/logo.svg",
+        src: "img/tfp-mark-header.png",
       },
       items: [
         {
