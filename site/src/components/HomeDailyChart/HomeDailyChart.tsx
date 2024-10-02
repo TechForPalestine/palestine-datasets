@@ -197,8 +197,10 @@ export const HomeDailyChart = () => {
         <div className={styles.chartFooterCopy}>
           <p>Use the slider above to see the human impact over time.</p>
           <p>
-            These counts do not account for those still lost in the rubble of
-            destroyed buildings: estimated to be more than ten thousand.
+            These counts are part of a wider picture of suffering, and do not
+            include the many who succumb to disease, famine, and the knock-on
+            effects of mass destruction.{" "}
+            <a href="/docs/casualties-daily/#daily-sources">More info</a>
           </p>
         </div>
       </div>
