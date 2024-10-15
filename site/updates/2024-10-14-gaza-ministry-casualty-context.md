@@ -44,6 +44,6 @@ From the above-noted appendix based on [IPC reports of severe food insecurity](h
 
 ---
 
-It's important to note that these numbers **would not** be included in the daily casualties reports or periodical names list we've published here.
+It's important to note that **the vast majority of these estimated deaths would not be included** in the daily casualties reports or periodical names list we've published here.
 
 We will continue to aggregate and publish the reports from authorities in Gaza as we have, though we will be making more of an effort to put those numbers in context and with clearer caveats. We encourage all of those who rely on what we publish to take the same level of care.
