@@ -18,6 +18,10 @@ There's also the source for the static documentation website under `site/`.
 
 See sub readmes for more info on data sources in [site/docs](site/docs).
 
+[![Genocide Watch](https://hinds-banner.vercel.app/genocide-watch?variant=classic)](https://www.pcrf.net/)
+
+Banner courtesy Hind's Banner ([github repo](https://github.com/alvii147/hinds-banner)).
+
 ## Contributing
 
 Reading:
