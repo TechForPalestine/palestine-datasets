@@ -7,7 +7,7 @@ tags: [daily-casualties, gaza, killed-in-gaza]
 
 Our work over the past year started with aggregating the statistical reports coming out of Gaza's Ministry of Health & Government Media Office to help make their work more accessible.
 
-It's becoming clear that the numbers we've continued to report verbatim from official sources are a small slice of the overall picture of human suffering over the past year. It's important to highlight that the official numbers we publish here, and that nearly every media outlet and government have trusted and referenced, are restricted to:
+It's becoming clear that the numbers we've continued to report verbatim from official sources are a small slice of the overall picture of human suffering over the past year. It's important to highlight that the official numbers we publish here, and that nearly every media outlet and government have trusted, are restricted to:
 
 - only those deaths that can be identified, and
 - only those deaths that can be linked back to an act of Israeli aggression
