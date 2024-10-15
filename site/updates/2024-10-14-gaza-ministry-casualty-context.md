@@ -20,7 +20,7 @@ The tireless work of Gaza's authorities is admirable and extremely important, bu
 - infectious diseases
 - maternal & neonatal health problems
 - untreated or unsupported pre-existing conditions
-- (among other factors)
+- unrecovered or buried bodies (more than 60% of Gaza's buildings are damaged or destroyed)
 
 The toll of these combined factors are believed to far exceed the official numbers & names we've been reporting. Consider the following estimates provided by researchers:
 
