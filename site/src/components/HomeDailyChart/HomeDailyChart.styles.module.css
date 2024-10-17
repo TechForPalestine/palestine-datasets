@@ -13,6 +13,14 @@
   --tfp-radial-progress-fill: #29784c;
   --tfp-chart-cta-box-fill: #f8f8f8;
   --tfp-chart-cta-box-border: #eee;
+  --tfp-base-text: #222;
+  --tfp-warning-h: 3;
+  --tfp-warning-s: 60%;
+  --tfp-warning-l: 49%;
+  --tfp-warning-hsl: var(--tfp-warning-h), var(--tfp-warning-s),
+    var(--tfp-warning-l);
+  --tfp-chart-warning: hsl(var(--tfp-warning-hsl));
+  --tfp-chart-warning-bg: hsla(var(--tfp-warning-hsl), 0.4);
 }
 
 [data-theme="dark"] {
@@ -30,6 +38,9 @@
   --tfp-radial-progress-fill: #1fa588;
   --tfp-chart-cta-box-fill: #222;
   --tfp-chart-cta-box-border: #333;
+  --tfp-base-text: #eee;
+  --tfp-chart-warning: hsl(var(--tfp-warning-hsl));
+  --tfp-chart-warning-bg: hsla(var(--tfp-warning-hsl), 0.4);
 }
 
 .chartContainer {
@@ -58,8 +69,21 @@
   padding-left: 4px;
   padding-top: 4px;
   padding-right: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   line-height: 1.3em;
+}
+
+.chartWarning {
+  display: inline-block;
+  line-height: 1.3em;
+  margin-left: 3px;
+  margin-bottom: 20px;
+}
+
+.chartWarning a {
+  font-weight: bold;
+  line-height: 0.5em;
+  color: var(--tfp-chart-warning);
 }
 
 .chartContainer svg {

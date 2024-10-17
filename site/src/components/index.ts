@@ -1,6 +1,7 @@
 export * from "./Button";
 export * from "./DailyReportStatsLabel";
 export * from "./DatasetList";
+export * from "./DocWarningBubble";
 export * from "./ExampleUsageGrid";
 export * from "./ExternalLinkButton";
 export * from "./JSONFileLinks";

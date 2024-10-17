@@ -114,6 +114,12 @@ export const HomeDailyChart = () => {
       <div className={styles.chartSubtitle}>
         Since October 7, 2023 for Gaza and the West Bank
       </div>
+      <div className={styles.chartWarning}>
+        <a href="/updates/gaza-ministry-casualty-context/">
+          ⚠️ Read more about why these numbers do not fully reflect the human
+          toll
+        </a>
+      </div>
       <div className={styles.chartBreakdownTags}>
         <div className={styles.chartBreakdownTag}>
           {numFmt.format(dayData.injured)} <span>injured</span>

@@ -1,0 +1,36 @@
+.bubble {
+  background-color: var(--tfp-chart-warning-bg);
+  border: 1px solid var(--tfp-chart-warning);
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.bubble > div {
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  line-height: 1.5em;
+}
+
+.bubble svg {
+  width: 50px;
+  height: 50px;
+  margin-top: 5px;
+  margin-right: 20px;
+}
+
+.bubble svg path {
+  fill: var(--tfp-base-text);
+  opacity: 0.8;
+}
+
+.bubble p {
+  margin: 0;
+}
+
+.bubble a {
+  font-weight: bold;
+  color: var(--tfp-base-text);
+}
