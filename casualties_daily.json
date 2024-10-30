@@ -7919,5 +7919,43 @@
     "ext_civdef_killed_cum": 85,
     "ext_med_killed_cum": 1047,
     "ext_press_killed_cum": 182
+  },
+  {
+    "report_date": "2024-10-29",
+    "report_source": "mohtel",
+    "report_period": 24,
+    "ext_massacres_cum": 3742,
+    "killed": 41,
+    "killed_cum": 43061,
+    "ext_killed": 41,
+    "ext_killed_cum": 43061,
+    "ext_killed_children_cum": 17210,
+    "ext_killed_women_cum": 11742,
+    "injured": 113,
+    "injured_cum": 101223,
+    "ext_injured": 113,
+    "ext_injured_cum": 101223,
+    "ext_civdef_killed_cum": 85,
+    "ext_med_killed_cum": 1047,
+    "ext_press_killed_cum": 182
+  },
+  {
+    "report_date": "2024-10-30",
+    "report_source": "mohtel",
+    "report_period": 24,
+    "ext_massacres_cum": 3747,
+    "killed": 102,
+    "killed_cum": 43163,
+    "ext_killed": 102,
+    "ext_killed_cum": 43163,
+    "ext_killed_children_cum": 17210,
+    "ext_killed_women_cum": 11742,
+    "injured": 287,
+    "injured_cum": 101510,
+    "ext_injured": 287,
+    "ext_injured_cum": 101510,
+    "ext_civdef_killed_cum": 85,
+    "ext_med_killed_cum": 1047,
+    "ext_press_killed_cum": 182
   }
 ]
