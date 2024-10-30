@@ -47,3 +47,5 @@ From the above-noted appendix (page 6) based on [IPC reports of severe food inse
 It's important to note that **the vast majority of these estimated deaths would not be included** in the daily casualties reports or periodical names list we've published here.
 
 We will continue to aggregate and publish the reports from authorities in Gaza as we have, though we will be making more of an effort to put those numbers in context and with clearer caveats. We encourage all of those who rely on what we publish to take the same level of care.
+
+We recommend reading [Estimating the Death Toll of the War on Gaza](https://dataactivists.org/estimating_death_toll_of_war_on_gaza/) for more on this topic.
