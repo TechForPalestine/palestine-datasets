@@ -5852,29 +5852,47 @@
   },
   {
     "report_date": "2024-10-28",
-    "killed_cum": 731,
-    "killed_children_cum": 159,
-    "injured_cum": 6530,
-    "injured_children_cum": 1079,
-    "settler_attacks_cum": 1527,
-    "flash_source": "fill"
+    "killed_cum": 735,
+    "killed_children_cum": 160,
+    "injured_cum": 6565,
+    "injured_children_cum": 1089,
+    "settler_attacks_cum": 1597,
+    "flash_source": "un"
   },
   {
     "report_date": "2024-10-29",
-    "killed_cum": 731,
-    "killed_children_cum": 159,
-    "injured_cum": 6530,
-    "injured_children_cum": 1079,
-    "settler_attacks_cum": 1527,
+    "killed_cum": 735,
+    "killed_children_cum": 160,
+    "injured_cum": 6565,
+    "injured_children_cum": 1089,
+    "settler_attacks_cum": 1597,
     "flash_source": "fill"
   },
   {
     "report_date": "2024-10-30",
-    "killed_cum": 731,
-    "killed_children_cum": 159,
-    "injured_cum": 6530,
-    "injured_children_cum": 1079,
-    "settler_attacks_cum": 1527,
+    "killed_cum": 735,
+    "killed_children_cum": 160,
+    "injured_cum": 6565,
+    "injured_children_cum": 1089,
+    "settler_attacks_cum": 1597,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-10-31",
+    "killed_cum": 735,
+    "killed_children_cum": 160,
+    "injured_cum": 6565,
+    "injured_children_cum": 1089,
+    "settler_attacks_cum": 1597,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-11-01",
+    "killed_cum": 735,
+    "killed_children_cum": 160,
+    "injured_cum": 6565,
+    "injured_children_cum": 1089,
+    "settler_attacks_cum": 1597,
     "flash_source": "fill"
   }
 ]

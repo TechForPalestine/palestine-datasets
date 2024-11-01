@@ -7445,5 +7445,96 @@
       "destroyed": 150000,
       "ext_destroyed": 150000
     }
+  },
+  {
+    "report_date": "2024-10-26",
+    "civic_buildings": {
+      "ext_destroyed": 205
+    },
+    "educational_buildings": {
+      "ext_destroyed": 128,
+      "ext_damaged": 342
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 814,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-10-27",
+    "civic_buildings": {
+      "ext_destroyed": 205
+    },
+    "educational_buildings": {
+      "ext_destroyed": 128,
+      "ext_damaged": 342
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 814,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-10-28",
+    "civic_buildings": {
+      "ext_destroyed": 205
+    },
+    "educational_buildings": {
+      "ext_destroyed": 128,
+      "ext_damaged": 342
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 814,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-10-29",
+    "civic_buildings": {
+      "ext_destroyed": 205
+    },
+    "educational_buildings": {
+      "ext_destroyed": 128,
+      "ext_damaged": 342
+    },
+    "places_of_worship": {
+      "ext_mosques_destroyed": 814,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "ext_destroyed": 150000
+    }
+  },
+  {
+    "report_date": "2024-10-30",
+    "civic_buildings": {
+      "destroyed": 205,
+      "ext_destroyed": 205
+    },
+    "educational_buildings": {
+      "destroyed": 128,
+      "ext_destroyed": 128,
+      "damaged": 342,
+      "ext_damaged": 342
+    },
+    "places_of_worship": {
+      "mosques_destroyed": 814,
+      "ext_mosques_destroyed": 814,
+      "churches_destroyed": 3,
+      "ext_churches_destroyed": 3
+    },
+    "residential": {
+      "destroyed": 150000,
+      "ext_destroyed": 150000
+    }
   }
 ]
