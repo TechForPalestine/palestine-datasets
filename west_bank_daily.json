@@ -6020,5 +6020,23 @@
     "injured_children_cum": 1109,
     "settler_attacks_cum": 1655,
     "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-11-16",
+    "killed_cum": 751,
+    "killed_children_cum": 161,
+    "injured_cum": 6598,
+    "injured_children_cum": 1109,
+    "settler_attacks_cum": 1655,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-11-17",
+    "killed_cum": 751,
+    "killed_children_cum": 161,
+    "injured_cum": 6598,
+    "injured_children_cum": 1109,
+    "settler_attacks_cum": 1655,
+    "flash_source": "fill"
   }
 ]
