@@ -206,7 +206,9 @@ export const HomeDailyChart = () => {
             These counts are part of a wider picture of suffering, and do not
             include the many who succumb to disease, famine, and the knock-on
             effects of mass destruction.{" "}
-            <a href="/docs/casualties-daily/#daily-sources">More info</a>
+            <a href="/docs/casualties-daily/#daily-sources">
+              Learn about our sources
+            </a>
           </p>
         </div>
       </div>
