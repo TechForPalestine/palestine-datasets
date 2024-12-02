@@ -636,7 +636,7 @@
   },
   {
     "name": "ياسر ممدوح",
-    "name_en": "Yasr Mmdoh",
+    "name_en": "Yasr Mamdouh",
     "notes": " "
   },
   {
@@ -943,5 +943,15 @@
     "name": "علاء فوزي برهوم",
     "name_en": "Alaaa Fozai Brhom",
     "notes": "works as a journalist editor with many media institutions"
+  },
+  {
+    "name": "ممدوح إبراهيم قنيطة",
+    "name_en": "Mamdouh Ibrahim Quneita",
+    "notes": "works as a journalist editor for Al-Aqsa satellite channel"
+  },
+  {
+    "name": "ميسرة أحمد صلاح",
+    "name_en": "Maisrah Ahmed Salah",
+    "notes": "works as a journalist for Quds News Network"
   }
 ]
