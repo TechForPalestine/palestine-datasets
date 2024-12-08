@@ -4,7 +4,11 @@
 
 [data.techforpalestine.org](https://data.techforpalestine.org)
 
-This repo provides an open source dataset intended to show the human toll of Israel's hostilities across Palestine since Oct 7, 2023. There are five datasets:
+This repo provides an open source dataset intended to show the human toll of Israel's hostilities across Palestine since Oct 7, 2023. 
+
+> **Caution!!** These datasets do not fully reflect the impact of the genocide in Gaza, please [read more about how we source our Gaza data and the limitations](https://data.techforpalestine.org/updates/gaza-ministry-casualty-context/).
+
+There are five datasets:
 
 - `killed-in-gaza.json` has a list of known fatalities in Gaza with their name, age, sex
 - `casualties_daily.json` has daily reports of aggregate killed & injury counts for Gaza
