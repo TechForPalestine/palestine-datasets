@@ -6268,9 +6268,11 @@
     "verified": {
       "killed": 4,
       "killed_cum": 666,
+      "injured": 8,
       "injured_cum": 6011,
       "killed_children": 3,
       "killed_children_cum": 154,
+      "injured_children": 3,
       "injured_children_cum": 931
     },
     "killed_cum": 622,
@@ -6285,9 +6287,11 @@
     "verified": {
       "killed": 2,
       "killed_cum": 668,
+      "injured": 14,
       "injured_cum": 6025,
       "killed_children": 1,
       "killed_children_cum": 155,
+      "injured_children": 1,
       "injured_children_cum": 932
     },
     "killed_cum": 652,
@@ -6302,9 +6306,11 @@
     "verified": {
       "killed": 3,
       "killed_cum": 671,
+      "injured": 9,
       "injured_cum": 6034,
       "killed_children": 1,
       "killed_children_cum": 156,
+      "injured_children": 2,
       "injured_children_cum": 934
     },
     "killed_cum": 652,
@@ -6319,9 +6325,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 671,
+      "injured": 4,
       "injured_cum": 6038,
       "killed_children": 0,
       "killed_children_cum": 156,
+      "injured_children": 1,
       "injured_children_cum": 935
     },
     "killed_cum": 652,
@@ -6336,9 +6344,11 @@
     "verified": {
       "killed": 6,
       "killed_cum": 677,
+      "injured": 22,
       "injured_cum": 6060,
       "killed_children": 1,
       "killed_children_cum": 157,
+      "injured_children": 2,
       "injured_children_cum": 937
     },
     "killed_cum": 652,
@@ -6353,9 +6363,11 @@
     "verified": {
       "killed": 1,
       "killed_cum": 678,
+      "injured": 5,
       "injured_cum": 6065,
       "killed_children": 1,
       "killed_children_cum": 158,
+      "injured_children": 1,
       "injured_children_cum": 938
     },
     "killed_cum": 652,
@@ -6370,9 +6382,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 678,
+      "injured": 12,
       "injured_cum": 6077,
       "killed_children": 0,
       "killed_children_cum": 158,
+      "injured_children": 1,
       "injured_children_cum": 939
     },
     "killed_cum": 652,
@@ -6387,9 +6401,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 678,
+      "injured": 6,
       "injured_cum": 6083,
       "killed_children": 0,
       "killed_children_cum": 158,
+      "injured_children": 2,
       "injured_children_cum": 941
     },
     "killed_cum": 652,
@@ -6404,9 +6420,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 678,
+      "injured": 5,
       "injured_cum": 6088,
       "killed_children": 0,
       "killed_children_cum": 158,
+      "injured_children": 2,
       "injured_children_cum": 943
     },
     "killed_cum": 674,
@@ -6421,9 +6439,11 @@
     "verified": {
       "killed": 2,
       "killed_cum": 680,
+      "injured": 8,
       "injured_cum": 6096,
       "killed_children": 0,
       "killed_children_cum": 158,
+      "injured_children": 0,
       "injured_children_cum": 943
     },
     "killed_cum": 674,
@@ -6438,9 +6458,11 @@
     "verified": {
       "killed": 8,
       "killed_cum": 688,
+      "injured": 4,
       "injured_cum": 6100,
       "killed_children": 1,
       "killed_children_cum": 159,
+      "injured_children": 0,
       "injured_children_cum": 943
     },
     "killed_cum": 674,
@@ -6455,9 +6477,11 @@
     "verified": {
       "killed": 1,
       "killed_cum": 689,
+      "injured": 13,
       "injured_cum": 6113,
       "killed_children": 0,
       "killed_children_cum": 159,
+      "injured_children": 5,
       "injured_children_cum": 948
     },
     "killed_cum": 674,
@@ -6472,9 +6496,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 689,
+      "injured": 17,
       "injured_cum": 6130,
       "killed_children": 0,
       "killed_children_cum": 159,
+      "injured_children": 0,
       "injured_children_cum": 948
     },
     "killed_cum": 674,
@@ -6489,9 +6515,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 689,
+      "injured": 3,
       "injured_cum": 6133,
       "killed_children": 0,
       "killed_children_cum": 159,
+      "injured_children": 0,
       "injured_children_cum": 948
     },
     "killed_cum": 674,
@@ -6506,9 +6534,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 689,
+      "injured": 3,
       "injured_cum": 6136,
       "killed_children": 0,
       "killed_children_cum": 159,
+      "injured_children": 0,
       "injured_children_cum": 948
     },
     "killed_cum": 674,
@@ -6523,9 +6553,11 @@
     "verified": {
       "killed": 2,
       "killed_cum": 691,
+      "injured": 15,
       "injured_cum": 6151,
       "killed_children": 0,
       "killed_children_cum": 159,
+      "injured_children": 1,
       "injured_children_cum": 949
     },
     "killed_cum": 685,
@@ -6540,9 +6572,11 @@
     "verified": {
       "killed": 1,
       "killed_cum": 692,
+      "injured": 1,
       "injured_cum": 6152,
       "killed_children": 0,
       "killed_children_cum": 159,
+      "injured_children": 1,
       "injured_children_cum": 950
     },
     "killed_cum": 685,
@@ -6557,9 +6591,11 @@
     "verified": {
       "killed": 2,
       "killed_cum": 694,
+      "injured": 15,
       "injured_cum": 6167,
       "killed_children": 2,
       "killed_children_cum": 161,
+      "injured_children": 1,
       "injured_children_cum": 951
     },
     "killed_cum": 685,
@@ -6574,9 +6610,11 @@
     "verified": {
       "killed": 7,
       "killed_cum": 701,
+      "injured": 12,
       "injured_cum": 6179,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 4,
       "injured_children_cum": 955
     },
     "killed_cum": 685,
@@ -6591,9 +6629,11 @@
     "verified": {
       "killed": 1,
       "killed_cum": 702,
+      "injured": 47,
       "injured_cum": 6226,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 3,
       "injured_children_cum": 958
     },
     "killed_cum": 685,
@@ -6608,9 +6648,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 702,
+      "injured": 2,
       "injured_cum": 6228,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 1,
       "injured_children_cum": 959
     },
     "killed_cum": 685,
@@ -6625,9 +6667,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 702,
+      "injured": 6,
       "injured_cum": 6234,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 2,
       "injured_children_cum": 961
     },
     "killed_cum": 685,
@@ -6642,9 +6686,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 702,
+      "injured": 7,
       "injured_cum": 6241,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 3,
       "injured_children_cum": 964
     },
     "killed_cum": 696,
@@ -6659,9 +6705,11 @@
     "verified": {
       "killed": 1,
       "killed_cum": 703,
+      "injured": 15,
       "injured_cum": 6256,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 6,
       "injured_children_cum": 970
     },
     "killed_cum": 696,
@@ -6676,9 +6724,11 @@
     "verified": {
       "killed": 1,
       "killed_cum": 704,
+      "injured": 3,
       "injured_cum": 6259,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 2,
       "injured_children_cum": 972
     },
     "killed_cum": 696,
@@ -6693,9 +6743,11 @@
     "verified": {
       "killed": 1,
       "killed_cum": 705,
+      "injured": 49,
       "injured_cum": 6308,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 41,
       "injured_children_cum": 1013
     },
     "killed_cum": 696,
@@ -6710,9 +6762,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 705,
+      "injured": 19,
       "injured_cum": 6327,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 7,
       "injured_children_cum": 1020
     },
     "killed_cum": 696,
@@ -6727,9 +6781,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 705,
+      "injured": 8,
       "injured_cum": 6335,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 0,
       "injured_children_cum": 1020
     },
     "killed_cum": 696,
@@ -6744,9 +6800,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 705,
+      "injured": 16,
       "injured_cum": 6351,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 2,
       "injured_children_cum": 1022
     },
     "killed_cum": 696,
@@ -6761,9 +6819,11 @@
     "verified": {
       "killed": 0,
       "killed_cum": 705,
+      "injured": 0,
       "injured_cum": 6351,
       "killed_children": 0,
       "killed_children_cum": 161,
+      "injured_children": 0,
       "injured_children_cum": 1022
     },
     "killed_cum": 699,
@@ -6778,8 +6838,12 @@
     "verified": {
       "killed": 2,
       "killed_cum": 707,
+      "injured": 25,
+      "injured_cum": 6376,
       "killed_children": 0,
-      "killed_children_cum": 161
+      "killed_children_cum": 161,
+      "injured_children": 0,
+      "injured_children_cum": 1022
     },
     "killed_cum": 699,
     "killed_children_cum": 154,
@@ -6793,8 +6857,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 707,
+      "injured": 1,
+      "injured_cum": 6377,
       "killed_children": 0,
-      "killed_children_cum": 161
+      "killed_children_cum": 161,
+      "injured_children": 0,
+      "injured_children_cum": 1022
     },
     "killed_cum": 699,
     "killed_children_cum": 154,
@@ -6808,8 +6876,12 @@
     "verified": {
       "killed": 19,
       "killed_cum": 726,
+      "injured": 7,
+      "injured_cum": 6384,
       "killed_children": 3,
-      "killed_children_cum": 164
+      "killed_children_cum": 164,
+      "injured_children": 0,
+      "injured_children_cum": 1022
     },
     "killed_cum": 699,
     "killed_children_cum": 154,
@@ -6823,8 +6895,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 726,
+      "injured": 22,
+      "injured_cum": 6406,
       "killed_children": 0,
-      "killed_children_cum": 164
+      "killed_children_cum": 164,
+      "injured_children": 0,
+      "injured_children_cum": 1022
     },
     "killed_cum": 699,
     "killed_children_cum": 154,
@@ -6838,8 +6914,12 @@
     "verified": {
       "killed": 1,
       "killed_cum": 727,
+      "injured": 22,
+      "injured_cum": 6428,
       "killed_children": 0,
-      "killed_children_cum": 164
+      "killed_children_cum": 164,
+      "injured_children": 1,
+      "injured_children_cum": 1023
     },
     "killed_cum": 699,
     "killed_children_cum": 154,
@@ -6853,8 +6933,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 727,
+      "injured": 6,
+      "injured_cum": 6434,
       "killed_children": 0,
-      "killed_children_cum": 164
+      "killed_children_cum": 164,
+      "injured_children": 1,
+      "injured_children_cum": 1024
     },
     "killed_cum": 699,
     "killed_children_cum": 154,
@@ -6868,8 +6952,12 @@
     "verified": {
       "killed": 1,
       "killed_cum": 728,
+      "injured": 42,
+      "injured_cum": 6476,
       "killed_children": 1,
-      "killed_children_cum": 165
+      "killed_children_cum": 165,
+      "injured_children": 16,
+      "injured_children_cum": 1040
     },
     "killed_cum": 719,
     "killed_children_cum": 158,
@@ -6883,8 +6971,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 728,
+      "injured": 3,
+      "injured_cum": 6479,
       "killed_children": 0,
-      "killed_children_cum": 165
+      "killed_children_cum": 165,
+      "injured_children": 0,
+      "injured_children_cum": 1040
     },
     "killed_cum": 719,
     "killed_children_cum": 158,
@@ -6898,8 +6990,12 @@
     "verified": {
       "killed": 5,
       "killed_cum": 733,
+      "injured": 2,
+      "injured_cum": 6481,
       "killed_children": 0,
-      "killed_children_cum": 165
+      "killed_children_cum": 165,
+      "injured_children": 0,
+      "injured_children_cum": 1040
     },
     "killed_cum": 719,
     "killed_children_cum": 158,
@@ -6913,8 +7009,12 @@
     "verified": {
       "killed": 2,
       "killed_cum": 735,
+      "injured": 0,
+      "injured_cum": 6481,
       "killed_children": 0,
-      "killed_children_cum": 165
+      "killed_children_cum": 165,
+      "injured_children": 0,
+      "injured_children_cum": 1040
     },
     "killed_cum": 719,
     "killed_children_cum": 158,
@@ -6928,8 +7028,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 735,
+      "injured": 66,
+      "injured_cum": 6547,
       "killed_children": 0,
-      "killed_children_cum": 165
+      "killed_children_cum": 165,
+      "injured_children": 1,
+      "injured_children_cum": 1041
     },
     "killed_cum": 719,
     "killed_children_cum": 158,
@@ -6943,8 +7047,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 735,
+      "injured": 14,
+      "injured_cum": 6561,
       "killed_children": 0,
-      "killed_children_cum": 165
+      "killed_children_cum": 165,
+      "injured_children": 2,
+      "injured_children_cum": 1043
     },
     "killed_cum": 719,
     "killed_children_cum": 158,
@@ -6958,8 +7066,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 735,
+      "injured": 10,
+      "injured_cum": 6571,
       "killed_children": 0,
-      "killed_children_cum": 165
+      "killed_children_cum": 165,
+      "injured_children": 4,
+      "injured_children_cum": 1047
     },
     "killed_cum": 719,
     "killed_children_cum": 158,
@@ -6973,8 +7085,12 @@
     "verified": {
       "killed": 2,
       "killed_cum": 737,
+      "injured": 9,
+      "injured_cum": 6580,
       "killed_children": 1,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 3,
+      "injured_children_cum": 1050
     },
     "killed_cum": 728,
     "killed_children_cum": 159,
@@ -6988,8 +7104,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 1,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 728,
     "killed_children_cum": 159,
@@ -7003,8 +7123,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 728,
     "killed_children_cum": 159,
@@ -7018,8 +7142,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 728,
     "killed_children_cum": 159,
@@ -7033,8 +7161,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 728,
     "killed_children_cum": 159,
@@ -7048,8 +7180,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 728,
     "killed_children_cum": 159,
@@ -7063,8 +7199,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 728,
     "killed_children_cum": 159,
@@ -7078,8 +7218,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 731,
     "killed_children_cum": 159,
@@ -7093,8 +7237,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 731,
     "killed_children_cum": 159,
@@ -7108,8 +7256,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 731,
     "killed_children_cum": 159,
@@ -7123,8 +7275,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6581,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 731,
     "killed_children_cum": 159,
@@ -7138,8 +7294,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 1,
+      "injured_cum": 6582,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 731,
     "killed_children_cum": 159,
@@ -7153,8 +7313,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6582,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 731,
     "killed_children_cum": 159,
@@ -7168,8 +7332,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6582,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1050
     },
     "killed_cum": 731,
     "killed_children_cum": 159,
@@ -7183,8 +7351,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 17,
+      "injured_cum": 6599,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 3,
+      "injured_children_cum": 1053
     },
     "killed_cum": 735,
     "killed_children_cum": 160,
@@ -7198,8 +7370,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6599,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1053
     },
     "killed_cum": 735,
     "killed_children_cum": 160,
@@ -7213,8 +7389,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 1,
+      "injured_cum": 6600,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1053
     },
     "killed_cum": 735,
     "killed_children_cum": 160,
@@ -7228,8 +7408,12 @@
     "verified": {
       "killed": 0,
       "killed_cum": 737,
+      "injured": 0,
+      "injured_cum": 6600,
       "killed_children": 0,
-      "killed_children_cum": 166
+      "killed_children_cum": 166,
+      "injured_children": 0,
+      "injured_children_cum": 1053
     },
     "killed_cum": 735,
     "killed_children_cum": 160,
@@ -7678,6 +7862,15 @@
   },
   {
     "report_date": "2024-12-11",
+    "killed_cum": 769,
+    "killed_children_cum": 163,
+    "injured_cum": 6705,
+    "injured_children_cum": 1153,
+    "settler_attacks_cum": 1716,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2024-12-12",
     "killed_cum": 769,
     "killed_children_cum": 163,
     "injured_cum": 6705,
