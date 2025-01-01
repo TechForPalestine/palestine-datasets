@@ -54,7 +54,7 @@ export const formatDailiesJson = (
   );
 };
 
-const yyyymmddFormat = /^202[3-4]-[0-1][0-9]-[0-3][0-9]$/;
+const yyyymmddFormat = /^202[3-5]-[0-1][0-9]-[0-3][0-9]$/;
 
 /**
  * our docs claim fields prefixed with ext_ are non-optional, so we should assert that
