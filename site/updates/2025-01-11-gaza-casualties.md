@@ -1,7 +1,7 @@
 ---
 title: Gaza Daily Jan 11th Update
 description: Relaying a change noted by the Ministry in a recent report
-slug: gaza-daily-report-period
+slug: gaza-daily-jan-11
 tags: [daily-casualties, gaza]
 ---
 
