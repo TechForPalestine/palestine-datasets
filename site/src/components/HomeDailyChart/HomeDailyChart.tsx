@@ -8,7 +8,6 @@ import styles from "./HomeDailyChart.styles.module.css";
 import { Button } from "../Button";
 import { useResourcePaths } from "@site/src/lib/resource-paths";
 import { ApiResource } from "../../../../types/api.types";
-import { trackClick } from "@site/src/lib/clicks";
 import { HalfRadialProgress, radialProgressCircum } from "./HalfRadialProgress";
 
 const numFmt = new Intl.NumberFormat();
@@ -90,7 +89,6 @@ export const HomeDailyChart = () => {
   const onSliderChange = (e) => {
     if (!tracked.current) {
       tracked.current = true;
-      trackClick("chart-slider");
     }
 
     const { value } = e.target;

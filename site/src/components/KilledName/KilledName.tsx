@@ -7,7 +7,6 @@ import summary from "../../generated/summary.min.json";
 import styles from "./KilledName.styles.module.css";
 import { useEffect, useState } from "react";
 import { Button } from "..";
-import { trackClick } from "@site/src/lib/clicks";
 
 let boyList = shuffle(names.lists.boy);
 let girlList = shuffle(names.lists.girl);
@@ -70,8 +69,6 @@ const KilledNameCard = ({
     if (sharing) {
       return;
     }
-
-    trackClick("killed-name", { id, name });
 
     const filename = "tfp-names-behind-numbers.png";
     setSharing(true);
@@ -184,8 +181,6 @@ export const KilledName = () => {
       { name: nextBoy[0], count: adjust(nextBoy[1]) },
       { name: nextGirl[0], count: adjust(nextGirl[1]) },
     ]);
-
-    trackClick("killed-name-reload");
   };
 
   return (
