@@ -8219,5 +8219,32 @@
     "injured_children_cum": 1202,
     "settler_attacks_cum": 1801,
     "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-01-20",
+    "killed_cum": 811,
+    "killed_children_cum": 171,
+    "injured_cum": 6936,
+    "injured_children_cum": 1202,
+    "settler_attacks_cum": 1801,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-01-21",
+    "killed_cum": 811,
+    "killed_children_cum": 171,
+    "injured_cum": 6936,
+    "injured_children_cum": 1202,
+    "settler_attacks_cum": 1801,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-01-22",
+    "killed_cum": 811,
+    "killed_children_cum": 171,
+    "injured_cum": 6936,
+    "injured_children_cum": 1202,
+    "settler_attacks_cum": 1801,
+    "flash_source": "fill"
   }
 ]
