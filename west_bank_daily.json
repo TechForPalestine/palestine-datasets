@@ -8222,29 +8222,65 @@
   },
   {
     "report_date": "2025-01-20",
-    "killed_cum": 811,
-    "killed_children_cum": 171,
-    "injured_cum": 6936,
-    "injured_children_cum": 1202,
-    "settler_attacks_cum": 1801,
+    "killed_cum": 824,
+    "killed_children_cum": 173,
+    "injured_cum": 7035,
+    "injured_children_cum": 1228,
+    "settler_attacks_cum": 1838,
     "flash_source": "fill"
   },
   {
     "report_date": "2025-01-21",
-    "killed_cum": 811,
-    "killed_children_cum": 171,
-    "injured_cum": 6936,
-    "injured_children_cum": 1202,
-    "settler_attacks_cum": 1801,
+    "killed_cum": 824,
+    "killed_children_cum": 173,
+    "injured_cum": 7035,
+    "injured_children_cum": 1228,
+    "settler_attacks_cum": 1838,
     "flash_source": "fill"
   },
   {
     "report_date": "2025-01-22",
-    "killed_cum": 811,
-    "killed_children_cum": 171,
-    "injured_cum": 6936,
-    "injured_children_cum": 1202,
-    "settler_attacks_cum": 1801,
+    "killed_cum": 824,
+    "killed_children_cum": 173,
+    "injured_cum": 7035,
+    "injured_children_cum": 1228,
+    "settler_attacks_cum": 1838,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-01-23",
+    "killed_cum": 824,
+    "killed_children_cum": 173,
+    "injured_cum": 7035,
+    "injured_children_cum": 1228,
+    "settler_attacks_cum": 1838,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-01-24",
+    "killed_cum": 824,
+    "killed_children_cum": 173,
+    "injured_cum": 7035,
+    "injured_children_cum": 1228,
+    "settler_attacks_cum": 1838,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-01-25",
+    "killed_cum": 824,
+    "killed_children_cum": 173,
+    "injured_cum": 7035,
+    "injured_children_cum": 1228,
+    "settler_attacks_cum": 1838,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-01-26",
+    "killed_cum": 824,
+    "killed_children_cum": 173,
+    "injured_cum": 7035,
+    "injured_children_cum": 1228,
+    "settler_attacks_cum": 1838,
     "flash_source": "fill"
   }
 ]
