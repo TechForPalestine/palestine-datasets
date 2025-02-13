@@ -6,6 +6,10 @@ export type CasualtyDailyReportV2 = {
   killed_cum?: number;
   killed_children_cum?: number;
   killed_women_cum?: number;
+  killed_recovered?: number;
+  killed_succumbed?: number;
+  killed_truce_new?: number;
+  killed_committee?: number;
   ext_killed: number;
   ext_killed_cum: number;
   ext_killed_children_cum: number;
