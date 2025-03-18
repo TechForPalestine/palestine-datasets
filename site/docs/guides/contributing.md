@@ -11,7 +11,7 @@ We welcome anyone to contribute to any part of this repository on Github. We've 
 
 ## Important Reading
 
-We expect collaborators to adhere to TFP's [Code of Conduct](https://github.com/techforpalestine/code-of-conduct).
+We expect collaborators to adhere to T4P's [Code of Conduct](https://github.com/techforpalestine/code-of-conduct).
 
 If you're planning on contributing to our code (website build or dataset scripts specifically) please read about our [Architecture](/docs/guides/architecture) first.
 
