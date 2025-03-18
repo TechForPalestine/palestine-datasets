@@ -26,6 +26,7 @@ type MappedData = {
 };
 
 const eventsToSkipOnMobile = [
+  "ICJ Ruling",
   "Thanksgiving",
   "NYE",
   "Superbowl",
@@ -187,9 +188,9 @@ const eventDotRadius = 9;
 // to appear for the top side of the filled gradient area, so we need to use a combo
 // of dasharray and dashoffset to achieve this for the two graph sizes we generate.
 // note: this has an effect on the coordinates we get for event dots, etc.
-const mobileLinePathLen = 650;
+const mobileLinePathLen = 660;
 const mobileLineStartOffset = 38;
-const desktopLinePathLen = 1070;
+const desktopLinePathLen = 1080;
 const desktopLineStartOffset = 0;
 
 const render = async ({ mobile } = { mobile: false }) => {
