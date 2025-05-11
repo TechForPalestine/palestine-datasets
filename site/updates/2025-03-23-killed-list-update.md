@@ -24,24 +24,24 @@ The following tables summarize the updated demographics of the [Killed in Gaza l
 
 | Demographic   | Number | %     |
 | ------------- | ------ | ----- |
-| Men           | 14,347 | 41.8% |
-| Women         | 6,643  | 19.3% |
-| Boys          | 6,419  | 18.7% |
-| Girls         | 4,936  | 14.4% |
-| Senior Men    | 1,208  | 3.5%  |
-| Senior Women  | 791    | 2.3%  |
-| Total Persons | 34,344 |       |
+| Men           | 23,082 | 46.1% |
+| Women         | 8,775  | 17.5% |
+| Boys          | 8,899  | 17.8% |
+| Girls         | 6,714  | 13.4% |
+| Senior Men    | 1,535  | 3.1%  |
+| Senior Women  | 1,015  | 2.0%  |
+| Total Persons | 50,020 |       |
 
-Of the children in this list (33% of the total), the following is the breakdown by age group:
+Of the children in this list (31.2% of the total), the following is the breakdown by age group:
 
 | Child Age Group          | Number | %     |
 | ------------------------ | ------ | ----- |
-| Teen Boy (Under 18)      | 2,579  | 22.7% |
-| Teen Girl (Under 18)     | 1,521  | 13.4% |
-| Pre-teen Boy (Under 12)  | 2,851  | 25.1% |
-| Pre-teen Girl (Under 12) | 2,480  | 21.8% |
-| Toddler Boy (Under 3)    | 630    | 5.6%  |
-| Toddler Girl (Under 3)   | 584    | 5.1%  |
-| Baby Boy (Under 1)       | 359    | 3.2%  |
-| Baby Girl (Under 1)      | 351    | 3.1%  |
-| Total Children           | 11,355 |       |
+| Teen Boy (Under 18)      | 3,669  | 23.5% |
+| Teen Girl (Under 18)     | 2,074  | 13.3% |
+| Pre-teen Boy (Under 12)  | 3,894  | 24.9% |
+| Pre-teen Girl (Under 12) | 3,414  | 21.9% |
+| Toddler Boy (Under 3)    | 868    | 5.6%  |
+| Toddler Girl (Under 3)   | 818    | 5.2%  |
+| Baby Boy (Under 1)       | 468    | 3.0%  |
+| Baby Girl (Under 1)      | 408    | 2.6%  |
+| Total Children           | 15,613 |       |
