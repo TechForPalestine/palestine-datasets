@@ -15,8 +15,8 @@ const stats = {
   demographics: {
     "elderly-woman": 0,
     "elderly-man": 0,
-    woman: 0,
-    man: 0,
+    "woman": 0,
+    "man": 0,
     "teen-boy": 0,
     "teen-girl": 0,
     "preteen-girl": 0,
@@ -47,35 +47,35 @@ const sourceCount = { h: 0, j: 0, c: 0 };
 
 export const personGroup = (
   ageUnparsed: string,
-  sex: "M" | "F"
+  sex: "m" | "f"
 ): keyof (typeof stats)["demographics"] => {
   if (ageUnparsed === "-1" || !ageUnparsed) {
-    return sex === "F" ? "woman" : "man";
+    return sex === "f" ? "woman" : "man";
   }
 
   const age = +ageUnparsed;
 
   if (age >= 65) {
-    return sex === "F" ? "elderly-woman" : "elderly-man";
+    return sex === "f" ? "elderly-woman" : "elderly-man";
   }
 
   if (age === 0) {
-    return sex === "F" ? "baby-girl" : "baby-boy";
+    return sex === "f" ? "baby-girl" : "baby-boy";
   }
 
   if (age < 3) {
-    return sex === "F" ? "toddler-girl" : "toddler-boy";
+    return sex === "f" ? "toddler-girl" : "toddler-boy";
   }
 
   if (age < 12) {
-    return sex === "F" ? "preteen-girl" : "preteen-boy";
+    return sex === "f" ? "preteen-girl" : "preteen-boy";
   }
 
   if (age < 18) {
-    return sex === "F" ? "teen-girl" : "teen-boy";
+    return sex === "f" ? "teen-girl" : "teen-boy";
   }
 
-  return sex === "F" ? "woman" : "man";
+  return sex === "f" ? "woman" : "man";
 };
 
 const diffRecord = (

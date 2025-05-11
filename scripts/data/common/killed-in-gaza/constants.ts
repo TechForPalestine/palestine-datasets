@@ -15,7 +15,7 @@ export type ExistingRecord = {
   id: string;
   name_ar_raw: string;
   dob: string;
-  sex: "M" | "F";
+  sex: "m" | "f";
   age: string;
   source: "h" | "c" | "u";
 };
@@ -25,7 +25,7 @@ export type NewRecord = {
   name_ar_raw: string;
   id: string;
   dob: string;
-  sex: "M" | "F";
+  sex: "m" | "f";
   age: string;
   source: string;
 };
