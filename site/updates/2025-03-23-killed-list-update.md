@@ -7,7 +7,7 @@ tags: [killed-in-gaza, gaza]
 
 On March 23rd, 2025 Gaza officials released a 1516 page PDF representing the list of those killed in Gaza up to March 23rd, 2025.
 
-The list format was very similar to recent updates we received earlier versions. You can <a href="/sources/<ADD_20250323_HERE>.pdf">download the PDF here</a> that was used as the source for this update. You can view the updated dataset on our [Killed in Gaza page](/docs/killed-in-gaza).
+The list format was very similar to recent updates we received earlier versions. You can download the PDF provided by Ministry of Health <a href="/sources/20250323.pdf">here</a> and Excel file provided by Iraq Body Count (processing the above pdf) <a href="/sources/20250323_ibc.xlsx">here</a> that was used as the source for this update. You can view the updated dataset on our [Killed in Gaza page](/docs/killed-in-gaza).
 
 We noted the following changes to their reporting format from the last update:
 
