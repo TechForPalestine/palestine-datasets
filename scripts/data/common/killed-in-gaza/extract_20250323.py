@@ -21,7 +21,7 @@ def add_source_column_and_save(data, output_path):
     df = pd.DataFrame(data[1:], columns=data[0])
     df['source'] = 'u'
     # Save the DataFrame to CSV without adding a newline at the end
-    df.to_csv(output_path, index=False, line_terminator='')
+    df.to_csv(output_path, index=False)
     logging.info(f"File saved to: {output_path}")
 
 

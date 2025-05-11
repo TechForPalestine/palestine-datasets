@@ -36,7 +36,7 @@ jobs:
 
       - name: run scripts & diff
         run: |
-          bun run scripts/data/common/killed-in-gaza/generate_killed_list.ts
+          # bun run scripts/data/common/killed-in-gaza/generate_killed_list.ts 
           mkdir -p ci-tmp
           bun run gen-killed
           git diff origin/main:killed-in-gaza.json killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
