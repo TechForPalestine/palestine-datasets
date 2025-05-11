@@ -28,6 +28,8 @@ interface MappedRecord extends Record<string, string | number> {
 const sexMapping = {
   M: "m",
   F: "f",
+  m: "m",
+  f: "f"
 };
 
 const namesFallbackTranslated = new Map<string, number>();
