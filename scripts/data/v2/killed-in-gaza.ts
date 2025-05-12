@@ -27,7 +27,7 @@ interface MappedRecord extends Record<string, string | number> {
 
 const sexMapping = {
   M: "m",
-  F: "f",
+  F: "f"
 };
 
 const namesFallbackTranslated = new Map<string, number>();
@@ -49,7 +49,7 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
       idsEncountered.add(fieldValue);
       break;
     case "sex":
-      value = sexMapping[fieldValue as keyof typeof sexMapping] ?? "";
+      value = sexMapping[fieldValue as keyof typeof sexMapping] ?? fieldValue;
       break;
     case "age":
       const rawValue = fieldValue.replace(/["]/g, "").trim();
