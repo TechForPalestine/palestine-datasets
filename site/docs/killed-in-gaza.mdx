@@ -4,7 +4,7 @@ description: List of known victims with their arabic name, english name, birth d
 
 # Killed in Gaza
 
-Last updated on September 21, 2024 (see source info below). We're working on updating our list to include the Ministry release from March 2025 of over fifty thousand names. In the interim, you can refer to the list provided by Iraq Body Count in [PDF format](https://www.iraqbodycount.org/pal/moh_2025-03-23.pdf) or [Excel format](https://iraqbodycount.org/pal/ibc_moh_2025-03-23.xlsx). You can also refer to [the IBC post on X/Twitter](https://x.com/iraqbodycount/status/1904963717202129134) for more background on their efforts.
+Latest data available for March, 23, 2025 (see source info below).
 
 import { DocWarningBubble } from "@site/src/components";
 
@@ -41,15 +41,15 @@ https://data.techforpalestine.org/api/v2/killed-in-gaza/page-1.json
 
 Each record will have the following fields:
 
-| Key     | Value                                                                                                                                                |
-| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name    | original arabic name from the source list                                                                                                            |
-| en_name | english name translation                                                                                                                             |
-| id      | unique string (do not depend on format, it may change), and it may not be provided                                                                   |
-| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                                                                         |
-| sex     | string of one of `m` for male or `f` for female                                                                                                      |
-| age     | age as a number                                                                                                                                      |
-| source  | string indicating the source of the record (either `h` for "Ministry of Health", `c` for "Public Submission", `j` for "judicial or house committee") |
+| Key     | Value                                                                                                                                                                   |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name    | original arabic name from the source list                                                                                                                               |
+| en_name | english name translation                                                                                                                                                |
+| id      | unique string (do not depend on format, it may change), and it may not be provided                                                                                      |
+| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                                                                                            |
+| sex     | string of one of `m` for male or `f` for female                                                                                                                         |
+| age     | age as a number                                                                                                                                                         |
+| source  | string indicating the source of the record (either `h` for "Ministry of Health", `c` for "Public Submission", `j` for "judicial or house committee", `u` for "unknown") |
 
 ---
 
@@ -78,6 +78,7 @@ This list incorporates four releases from the Ministry of Health:
 - The third was as of April 30th, 2024 and released on May 5th from the Ministry. We detailed the changes in our [June 26th update](/updates/killed-in-gaza-update-3).
 - The fourth was as of June 30th, 2024 and released on July 24th from the Ministry. We detailed the changes in our [September 7th update](/updates/killed-in-gaza-update-4).
 - The fifth was as of August 31st, 2024 and released around September 15th by the Ministry. We detailed the changes in our [September 21st update](/updates/killed-in-gaza-update-5).
+- The sixth was as of March 23rd, 2025, and released on the same day. We detailed the changes in our [May 11th update](/updates/killed-in-gaza-update-6)
 
 It's worth noting that the subsequent list updates likely overweight men relative to the aggregate dataset we track in [Daily Casualties - Gaza](/docs/casualties-daily) due to the inclusion of community-reported names. This community sourcing means that the list has started to account for those lost or missing (for which remains were never received by health authorities or hospitals). Both our daily casualties dataset and the initial January version of this list were based on official health ministry records which relied on those that made it to a hospital or reporting center.
 
