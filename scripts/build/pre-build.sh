@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+rm -rf site/build
+rm -rf site/src/generated/killed-in-gaza
 mkdir -p site/src/generated/killed-in-gaza
 
 bun run chart-viz

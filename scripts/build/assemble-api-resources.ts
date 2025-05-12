@@ -37,7 +37,15 @@ resources.forEach((resource) => {
   if (raw) {
     let destPath = `${staticFilePath}/${raw.apiPath}`;
     execSyncLogged(`mkdir -p ${destPath}`);
-    execSyncLogged(`mv ${raw.folder} ${destPath}`);
+    try {
+      execSyncLogged(`mv ${raw.folder} ${destPath}`);
+    } catch (e) {
+      if (e instanceof Error && e.message.includes("Directory not empty")) {
+        execSyncLogged(`cp -r ${raw.folder}/* ${destPath}`);
+        return;
+      }
+      throw e;
+    }
   }
 });
 
