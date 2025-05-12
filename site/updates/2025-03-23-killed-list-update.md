@@ -16,7 +16,7 @@ We noted the following changes to their reporting format from the last update:
 We slightly change the update method we last reported and instead of using our own arabic to english name mapping we used [Iraq Body Count excel list](https://iraqbodycount.org/pal/ibc_moh_2025-03-23.xlsx) in order to expedite the process. The current process still used following adjustments to the source report:
 
 - renaming header to comply with our previous naming
-- adding source `u` i.e. unknown since no source was provided by Ministry of Heath
+- adding source `u` i.e. unknown since no source was provided by Ministry of Health
 
 ## Change Summary
 
