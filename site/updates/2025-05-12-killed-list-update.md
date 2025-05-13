@@ -9,8 +9,6 @@ On March 23rd, 2025 Gaza officials released a 1516 page PDF representing the lis
 
 The list format was very similar to recent updates we received earlier versions. You can download an Excel file provided by Iraq Body Count (processing the above pdf) <a href="/sources/20250323_ibc.xlsx">here</a> that was used as the source for this update. This sheet was sourced by IBC from the Gaza Ministry of Health and formatted to include english names. You can view the updated dataset on our [Killed in Gaza page](/docs/killed-in-gaza).
 
-We noted the following changes to their reporting format from the last update:
-
 ## Methodology
 
 We slightly change the update method we last reported and instead of using our own arabic to english name mapping we used [Iraq Body Count excel list](https://iraqbodycount.org/pal/ibc_moh_2025-03-23.xlsx) in order to expedite the process. The current process still used following adjustments to the source report:
