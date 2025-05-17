@@ -9272,5 +9272,14 @@
     "injured_children_cum": 1436,
     "settler_attacks_cum": 2150,
     "flash_source": "fill"
+  },
+  {
+    "report_date": "2025-05-17",
+    "killed_cum": 924,
+    "killed_children_cum": 187,
+    "injured_cum": 8095,
+    "injured_children_cum": 1436,
+    "settler_attacks_cum": 2150,
+    "flash_source": "fill"
   }
 ]
