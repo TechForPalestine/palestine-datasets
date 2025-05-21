@@ -30,7 +30,17 @@ writeManifestCsv(
   killedRows
 );
 
-const dailyRowOrder = Object.keys(dailies[0]);
+const dailyRowOrderSet = new Set(Object.keys(dailies[0]));
+const optionalFields = [
+  "killed_recovered",
+  "killed_succumbed",
+  "killed_truce_new",
+  "killed_committee",
+];
+optionalFields.forEach((field) => {
+  dailyRowOrderSet.add(field);
+});
+const dailyRowOrder = Array.from(dailyRowOrderSet);
 const dailyRows = dailies.reduce(
   (rows: string[][], record: Record<string, string>) => {
     return rows.concat([dailyRowOrder.map((key) => record[key])]);
