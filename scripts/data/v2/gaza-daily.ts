@@ -11,6 +11,10 @@ const jsonFileName = "casualties_daily.json";
 const fieldKeyRemap = {
   martyred: "killed",
   martyred_cum: "killed_cum",
+  killed_recovered: "killed_recovered",
+  killed_succumbed: "killed_succumbed",
+  killed_truce_new: "killed_truce_new",
+  killed_committee: "killed_committee",
   martyred_children_cum: "killed_children_cum",
   martyred_women_cum: "killed_women_cum",
   ext_martyred: "ext_killed",
