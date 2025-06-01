@@ -12300,5 +12300,26 @@
     "ext_civdef_killed_cum": 115,
     "ext_med_killed_cum": 1580,
     "ext_press_killed_cum": 221
+  },
+  {
+    "report_date": "2025-06-01",
+    "report_source": "mohtel",
+    "report_period": 24,
+    "ext_massacres_cum": 12000,
+    "killed": 37,
+    "killed_cum": 54418,
+    "killed_recovered": 5,
+    "killed_truce_new": 32,
+    "ext_killed": 37,
+    "ext_killed_cum": 54418,
+    "ext_killed_children_cum": 18000,
+    "ext_killed_women_cum": 12400,
+    "injured": 136,
+    "injured_cum": 124190,
+    "ext_injured": 136,
+    "ext_injured_cum": 124190,
+    "ext_civdef_killed_cum": 115,
+    "ext_med_killed_cum": 1580,
+    "ext_press_killed_cum": 221
   }
 ]
