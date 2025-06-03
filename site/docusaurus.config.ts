@@ -9,7 +9,7 @@ const repoUrl = "https://github.com/TechForPalestine/palestine-datasets";
 const config: Config = {
   title: siteTitle,
   tagline:
-    "Telling their stories through names and numbers. We provide datasets relevant to the ongoing human catastrophe in Palestine since October 7.",
+    "Helping you tell their story. We provide datasets relevant to the ongoing human catastrophe in Palestine since October 7.",
   favicon: "img/tfp-mark-header.png",
 
   url: "https://data.techforpalestine.org",

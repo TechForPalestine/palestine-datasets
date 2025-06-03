@@ -28,11 +28,7 @@ function HomepageHeader() {
           className={`hero__subtitle ${styles.heroSubtitle}`}
           style={{ ...headerTextShadow, lineHeight: "1.3em" }}
         >
-          {
-            <Translate>
-              Telling their stories through names and numbers
-            </Translate>
-          }
+          {<Translate>Helping you tell their story</Translate>}
         </p>
       </div>
     </header>

@@ -26,7 +26,7 @@ type MappedData = {
 };
 
 const eventsToSkipOnMobile = [
-  "ICJ Ruling",
+  "ICJ",
   "Thanksgiving",
   "NYE",
   "Superbowl",
