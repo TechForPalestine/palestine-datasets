@@ -12,6 +12,8 @@ export const readCsv = <T>(file: string) => {
   const csvRaw = fs.readFileSync(file, "utf8");
   const rows = csvRaw.split("\n");
   const headers = rows[0].replace(/\r$/, "").split(",");
+  console.log(`Reading CSV file: ${file}`);
+  console.log(`Found ${rows.length} rows and ${headers.length} headers`);
   return rows.slice(1).map((row) => {
     const values = row.replace(/\r$/, "").split(",");
     return headers.reduce(
