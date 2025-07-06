@@ -218,7 +218,7 @@ const newCsvFilename = process.argv.find((arg) => arg.endsWith(".csv"));
 if (!newCsvFilename) {
   throw new Error("No new CSV filename provided as argument");
 }
-
+// NOTE: remember to make sure the new CSV file has no empty lines at the end
 diffCSVs(
   "scripts/data/common/killed-in-gaza/data/raw.csv",
   `scripts/data/common/killed-in-gaza/output/${newCsvFilename}`
