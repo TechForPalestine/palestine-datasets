@@ -46,7 +46,7 @@ To run the site locally use `bun docs-start`
 
 ### Discussion / Planning
 
-The team uses [Discord](https://discord.com/channels/1186702814341234740/1194895627298025473) to discuss this project. View the channel description & pinned messages to get started.
+The team uses [Discord](https://techforpalestine.org/get-involved/) to discuss this project in the `tfp-datasets` channel. View the channel description & pinned messages to get started.
 
 **Note**: You may want to use a separate / anonymous Github account for your safety. Assess your personal/work situation accordingly.
 

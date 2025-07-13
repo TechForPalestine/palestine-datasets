@@ -7,7 +7,7 @@ description: Tips on how to get involved or get in touch
 We welcome anyone to contribute to any part of this repository on Github. We've provided some answers to questions you might have, below. If you can't find an answer here, please ask in one of the following places:
 
 - [Github Issues](https://github.com/TechForPalestine/palestine-datasets/issues)
-- [Tech For Palestine Discord in #tfp-oss-palestine-dataset](https://discord.com/channels/1186702814341234740/1194895627298025473).
+- [Tech For Palestine Discord in #tfp-datasets](https://techforpalestine.org/get-involved/).
 
 ## Important Reading
 
@@ -56,4 +56,4 @@ If the issue is with one of our source datasets and it's a specific change to a 
 
 ### All other ideas / suggestions / issues
 
-Best to open an issue in this repo with your suggestion or question, or chat with us in the [Discord channel](https://discord.com/channels/1186702814341234740/1194895627298025473) so that we can align with you or advise on next steps.
+Best to open an issue in this repo with your suggestion or question, or chat with us in the [#tfp-datasets Discord channel](https://techforpalestine.org/get-involved/) so that we can align with you or advise on next steps.
