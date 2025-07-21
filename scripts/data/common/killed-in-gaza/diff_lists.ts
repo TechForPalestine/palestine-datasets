@@ -15,8 +15,8 @@ const stats = {
   demographics: {
     "elderly-woman": 0,
     "elderly-man": 0,
-    "woman": 0,
-    "man": 0,
+    woman: 0,
+    man: 0,
     "teen-boy": 0,
     "teen-girl": 0,
     "preteen-girl": 0,
@@ -43,7 +43,7 @@ const diffValueOrder = ["name", "dob", "age", "sex", "source"];
 
 const genderValues = new Set();
 const sourceValues = new Set();
-const sourceCount = { h: 0, j: 0, c: 0 };
+const sourceCount = { h: 0, j: 0, c: 0, u: 0 };
 
 export const personGroup = (
   ageUnparsed: string,
@@ -169,7 +169,9 @@ const diffRecord = (
     source = DiffValue.Unchanged;
   }
 
-  if (newRecord.dob.trim() && newRecord.age.trim()) {
+  const recordDobChanged = newRecord.dob.trim() !== existing.dob.trim();
+
+  if (recordDobChanged && newRecord.dob.trim() && newRecord.age.trim()) {
     const diffYears = differenceBetweenAgeBasedDobAndReportedDob(
       +newRecord.age.trim(),
       newRecord.dob.trim()
