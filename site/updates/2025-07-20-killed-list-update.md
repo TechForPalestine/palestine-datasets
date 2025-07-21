@@ -1,5 +1,5 @@
 ---
-title: Killed in Gaza 2025-06-15 Update
+title: Killed in Gaza July 15 Update
 description: We've received an update from the Ministry of Health and merged those changes with our existing list.
 slug: killed-in-gaza-update-2025-07-15
 tags: [killed-in-gaza, gaza]
