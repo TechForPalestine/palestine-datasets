@@ -75,9 +75,14 @@
 
 .chartWarning {
   display: inline-block;
+  position: relative;
+  left: -6px;
   line-height: 1.3em;
   margin-left: 3px;
   margin-bottom: 20px;
+  background-color: var(--ifm-footer-bg-color);
+  padding: 10px 20px;
+  border-radius: 20px;
 }
 
 .chartWarning a {

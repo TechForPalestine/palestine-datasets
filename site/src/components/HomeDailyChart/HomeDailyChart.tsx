@@ -114,8 +114,19 @@ export const HomeDailyChart = () => {
       </div>
       <div className={styles.chartWarning}>
         <a href="/updates/gaza-ministry-casualty-context/">
-          ⚠️ Read more about why these numbers do not fully reflect the human
-          toll
+          <svg
+            width="17"
+            height="15"
+            viewBox="0 0 88 76"
+            fill="none"
+            style={{ position: "relative", top: 2 }}
+          >
+            <path
+              d="M0 76H88L44 0L0 76ZM48 64H40V56H48V64ZM48 48H40V32H48V48Z"
+              fill="var(--tfp-chart-warning)"
+            />
+          </svg>{" "}
+          Learn why these numbers do not fully reflect the human toll
         </a>
       </div>
       <div className={styles.chartBreakdownTags}>
