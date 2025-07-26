@@ -45,6 +45,11 @@ const sidebars: SidebarsConfig = {
       link: { type: "doc", id: "guides/contributing" },
       items: ["guides/architecture", "guides/versioning"],
     },
+    {
+      type: "link",
+      label: "Contact",
+      href: "/docs/contact",
+    },
   ],
 };
 

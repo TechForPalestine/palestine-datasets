@@ -82,6 +82,10 @@ const config: Config = {
           label: "Updates",
         },
         {
+          to: "docs/contact",
+          label: "Contact",
+        },
+        {
           href: repoUrl,
           label: "GitHub",
           position: "right",
