@@ -1,49 +1,12 @@
 import { Demographics, DiffStats } from "./diff_lists.types";
 
-const months = {
-  "01": "January",
-  "02": "February",
-  "03": "March",
-  "04": "April",
-  "05": "May",
-  "06": "June",
-  "07": "July",
-  "08": "August",
-  "09": "September",
-  "10": "October",
-  "11": "November",
-  "12": "December",
-};
-
-const getDateWithSuffix = (date: Date): string => {
-  const day = date.getDate();
-  const suffix = (day: number) => {
-    if (day > 3 && day < 21) return "th"; // 4th to 20th
-    switch (day % 10) {
-      case 1:
-        return "st";
-      case 2:
-        return "nd";
-      case 3:
-        return "rd";
-      default:
-        return "th";
-    }
-  };
-  return `${day}${suffix(day)}`;
-};
-
 const getUpdateDateStrings = () => {
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
   const day = String(today.getDate()).padStart(2, "0");
-  const readableDate = `${
-    months[month as keyof typeof months] ?? month
-  } ${getDateWithSuffix(today)}`;
   return {
     yyyymmdd: `${year}-${month}-${day}`,
-    readableDate,
   };
 };
 
@@ -56,7 +19,7 @@ type OverallTableKeys =
   | "Senior Women";
 
 export const generateBlogUpdate = (stats: DiffStats) => {
-  const { yyyymmdd, readableDate } = getUpdateDateStrings();
+  const { yyyymmdd } = getUpdateDateStrings();
 
   const overallMapping: Record<keyof Demographics, OverallTableKeys> = {
     "baby-boy": "Boys",
@@ -116,7 +79,7 @@ export const generateBlogUpdate = (stats: DiffStats) => {
 
   const content = `
 ---
-title: Killed in Gaza ${readableDate} Update
+title: Killed in Gaza __________REPLACE_ME_WITH_AS_OF_DATE_FOR_REPORT____________ Update
 description: We've received an update from the Ministry of Health and merged those changes with our existing list.
 slug: killed-in-gaza-update-${yyyymmdd}
 tags: [killed-in-gaza, gaza]
@@ -130,7 +93,7 @@ Where age was provided in months, we've defaulted to age of 0.
 
 ## Methodology
 
-Our methodology is the same as used in prior updates using the IBC list. You can [read about that here](/updates/killed-in-gaza-update-2025-07-15/).
+Our methodology is the same as used in prior updates using the IBC list. You can [read about that in an earlier update](/updates/killed-in-gaza-update-2025-07-15/).
 
 ## Change Summary
 
@@ -155,10 +118,9 @@ Between this update and the last, based on the Ministry-provided ID:
 - ${stats.removed.toLocaleString()} were removed
 - ${stats.updated.toLocaleString()} had updated details
 
-Of the children in this list (${(
-    (tables.overall.Boys[0] + tables.overall.Girls[0]) /
-    stats.total
-  ).toFixed(1)}% of the total), the following is the breakdown by age group:
+Of the children in this list (${((totalChildren / stats.total) * 100).toFixed(
+    1
+  )}% of the total), the following is the breakdown by age group:
 
 | Child Age Group          | Number | %     |
 | ------------------------ | ------ | ----- |

@@ -1,5 +1,5 @@
 ---
-title: Killed in Gaza August 17th Update
+title: Killed in Gaza July 31st Update
 description: We've received an update from the Ministry of Health and merged those changes with our existing list.
 slug: killed-in-gaza-update-2025-08-17
 tags: [killed-in-gaza, gaza]
@@ -13,7 +13,7 @@ Where age was provided in months, we've defaulted to age of 0.
 
 ## Methodology
 
-Our methodology is the same as used in prior updates using the IBC list. You can [read about that here](/updates/killed-in-gaza-update-2025-07-15/).
+Our methodology is the same as used in prior updates using the IBC list. You can [read about that in an earlier update](/updates/killed-in-gaza-update-2025-07-15/).
 
 ## Change Summary
 
@@ -36,7 +36,7 @@ Between this update and the last, based on the Ministry-provided ID:
 - 7 were removed
 - 12 had updated details
 
-Of the children in this list (0.3% of the total), the following is the breakdown by age group:
+Of the children in this list (30.7% of the total), the following is the breakdown by age group:
 
 | Child Age Group | Number | %    |
 | --------------- | ------ | ---- |
