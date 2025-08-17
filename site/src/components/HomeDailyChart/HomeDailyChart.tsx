@@ -6,9 +6,34 @@ import HomepageCasualtyChartMobile from "../../generated/daily-chart-mobile";
 import chartData from "../../generated/daily-chart.json";
 import styles from "./HomeDailyChart.styles.module.css";
 import { Button } from "../Button";
-import { useResourcePaths } from "@site/src/lib/resource-paths";
-import { ApiResource } from "../../../../types/api.types";
 import { HalfRadialProgress, radialProgressCircum } from "./HalfRadialProgress";
+import previewData from "@site/src/generated/summary.json";
+
+const childrenRatePct = Math.round(
+  ((previewData.known_killed_in_gaza.female.child +
+    previewData.known_killed_in_gaza.male.child) /
+    previewData.known_killed_in_gaza.records) *
+    100
+);
+const childrenStrokeOffset =
+  ((100 - childrenRatePct / 2) / 100) * radialProgressCircum;
+
+const womenRatePct = Math.round(
+  (previewData.known_killed_in_gaza.female.adult /
+    previewData.known_killed_in_gaza.records) *
+    100
+);
+const womenStrokeOffset =
+  ((100 - womenRatePct / 2) / 100) * radialProgressCircum;
+
+const elderlyRatePct = Math.round(
+  ((previewData.known_killed_in_gaza.female.senior +
+    previewData.known_killed_in_gaza.male.senior) /
+    previewData.known_killed_in_gaza.records) *
+    100
+);
+const elderlyStrokeOffset =
+  ((100 - elderlyRatePct / 2) / 100) * radialProgressCircum;
 
 const numFmt = new Intl.NumberFormat();
 
@@ -81,8 +106,6 @@ const sliderLabels = chartData.data.map(
 
 export const HomeDailyChart = () => {
   const tracked = useRef(false);
-  const { csv: gazaCsv } = useResourcePaths(ApiResource.CasualtiesDailyV2);
-  const { csv: westBankCsv } = useResourcePaths(ApiResource.WestBankDailyV2);
   const [day, setDay] = useState(days - 1);
   const dayData = chartData.data[day];
 
@@ -95,14 +118,6 @@ export const HomeDailyChart = () => {
     setDay(+value);
     moveLine(+value);
   };
-
-  const childrenRatePct = Math.round((dayData.children / dayData.killed) * 100);
-  const childrenStrokeOffset =
-    ((100 - childrenRatePct / 2) / 100) * radialProgressCircum;
-
-  const womenRatePct = Math.round((dayData.women / dayData.killed) * 100);
-  const womenStrokeOffset =
-    ((100 - womenRatePct / 2) / 100) * radialProgressCircum;
 
   return (
     <div className={styles.chartContainer}>
@@ -188,6 +203,9 @@ export const HomeDailyChart = () => {
           value={day}
           list="days"
         />
+        <div className={styles.chartSliderHint}>
+          Use the slider to change the date
+        </div>
       </div>
       <div className={styles.chartRadialsContainer}>
         <div className={styles.chartRadials}>
@@ -207,18 +225,16 @@ export const HomeDailyChart = () => {
                 label: "were women",
               }}
             />
+            {!isMobile() && (
+              <HalfRadialProgress
+                {...{
+                  rate: elderlyRatePct,
+                  strokeOffset: elderlyStrokeOffset,
+                  label: "were elderly",
+                }}
+              />
+            )}
           </div>
-        </div>
-        <div className={styles.chartFooterCopy}>
-          <p>Use the slider above to see the human impact over time.</p>
-          <p>
-            These counts are part of a wider picture of suffering, and do not
-            include the many who succumb to disease, famine, and the knock-on
-            effects of mass destruction.{" "}
-            <a href="/docs/casualties-daily/#daily-sources">
-              Learn about our sources
-            </a>
-          </p>
         </div>
       </div>
       <div

@@ -130,11 +130,36 @@
   accent-color: var(--ifm-color-primary);
 }
 
+.chartSlider input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    to right,
+    var(--tfp-chart-gradient-bottom-stop),
+    var(--tfp-chart-gradient-top-stop)
+  );
+  border-radius: 10px;
+}
+
+.chartSlider input[type="range"]::-moz-range-track {
+  background: linear-gradient(
+    to right,
+    var(--tfp-chart-gradient-bottom-stop),
+    var(--tfp-chart-gradient-top-stop)
+  );
+  border-radius: 10px;
+}
+
+.chartSliderHint {
+  text-align: right;
+  font-size: 0.8em;
+  color: #777;
+}
+
 .chartRadials {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  max-width: 50%;
+  align-items: center;
+  max-width: 100%;
 }
 
 .chartRadials > div:first-of-type {
@@ -177,23 +202,6 @@
   color: var(--tfp-radial-progress-fill);
 }
 
-.chartFooterCopy {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10;
-  text-align: center;
-  font-size: 0.9em;
-  max-width: 50%;
-  padding-bottom: 5px;
-}
-
-.chartFooterCopy p {
-  margin: 5px 0;
-}
-
 .chartFooterButtonsContainer {
   background-color: var(--tfp-chart-cta-box-fill);
   padding: 20px;
@@ -232,11 +240,6 @@
   .chartRadials {
     max-width: none;
     align-items: center;
-  }
-
-  .chartFooterCopy {
-    max-width: none;
-    margin-top: 10px;
   }
 }
 
