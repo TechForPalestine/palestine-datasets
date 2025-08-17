@@ -1,5 +1,33 @@
 # killed-in-gaza
 
+## New steps
+
+So long as we have the xlsx from IBC available we'll follow these simplified steps:
+
+- download latest IBC release via the MoH with existing english name translations
+  - example: https://www.iraqbodycount.org/pal/moh_2025-07-31.xlsx
+- import into Google Sheets and download as CSV
+- remove top rows and swap header with normalized header row, ie:
+  - original: `Index,Name,الاسم,Age,Born,Sex,ID`
+  - normalized: `index,name_en,name_ar_raw,age,dob,sex,id`
+- verify column format and order is the same
+- run python script:
+  - `cd scripts/data/common/killed-in-gaza`
+  - `source ./venv/bin/activate`
+  - copy latest script to new date, EXAMPLE: `cp extract_20250715.py extract_20250731.py`
+  - update input & output filename in script
+  - run it: `python3 extract_20250731.py`
+  - remove any trailing newline (empty row) from the outputted CSV
+- run the diff script to understand the changes by referencing the output filename you specified in the python script
+  - open new terminal / exit python venv and cd to the repo root
+  - `bun run scripts/data/common/killed-in-gaza/diff_lists.ts 2025-07-31.csv`
+- if you're happy with the diff output, copy your new file to replace & overwrite the raw.csv in source control
+  - `cp scripts/data/common/killed-in-gaza/output/2025-07-31.csv scripts/data/common/killed-in-gaza/data/raw.csv`
+
+The diff script provides a markdown-formatted update you can add to the "blog" and update as needed.
+
+## Old steps
+
 This subfolder was merged in from https://github.com/saadi42/killed-in-gaza. It holds the name translation logic and dictionaries used in the middle step of the following sequence:
 
 1. Make changes to original list of names in `raw.csv`
