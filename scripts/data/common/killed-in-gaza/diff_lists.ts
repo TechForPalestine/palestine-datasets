@@ -1,9 +1,26 @@
 import { ExistingRecord, NewRecord, sourceMapping } from "./constants";
+import { Demographics } from "./diff_lists.types";
+import { generateBlogUpdate } from "./update_generator";
 import {
   differenceBetweenAgeBasedDobAndReportedDob,
   readCsv,
   readCsvToMap,
 } from "./utils";
+
+const demographicsInit: Demographics = {
+  "elderly-woman": 0,
+  "elderly-man": 0,
+  woman: 0,
+  man: 0,
+  "teen-boy": 0,
+  "teen-girl": 0,
+  "preteen-girl": 0,
+  "preteen-boy": 0,
+  "toddler-girl": 0,
+  "toddler-boy": 0,
+  "baby-girl": 0,
+  "baby-boy": 0,
+};
 
 const stats = {
   total: 0,
@@ -12,20 +29,7 @@ const stats = {
   unchanged: 0,
   removed: 0,
   updatedRecords: new Map<string, string[]>(),
-  demographics: {
-    "elderly-woman": 0,
-    "elderly-man": 0,
-    woman: 0,
-    man: 0,
-    "teen-boy": 0,
-    "teen-girl": 0,
-    "preteen-girl": 0,
-    "preteen-boy": 0,
-    "toddler-girl": 0,
-    "toddler-boy": 0,
-    "baby-girl": 0,
-    "baby-boy": 0,
-  },
+  demographics: demographicsInit,
 };
 
 enum DiffValue {
@@ -320,6 +324,12 @@ console.log(
     2
   )
 );
+console.log("");
+
+const { content, yyyymmdd } = generateBlogUpdate(stats);
+const blogUpdateFilename = `site/updates/${yyyymmdd}-killed-list-update.md`;
+require("fs").writeFileSync(blogUpdateFilename, content);
+
 console.log("");
 
 const inspectFlag = process.argv.indexOf("--inspect");
