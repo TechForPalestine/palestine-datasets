@@ -45,7 +45,7 @@ let sliderDot: SVGCircleElement;
 let sliderLabel: HTMLDivElement;
 
 // align with media query in CSS
-const isMobile = () => window.innerWidth <= 500;
+const isMobile = () => typeof window === "object" && window.innerWidth <= 500;
 
 const elId = (id: string) => {
   if (isMobile()) {
