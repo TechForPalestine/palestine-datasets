@@ -10,6 +10,8 @@ import westBankDailies from "../../../west_bank_daily.json";
 const [lastGazaReport] = gazaDailies.slice().reverse();
 const [lastWestBankReport] = westBankDailies.slice().reverse();
 
+const kigPageSize = 100;
+
 const genderAge = (
   record: (typeof killedPersons)[0]
 ): [Exclude<typeof gender, undefined>, Exclude<typeof ageGroup, undefined>] => {
@@ -40,9 +42,12 @@ const genderAge = (
 };
 const known_killed_in_gaza = killedPersons.reduce((acc, record) => {
   const [gender, ageGroup] = genderAge(record);
+  const recordCount = (acc.records ?? 0) + 1;
   return {
     ...acc,
-    records: (acc.records ?? 0) + 1,
+    records: recordCount,
+    pages: Math.ceil(recordCount / kigPageSize),
+    page_size: kigPageSize,
     [gender]: {
       ...acc[gender],
       [ageGroup]: (acc[gender]?.[ageGroup] ?? 0) + 1,

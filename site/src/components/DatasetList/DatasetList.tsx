@@ -44,11 +44,35 @@ const CategoryDataset = ({ label, href }: any) => {
 const cardItem = (item: any): item is DatasetProps =>
   !!item.label && !!item.docId && !!item.href;
 
+const filterByQuery = (items: ReturnType<typeof filterDocCardListItems>) => {
+  const params = new URLSearchParams(location.search);
+
+  if (!params.get("chartdata")) {
+    return { items, filtered: false };
+  }
+
+  return {
+    filtered: true,
+    items: items.filter(
+      (item) => item.type === "link" && item.docId?.includes("daily")
+    ),
+  };
+};
+
 export const DatasetList = () => {
   const category = useCurrentSidebarCategory();
-  const items = filterDocCardListItems(category.items);
+  const { items, filtered } = filterByQuery(
+    filterDocCardListItems(category.items)
+  );
+
   return (
     <div>
+      {filtered && (
+        <div style={{ marginBottom: 20 }}>
+          <b>Filter applied:</b> Only showing datasets associated with the home
+          page chart. <a href="/docs/datasets">View all datasets</a>
+        </div>
+      )}
       {items.map((item, i) =>
         cardItem(item) ? (
           <Dataset key={item.docId} {...item} />

@@ -4,12 +4,20 @@ import { ExternalLinkButton } from "../ExternalLinkButton";
 import { ApiResource } from "../../../../types/api.types";
 import { useResourcePaths } from "@site/src/lib/resource-paths";
 
-export const JSONFileLinks = ({ resource }: { resource: ApiResource }) => {
+export const JSONFileLinks = ({
+  resource,
+  minifiedOnly,
+}: {
+  resource: ApiResource;
+  minifiedOnly?: boolean;
+}) => {
   const { unminified, minified, csv, siteUrl } = useResourcePaths(resource);
+
+  const showUnminified = !minifiedOnly && unminified;
 
   return (
     <div>
-      {unminified && (
+      {showUnminified && (
         <ExternalLinkButton
           to={`/${unminified.apiPath}/${unminified.name}`}
           style={csv ? { marginRight: 20 } : undefined}
@@ -17,25 +25,44 @@ export const JSONFileLinks = ({ resource }: { resource: ApiResource }) => {
           {unminified.name}
         </ExternalLinkButton>
       )}
+
       {csv && (
         <ExternalLinkButton
           to={`/${csv.apiPath}/${csv.name}`}
-          buttonType="secondary"
+          buttonType={showUnminified ? "secondary" : "primary"}
+          style={minifiedOnly ? { marginRight: 20 } : undefined}
         >
           {csv.name}
+        </ExternalLinkButton>
+      )}
+      {minifiedOnly && (
+        <ExternalLinkButton
+          to={`/${minified.apiPath}/${minified.name}`}
+          buttonType="secondary"
+        >
+          {minified.name}
         </ExternalLinkButton>
       )}
       <div className={styles.codeBlocks}>
         {minified && (
           <>
-            <h3>Minified </h3>
+            <h3>Minified JSON </h3>
             <CodeBlock>{`${siteUrl}/${minified.apiPath}/${minified.name}`}</CodeBlock>
           </>
         )}
-        {unminified && (
+        {showUnminified && (
           <>
-            <h3>Unminified </h3>
+            <h3>Unminified JSON </h3>
             <CodeBlock>{`${siteUrl}/${unminified.apiPath}/${unminified.name}`}</CodeBlock>
+          </>
+        )}
+        {csv && (
+          <>
+            <h3>CSV </h3>
+            <CodeBlock>{`${siteUrl}/${csv.apiPath}/${csv.name}`}</CodeBlock>
+            <a href={`${siteUrl}/${csv.apiPath}/${csv.name}`} download>
+              Download CSV
+            </a>
           </>
         )}
       </div>

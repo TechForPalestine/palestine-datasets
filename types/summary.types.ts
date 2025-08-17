@@ -73,6 +73,8 @@ export type PreviewDataV3 = {
   };
   known_killed_in_gaza: {
     records: number;
+    pages: number;
+    page_size: number;
     male: {
       senior: number;
       adult: number;
