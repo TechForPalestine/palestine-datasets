@@ -45,6 +45,10 @@ const cardItem = (item: any): item is DatasetProps =>
   !!item.label && !!item.docId && !!item.href;
 
 const filterByQuery = (items: ReturnType<typeof filterDocCardListItems>) => {
+  if (typeof window !== "object" || !window.location) {
+    return { items, filtered: false };
+  }
+
   const params = new URLSearchParams(location.search);
 
   if (!params.get("chartdata")) {
