@@ -21,6 +21,8 @@ So long as we have the xlsx from IBC available we'll follow these simplified ste
 - run the diff script to understand the changes by referencing the output filename you specified in the python script
   - open new terminal / exit python venv and cd to the repo root
   - `bun run scripts/data/common/killed-in-gaza/diff_lists.ts 2025-07-31.csv`
+- if you're happy with the diff output, copy your new file to replace & overwrite the raw.csv in source control
+  - `cp scripts/data/common/killed-in-gaza/output/2025-07-31.csv scripts/data/common/killed-in-gaza/data/raw.csv`
 
 The diff script provides a markdown-formatted update you can add to the "blog" and update as needed.
 
