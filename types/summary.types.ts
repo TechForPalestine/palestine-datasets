@@ -54,6 +54,10 @@ export type PreviewDataV3 = {
       press: number;
       medical: number;
     };
+    famine: {
+      total?: number;
+      children?: number;
+    };
     injured: {
       total: number;
     };

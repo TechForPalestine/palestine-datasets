@@ -68,6 +68,10 @@ const previewData: PreviewDataV3 = {
       press: lastGazaReport.ext_press_killed_cum,
       medical: lastGazaReport.ext_med_killed_cum,
     },
+    famine: {
+      total: lastGazaReport.famine_cum,
+      children: lastGazaReport.child_famine_cum,
+    },
     injured: {
       total: lastGazaReport.ext_injured_cum,
     },
