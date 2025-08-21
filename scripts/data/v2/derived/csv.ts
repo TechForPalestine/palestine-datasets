@@ -36,6 +36,8 @@ const optionalFields = [
   "killed_succumbed",
   "killed_truce_new",
   "killed_committee",
+  "child_famine_cum",
+  "famine_cum",
 ];
 optionalFields.forEach((field) => {
   dailyRowOrderSet.add(field);
