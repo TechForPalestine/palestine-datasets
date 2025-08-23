@@ -97,7 +97,14 @@
 
 .chartBreakdownTags {
   position: absolute;
-  max-width: 50%;
+}
+
+.chartBreakdownTagsTopRow {
+  max-width: 100%;
+}
+
+.chartBreakdownTagsSubsequentRows {
+  max-width: 70%;
 }
 
 .chartBreakdownTag {
@@ -243,16 +250,30 @@
   }
 }
 
-@media screen and (min-width: 501px) and (max-width: 999px) {
+@media screen and (max-width: 999px) {
   .chartBreakdownTags {
-    position: absolute;
-    max-width: none;
     height: 100px;
     overflow: visible;
   }
 
+  .chartBreakdownTags > div {
+    max-width: none;
+  }
+
   .homeChartDesktop {
-    padding-top: 100px;
+    padding-top: 80px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .homeChartDesktop {
+    padding-top: 120px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .homeChartDesktop {
+    padding-top: 150px;
   }
 }
 
@@ -275,9 +296,12 @@
   .chartBreakdownTags {
     position: relative;
     top: -5px;
-    max-width: none;
-    height: 150px;
+    height: 160px;
     overflow: visible;
+  }
+
+  .chartBreakdownTags > div {
+    max-width: none;
   }
 
   .chartBreakdownTag {

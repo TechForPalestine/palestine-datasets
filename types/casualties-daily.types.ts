@@ -10,6 +10,10 @@ export type CasualtyDailyReportV2 = {
   killed_succumbed?: number;
   killed_truce_new?: number;
   killed_committee?: number;
+  famine_cum?: number;
+  child_famine_cum?: number;
+  aid_seeker_killed_cum?: number;
+  aid_seeker_injured_cum?: number;
   ext_killed: number;
   ext_killed_cum: number;
   ext_killed_children_cum: number;

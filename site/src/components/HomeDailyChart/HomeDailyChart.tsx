@@ -145,39 +145,55 @@ export const HomeDailyChart = () => {
         </a>
       </div>
       <div className={styles.chartBreakdownTags}>
-        <div className={styles.chartBreakdownTag}>
-          {numFmt.format(dayData.injured)} <span>injured</span>
-        </div>
-        {!!dayData.children && (
+        <div className={styles.chartBreakdownTagsTopRow}>
           <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.children)} children <span>killed</span>
+            {numFmt.format(dayData.injured)} <span>injured</span>
           </div>
-        )}
-        {!!dayData.women && (
-          <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.women)} women <span>killed</span>
-          </div>
-        )}
-        <div className={styles.chartBreakdownTag}>
-          {numFmt.format(dayData.medical)} medical personnel <span>killed</span>
+          {!!dayData.children && (
+            <div className={styles.chartBreakdownTag}>
+              {numFmt.format(dayData.children)} children <span>killed</span>
+            </div>
+          )}
+          {!!dayData.women && (
+            <div className={styles.chartBreakdownTag}>
+              {numFmt.format(dayData.women)} women <span>killed</span>
+            </div>
+          )}
+          {!!dayData.seekingAid && (
+            <div className={styles.chartBreakdownTag}>
+              {numFmt.format(dayData.seekingAid)} <span>killed</span> or{" "}
+              <span>injured</span> seeking aid
+            </div>
+          )}
         </div>
-        <div className={styles.chartBreakdownTag}>
-          {numFmt.format(dayData.press)}{" "}
-          {dayData.press === 1 ? "journalist" : "journalists"}{" "}
-          <span>killed</span>
-        </div>
-        {!!dayData.civdef && (
+        <div className={styles.chartBreakdownTagsSubsequentRows}>
+          {!!dayData.starved && (
+            <div className={styles.chartBreakdownTag}>
+              {numFmt.format(dayData.starved)} <span>starved</span>
+            </div>
+          )}
           <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.civdef)} emergency personnel{" "}
+            {numFmt.format(dayData.medical)} medical personnel{" "}
             <span>killed</span>
           </div>
-        )}
-        <br />
-        {!!dayData.settlerActs && (
           <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.settlerActs)} settler <span>attacks</span>
+            {numFmt.format(dayData.press)}{" "}
+            {dayData.press === 1 ? "journalist" : "journalists"}{" "}
+            <span>killed</span>
           </div>
-        )}
+          {!!dayData.civdef && (
+            <div className={styles.chartBreakdownTag}>
+              {numFmt.format(dayData.civdef)} first responders{" "}
+              <span>killed</span>
+            </div>
+          )}
+          <br />
+          {!!dayData.settlerActs && (
+            <div className={styles.chartBreakdownTag}>
+              {numFmt.format(dayData.settlerActs)} settler <span>attacks</span>
+            </div>
+          )}
+        </div>
       </div>
       <div className={styles.homeChartDesktop}>
         <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />

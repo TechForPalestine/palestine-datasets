@@ -17,6 +17,8 @@ type SlimData = {
   killed: CasualtyDailyReportV2["ext_killed_cum"];
   medical: CasualtyDailyReportV2["ext_med_killed_cum"];
   press: CasualtyDailyReportV2["ext_press_killed_cum"];
+  starved: CasualtyDailyReportV2["famine_cum"];
+  seekingAid: CasualtyDailyReportV2["aid_seeker_killed_cum"];
   settlerActs: number;
 };
 
@@ -77,6 +79,9 @@ const data = gazaDailyTimeSeries.reduce(
       ext_killed_children_cum,
       ext_killed_cum,
       killed_women_cum,
+      famine_cum,
+      aid_seeker_killed_cum,
+      aid_seeker_injured_cum,
       ext_killed_women_cum,
       ext_med_killed_cum,
       ext_press_killed_cum,
@@ -134,6 +139,14 @@ const data = gazaDailyTimeSeries.reduce(
         children,
         killed,
         women,
+        starved: famine_cum,
+        seekingAid:
+          (typeof aid_seeker_killed_cum === "number"
+            ? aid_seeker_killed_cum
+            : 0) +
+          (typeof aid_seeker_injured_cum === "number"
+            ? aid_seeker_injured_cum
+            : 0),
         medical: ext_med_killed_cum,
         press: ext_press_killed_cum,
         settlerActs: westBankLookup[report_date].settler_attacks_cum,
