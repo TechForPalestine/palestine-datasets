@@ -19,6 +19,8 @@ const fieldKeyRemap = {
   martyred_women_cum: "killed_women_cum",
   child_famine_cum: "child_famine_cum",
   famine_cum: "famine_cum",
+  aid_seeker_killed_cum: "aid_seeker_killed_cum",
+  aid_seeker_injured_cum: "aid_seeker_injured_cum",
   ext_martyred: "ext_killed",
   ext_martyred_cum: "ext_killed_cum",
   ext_martyred_children_cum: "ext_killed_children_cum",

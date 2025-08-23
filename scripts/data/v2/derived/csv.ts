@@ -38,6 +38,8 @@ const optionalFields = [
   "killed_committee",
   "child_famine_cum",
   "famine_cum",
+  "aid_seeker_killed_cum",
+  "aid_seeker_injured_cum",
 ];
 optionalFields.forEach((field) => {
   dailyRowOrderSet.add(field);

@@ -58,6 +58,10 @@ export type PreviewDataV3 = {
       total?: number;
       children?: number;
     };
+    aid_seeker: {
+      killed?: number;
+      injured?: number;
+    };
     injured: {
       total: number;
     };
