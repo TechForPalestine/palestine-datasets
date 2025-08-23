@@ -34,6 +34,7 @@ const eventsToSkipOnMobile = [
   "Superbowl",
   "Easter",
   "Ramadan",
+  "GHF Start",
 ];
 
 const lastWestBankReport =
@@ -68,6 +69,9 @@ const getWestBankValue = (
 
 let lastChildrenKilledReportPct = 0;
 let lastWomenKilledReportPct = 0;
+let lastFamineReport = 0;
+let lastSeekingAidReport = 0;
+
 const data = gazaDailyTimeSeries.reduce(
   (
     acc,
@@ -123,6 +127,21 @@ const data = gazaDailyTimeSeries.reduce(
       women = Math.floor(killed * lastWomenKilledReportPct);
     }
 
+    let starved = lastFamineReport;
+    if (famine_cum) {
+      lastFamineReport = famine_cum;
+      starved = famine_cum;
+    }
+
+    let seekingAid = lastSeekingAidReport;
+    if (
+      typeof aid_seeker_killed_cum === "number" &&
+      typeof aid_seeker_injured_cum === "number"
+    ) {
+      lastSeekingAidReport = aid_seeker_killed_cum + aid_seeker_injured_cum;
+      seekingAid = lastSeekingAidReport;
+    }
+
     return {
       ...acc,
       // just keep what we plan to surface in our UI
@@ -139,14 +158,8 @@ const data = gazaDailyTimeSeries.reduce(
         children,
         killed,
         women,
-        starved: famine_cum,
-        seekingAid:
-          (typeof aid_seeker_killed_cum === "number"
-            ? aid_seeker_killed_cum
-            : 0) +
-          (typeof aid_seeker_injured_cum === "number"
-            ? aid_seeker_injured_cum
-            : 0),
+        starved,
+        seekingAid,
         medical: ext_med_killed_cum,
         press: ext_press_killed_cum,
         settlerActs: westBankLookup[report_date].settler_attacks_cum,
