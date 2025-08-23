@@ -42,19 +42,19 @@ Each daily report in this JSON array will have the following fields for Gaza.
 | report_source           | one of `mohtel`, `gmotel`, `unocha` or `missing` (see below)                                                    | no       |
 | report_period           | one of 24, 48, or 0, representing the hours length of the reporting period                                      | no       |
 | massacres_cum           | cumulative number of multiple fatality events                                                                   | yes      |
-| ext_massacres_cum       | same as `massacres_cum` but extrapolated (see below)                                                            | no       |
+| ext_massacres_cum       | same as `massacres_cum` but extrapolated ([see note](#breakdown-interval))                                      | no       |
 | killed                  | total killed persons for the given report date (may include retroactive)                                        | yes      |
 | killed_cum              | cumulative number of killed persons to the report date                                                          | yes      |
-| killed_children_cum     | cumulative number of children killed to the report date                                                         | yes      |
-| killed_women_cum        | cumulative number of women killed to the report date                                                            | yes      |
+| killed_children_cum     | cumulative number of children killed to the report date ([see note](#breakdown-interval))                       | yes      |
+| killed_women_cum        | cumulative number of women killed to the report date ([see note](#breakdown-interval))                          | yes      |
 | killed_recovered        | recovered bodies during truce on the given report date                                                          | yes      |
 | killed_succumbed        | killed by succumbing to injuries on the given report date during truce                                          | yes      |
 | killed_truce_new        | killed on the given report date during or after the 2025 truce                                                  | yes      |
 | killed_committee        | individuals recognized as being killed by a judicial committee (retroactive)                                    | yes      |
 | ext_killed              | same as `killed` but extrapolated (see below)                                                                   | no       |
 | ext_killed_cum          | same as `killed_cum` but extrapolated (see below)                                                               | no       |
-| ext_killed_children_cum | same as `killed_children_cum` but extrapolated (see below)                                                      | no       |
-| ext_killed_women_cum    | same as `killed_women_cum` but extrapolated (see below)                                                         | no       |
+| ext_killed_children_cum | same as `killed_children_cum` but extrapolated ([see note](#breakdown-interval))                                | no       |
+| ext_killed_women_cum    | same as `killed_women_cum` but extrapolated ([see note](#breakdown-interval))                                   | no       |
 | child_famine_cum        | cumulative children killed by starvation ([context](/updates/gaza-daily-famine-aid-aug-23))                     | yes      |
 | famine_cum              | cumulative adults & children killed by starvation ([context](/updates/gaza-daily-famine-aid-aug-23))            | yes      |
 | aid_seeker_killed_cum   | cumulative people killed at or en route to aid distribution ([context](/updates/gaza-daily-famine-aid-aug-23))  | yes      |
@@ -63,24 +63,12 @@ Each daily report in this JSON array will have the following fields for Gaza.
 | injured_cum             | cumulative number of injured persons to the report date                                                         | yes      |
 | ext_injured             | injured persons on the given report date                                                                        | no       |
 | ext_injured_cum         | cumulative number of injured persons to the report date                                                         | no       |
-| civdef_killed_cum       | cumulative number of emergency services killed to date                                                          | yes      |
-| ext_civdef_killed_cum   | same as `civdef_killed_cum` but extrapolated (see below)                                                        | no       |
-| med_killed_cum          | cumulative number of medical personnel killed to the report date                                                | yes      |
-| ext_med_killed_cum      | same as `med_martyed_cum` but extrapolated (see below)                                                          | no       |
-| press_killed_cum        | cumulative number of journalists killed to the report date                                                      | yes      |
-| ext_press_killed_cum    | same as `press_martyed_cum` but extrapolated (see below)                                                        | no       |
-
-## Update Interval
-
-We update this dataset everyday, but some values are updated less frequently (typically at least once a week):
-
-- `killed_children_cum`
-- `killed_women_cum`
-- `civdef_killed_cum`
-- `med_killed_cum`
-- `press_killed_cum`
-
-If there's no updated value for the given report date, the last reported value is used (since all of these fields are cumulative). This necessarily also applies to their corresponding `ext_`-prefixed fields.
+| civdef_killed_cum       | cumulative number of emergency services killed to date ([see note](#breakdown-interval))                        | yes      |
+| ext_civdef_killed_cum   | same as `civdef_killed_cum` but extrapolated ([see note](#breakdown-interval))                                  | no       |
+| med_killed_cum          | cumulative number of medical personnel killed to the report date ([see note](#breakdown-interval))              | yes      |
+| ext_med_killed_cum      | same as `med_martyed_cum` but extrapolated ([see note](#breakdown-interval))                                    | no       |
+| press_killed_cum        | cumulative number of journalists killed to the report date ([see note](#breakdown-interval))                    | yes      |
+| ext_press_killed_cum    | same as `press_martyed_cum` but extrapolated ([see note](#breakdown-interval))                                  | no       |
 
 ## Daily Sources
 
@@ -107,3 +95,17 @@ Since official numbers weren't always available, and it can be useful to have a 
 - if the missing field was a cumulative one and we had an official report for a daily killed or injury count, we calculate the cumulative using the daily increment
 - if the missing field was a daily increment and we had cumulative counts, we subtracted the reported cumulative count from the prior period for the missing daily count
 - if we were missing both sets of numbers for a given reporting period we average the difference between surrounding periods
+
+## Breakdown Interval
+
+Since October 2023, Gaza officials were reporting specific breakdowns for people killed on a semi-regular basis as part of a larger statistical release by the Gaza Media Office. The following fields are examples of these kinds of breakdowns:
+
+- killed_children_cum
+- killed_women_cum
+- civdef_killed_cum
+- med_killed_cum
+- press_killed_cum
+
+In 2024, the GMO reported these breakdowns on a weekly basis, and in August 2024 began reporting them about every 2 weeks. In January 2025 this form of reporting was reduced to about every month. On the other hand, the Ministry of Health has begun issuing more frequent names lists (see our [Killed in Gaza dataset](/docs/killed-in-gaza)) which provide more granular demographic information.
+
+The abovenoted fields will only have values in this dataset when we have a report on the given date. Otherwise, the latest reported value will show for subsequent days in the corresponding `ext_` fields. It's important to keep in mind this reduced update frequency when using the extrapolated fields.
