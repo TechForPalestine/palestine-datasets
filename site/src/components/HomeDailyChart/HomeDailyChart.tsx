@@ -146,6 +146,12 @@ export const HomeDailyChart = () => {
       </div>
       <div className={styles.chartBreakdownTags}>
         <div className={styles.chartBreakdownTagsTopRow}>
+          {!!dayData.seekingAid && (
+            <div className={styles.chartBreakdownTag}>
+              {numFmt.format(dayData.seekingAid)} <span>attacked</span> seeking
+              aid
+            </div>
+          )}
           <div className={styles.chartBreakdownTag}>
             {numFmt.format(dayData.injured)} <span>injured</span>
           </div>
@@ -154,24 +160,22 @@ export const HomeDailyChart = () => {
               {numFmt.format(dayData.children)} children <span>killed</span>
             </div>
           )}
+          {!!dayData.starved && (
+            <div
+              className={[styles.chartBreakdownTag, styles.chartTagMax920].join(
+                " "
+              )}
+            >
+              {numFmt.format(dayData.starved)} <span>starved to death</span>
+            </div>
+          )}
           {!!dayData.women && (
             <div className={styles.chartBreakdownTag}>
               {numFmt.format(dayData.women)} women <span>killed</span>
             </div>
           )}
-          {!!dayData.seekingAid && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.seekingAid)} <span>killed</span> or{" "}
-              <span>injured</span> seeking aid
-            </div>
-          )}
         </div>
         <div className={styles.chartBreakdownTagsSubsequentRows}>
-          {!!dayData.starved && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.starved)} <span>starved</span>
-            </div>
-          )}
           <div className={styles.chartBreakdownTag}>
             {numFmt.format(dayData.medical)} medical personnel{" "}
             <span>killed</span>
@@ -187,7 +191,6 @@ export const HomeDailyChart = () => {
               <span>killed</span>
             </div>
           )}
-          <br />
           {!!dayData.settlerActs && (
             <div className={styles.chartBreakdownTag}>
               {numFmt.format(dayData.settlerActs)} settler <span>attacks</span>

@@ -250,6 +250,12 @@
   }
 }
 
+@media screen and (max-width: 920px) {
+  .chartTagMax920 {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 999px) {
   .chartBreakdownTags {
     height: 100px;
@@ -267,7 +273,7 @@
 
 @media screen and (max-width: 800px) {
   .homeChartDesktop {
-    padding-top: 120px;
+    padding-top: 100px;
   }
 }
 
