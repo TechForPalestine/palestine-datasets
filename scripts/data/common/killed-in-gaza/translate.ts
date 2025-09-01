@@ -41,10 +41,28 @@ export const replaceWholeNameSegments = (
   name: string,
   dict: Record<string, string>
 ) => {
-  return name
-    .split(/\s+/)
-    .map((segment, i) => properCase(dict[segment] ?? segment, i === 0))
+  const segments = name.split(/\s+/);
+
+  const unmappedSequence: string[] = [];
+  const mapped = segments
+    .map((segment, i) => {
+      if (!dict[segment]) {
+        unmappedSequence.push(segment);
+        return segment;
+      }
+      unmappedSequence.length = 0;
+      return properCase(dict[segment], i === 0);
+    })
     .join(" ");
+
+  if (unmappedSequence.length && dict[unmappedSequence.join(" ")]) {
+    return mapped.replace(
+      unmappedSequence.join(" "),
+      properCase(dict[unmappedSequence.join(" ")], false) ?? ""
+    );
+  }
+
+  return mapped;
 };
 
 export const replaceBySubstring = (
