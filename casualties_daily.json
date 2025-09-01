@@ -14340,8 +14340,8 @@
     "civdef_killed_cum": 138,
     "ext_civdef_killed_cum": 138,
     "ext_med_killed_cum": 1590,
-    "press_killed_cum": 245,
-    "ext_press_killed_cum": 245
+    "press_killed_cum": 246,
+    "ext_press_killed_cum": 246
   },
   {
     "report_date": "2025-08-27",
@@ -14365,7 +14365,7 @@
     "ext_injured_cum": 158927,
     "ext_civdef_killed_cum": 138,
     "ext_med_killed_cum": 1590,
-    "ext_press_killed_cum": 245
+    "ext_press_killed_cum": 246
   },
   {
     "report_date": "2025-08-28",
@@ -14389,7 +14389,7 @@
     "ext_injured_cum": 159266,
     "ext_civdef_killed_cum": 138,
     "ext_med_killed_cum": 1590,
-    "ext_press_killed_cum": 245
+    "ext_press_killed_cum": 246
   },
   {
     "report_date": "2025-08-29",
@@ -14413,7 +14413,7 @@
     "ext_injured_cum": 159490,
     "ext_civdef_killed_cum": 138,
     "ext_med_killed_cum": 1590,
-    "ext_press_killed_cum": 245
+    "ext_press_killed_cum": 246
   },
   {
     "report_date": "2025-08-30",
@@ -14439,7 +14439,7 @@
     "ext_injured_cum": 159835,
     "ext_civdef_killed_cum": 138,
     "ext_med_killed_cum": 1590,
-    "ext_press_killed_cum": 245
+    "ext_press_killed_cum": 246
   },
   {
     "report_date": "2025-08-31",
@@ -14463,6 +14463,30 @@
     "ext_injured_cum": 160256,
     "ext_civdef_killed_cum": 138,
     "ext_med_killed_cum": 1590,
-    "ext_press_killed_cum": 245
+    "ext_press_killed_cum": 246
+  },
+  {
+    "report_date": "2025-09-01",
+    "report_source": "mohtel",
+    "report_period": 24,
+    "ext_massacres_cum": 12000,
+    "killed": 98,
+    "killed_cum": 63557,
+    "killed_truce_new": 98,
+    "ext_killed": 98,
+    "ext_killed_cum": 63557,
+    "ext_killed_children_cum": 19000,
+    "ext_killed_women_cum": 12500,
+    "child_famine_cum": 127,
+    "famine_cum": 348,
+    "aid_seeker_killed_cum": 2294,
+    "aid_seeker_injured_cum": 16839,
+    "injured": 404,
+    "injured_cum": 160660,
+    "ext_injured": 404,
+    "ext_injured_cum": 160660,
+    "ext_civdef_killed_cum": 138,
+    "ext_med_killed_cum": 1590,
+    "ext_press_killed_cum": 246
   }
 ]
