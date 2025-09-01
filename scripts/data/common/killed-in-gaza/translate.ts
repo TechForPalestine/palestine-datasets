@@ -41,7 +41,7 @@ export const replaceWholeNameSegments = (
   name: string,
   dict: Record<string, string>
 ) => {
-  const segments = name.split(/\s+/);
+  const segments = name.trim().split(/\s+/);
 
   const unmappedSequence: string[] = [];
   const mapped = segments
