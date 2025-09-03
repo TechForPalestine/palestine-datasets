@@ -1,6 +1,7 @@
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 import { KilledInGaza } from "../../../types/killed-in-gaza.types";
+import { kig3ColMapping } from "./constants";
 
 const jsonFileName = "killed-in-gaza-v3.json";
 
@@ -18,21 +19,11 @@ const canonicalUpdateCommits = [
   "68a207a49227514b0822f8816add4415718ec172", // 9: August 2025 (IBC)
 ];
 
-const colMapping = {
-  id: "i",
-  en_name: "en",
-  name: "ar",
-  age: "a",
-  dob: "b",
-  sex: "g",
-  update: "u",
-};
-
 const remapFields = (
   person: Omit<KilledInGaza, "source"> & { update: number }
 ) => {
   return Object.keys(person).reduce((acc, key) => {
-    const mappedKey = colMapping[key as keyof typeof colMapping] || key;
+    const mappedKey = kig3ColMapping[key as keyof typeof kig3ColMapping] || key;
     return {
       ...acc,
       [mappedKey]: person[key as keyof typeof person],

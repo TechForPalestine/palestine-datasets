@@ -131,6 +131,11 @@
       "file": "killed-in-gaza-v3.json",
       "name": "killed-in-gaza-v3.json",
       "apiPath": "api/v3"
+    },
+    "csv": {
+      "file": "site/src/generated/killed-in-gaza-v3.csv",
+      "name": "killed-in-gaza-v3.csv",
+      "apiPath": "api/v3"
     }
   }
 }

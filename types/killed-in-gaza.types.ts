@@ -8,4 +8,14 @@ export type KilledInGaza = {
   source: "h" | "c";
 };
 
+export type KilledInGazaV3 = {
+  i: string;
+  en: string;
+  ar: string;
+  a: number;
+  b: string;
+  g: "m" | "f";
+  u: number;
+};
+
 export type MarqueePerson = Pick<KilledInGaza, "id" | "name" | "age" | "sex">;
