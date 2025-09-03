@@ -11,6 +11,7 @@
     "gen-daily": "bun run gen-daily-v2 && bun run gen-wbdaily && bun run gen-infrastructure",
     "gen-wbdaily": "bun run scripts/data/v2/west-bank-daily.ts",
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
+    "gen-killed-v3": "bun run scripts/data/v3/killed-in-gaza.ts",
     "gen-killed-press": "bun run scripts/data/v2/press-killed-in-gaza.ts",
     "gen-killed-derived": "bun run scripts/data/v2/derived/killed-names.ts && bun run scripts/data/v2/derived/killed-indices.ts",
     "gen-killed-child-names": "bun run scripts/data/v2/derived/killed-child-name-counts.ts",

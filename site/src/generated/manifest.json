@@ -120,5 +120,17 @@
       "name": "press_killed_in_gaza.csv",
       "apiPath": "api/v2"
     }
+  },
+  "KilledInGaza_V3": {
+    "minified": {
+      "file": "killed-in-gaza-v3.min.json",
+      "name": "killed-in-gaza-v3.min.json",
+      "apiPath": "api/v3"
+    },
+    "unminified": {
+      "file": "killed-in-gaza-v3.json",
+      "name": "killed-in-gaza-v3.json",
+      "apiPath": "api/v3"
+    }
   }
 }
