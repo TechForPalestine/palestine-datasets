@@ -26,7 +26,7 @@ const getManifestAndPath = (resource: ApiResource) => {
  */
 export const addToManifest = (
   resource: ApiResource,
-  files: Partial<Record<ResourceFormat, string>>
+  files: Partial<Record<ResourceFormat, string | { from: string; to: string }>>
 ) => {
   const { manifest, apiPath } = getManifestAndPath(resource);
   const types = Object.keys(files) as ResourceFormat[];
@@ -35,11 +35,12 @@ export const addToManifest = (
     if (!file) {
       return;
     }
-    const name = baseFileName(file);
+    const name = typeof file === "string" ? baseFileName(file) : file.to;
+    const source = typeof file === "string" ? file : file.from;
     manifest[resource] = {
       ...manifest[resource],
       [resourceType]: {
-        file,
+        file: source,
         name,
         apiPath,
       },

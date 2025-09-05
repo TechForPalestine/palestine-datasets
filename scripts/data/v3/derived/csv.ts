@@ -29,6 +29,6 @@ const killedRows = killedPersons.reduce(
 );
 writeManifestCsv(
   ApiResource.KilledInGazaV3,
-  `${writePath}/killed-in-gaza-v3.csv`,
+  { from: `${writePath}/killed-in-gaza-v3.csv`, to: "killed-in-gaza.csv" },
   killedRows
 );

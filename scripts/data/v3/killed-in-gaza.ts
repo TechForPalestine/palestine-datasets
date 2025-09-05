@@ -4,6 +4,7 @@ import { KilledInGaza } from "../../../types/killed-in-gaza.types";
 import { kig3ColMapping } from "./constants";
 
 const jsonFileName = "killed-in-gaza-v3.json";
+const apiFileName = "killed-in-gaza.json";
 
 const identifierUpdateIndex = new Map<string, number>();
 
@@ -79,7 +80,11 @@ const generateFromV2JSONWithUpdateReference = async () => {
     }
   );
 
-  writeJson(ApiResource.KilledInGazaV3, jsonFileName, latestJson);
+  writeJson(
+    ApiResource.KilledInGazaV3,
+    { from: jsonFileName, to: apiFileName },
+    latestJson
+  );
 
   console.log(
     `generated JSON file with ${latestJson.length} records: ${jsonFileName}, associated with ${identifierUpdateIndex.size} unique identifiers`
