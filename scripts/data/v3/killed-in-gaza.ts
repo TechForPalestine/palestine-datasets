@@ -1,7 +1,7 @@
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 import { KilledInGaza } from "../../../types/killed-in-gaza.types";
-import { kig3ColMapping } from "./constants";
+import { kig3FieldIndex, kig3ColMapping } from "./constants";
 
 const jsonFileName = "killed-in-gaza-v3.json";
 const apiFileName = "killed-in-gaza.json";
@@ -24,12 +24,10 @@ const remapFields = (
   person: Omit<KilledInGaza, "source"> & { update: number }
 ) => {
   return Object.keys(person).reduce((acc, key) => {
-    const mappedKey = kig3ColMapping[key as keyof typeof kig3ColMapping] || key;
-    return {
-      ...acc,
-      [mappedKey]: person[key as keyof typeof person],
-    };
-  }, {} as Record<string, any>);
+    const keyIndex = kig3ColMapping[key as keyof typeof kig3ColMapping];
+    acc[keyIndex] = person[key as keyof typeof kig3ColMapping] || null;
+    return acc;
+  }, new Array(kig3FieldIndex.length));
 };
 
 const fetchFileForCommit = async (commit: string) => {
@@ -83,7 +81,7 @@ const generateFromV2JSONWithUpdateReference = async () => {
   writeJson(
     ApiResource.KilledInGazaV3,
     { from: jsonFileName, to: apiFileName },
-    latestJson
+    [kig3FieldIndex].concat(latestJson)
   );
 
   console.log(

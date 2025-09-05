@@ -45,7 +45,7 @@ export const readCsvToDict = (
   return result;
 };
 
-const toCsv = (rows: string[][]) =>
+export const toCsv = (rows: string[][]) =>
   rows.map((columns) => columns.join(columnDelimiter)).join(rowDelimiter);
 
 export const writeCsv = (repoPath: string, rows: string[][]) => {
