@@ -124,17 +124,17 @@
   "KilledInGaza_V3": {
     "minified": {
       "file": "killed-in-gaza-v3.min.json",
-      "name": "killed-in-gaza-v3.min.json",
+      "name": "killed-in-gaza.min.json",
       "apiPath": "api/v3"
     },
     "unminified": {
       "file": "killed-in-gaza-v3.json",
-      "name": "killed-in-gaza-v3.json",
+      "name": "killed-in-gaza.json",
       "apiPath": "api/v3"
     },
     "csv": {
       "file": "site/src/generated/killed-in-gaza-v3.csv",
-      "name": "killed-in-gaza-v3.csv",
+      "name": "killed-in-gaza.csv",
       "apiPath": "api/v3"
     }
   }

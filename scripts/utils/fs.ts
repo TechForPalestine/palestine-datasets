@@ -3,12 +3,22 @@ import { addToManifest } from "./manifest";
 
 const jsonTabWidth = 2;
 
-export const minifiedResourceName = (fileName: string) =>
-  fileName.replace(/json$/, "min.json");
+type AliasedFile = { from: string; to: string };
+
+export const minifiedResourceName = (fileName: string | AliasedFile) => {
+  if (typeof fileName === "string") {
+    return fileName.replace(/json$/, "min.json");
+  }
+
+  return {
+    from: fileName.from.replace(/json$/, "min.json"),
+    to: fileName.to.replace(/json$/, "min.json"),
+  };
+};
 
 export const writeJson = (
   resource: ApiResource,
-  unminifiedFileName: string,
+  unminifiedFileName: string | AliasedFile,
   json: any,
   minifiedOnly = false
 ) => {
@@ -17,27 +27,41 @@ export const writeJson = (
 
   if (!minifiedOnly) {
     fs.writeFileSync(
-      unminifiedFileName,
+      typeof unminifiedFileName === "string"
+        ? unminifiedFileName
+        : unminifiedFileName.from,
       JSON.stringify(json, null, jsonTabWidth)
     );
   }
-  fs.writeFileSync(minified, JSON.stringify(json));
+  fs.writeFileSync(
+    typeof minified === "string" ? minified : minified.from,
+    JSON.stringify(json)
+  );
 
   addToManifest(resource, { minified, unminified: unminifiedFileName });
 };
 
-export const writeOffManifestJson = (filePath: string, json: any) => {
+export const writeOffManifestJson = (
+  filePath: string | AliasedFile,
+  json: any
+) => {
   const fs = require("fs");
-  fs.writeFileSync(filePath, JSON.stringify(json));
+  fs.writeFileSync(
+    typeof filePath === "string" ? filePath : filePath.from,
+    JSON.stringify(json)
+  );
 };
 
 export const writeManifestCsv = (
   resource: ApiResource,
-  filePath: string,
+  filePath: string | AliasedFile,
   rows: any[][]
 ) => {
   const fs = require("fs");
   const csvString = rows.map((columns) => columns.join(",")).join("\n");
-  fs.writeFileSync(filePath, csvString);
+  fs.writeFileSync(
+    typeof filePath === "string" ? filePath : filePath.from,
+    csvString
+  );
   addToManifest(resource, { csv: filePath });
 };
