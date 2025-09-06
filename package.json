@@ -41,6 +41,7 @@
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@svgr/plugin-prettier": "^8.1.0",
+    "@types/oboe": "2.1.4",
     "arabic-name-to-en": "^1.0.6",
     "arabic-utils": "^5.1.0",
     "d3-node": "^3.0.0",
@@ -48,7 +49,9 @@
     "fastest-levenshtein": "^1.0.16",
     "html-to-image": "^1.11.11",
     "lodash": "^4.17.21",
+    "oboe": "2.1.4",
     "point-at-length": "^1.1.0",
-    "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2"
+    "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2",
+    "react-window": "^2.0.2"
   }
 }

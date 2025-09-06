@@ -1,0 +1,23 @@
+.statusRow {
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  padding: 10px;
+  gap: 10px;
+}
+
+.statusRowSpinner {
+  padding-top: 5px;
+}
+
+.headerCell {
+  background-color: var(--ifm-navbar-background-color);
+  border-top: 2px solid var(--ifm-footer-bg-color);
+  font-weight: 700;
+  display: inline-block;
+}
+
+.cell {
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--ifm-footer-bg-color);
+}
