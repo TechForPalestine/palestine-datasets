@@ -101,6 +101,7 @@ const SearchModal = ({ lang, searchClient, onClose, totalCount }) => {
                 </svg>
               </div>
             </div>
+            {/* @ts-expect-error -- FIXME */}
             <Configure hitsPerPage={hitsLimit} />
             <div className={styles.searchResults}>
               <NoResultsBoundary totalCount={totalCount}>
