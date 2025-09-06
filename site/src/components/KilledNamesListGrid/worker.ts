@@ -12,7 +12,7 @@ onmessage = (e) => {
 
   const oboe = require("oboe") as typeof import("oboe");
   oboe({
-    url: "https://data.techforpalestine.org/api/v3/killed-in-gaza.min.json",
+    url: "/api/v3/killed-in-gaza.min.json",
   })
     .node(".[*][*]", function (data) {
       if (

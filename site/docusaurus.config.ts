@@ -1,3 +1,4 @@
+import type { Configuration } from "webpack";
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
@@ -22,6 +23,39 @@ const config: Config = {
   customFields: {
     marqueeInitialPage: getHeaderMarqueeInitialPage(),
   },
+
+  plugins: [
+    async function redirectPlugin(context, options) {
+      return {
+        name: "plugin-local-api-resources",
+        configureWebpack(_config, _isServer, _utils): Configuration {
+          const fs = require("node:fs") as typeof import("fs");
+          return {
+            devServer: {
+              setupMiddlewares(middlewares, _devServer) {
+                middlewares.unshift({
+                  name: "local-api-resources",
+                  middleware: (req, res, next) => {
+                    switch (req.path) {
+                      case "/api/v3/killed-in-gaza.min.json": {
+                        res.header("Content-Type", "application/json");
+                        fs.createReadStream(
+                          "../killed-in-gaza-v3.min.json"
+                        ).pipe(res);
+                        return;
+                      }
+                    }
+                    next();
+                  },
+                });
+                return middlewares;
+              },
+            },
+          };
+        },
+      };
+    },
+  ],
 
   i18n: {
     defaultLocale: "en",
