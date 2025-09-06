@@ -38,7 +38,7 @@ Reading:
 
 Prerequisites:
 
-- We use [bun](https://bun.sh) as our dependency manager, build tool & runtime.
+- We use [bun](https://bun.sh) as our dependency manager, build tool & runtime. You'll need to install a specific version (`curl -fsSl https://bun.sh/install | bash -s "bun-v1.0.22"`)
 
 ### Documentation Site
 
