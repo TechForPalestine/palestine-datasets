@@ -22,6 +22,8 @@ const resizeUpdateInterval = 200;
 const overscanRecordCount = 40;
 const rowHeight = 40;
 
+import styles from "./killedNamesListGrid.module.css";
+
 export const KilledNamesListGrid = ({}) => {
   const elementRef = useRef(null);
   const visibleRecords = useRef(0);
@@ -117,21 +119,24 @@ export const KilledNamesListGrid = ({}) => {
           Math.round((thresholdIndex / recordCount) * 100)
         )}%`}
       />
-      {showGrid && <Header parentWidth={dimensions.width} />}
       {showGrid && (
-        <Grid
-          onCellsRendered={onCellsRendered}
-          style={{ width: dimensions.width, height: dimensions.height }}
-          columnCount={kig3FieldIndex.length}
-          columnWidth={(index) =>
-            dimensions.width * (colWeightShare[index] ?? 0)
-          }
-          rowCount={recordCount + 1} // +1 for the header row
-          rowHeight={rowHeight}
-          overscanCount={overscanRecordCount}
-          cellComponent={Cell}
-          cellProps={{ records: records.current, recordCount }}
-        />
+        <>
+          <Header parentWidth={dimensions.width} />
+          <Grid
+            className={styles.gridContainer}
+            onCellsRendered={onCellsRendered}
+            style={{ width: dimensions.width, height: dimensions.height }}
+            columnCount={kig3FieldIndex.length}
+            columnWidth={(index) =>
+              dimensions.width * (colWeightShare[index] ?? 0)
+            }
+            rowCount={recordCount + 1} // +1 for the header row
+            rowHeight={rowHeight}
+            overscanCount={overscanRecordCount}
+            cellComponent={Cell}
+            cellProps={{ records: records.current, recordCount }}
+          />
+        </>
       )}
     </main>
   );

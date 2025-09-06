@@ -1,5 +1,5 @@
 import { CellComponentProps } from "react-window";
-import { colWeightShare, kig3FieldIndex, PersonRow } from "../types";
+import { kig3FieldIndex, PersonRow } from "../types";
 
 import styles from "../killedNamesListGrid.module.css";
 import { PersonIcon } from "../../KilledHeaderMarquee/PersonIcon";
@@ -17,11 +17,11 @@ const getAgeAndGenderFromRecord = (record: PersonRow) => {
   const sex = record[sexIndex];
 
   if (typeof age !== "number" || typeof sex !== "string") {
-    return null;
+    return {};
   }
 
   if (sexIsValid(sex) === false) {
-    return null;
+    return {};
   }
 
   return {
@@ -71,7 +71,7 @@ export const Cell = ({
 
   const record = records[rowIndex];
   const cellContent = record?.[idx];
-  if (!record || !cellContent) {
+  if (!record || typeof cellContent == null) {
     return null;
   }
 

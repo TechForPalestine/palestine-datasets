@@ -60,3 +60,14 @@
   height: 2px;
   background-color: var(--ifm-color-primary);
 }
+
+.gridContainer::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 16px;
+  background-color: var(--ifm-navbar-background-color);
+}
+
+.gridContainer::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: var(--ifm-color-primary-darkest);
+}
