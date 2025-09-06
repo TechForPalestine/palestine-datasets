@@ -25,7 +25,7 @@ const remapFields = (
 ) => {
   return Object.keys(person).reduce((acc, key) => {
     const keyIndex = kig3ColMapping[key as keyof typeof kig3ColMapping];
-    acc[keyIndex] = person[key as keyof typeof kig3ColMapping] || null;
+    acc[keyIndex] = person[key as keyof typeof kig3ColMapping] ?? null;
     return acc;
   }, new Array(kig3FieldIndex.length));
 };
