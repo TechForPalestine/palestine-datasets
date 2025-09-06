@@ -24,7 +24,7 @@ const rowHeight = 40;
 
 import styles from "./killedNamesListGrid.module.css";
 
-export const KilledNamesListGrid = ({}) => {
+export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
   const visibleRecords = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -36,7 +36,6 @@ export const KilledNamesListGrid = ({}) => {
   useEffect(() => {
     let count = 0;
     const updateState = debounce(() => {
-      console.log("update from onRecord");
       setRecordCount(count);
     }, recordUpdateInterval);
 
@@ -51,7 +50,6 @@ export const KilledNamesListGrid = ({}) => {
   }, []);
 
   const calcLayout = useCallback(() => {
-    console.log("calcLayout");
     if (elementRef.current) {
       setDimensions({
         width: elementRef.current.offsetWidth,
@@ -116,7 +114,7 @@ export const KilledNamesListGrid = ({}) => {
       <ScrollProgress
         pct={`${Math.min(
           100,
-          Math.round((thresholdIndex / recordCount) * 100)
+          Math.round((thresholdIndex / recordCount) * 1000) / 10
         )}%`}
       />
       {showGrid && (

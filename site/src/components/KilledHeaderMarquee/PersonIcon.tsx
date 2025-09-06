@@ -1,8 +1,10 @@
 export const PersonIcon = ({
   type,
+  size = 24,
   className,
 }: {
   className?: string;
+  size?: number;
   type: "elderly-man" | "elderly-woman" | "man" | "woman" | "boy" | "girl";
 }) => {
   switch (type) {
@@ -10,8 +12,8 @@ export const PersonIcon = ({
       return (
         <svg
           className={className}
-          width="24"
-          height="24"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -26,8 +28,8 @@ export const PersonIcon = ({
       return (
         <svg
           className={className}
-          width="24"
-          height="24"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +48,8 @@ export const PersonIcon = ({
       return (
         <svg
           className={className}
-          width="24"
-          height="24"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -66,8 +68,8 @@ export const PersonIcon = ({
       return (
         <svg
           className={className}
-          width="24"
-          height="24"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -86,8 +88,8 @@ export const PersonIcon = ({
       return (
         <svg
           className={className}
-          width="24"
-          height="24"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +104,8 @@ export const PersonIcon = ({
       return (
         <svg
           className={className}
-          width="24"
-          height="24"
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

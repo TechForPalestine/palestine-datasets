@@ -43,10 +43,11 @@ const Icon = ({
 
   const demo = getAgeAndGenderFromRecord(record);
 
-  if (!demo.age || !demo.sex) return null;
+  if (typeof demo.age !== "number" || !demo.sex) return null;
 
   return (
     <PersonIcon
+      size={30}
       className={styles.personIcon}
       type={iconTypeForPerson(demo.age, demo.sex)}
     />
