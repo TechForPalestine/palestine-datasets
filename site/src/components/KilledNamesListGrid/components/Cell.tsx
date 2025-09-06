@@ -41,14 +41,14 @@ const Icon = ({
     return null; // icon starts english name column only
   }
 
-  const { age, sex } = getAgeAndGenderFromRecord(record) ?? {};
+  const demo = getAgeAndGenderFromRecord(record);
 
-  if (!age || !sex) return null;
+  if (!demo.age || !demo.sex) return null;
 
   return (
     <PersonIcon
       className={styles.personIcon}
-      type={iconTypeForPerson(age, sex)}
+      type={iconTypeForPerson(demo.age, demo.sex)}
     />
   );
 };
