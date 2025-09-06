@@ -48,7 +48,7 @@
     "date-fns": "^3.3.1",
     "fastest-levenshtein": "^1.0.16",
     "html-to-image": "^1.11.11",
-    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "oboe": "2.1.4",
     "point-at-length": "^1.1.0",
     "react-loadable": "npm:@docusaurus/react-loadable@^5.5.2",

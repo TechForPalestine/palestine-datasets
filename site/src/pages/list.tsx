@@ -2,7 +2,7 @@ import Layout from "@theme/Layout";
 import { useColorMode } from "@docusaurus/theme-common";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Grid, type CellComponentProps } from "react-window";
-import debounce from "lodash/debounce";
+import debounce from "lodash.debounce";
 
 import styles from "./list.module.css";
 import { Spinner } from "../components/Spinner";
