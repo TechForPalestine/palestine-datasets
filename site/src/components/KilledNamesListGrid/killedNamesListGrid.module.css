@@ -1,0 +1,53 @@
+.titleRow {
+  color: var(--ifm-color-primary-darkest);
+  font-size: 24px;
+  font-weight: 500;
+  padding: 10px 12px 0 12px;
+  display: flex;
+  flex-direction: row;
+  min-height: 55px;
+}
+
+.titleRow :first-child {
+  margin-right: 10px;
+  flex-shrink: 1;
+}
+
+.statusRow {
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  padding: 6px 12px;
+  gap: 10px;
+}
+
+.statusRowSpinner {
+  padding-top: 3px;
+}
+
+.headerCell {
+  background-color: var(--ifm-navbar-background-color);
+  border-top: 2px solid var(--ifm-footer-bg-color);
+  font-weight: 700;
+  display: inline-block;
+}
+
+.cell {
+  position: relative;
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--ifm-footer-bg-color);
+}
+
+.englishNameCell {
+  padding-left: 30px;
+}
+
+.personIcon {
+  top: 6px;
+  left: 0px;
+  position: absolute;
+}
+
+.personIcon path {
+  fill: var(--ifm-color-primary-darkest);
+}

@@ -1,8 +1,8 @@
-let count = 0;
-const maxFetch = 0;
+let records = 0;
+const maxRecordsToFetch = 0;
 
-if (maxFetch) {
-  console.warn(`Worker is limiting fetch to ${maxFetch}`);
+if (maxRecordsToFetch) {
+  console.warn(`Worker is limiting fetch to ${maxRecordsToFetch}`);
 }
 
 onmessage = (e) => {
@@ -15,7 +15,11 @@ onmessage = (e) => {
     url: "https://data.techforpalestine.org/api/v3/killed-in-gaza.min.json",
   })
     .node(".[*][*]", function (data) {
-      if (typeof data === "object" && maxFetch && count > maxFetch) {
+      if (
+        typeof data === "object" &&
+        maxRecordsToFetch &&
+        records > maxRecordsToFetch
+      ) {
         this.abort();
         postMessage("done");
         return;
@@ -23,7 +27,7 @@ onmessage = (e) => {
 
       if (typeof data === "object") {
         postMessage(data);
-        count += 1;
+        records += 1;
       }
 
       // return oboe.drop;

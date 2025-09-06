@@ -1,12 +1,15 @@
 export const PersonIcon = ({
   type,
+  className,
 }: {
+  className?: string;
   type: "elderly-man" | "elderly-woman" | "man" | "woman" | "boy" | "girl";
 }) => {
   switch (type) {
     case "elderly-man":
       return (
         <svg
+          className={className}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -22,6 +25,7 @@ export const PersonIcon = ({
     case "elderly-woman":
       return (
         <svg
+          className={className}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -41,6 +45,7 @@ export const PersonIcon = ({
     case "man":
       return (
         <svg
+          className={className}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -60,6 +65,7 @@ export const PersonIcon = ({
     case "woman":
       return (
         <svg
+          className={className}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -79,6 +85,7 @@ export const PersonIcon = ({
     case "boy":
       return (
         <svg
+          className={className}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -94,6 +101,7 @@ export const PersonIcon = ({
     case "girl":
       return (
         <svg
+          className={className}
           width="24"
           height="24"
           viewBox="0 0 24 24"
