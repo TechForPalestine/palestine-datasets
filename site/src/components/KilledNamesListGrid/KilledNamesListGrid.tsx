@@ -14,6 +14,7 @@ import { Header } from "./components/Header";
 import { StatusRow } from "./components/StatusRow";
 
 import { TitleRow } from "./components/TitleRow";
+import { ScrollProgress } from "./components/ScrollProgress";
 
 const recordUpdateInterval = 100;
 const frameRangeUpdateInterval = 0;
@@ -110,6 +111,12 @@ export const KilledNamesListGrid = ({}) => {
     <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
       <TitleRow loading={loading} />
       <StatusRow loaded={recordCount} thresholdIndex={thresholdIndex} />
+      <ScrollProgress
+        pct={`${Math.min(
+          100,
+          Math.round((thresholdIndex / recordCount) * 100)
+        )}%`}
+      />
       {showGrid && <Header parentWidth={dimensions.width} />}
       {showGrid && (
         <Grid

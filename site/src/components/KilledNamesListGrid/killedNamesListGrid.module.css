@@ -51,3 +51,12 @@
 .personIcon path {
   fill: var(--ifm-color-primary-darkest);
 }
+
+.scrollProgress {
+  width: 100%;
+}
+
+.scrollProgressBar {
+  height: 2px;
+  background-color: var(--ifm-color-primary);
+}
