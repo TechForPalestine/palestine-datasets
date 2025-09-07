@@ -39,15 +39,35 @@
 }
 
 .englishNameCell {
-  padding-left: 30px;
+  padding-left: 34px;
 }
 
 .personIcon {
-  top: 6px;
+  top: 5px;
   left: 0px;
   position: absolute;
 }
 
 .personIcon path {
   fill: var(--ifm-color-primary-darkest);
+}
+
+.scrollProgress {
+  width: 100%;
+}
+
+.scrollProgressBar {
+  height: 2px;
+  background-color: var(--ifm-color-primary);
+}
+
+.gridContainer::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 16px;
+  background-color: var(--ifm-navbar-background-color);
+}
+
+.gridContainer::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: var(--ifm-color-primary-darkest);
 }

@@ -28,7 +28,8 @@ export const startWorker = ({ onRecord, onFinished }: WorkerInputs) => {
       return;
     }
 
-    onRecord(event.data);
+    const [id, en, ar, age, dob, sex, update] = event.data;
+    onRecord([id, ar, en, age, dob, sex, update]);
   };
   worker.postMessage("start");
 };

@@ -10,14 +10,12 @@ export type PersonRow = [
 
 export const kig3FieldIndex = [
   "id",
-  "en_name",
   "ar_name",
+  "en_name",
   "age",
   "dob",
   "sex",
   "update",
-];
+] as const;
 
-const colWeights = [1, 2, 3, 0.5, 1, 0.5, 0.5];
-const colWeightSum = colWeights.reduce((a, b) => a + b, 0);
-export const colWeightShare = colWeights.map((w) => w / colWeightSum);
+export type KiG3ColumnKey = Readonly<(typeof kig3FieldIndex)[number]>;

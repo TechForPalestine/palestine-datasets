@@ -7,13 +7,14 @@ import {
 } from "react";
 import { Grid } from "react-window";
 import debounce from "lodash.debounce";
-import { colWeightShare, kig3FieldIndex, PersonRow } from "./types";
+import { PersonRow } from "./types";
 import { startWorker } from "./startWorker";
 import { Cell } from "./components/Cell";
 import { Header } from "./components/Header";
 import { StatusRow } from "./components/StatusRow";
 
 import { TitleRow } from "./components/TitleRow";
+import { ScrollProgress } from "./components/ScrollProgress";
 
 const recordUpdateInterval = 100;
 const frameRangeUpdateInterval = 0;
@@ -21,19 +22,22 @@ const resizeUpdateInterval = 200;
 const overscanRecordCount = 40;
 const rowHeight = 40;
 
-export const KilledNamesListGrid = ({}) => {
+import styles from "./killedNamesListGrid.module.css";
+import { getColumnConfig } from "./getColumnConfig";
+
+export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
   const visibleRecords = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const records = useRef<PersonRow[]>([]);
   const [recordCount, setRecordCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
 
   useEffect(() => {
     let count = 0;
     const updateState = debounce(() => {
-      console.log("update from onRecord");
       setRecordCount(count);
     }, recordUpdateInterval);
 
@@ -48,20 +52,13 @@ export const KilledNamesListGrid = ({}) => {
   }, []);
 
   const calcLayout = useCallback(() => {
-    console.log("calcLayout");
     if (elementRef.current) {
       setDimensions({
         width: elementRef.current.offsetWidth,
         height: elementRef.current.offsetHeight,
       });
 
-      if (!thresholdIndex) {
-        const recordsVisibleInWindowViewport = Math.ceil(
-          elementRef.current.offsetHeight / rowHeight
-        );
-        visibleRecords.current = recordsVisibleInWindowViewport;
-        setThresholdIndex(recordsVisibleInWindowViewport);
-      }
+      setColumnConfig(getColumnConfig(elementRef.current.offsetWidth));
     }
   }, [setDimensions, elementRef]);
 
@@ -110,21 +107,30 @@ export const KilledNamesListGrid = ({}) => {
     <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
       <TitleRow loading={loading} />
       <StatusRow loaded={recordCount} thresholdIndex={thresholdIndex} />
-      {showGrid && <Header parentWidth={dimensions.width} />}
+      <ScrollProgress
+        pct={`${Math.min(
+          100,
+          Math.round((thresholdIndex / recordCount) * 1000) / 10
+        )}%`}
+      />
       {showGrid && (
-        <Grid
-          onCellsRendered={onCellsRendered}
-          style={{ width: dimensions.width, height: dimensions.height }}
-          columnCount={kig3FieldIndex.length}
-          columnWidth={(index) =>
-            dimensions.width * (colWeightShare[index] ?? 0)
-          }
-          rowCount={recordCount + 1} // +1 for the header row
-          rowHeight={rowHeight}
-          overscanCount={overscanRecordCount}
-          cellComponent={Cell}
-          cellProps={{ records: records.current, recordCount }}
-        />
+        <>
+          <Header parentWidth={dimensions.width} columnConfig={columnConfig} />
+          <Grid
+            className={styles.gridContainer}
+            onCellsRendered={onCellsRendered}
+            style={{ width: dimensions.width, height: dimensions.height }}
+            columnCount={columnConfig.columns.length}
+            columnWidth={(index) =>
+              dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
+            }
+            rowCount={recordCount + 1} // +1 for the header row
+            rowHeight={rowHeight}
+            overscanCount={overscanRecordCount}
+            cellComponent={Cell}
+            cellProps={{ records: records.current, recordCount, columnConfig }}
+          />
+        </>
       )}
     </main>
   );
