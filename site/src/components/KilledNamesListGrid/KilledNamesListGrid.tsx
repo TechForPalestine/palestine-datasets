@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Grid } from "react-window";
 import debounce from "lodash.debounce";
-import { colWeightShare, kig3FieldIndex, PersonRow } from "./types";
+import { PersonRow } from "./types";
 import { startWorker } from "./startWorker";
 import { Cell } from "./components/Cell";
 import { Header } from "./components/Header";
@@ -23,6 +23,7 @@ const overscanRecordCount = 40;
 const rowHeight = 40;
 
 import styles from "./killedNamesListGrid.module.css";
+import { getColumnConfig } from "./getColumnConfig";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -31,6 +32,7 @@ export const KilledNamesListGrid = () => {
   const records = useRef<PersonRow[]>([]);
   const [recordCount, setRecordCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
 
   useEffect(() => {
@@ -56,13 +58,7 @@ export const KilledNamesListGrid = () => {
         height: elementRef.current.offsetHeight,
       });
 
-      if (!thresholdIndex) {
-        const recordsVisibleInWindowViewport = Math.ceil(
-          elementRef.current.offsetHeight / rowHeight
-        );
-        visibleRecords.current = recordsVisibleInWindowViewport;
-        setThresholdIndex(recordsVisibleInWindowViewport);
-      }
+      setColumnConfig(getColumnConfig(elementRef.current.offsetWidth));
     }
   }, [setDimensions, elementRef]);
 
@@ -119,20 +115,20 @@ export const KilledNamesListGrid = () => {
       />
       {showGrid && (
         <>
-          <Header parentWidth={dimensions.width} />
+          <Header parentWidth={dimensions.width} columnConfig={columnConfig} />
           <Grid
             className={styles.gridContainer}
             onCellsRendered={onCellsRendered}
             style={{ width: dimensions.width, height: dimensions.height }}
-            columnCount={kig3FieldIndex.length}
+            columnCount={columnConfig.columns.length}
             columnWidth={(index) =>
-              dimensions.width * (colWeightShare[index] ?? 0)
+              dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
             }
             rowCount={recordCount + 1} // +1 for the header row
             rowHeight={rowHeight}
             overscanCount={overscanRecordCount}
             cellComponent={Cell}
-            cellProps={{ records: records.current, recordCount }}
+            cellProps={{ records: records.current, recordCount, columnConfig }}
           />
         </>
       )}

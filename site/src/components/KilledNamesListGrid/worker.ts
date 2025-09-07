@@ -29,8 +29,6 @@ onmessage = (e) => {
         postMessage(data);
         records += 1;
       }
-
-      // return oboe.drop;
     })
     .done(() => {
       postMessage("done");
