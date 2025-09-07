@@ -3,8 +3,10 @@ import { KilledNamesListGrid } from "../components/KilledNamesListGrid/KilledNam
 
 export default function NamesList(): JSX.Element {
   return (
-    <Layout noFooter title="" description="">
-      <KilledNamesListGrid />
-    </Layout>
+    <div style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
+      <Layout noFooter title="" description="">
+        <KilledNamesListGrid />
+      </Layout>
+    </div>
   );
 }
