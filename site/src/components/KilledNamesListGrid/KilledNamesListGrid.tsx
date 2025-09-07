@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Grid } from "react-window";
 import debounce from "lodash.debounce";
-import { PersonRow } from "./types";
+import { PersonRow, PersonType } from "./types";
 import { startWorker } from "./startWorker";
 import { Cell } from "./components/Cell";
 import { Header } from "./components/Header";
@@ -23,16 +23,26 @@ const overscanRecordCount = 40;
 const rowHeight = 40;
 
 import styles from "./killedNamesListGrid.module.css";
-import { getColumnConfig } from "./getColumnConfig";
+import { getColumnConfig, recordCols } from "./getColumnConfig";
 import { FilterRow } from "./components/FilterRow";
+import { iconTypeForPerson, sexIsValid } from "../../lib/age-icon";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
   const visibleRecords = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const records = useRef<PersonRow[]>([]);
+  const filteredRecords = useRef<PersonRow[]>([]);
   const [recordCount, setRecordCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [selectedFilters, setSelectedFilters] = useState<PersonType[]>([
+    "elderly-man",
+    "elderly-woman",
+    "man",
+    "woman",
+    "boy",
+    "girl",
+  ]);
   const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
 
@@ -102,23 +112,66 @@ export const KilledNamesListGrid = () => {
     [setThresholdIndex, visibleRecords]
   );
 
+  const applyFilters = useCallback(() => {
+    if (selectedFilters.length === 6) {
+      filteredRecords.current = [];
+      return;
+    }
+
+    filteredRecords.current = records.current.filter((row) => {
+      const age = row[recordCols.age];
+      const sex = row[recordCols.sex];
+      if (
+        typeof age !== "number" ||
+        typeof sex === "number" ||
+        (typeof sex === "string" && !sexIsValid(sex))
+      ) {
+        return false;
+      }
+      return selectedFilters.includes(iconTypeForPerson(age, sex));
+    });
+  }, [selectedFilters]);
+
+  const onToggleFilter = useCallback(
+    (type: PersonType) => {
+      setSelectedFilters((prev) =>
+        prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+      );
+
+      applyFilters();
+    },
+    [setSelectedFilters, applyFilters]
+  );
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
+
+  const windowRecords = filteredRecords.current.length
+    ? filteredRecords.current
+    : records.current;
+  const windowRecordCount = windowRecords.length;
 
   return (
     <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
       <div className={styles.headerColumns}>
         <div className={styles.headerColumn}>
           <TitleRow loading={loading} />
-          <StatusRow loaded={recordCount} thresholdIndex={thresholdIndex} />
+          <StatusRow
+            loaded={recordCount}
+            windowRecordCount={windowRecordCount}
+            thresholdIndex={thresholdIndex}
+          />
         </div>
         <div className={styles.headerColumn}>
-          <FilterRow />
+          <FilterRow
+            selectedFilters={selectedFilters}
+            onToggleFilter={onToggleFilter}
+          />
         </div>
       </div>
       <ScrollProgress
         pct={`${Math.min(
           100,
-          Math.round((thresholdIndex / recordCount) * 1000) / 10
+          Math.round((thresholdIndex / windowRecordCount) * 1000) / 10
         )}%`}
       />
       {showGrid && (
@@ -132,11 +185,15 @@ export const KilledNamesListGrid = () => {
             columnWidth={(index) =>
               dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
             }
-            rowCount={recordCount + 1} // +1 for the header row
+            rowCount={windowRecordCount + 1} // +1 for the header row
             rowHeight={rowHeight}
             overscanCount={overscanRecordCount}
             cellComponent={Cell}
-            cellProps={{ records: records.current, recordCount, columnConfig }}
+            cellProps={{
+              records: windowRecords,
+              recordCount: windowRecordCount,
+              columnConfig,
+            }}
           />
         </>
       )}

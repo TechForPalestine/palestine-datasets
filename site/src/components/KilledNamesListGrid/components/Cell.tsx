@@ -3,16 +3,12 @@ import { kig3FieldIndex, PersonRow } from "../types";
 
 import styles from "../killedNamesListGrid.module.css";
 import { PersonIcon } from "../../KilledHeaderMarquee/PersonIcon";
-import { iconTypeForPerson } from "@site/src/lib/age-icon";
+import { iconTypeForPerson, sexIsValid } from "@site/src/lib/age-icon";
 import { getColumnConfig } from "../getColumnConfig";
 
 // these are stable regardless of how many columns are shown since the record is the same
 const ageIndex = kig3FieldIndex.findIndex((f) => f === "age");
 const sexIndex = kig3FieldIndex.findIndex((f) => f === "sex");
-
-const sexIsValid = (sex: string): sex is "m" | "f" => {
-  return ["f", "m"].includes(sex as any);
-};
 
 const getAgeAndGenderFromRecord = (record: PersonRow) => {
   const age = record[ageIndex];

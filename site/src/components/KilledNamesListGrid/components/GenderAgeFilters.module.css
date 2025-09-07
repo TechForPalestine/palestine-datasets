@@ -1,0 +1,58 @@
+.genderAgeFilters {
+  margin: 10px 0px;
+}
+
+.genderAgeFilterRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.filterButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  min-height: 50px;
+  background-color: var(--ifm-navbar-background-color);
+  cursor: pointer;
+}
+
+.filterButton path {
+  fill: var(--ifm-color-primary-darkest);
+}
+
+.filterButtonActive {
+  background-color: var(--tfp-chart-warning-bg);
+}
+
+.filterButtonActive path {
+  fill: var(--tfp-chart-warning);
+}
+
+.filterButton:first-of-type {
+  border-right: 1px solid var(--ifm-footer-bg-color);
+}
+
+.filterButton:last-of-type {
+  border-left: 1px solid var(--ifm-footer-bg-color);
+}
+
+.genderAgeFilterRow:first-of-type .filterButton {
+  border-bottom: 1px solid var(--ifm-footer-bg-color);
+}
+
+.genderAgeFilterRow:first-of-type .filterButton:first-of-type {
+  border-top-left-radius: 8px;
+}
+
+.genderAgeFilterRow:first-of-type .filterButton:last-of-type {
+  border-top-right-radius: 8px;
+}
+
+.genderAgeFilterRow:last-of-type .filterButton:first-of-type {
+  border-bottom-left-radius: 8px;
+}
+
+.genderAgeFilterRow:last-of-type .filterButton:last-of-type {
+  border-bottom-right-radius: 8px;
+}

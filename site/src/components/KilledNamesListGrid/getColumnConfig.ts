@@ -1,14 +1,16 @@
 import { kig3FieldIndex, type KiG3ColumnKey } from "./types";
 
+export const recordCols: Partial<Record<KiG3ColumnKey, number>> = {};
+kig3FieldIndex.forEach((col, index) => {
+  recordCols[col] = index;
+});
+
 const makeLookups = (columns: ReadonlyArray<KiG3ColumnKey>) => {
   const indices: Partial<Record<KiG3ColumnKey, number>> = {};
   columns.forEach((col, index) => {
     indices[col] = index;
   });
-  const recordCols: Partial<Record<KiG3ColumnKey, number>> = {};
-  kig3FieldIndex.forEach((col, index) => {
-    recordCols[col] = index;
-  });
+
   return { indices, recordCols };
 };
 
