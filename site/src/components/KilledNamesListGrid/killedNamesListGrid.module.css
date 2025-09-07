@@ -13,6 +13,18 @@
   flex-shrink: 1;
 }
 
+.headerColumns {
+  display: flex;
+  gap: 20px;
+}
+
+.headerColumn {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
 .statusRow {
   display: flex;
   flex-direction: row;
@@ -23,6 +35,13 @@
 
 .statusRowSpinner {
   padding-top: 3px;
+}
+
+.filterRow {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 12px;
+  gap: 10px;
 }
 
 .headerCell {

@@ -24,6 +24,7 @@ const rowHeight = 40;
 
 import styles from "./killedNamesListGrid.module.css";
 import { getColumnConfig } from "./getColumnConfig";
+import { FilterRow } from "./components/FilterRow";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -105,8 +106,15 @@ export const KilledNamesListGrid = () => {
 
   return (
     <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
-      <TitleRow loading={loading} />
-      <StatusRow loaded={recordCount} thresholdIndex={thresholdIndex} />
+      <div className={styles.headerColumns}>
+        <div className={styles.headerColumn}>
+          <TitleRow loading={loading} />
+          <StatusRow loaded={recordCount} thresholdIndex={thresholdIndex} />
+        </div>
+        <div className={styles.headerColumn}>
+          <FilterRow />
+        </div>
+      </div>
       <ScrollProgress
         pct={`${Math.min(
           100,

@@ -104,10 +104,6 @@ const config: Config = {
       },
       items: [
         {
-          to: "list",
-          label: "Names",
-        },
-        {
           to: "docs/datasets/",
           label: "Datasets",
         },
