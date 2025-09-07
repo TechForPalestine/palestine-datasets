@@ -1,6 +1,7 @@
 .genderAgeFilters {
   display: flex;
   margin: 10px 0px;
+  flex-direction: column;
 }
 
 .genderAgeFilterRow {
