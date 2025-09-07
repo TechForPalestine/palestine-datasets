@@ -42,7 +42,7 @@ const GenderAgeFilters = ({ selectedFilters, onToggleFilter }: SharedProps) => {
               selectedFilters.includes(btn.type) && styles.filterButtonActive
             )}
           >
-            <PersonIcon {...btn} />
+            <PersonIcon size={30} {...btn} />
           </div>
         ))}
       </div>
@@ -56,7 +56,7 @@ const GenderAgeFilters = ({ selectedFilters, onToggleFilter }: SharedProps) => {
               selectedFilters.includes(btn.type) && styles.filterButtonActive
             )}
           >
-            <PersonIcon {...btn} />
+            <PersonIcon size={30} {...btn} />
           </div>
         ))}
       </div>

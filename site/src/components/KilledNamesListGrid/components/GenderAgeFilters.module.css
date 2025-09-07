@@ -1,4 +1,5 @@
 .genderAgeFilters {
+  display: flex;
   margin: 10px 0px;
 }
 
@@ -19,6 +20,7 @@
 
 .filterButton path {
   fill: var(--ifm-color-primary-darkest);
+  opacity: 0.5;
 }
 
 .filterButtonActive {
@@ -27,6 +29,7 @@
 
 .filterButtonActive path {
   fill: var(--tfp-chart-warning);
+  opacity: 1;
 }
 
 .filterButton:first-of-type {
@@ -55,4 +58,31 @@
 
 .genderAgeFilterRow:last-of-type .filterButton:last-of-type {
   border-bottom-right-radius: 8px;
+}
+
+@media screen and (min-width: 800px) {
+  .genderAgeFilters {
+    flex-direction: row;
+  }
+
+  .genderAgeFilterRow:first-of-type .filterButton:first-of-type {
+    border-bottom-left-radius: 8px;
+  }
+
+  .genderAgeFilterRow:first-of-type .filterButton {
+    border-bottom: 0px;
+  }
+
+  .genderAgeFilterRow:first-of-type .filterButton:last-of-type {
+    border-top-right-radius: 0px;
+    border-right: 1px solid var(--ifm-footer-bg-color);
+  }
+
+  .genderAgeFilterRow:last-of-type .filterButton:first-of-type {
+    border-bottom-left-radius: 0px;
+  }
+
+  .genderAgeFilterRow:last-of-type .filterButton:last-of-type {
+    border-top-right-radius: 8px;
+  }
 }
