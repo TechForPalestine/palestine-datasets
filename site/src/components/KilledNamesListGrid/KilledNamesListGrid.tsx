@@ -35,14 +35,20 @@ export const KilledNamesListGrid = () => {
   const filteredRecords = useRef<PersonRow[]>([]);
   const [recordCount, setRecordCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [selectedFilters, setSelectedFilters] = useState<PersonType[]>([
-    "elderly-man",
-    "elderly-woman",
-    "man",
-    "woman",
-    "boy",
-    "girl",
-  ]);
+  const [filterState, setFilterState] = useState<{
+    filters: PersonType[];
+    filteredCount: number;
+  }>({
+    filteredCount: 0,
+    filters: [
+      "elderly-man",
+      "elderly-woman",
+      "man",
+      "woman",
+      "boy",
+      "girl",
+    ].sort() as PersonType[],
+  });
   const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
 
@@ -112,8 +118,8 @@ export const KilledNamesListGrid = () => {
     [setThresholdIndex, visibleRecords]
   );
 
-  const applyFilters = useCallback(() => {
-    if (selectedFilters.length === 6) {
+  const applyFilters = useCallback((filters: PersonType[]) => {
+    if (filters.length === 6) {
       filteredRecords.current = [];
       return;
     }
@@ -128,19 +134,28 @@ export const KilledNamesListGrid = () => {
       ) {
         return false;
       }
-      return selectedFilters.includes(iconTypeForPerson(age, sex));
+      return filters.includes(iconTypeForPerson(age, sex));
     });
-  }, [selectedFilters]);
+
+    return filteredRecords.current.length;
+  }, []);
 
   const onToggleFilter = useCallback(
     (type: PersonType) => {
-      setSelectedFilters((prev) =>
-        prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-      );
+      setFilterState((prev) => {
+        const newFilters = prev.filters.includes(type)
+          ? prev.filters.filter((t) => t !== type)
+          : [...prev.filters, type].sort();
 
-      applyFilters();
+        const filteredCount = applyFilters(newFilters);
+
+        return {
+          filters: newFilters,
+          filteredCount,
+        };
+      });
     },
-    [setSelectedFilters, applyFilters]
+    [setFilterState, applyFilters]
   );
 
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
@@ -148,7 +163,8 @@ export const KilledNamesListGrid = () => {
   const windowRecords = filteredRecords.current.length
     ? filteredRecords.current
     : records.current;
-  const windowRecordCount = windowRecords.length;
+
+  const windowRecordCount = filterState.filteredCount || recordCount;
 
   return (
     <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
@@ -163,7 +179,7 @@ export const KilledNamesListGrid = () => {
         </div>
         <div className={styles.headerColumn}>
           <FilterRow
-            selectedFilters={selectedFilters}
+            selectedFilters={filterState.filters}
             onToggleFilter={onToggleFilter}
           />
         </div>

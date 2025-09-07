@@ -14,8 +14,9 @@ export const StatusRow = React.memo(
     return (
       <div className={styles.statusRow}>
         <div>
-          Loaded {loaded.toLocaleString()} records
-          {loaded !== windowRecordCount ? " (Filtered)" : ""}
+          {loaded !== windowRecordCount
+            ? `Showing ${windowRecordCount.toLocaleString()} of ${loaded.toLocaleString()}`
+            : `Loaded ${loaded.toLocaleString()} records`}
         </div>
         {typeof thresholdIndex === "number" && (
           <div>• Viewed {thresholdIndex.toLocaleString()}</div>
