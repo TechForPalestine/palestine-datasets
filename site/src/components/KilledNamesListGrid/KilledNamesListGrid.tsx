@@ -32,6 +32,8 @@ import { ScrollButtonBar } from "./components/ScrollButtonBar";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
+  const headerRef = useRef(null);
+  const tableHeaderRef = useRef(null);
   const gridRef = useGridRef(null);
   const visibleRecords = useRef(0);
   const recordsVisibleInWindowViewport = useRef(0);
@@ -39,6 +41,7 @@ export const KilledNamesListGrid = () => {
   const records = useRef<PersonRow[]>([]);
   const filteredRecords = useRef<PersonRow[]>([]);
   const [recordCount, setRecordCount] = useState(0);
+  const [resized, setResized] = useState(0);
   const [loading, setLoading] = useState(true);
   const [filterState, setFilterState] = useState<{
     nameSearch: string;
@@ -77,13 +80,20 @@ export const KilledNamesListGrid = () => {
 
   const calcLayout = useCallback(() => {
     if (elementRef.current) {
+      const mainHeight = elementRef.current.offsetHeight;
+      const navDisplacement = elementRef.current.getBoundingClientRect().y ?? 0;
+      const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
+      const headerRefHeight = headerRef?.current?.offsetHeight ?? 0;
+      const gridHeight =
+        mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
+
       setDimensions({
         width: elementRef.current.offsetWidth,
-        height: elementRef.current.offsetHeight,
+        height: gridHeight,
       });
 
-      recordsVisibleInWindowViewport.current = Math.ceil(
-        elementRef.current.offsetHeight / rowHeight
+      recordsVisibleInWindowViewport.current = Math.floor(
+        gridHeight / rowHeight
       );
 
       setColumnConfig(getColumnConfig(elementRef.current.offsetWidth));
@@ -91,9 +101,19 @@ export const KilledNamesListGrid = () => {
   }, [setDimensions, elementRef]);
 
   useEffect(() => {
+    // run layout calcs after resize event resets dimensions state
+    // to ensure our calculations are the same as on fresh mount
+    calcLayout();
+    visibleRecords.current = recordsVisibleInWindowViewport.current;
+    setThresholdIndex(recordsVisibleInWindowViewport.current);
+    gridRef.current?.scrollToRow({ index: 0 });
+  }, [resized]);
+
+  useEffect(() => {
     if (typeof window !== "object") return;
     window.onresize = debounce(() => {
-      calcLayout();
+      setDimensions({ width: 0, height: 0 });
+      setResized((r) => r + 1);
     }, resizeUpdateInterval);
   }, [calcLayout]);
 
@@ -216,8 +236,8 @@ export const KilledNamesListGrid = () => {
     windowRecordCount === recordCount;
 
   return (
-    <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
-      <div className={styles.headerColumns}>
+    <main ref={elementRef} className={styles.main}>
+      <div ref={headerRef} className={styles.headerColumns}>
         <div className={styles.headerColumn}>
           <TitleRow loading={loading} />
           <StatusRow
@@ -243,10 +263,12 @@ export const KilledNamesListGrid = () => {
       <div className={styles.gridConstraint}>
         {showGrid && (
           <>
-            <Header
-              parentWidth={dimensions.width}
-              columnConfig={columnConfig}
-            />
+            <div ref={tableHeaderRef}>
+              <Header
+                parentWidth={dimensions.width}
+                columnConfig={columnConfig}
+              />
+            </div>
             <Grid
               gridRef={gridRef}
               className={styles.gridContainer}
