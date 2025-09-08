@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Grid } from "react-window";
+import { Grid, useGridRef } from "react-window";
 import debounce from "lodash.debounce";
 import { PersonRow, PersonType } from "./types";
 import { startWorker } from "./startWorker";
@@ -28,10 +28,13 @@ import { getColumnConfig, recordCols } from "./getColumnConfig";
 import { FilterRow } from "./components/FilterRow";
 import { iconTypeForPerson, sexIsValid } from "../../lib/age-icon";
 import clsx from "clsx";
+import { ScrollButtonBar } from "./components/ScrollButtonBar";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
+  const gridRef = useGridRef(null);
   const visibleRecords = useRef(0);
+  const recordsVisibleInWindowViewport = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const records = useRef<PersonRow[]>([]);
   const filteredRecords = useRef<PersonRow[]>([]);
@@ -79,6 +82,10 @@ export const KilledNamesListGrid = () => {
         height: elementRef.current.offsetHeight,
       });
 
+      recordsVisibleInWindowViewport.current = Math.ceil(
+        elementRef.current.offsetHeight / rowHeight
+      );
+
       setColumnConfig(getColumnConfig(elementRef.current.offsetWidth));
     }
   }, [setDimensions, elementRef]);
@@ -95,11 +102,8 @@ export const KilledNamesListGrid = () => {
       calcLayout();
 
       if (!thresholdIndex) {
-        const recordsVisibleInWindowViewport = Math.ceil(
-          elementRef.current.offsetHeight / rowHeight
-        );
-        visibleRecords.current = recordsVisibleInWindowViewport;
-        setThresholdIndex(recordsVisibleInWindowViewport);
+        visibleRecords.current = recordsVisibleInWindowViewport.current;
+        setThresholdIndex(recordsVisibleInWindowViewport.current);
       }
     }
   }, []);
@@ -196,6 +200,10 @@ export const KilledNamesListGrid = () => {
     [setFilterState]
   );
 
+  const onButtonScrolled = () => {
+    setThresholdIndex(0);
+  };
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -240,6 +248,7 @@ export const KilledNamesListGrid = () => {
               columnConfig={columnConfig}
             />
             <Grid
+              gridRef={gridRef}
               className={styles.gridContainer}
               onCellsRendered={onCellsRendered}
               style={{ width: dimensions.width, height: dimensions.height }}
@@ -256,6 +265,15 @@ export const KilledNamesListGrid = () => {
                 recordCount: windowRecordCount,
                 columnConfig,
               }}
+            />
+            <ScrollButtonBar
+              gridRef={gridRef}
+              thresholdIndex={thresholdIndex}
+              maxRowIndex={windowRecordCount}
+              recordsVisibleInWindowViewport={
+                recordsVisibleInWindowViewport.current
+              }
+              onButtonScrolled={onButtonScrolled}
             />
           </>
         )}

@@ -18,7 +18,7 @@ export const StatusRow = React.memo(
             ? `Showing ${windowRecordCount.toLocaleString()} of ${loaded.toLocaleString()}`
             : `Loaded ${loaded.toLocaleString()} records`}
         </div>
-        {typeof thresholdIndex === "number" && (
+        {!!loaded && typeof thresholdIndex === "number" && !!thresholdIndex && (
           <div>• Viewed {thresholdIndex.toLocaleString()}</div>
         )}
       </div>
