@@ -18,6 +18,7 @@ import { ScrollProgress } from "./components/ScrollProgress";
 
 const recordUpdateInterval = 100;
 const frameRangeUpdateInterval = 0;
+const searchInputUpdateInterval = 300;
 const resizeUpdateInterval = 200;
 const overscanRecordCount = 40;
 const rowHeight = 40;
@@ -36,9 +37,11 @@ export const KilledNamesListGrid = () => {
   const [recordCount, setRecordCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [filterState, setFilterState] = useState<{
+    nameSearch: string;
     filters: PersonType[];
     filteredCount: number;
   }>({
+    nameSearch: "",
     filteredCount: 0,
     filters: [
       "elderly-man",
@@ -118,27 +121,44 @@ export const KilledNamesListGrid = () => {
     [setThresholdIndex, visibleRecords]
   );
 
-  const applyFilters = useCallback((filters: PersonType[]) => {
-    if (filters.length === 6) {
-      filteredRecords.current = [];
-      return;
-    }
-
-    filteredRecords.current = records.current.filter((row) => {
-      const age = row[recordCols.age];
-      const sex = row[recordCols.sex];
-      if (
-        typeof age !== "number" ||
-        typeof sex === "number" ||
-        (typeof sex === "string" && !sexIsValid(sex))
-      ) {
-        return false;
+  const applyFilters = useCallback(
+    (filters: PersonType[], nameSearch: string) => {
+      if (filters.length === 6 && !nameSearch.length) {
+        filteredRecords.current = [];
+        return;
       }
-      return filters.includes(iconTypeForPerson(age, sex));
-    });
 
-    return filteredRecords.current.length;
-  }, []);
+      filteredRecords.current = records.current.filter((row) => {
+        const age = row[recordCols.age];
+        const sex = row[recordCols.sex];
+        if (
+          typeof age !== "number" ||
+          typeof sex === "number" ||
+          (typeof sex === "string" && !sexIsValid(sex))
+        ) {
+          return false;
+        }
+
+        let hasNameMatch = true;
+
+        if (nameSearch.length) {
+          const arName = row[recordCols.ar_name];
+          const enName = row[recordCols.en_name];
+          if (typeof arName !== "string" || typeof enName !== "string") {
+            return false;
+          }
+          hasNameMatch =
+            arName.toLowerCase().includes(nameSearch) ||
+            enName.toLowerCase().includes(nameSearch);
+        }
+
+        return hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
+      });
+
+      return filteredRecords.current.length;
+    },
+    []
+  );
 
   const onToggleFilter = useCallback(
     (type: PersonType) => {
@@ -147,15 +167,32 @@ export const KilledNamesListGrid = () => {
           ? prev.filters.filter((t) => t !== type)
           : [...prev.filters, type].sort();
 
-        const filteredCount = applyFilters(newFilters);
+        const filteredCount = applyFilters(newFilters, prev.nameSearch);
 
         return {
+          nameSearch: prev.nameSearch,
           filters: newFilters,
           filteredCount,
         };
       });
     },
     [setFilterState, applyFilters]
+  );
+
+  const onSearchInputChange = useCallback(
+    debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+      const query = e.target.value.trim().toLowerCase();
+      setFilterState((prev) => {
+        const filteredCount = applyFilters(prev.filters, query);
+
+        return {
+          nameSearch: query,
+          filters: prev.filters,
+          filteredCount,
+        };
+      });
+    }, searchInputUpdateInterval),
+    [setFilterState]
   );
 
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
@@ -181,6 +218,7 @@ export const KilledNamesListGrid = () => {
           <FilterRow
             selectedFilters={filterState.filters}
             onToggleFilter={onToggleFilter}
+            onSearchInputChange={onSearchInputChange}
           />
         </div>
       </div>

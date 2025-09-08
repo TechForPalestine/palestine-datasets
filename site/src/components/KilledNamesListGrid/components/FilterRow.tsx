@@ -1,72 +1,28 @@
-import clsx from "clsx";
-import { PersonIcon } from "../../KilledHeaderMarquee/PersonIcon";
-import styles from "./GenderAgeFilters.module.css";
-import { personHints, PersonIconProps, PersonType } from "../types";
+import { SearchIcon } from "../../SearchIcon";
+import styles from "./FilterRow.module.css";
+import { GenderAgeFilters } from "./GenderAgeFilters";
+import { SharedProps } from "./shared.types";
 
-const filterButtons: PersonIconProps[] = [
-  {
-    type: "elderly-woman",
-  },
-  {
-    type: "elderly-man",
-  },
-  {
-    type: "woman",
-  },
-  {
-    type: "man",
-  },
-  {
-    type: "girl",
-  },
-  {
-    type: "boy",
-  },
-];
-
-interface SharedProps {
-  selectedFilters: PersonType[];
-  onToggleFilter: (type: PersonType) => void;
+interface FilterRowProps extends SharedProps {
+  onSearchInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const GenderAgeFilters = ({ selectedFilters, onToggleFilter }: SharedProps) => {
-  return (
-    <div className={styles.genderAgeFilters}>
-      <div className={styles.genderAgeFilterRow}>
-        {filterButtons.slice(0, 3).map((btn) => (
-          <div
-            onClick={() => onToggleFilter(btn.type)}
-            title={personHints[btn.type]}
-            className={clsx(
-              styles.filterButton,
-              selectedFilters.includes(btn.type) && styles.filterButtonActive
-            )}
-          >
-            <PersonIcon size={30} {...btn} />
-          </div>
-        ))}
-      </div>
-      <div className={styles.genderAgeFilterRow}>
-        {filterButtons.slice(3, 6).map((btn) => (
-          <div
-            onClick={() => onToggleFilter(btn.type)}
-            title={personHints[btn.type]}
-            className={clsx(
-              styles.filterButton,
-              selectedFilters.includes(btn.type) && styles.filterButtonActive
-            )}
-          >
-            <PersonIcon size={30} {...btn} />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export const FilterRow = ({ selectedFilters, onToggleFilter }: SharedProps) => {
+export const FilterRow = ({
+  selectedFilters,
+  onToggleFilter,
+  onSearchInputChange,
+}: FilterRowProps) => {
   return (
     <div className={styles.filterRow}>
+      <div className={styles.inputContainer}>
+        <input
+          onChange={onSearchInputChange}
+          className={styles.searchInput}
+          placeholder="Search names..."
+          type="text"
+        />
+        <SearchIcon size={24} />
+      </div>
       <GenderAgeFilters
         selectedFilters={selectedFilters}
         onToggleFilter={onToggleFilter}
