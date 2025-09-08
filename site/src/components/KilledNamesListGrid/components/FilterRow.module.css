@@ -58,7 +58,7 @@
 @media screen and (max-width: 1050px) {
   .inputContainer {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     position: absolute;
     top: 0;
@@ -68,15 +68,15 @@
     display: none;
   }
 
-  .inputContainer.active {
-    display: inline-block;
+  .inputContainerActive {
+    display: flex;
   }
 
   .input {
-    width: 100%;
+    width: 80%;
   }
 
   input {
-    width: 80%;
+    width: 100%;
   }
 }

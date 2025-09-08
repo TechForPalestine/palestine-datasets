@@ -3,6 +3,7 @@ import { PersonIcon } from "../../KilledHeaderMarquee/PersonIcon";
 import styles from "./GenderAgeFilters.module.css";
 import { personHints, PersonIconProps, PersonType } from "../types";
 import { SharedProps } from "./shared.types";
+import { SearchIcon } from "../../SearchIcon";
 
 const filterButtons: PersonIconProps[] = [
   {
@@ -25,28 +26,28 @@ const filterButtons: PersonIconProps[] = [
   },
 ];
 
+interface GenderAgeFiltersProps extends SharedProps {
+  onPressSearchExpand: () => void;
+}
+
 export const GenderAgeFilters = ({
   selectedFilters,
+  onPressSearchExpand,
   onToggleFilter,
-}: SharedProps) => {
+}: GenderAgeFiltersProps) => {
   return (
     <div className={styles.genderAgeFilters}>
-      <div className={styles.genderAgeFilterRow}>
-        {filterButtons.slice(0, 3).map((btn) => (
-          <div
-            onClick={() => onToggleFilter(btn.type)}
-            title={personHints[btn.type]}
-            className={clsx(
-              styles.filterButton,
-              selectedFilters.includes(btn.type) && styles.filterButtonActive
-            )}
-          >
-            <PersonIcon size={30} {...btn} />
-          </div>
-        ))}
+      <div className={styles.filterSearchContainer}>
+        <div
+          onClick={onPressSearchExpand}
+          title="Show name search input"
+          className={clsx(styles.filterSearchButton)}
+        >
+          <SearchIcon size={30} />
+        </div>
       </div>
       <div className={styles.genderAgeFilterRow}>
-        {filterButtons.slice(3, 6).map((btn) => (
+        {filterButtons.map((btn) => (
           <div
             onClick={() => onToggleFilter(btn.type)}
             title={personHints[btn.type]}
