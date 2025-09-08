@@ -83,7 +83,7 @@ export const Cell = ({
         record={record}
         hide={columnIndex !== columnConfig.indices.en_name}
       />
-      {cellContent}
+      <div className={styles.cellText}>{cellContent}</div>
     </div>
   );
 };

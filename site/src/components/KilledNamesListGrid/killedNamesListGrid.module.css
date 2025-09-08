@@ -45,6 +45,22 @@
   }
 }
 
+@media screen and (max-width: 725px) {
+  .headerColumn:first-of-type {
+    width: 100%;
+    align-items: center;
+  }
+  .headerColumn:last-of-type {
+    width: 100%;
+    align-items: center;
+  }
+  .headerColumns {
+    flex-direction: column;
+    gap: 0px;
+    padding-bottom: 10px;
+  }
+}
+
 .statusRow {
   display: flex;
   flex-direction: row;
@@ -75,6 +91,13 @@
   position: relative;
   padding: 4px 10px;
   border-bottom: 1px solid var(--ifm-footer-bg-color);
+}
+
+.cellText {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .englishNameCell {
