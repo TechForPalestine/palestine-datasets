@@ -26,7 +26,7 @@
   width: 50%;
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: 1170px) {
   .headerColumn:first-of-type {
     width: 40%;
   }
@@ -98,6 +98,30 @@
 .scrollProgressBar {
   height: 2px;
   background-color: var(--ifm-color-primary);
+}
+
+.gridConstraint {
+  position: relative;
+}
+
+.noSearchMatches {
+  flex-direction: column;
+  gap: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(20, 20, 20, 0.95);
+}
+
+[data-theme="light"] {
+  .noSearchMatches {
+    background-color: rgba(220, 220, 220, 0.95);
+  }
 }
 
 .gridContainer::-webkit-scrollbar {

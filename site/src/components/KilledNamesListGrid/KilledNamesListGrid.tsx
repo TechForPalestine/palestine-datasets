@@ -202,6 +202,9 @@ export const KilledNamesListGrid = () => {
     : records.current;
 
   const windowRecordCount = filterState.filteredCount || recordCount;
+  const noSearchMatches =
+    filterState.nameSearch.trim().length > 0 &&
+    windowRecordCount === recordCount;
 
   return (
     <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
@@ -228,29 +231,43 @@ export const KilledNamesListGrid = () => {
           Math.round((thresholdIndex / windowRecordCount) * 1000) / 10
         )}%`}
       />
-      {showGrid && (
-        <>
-          <Header parentWidth={dimensions.width} columnConfig={columnConfig} />
-          <Grid
-            className={styles.gridContainer}
-            onCellsRendered={onCellsRendered}
-            style={{ width: dimensions.width, height: dimensions.height }}
-            columnCount={columnConfig.columns.length}
-            columnWidth={(index) =>
-              dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
-            }
-            rowCount={windowRecordCount + 1} // +1 for the header row
-            rowHeight={rowHeight}
-            overscanCount={overscanRecordCount}
-            cellComponent={Cell}
-            cellProps={{
-              records: windowRecords,
-              recordCount: windowRecordCount,
-              columnConfig,
-            }}
-          />
-        </>
-      )}
+      <div className={styles.gridConstraint}>
+        {showGrid && (
+          <>
+            <Header
+              parentWidth={dimensions.width}
+              columnConfig={columnConfig}
+            />
+            <Grid
+              className={styles.gridContainer}
+              onCellsRendered={onCellsRendered}
+              style={{ width: dimensions.width, height: dimensions.height }}
+              columnCount={columnConfig.columns.length}
+              columnWidth={(index) =>
+                dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
+              }
+              rowCount={windowRecordCount + 1} // +1 for the header row
+              rowHeight={rowHeight}
+              overscanCount={overscanRecordCount}
+              cellComponent={Cell}
+              cellProps={{
+                records: windowRecords,
+                recordCount: windowRecordCount,
+                columnConfig,
+              }}
+            />
+          </>
+        )}
+        {noSearchMatches && (
+          <div className={styles.noSearchMatches}>
+            <div>No matches found. Try adjusting your search or filters.</div>
+            <div className={styles.noSearchMatchesHint}>
+              (you may need to try alternate spellings when searching in
+              English)
+            </div>
+          </div>
+        )}
+      </div>
     </main>
   );
 };
