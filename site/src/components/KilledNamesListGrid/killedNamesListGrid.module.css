@@ -1,5 +1,5 @@
 .titleRow {
-  color: var(--ifm-color-primary-darkest);
+  color: var(--tfp-chart-warning);
   font-size: 24px;
   font-weight: 500;
   padding: 10px 12px 0 12px;
@@ -24,6 +24,25 @@
   flex-grow: 1;
   justify-content: center;
   width: 50%;
+}
+
+@media screen and (max-width: 1120px) {
+  .headerColumn:first-of-type {
+    width: 40%;
+  }
+  .headerColumn:last-of-type {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .headerColumn:first-of-type {
+    width: 50%;
+  }
+  .headerColumn:last-of-type {
+    position: relative; /* constrain abs-pos search input */
+    width: 50%;
+  }
 }
 
 .statusRow {

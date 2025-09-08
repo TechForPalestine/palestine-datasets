@@ -20,6 +20,10 @@
   opacity: 0.5;
 }
 
+.input {
+  position: relative;
+}
+
 .searchInput {
   min-height: 50px;
   border-radius: 8px;
@@ -33,5 +37,31 @@
 [data-theme="light"] {
   .searchInput {
     background-color: #eee;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .inputContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+  }
+
+  .inputContainer.active {
+    display: inline-block;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  input {
+    width: 80%;
   }
 }

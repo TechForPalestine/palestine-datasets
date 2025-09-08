@@ -15,13 +15,15 @@ export const FilterRow = ({
   return (
     <div className={styles.filterRow}>
       <div className={styles.inputContainer}>
-        <input
-          onChange={onSearchInputChange}
-          className={styles.searchInput}
-          placeholder="Search names..."
-          type="text"
-        />
-        <SearchIcon size={24} />
+        <div className={styles.input}>
+          <input
+            onChange={onSearchInputChange}
+            className={styles.searchInput}
+            placeholder="Search names..."
+            type="text"
+          />
+          <SearchIcon size={24} />
+        </div>
       </div>
       <GenderAgeFilters
         selectedFilters={selectedFilters}
