@@ -105,8 +105,6 @@ export const KilledNamesListGrid = () => {
     // to ensure our calculations are the same as on fresh mount
     calcLayout();
     visibleRecords.current = recordsVisibleInWindowViewport.current;
-    setThresholdIndex(recordsVisibleInWindowViewport.current);
-    gridRef.current?.scrollToRow({ index: 0 });
   }, [resized]);
 
   useEffect(() => {
