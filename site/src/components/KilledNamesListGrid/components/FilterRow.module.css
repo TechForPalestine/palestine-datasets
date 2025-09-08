@@ -1,0 +1,97 @@
+.filterRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.searchIcon svg {
+  position: absolute;
+  left: 5px;
+  top: 25%;
+}
+
+.searchIcon path {
+  fill: var(--ifm-color-footer-bg-color);
+  opacity: 0.5;
+}
+
+.cancelSearchIcon svg {
+  position: absolute;
+  right: 7px;
+  top: 29%;
+  cursor: pointer;
+  display: none;
+}
+
+.cancelSearchIconActive svg {
+  display: inline-block;
+}
+
+.cancelSearchIconActive path {
+  fill: var(--ifm-color-primary);
+}
+
+.input {
+  position: relative;
+}
+
+.searchInput {
+  min-height: 50px;
+  border-radius: 8px;
+  padding: 10px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 0px;
+}
+
+[data-theme="light"] {
+  .searchInput {
+    background-color: #eee;
+  }
+}
+
+.hideFilters {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 1050px) {
+  .inputContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+  }
+
+  .inputContainerActive {
+    display: flex;
+  }
+
+  .input {
+    width: 80%;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 725px) {
+  .inputContainer {
+    justify-content: center;
+  }
+
+  .input {
+    width: 60%;
+  }
+}

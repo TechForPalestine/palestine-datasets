@@ -1,0 +1,36 @@
+.bar {
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+
+.button {
+  cursor: pointer;
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 8px;
+  background-color: var(--ifm-color-primary-darkest);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.button svg {
+  position: relative;
+  left: -1px;
+}
+
+[data-theme="light"] {
+  .button path {
+    stroke: #eee;
+  }
+
+  .button {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--ifm-color-primary-lightest);
+  }
+}

@@ -1,0 +1,71 @@
+.genderAgeFilters {
+  display: flex;
+  margin: 10px 0px;
+  flex-direction: row;
+}
+
+.genderAgeFilterRow {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.filterSearchContainer {
+  margin-right: 10px;
+  display: none;
+}
+
+@media screen and (max-width: 1050px) {
+  .filterSearchContainer {
+    display: inline-block;
+  }
+}
+
+.filterSearchButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  min-height: 50px;
+  background-color: var(--ifm-navbar-background-color);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.filterSearchButton path {
+  fill: var(--ifm-color-primary-darkest);
+  opacity: 0.5;
+}
+
+.filterButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  min-height: 50px;
+  background-color: var(--ifm-navbar-background-color);
+  cursor: pointer;
+}
+
+.filterButton path {
+  fill: var(--ifm-color-primary-darkest);
+  opacity: 0.5;
+}
+
+.filterButtonActive {
+  background-color: var(--tfp-chart-warning-bg);
+}
+
+.filterButtonActive path {
+  fill: var(--tfp-chart-warning);
+  opacity: 1;
+}
+
+.filterButton {
+  border-right: 1px solid var(--ifm-footer-bg-color);
+}
+
+.filterButton:last-of-type {
+  border-right: 0px;
+}

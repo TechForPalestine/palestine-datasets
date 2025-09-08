@@ -1,5 +1,9 @@
 import { PersonIconType } from "../components/KilledHeaderMarquee/PersonIcon";
 
+export const sexIsValid = (sex: string): sex is "m" | "f" => {
+  return ["f", "m"].includes(sex as any);
+};
+
 export const iconTypeForPerson = (
   age: number,
   sex: "m" | "f"

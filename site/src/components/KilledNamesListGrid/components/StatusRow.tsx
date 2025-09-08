@@ -2,11 +2,23 @@ import React from "react";
 import styles from "../killedNamesListGrid.module.css";
 
 export const StatusRow = React.memo(
-  ({ loaded, thresholdIndex }: { loaded: number; thresholdIndex: number }) => {
+  ({
+    loaded,
+    thresholdIndex,
+    windowRecordCount,
+  }: {
+    loaded: number;
+    thresholdIndex: number;
+    windowRecordCount: number;
+  }) => {
     return (
       <div className={styles.statusRow}>
-        <div>Loaded {loaded.toLocaleString()} records</div>
-        {typeof thresholdIndex === "number" && (
+        <div>
+          {loaded !== windowRecordCount
+            ? `Showing ${windowRecordCount.toLocaleString()} of ${loaded.toLocaleString()}`
+            : `Loaded ${loaded.toLocaleString()} records`}
+        </div>
+        {!!loaded && typeof thresholdIndex === "number" && !!thresholdIndex && (
           <div>• Viewed {thresholdIndex.toLocaleString()}</div>
         )}
       </div>

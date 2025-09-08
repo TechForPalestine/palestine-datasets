@@ -1,30 +1,24 @@
 import { kig3FieldIndex, type KiG3ColumnKey } from "./types";
 
+export const recordCols: Partial<Record<KiG3ColumnKey, number>> = {};
+kig3FieldIndex.forEach((col, index) => {
+  recordCols[col] = index;
+});
+
 const makeLookups = (columns: ReadonlyArray<KiG3ColumnKey>) => {
   const indices: Partial<Record<KiG3ColumnKey, number>> = {};
   columns.forEach((col, index) => {
     indices[col] = index;
   });
-  const recordCols: Partial<Record<KiG3ColumnKey, number>> = {};
-  kig3FieldIndex.forEach((col, index) => {
-    recordCols[col] = index;
-  });
+
   return { indices, recordCols };
 };
 
 const getFullDesktopConfig = () => {
-  const columns: ReadonlyArray<KiG3ColumnKey> = kig3FieldIndex;
-  const colWeights = [1, 2, 3, 0.5, 1, 0.5, 0.5];
-  const colWeightSum = colWeights.reduce((a, b) => a + b, 0);
-  const colWeightShare = colWeights.map((w) => w / colWeightSum);
-  return { columns, colWeightShare, ...makeLookups(columns) };
-};
-
-const getSmallDesktopTabletConfig = () => {
   const omit = ["update"];
   const columns = kig3FieldIndex.filter((c) => !omit.includes(c));
   // id, name, name, age, dob, sex
-  const colWeights = [1, 2, 3, 0.5, 1, 0.5];
+  const colWeights = [1, 1.5, 3, 0.5, 1, 0.5];
   const colWeightSum = colWeights.reduce((a, b) => a + b, 0);
   const colWeightShare = colWeights.map((w) => w / colWeightSum);
   return { columns, colWeightShare, ...makeLookups(columns) };
@@ -85,10 +79,6 @@ export const getColumnConfig = (width: number) => {
 
   if (width < 1050) {
     return getTabletConfig();
-  }
-
-  if (width < 1200) {
-    return getSmallDesktopTabletConfig();
   }
 
   return getFullDesktopConfig();

@@ -5,9 +5,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { Grid } from "react-window";
+import { Grid, useGridRef } from "react-window";
 import debounce from "lodash.debounce";
-import { PersonRow } from "./types";
+import { PersonRow, PersonType } from "./types";
 import { startWorker } from "./startWorker";
 import { Cell } from "./components/Cell";
 import { Header } from "./components/Header";
@@ -18,21 +18,44 @@ import { ScrollProgress } from "./components/ScrollProgress";
 
 const recordUpdateInterval = 100;
 const frameRangeUpdateInterval = 0;
+const searchInputUpdateInterval = 300;
 const resizeUpdateInterval = 200;
 const overscanRecordCount = 40;
 const rowHeight = 40;
 
 import styles from "./killedNamesListGrid.module.css";
-import { getColumnConfig } from "./getColumnConfig";
+import { getColumnConfig, recordCols } from "./getColumnConfig";
 import { FilterRow } from "./components/FilterRow";
+import { iconTypeForPerson, sexIsValid } from "../../lib/age-icon";
+import clsx from "clsx";
+import { ScrollButtonBar } from "./components/ScrollButtonBar";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
+  const gridRef = useGridRef(null);
   const visibleRecords = useRef(0);
+  const recordsVisibleInWindowViewport = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const records = useRef<PersonRow[]>([]);
+  const filteredRecords = useRef<PersonRow[]>([]);
   const [recordCount, setRecordCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [filterState, setFilterState] = useState<{
+    nameSearch: string;
+    filters: PersonType[];
+    filteredCount: number;
+  }>({
+    nameSearch: "",
+    filteredCount: 0,
+    filters: [
+      "elderly-man",
+      "elderly-woman",
+      "man",
+      "woman",
+      "boy",
+      "girl",
+    ].sort() as PersonType[],
+  });
   const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
 
@@ -59,6 +82,10 @@ export const KilledNamesListGrid = () => {
         height: elementRef.current.offsetHeight,
       });
 
+      recordsVisibleInWindowViewport.current = Math.ceil(
+        elementRef.current.offsetHeight / rowHeight
+      );
+
       setColumnConfig(getColumnConfig(elementRef.current.offsetWidth));
     }
   }, [setDimensions, elementRef]);
@@ -75,11 +102,8 @@ export const KilledNamesListGrid = () => {
       calcLayout();
 
       if (!thresholdIndex) {
-        const recordsVisibleInWindowViewport = Math.ceil(
-          elementRef.current.offsetHeight / rowHeight
-        );
-        visibleRecords.current = recordsVisibleInWindowViewport;
-        setThresholdIndex(recordsVisibleInWindowViewport);
+        visibleRecords.current = recordsVisibleInWindowViewport.current;
+        setThresholdIndex(recordsVisibleInWindowViewport.current);
       }
     }
   }, []);
@@ -102,44 +126,168 @@ export const KilledNamesListGrid = () => {
     [setThresholdIndex, visibleRecords]
   );
 
+  const applyFilters = useCallback(
+    (filters: PersonType[], nameSearch: string) => {
+      if (filters.length === 6 && !nameSearch.length) {
+        filteredRecords.current = [];
+        return;
+      }
+
+      filteredRecords.current = records.current.filter((row) => {
+        const age = row[recordCols.age];
+        const sex = row[recordCols.sex];
+        if (
+          typeof age !== "number" ||
+          typeof sex === "number" ||
+          (typeof sex === "string" && !sexIsValid(sex))
+        ) {
+          return false;
+        }
+
+        let hasNameMatch = true;
+
+        if (nameSearch.length) {
+          const arName = row[recordCols.ar_name];
+          const enName = row[recordCols.en_name];
+          if (typeof arName !== "string" || typeof enName !== "string") {
+            return false;
+          }
+          hasNameMatch =
+            arName.toLowerCase().includes(nameSearch) ||
+            enName.toLowerCase().includes(nameSearch);
+        }
+
+        return hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
+      });
+
+      return filteredRecords.current.length;
+    },
+    []
+  );
+
+  const onToggleFilter = useCallback(
+    (type: PersonType) => {
+      setFilterState((prev) => {
+        const newFilters = prev.filters.includes(type)
+          ? prev.filters.filter((t) => t !== type)
+          : [...prev.filters, type].sort();
+
+        const filteredCount = applyFilters(newFilters, prev.nameSearch);
+
+        return {
+          nameSearch: prev.nameSearch,
+          filters: newFilters,
+          filteredCount,
+        };
+      });
+    },
+    [setFilterState, applyFilters]
+  );
+
+  const onSearchInputChange = useCallback(
+    debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+      const query = e.target.value.trim().toLowerCase();
+      setFilterState((prev) => {
+        const filteredCount = applyFilters(prev.filters, query);
+
+        return {
+          nameSearch: query,
+          filters: prev.filters,
+          filteredCount,
+        };
+      });
+    }, searchInputUpdateInterval),
+    [setFilterState]
+  );
+
+  const onButtonScrolled = () => {
+    setThresholdIndex(0);
+  };
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
+
+  const windowRecords = filteredRecords.current.length
+    ? filteredRecords.current
+    : records.current;
+
+  const windowRecordCount = filterState.filteredCount || recordCount;
+  const noSearchMatches =
+    filterState.nameSearch.trim().length > 0 &&
+    windowRecordCount === recordCount;
 
   return (
     <main ref={elementRef} style={{ flex: 1, minHeight: "80vh" }}>
       <div className={styles.headerColumns}>
         <div className={styles.headerColumn}>
           <TitleRow loading={loading} />
-          <StatusRow loaded={recordCount} thresholdIndex={thresholdIndex} />
+          <StatusRow
+            loaded={recordCount}
+            windowRecordCount={windowRecordCount}
+            thresholdIndex={thresholdIndex}
+          />
         </div>
         <div className={styles.headerColumn}>
-          <FilterRow />
+          <FilterRow
+            selectedFilters={filterState.filters}
+            onToggleFilter={onToggleFilter}
+            onSearchInputChange={onSearchInputChange}
+          />
         </div>
       </div>
       <ScrollProgress
         pct={`${Math.min(
           100,
-          Math.round((thresholdIndex / recordCount) * 1000) / 10
+          Math.round((thresholdIndex / windowRecordCount) * 1000) / 10
         )}%`}
       />
-      {showGrid && (
-        <>
-          <Header parentWidth={dimensions.width} columnConfig={columnConfig} />
-          <Grid
-            className={styles.gridContainer}
-            onCellsRendered={onCellsRendered}
-            style={{ width: dimensions.width, height: dimensions.height }}
-            columnCount={columnConfig.columns.length}
-            columnWidth={(index) =>
-              dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
-            }
-            rowCount={recordCount + 1} // +1 for the header row
-            rowHeight={rowHeight}
-            overscanCount={overscanRecordCount}
-            cellComponent={Cell}
-            cellProps={{ records: records.current, recordCount, columnConfig }}
-          />
-        </>
-      )}
+      <div className={styles.gridConstraint}>
+        {showGrid && (
+          <>
+            <Header
+              parentWidth={dimensions.width}
+              columnConfig={columnConfig}
+            />
+            <Grid
+              gridRef={gridRef}
+              className={styles.gridContainer}
+              onCellsRendered={onCellsRendered}
+              style={{ width: dimensions.width, height: dimensions.height }}
+              columnCount={columnConfig.columns.length}
+              columnWidth={(index) =>
+                dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
+              }
+              rowCount={windowRecordCount + 1} // +1 for the header row
+              rowHeight={rowHeight}
+              overscanCount={overscanRecordCount}
+              cellComponent={Cell}
+              cellProps={{
+                records: windowRecords,
+                recordCount: windowRecordCount,
+                columnConfig,
+              }}
+            />
+            <ScrollButtonBar
+              gridRef={gridRef}
+              thresholdIndex={thresholdIndex}
+              maxRowIndex={windowRecordCount}
+              recordsVisibleInWindowViewport={
+                recordsVisibleInWindowViewport.current
+              }
+              onButtonScrolled={onButtonScrolled}
+            />
+          </>
+        )}
+        {noSearchMatches && (
+          <div className={clsx(styles.gridOverlay, styles.noSearchMatches)}>
+            <div>No matches found. Try adjusting your search or filters.</div>
+            <div className={styles.noSearchMatchesHint}>
+              (you may need to try alternate spellings when searching in
+              English)
+            </div>
+          </div>
+        )}
+        {loading && <div className={styles.gridOverlay}>Loading names...</div>}
+      </div>
     </main>
   );
 };
