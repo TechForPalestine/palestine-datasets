@@ -27,6 +27,7 @@ import styles from "./killedNamesListGrid.module.css";
 import { getColumnConfig, recordCols } from "./getColumnConfig";
 import { FilterRow } from "./components/FilterRow";
 import { iconTypeForPerson, sexIsValid } from "../../lib/age-icon";
+import clsx from "clsx";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -259,7 +260,7 @@ export const KilledNamesListGrid = () => {
           </>
         )}
         {noSearchMatches && (
-          <div className={styles.noSearchMatches}>
+          <div className={clsx(styles.gridOverlay, styles.noSearchMatches)}>
             <div>No matches found. Try adjusting your search or filters.</div>
             <div className={styles.noSearchMatchesHint}>
               (you may need to try alternate spellings when searching in
@@ -267,6 +268,7 @@ export const KilledNamesListGrid = () => {
             </div>
           </div>
         )}
+        {loading && <div className={styles.gridOverlay}>Loading names...</div>}
       </div>
     </main>
   );

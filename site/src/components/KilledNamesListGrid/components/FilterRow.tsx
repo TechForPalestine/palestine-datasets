@@ -71,19 +71,21 @@ export const FilterRow = ({
             onClick={handleInputClear}
             className={clsx(
               styles.cancelSearchIcon,
-              searchValue.trim().length > 0 ||
-                (searchExpanded && styles.cancelSearchIconActive)
+              (searchValue.trim().length > 0 || searchExpanded) &&
+                styles.cancelSearchIconActive
             )}
           >
             <CancelCircleIcon size={20} />
           </div>
         </div>
       </div>
-      <GenderAgeFilters
-        selectedFilters={selectedFilters}
-        onPressSearchExpand={onPressSearchExpand}
-        onToggleFilter={onToggleFilter}
-      />
+      <div className={searchExpanded ? styles.hideFilters : undefined}>
+        <GenderAgeFilters
+          selectedFilters={selectedFilters}
+          onPressSearchExpand={onPressSearchExpand}
+          onToggleFilter={onToggleFilter}
+        />
+      </div>
     </div>
   );
 };

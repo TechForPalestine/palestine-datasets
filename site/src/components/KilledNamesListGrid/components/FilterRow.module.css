@@ -55,6 +55,11 @@
   }
 }
 
+.hideFilters {
+  opacity: 0;
+  pointer-events: none;
+}
+
 @media screen and (max-width: 1050px) {
   .inputContainer {
     display: flex;
@@ -78,5 +83,15 @@
 
   input {
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 725px) {
+  .inputContainer {
+    justify-content: center;
+  }
+
+  .input {
+    width: 60%;
   }
 }

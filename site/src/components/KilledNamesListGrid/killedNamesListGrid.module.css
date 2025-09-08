@@ -127,9 +127,8 @@
   position: relative;
 }
 
-.noSearchMatches {
+.gridOverlay {
   flex-direction: column;
-  gap: 20px;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -141,8 +140,12 @@
   background-color: rgba(20, 20, 20, 0.95);
 }
 
+.noSearchMatches {
+  gap: 20px;
+}
+
 [data-theme="light"] {
-  .noSearchMatches {
+  .gridOverlay {
     background-color: rgba(220, 220, 220, 0.95);
   }
 }
