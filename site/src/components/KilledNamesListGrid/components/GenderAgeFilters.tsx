@@ -49,6 +49,7 @@ export const GenderAgeFilters = ({
       <div className={styles.genderAgeFilterRow}>
         {filterButtons.map((btn) => (
           <div
+            key={btn.type}
             onClick={() => onToggleFilter(btn.type)}
             title={personHints[btn.type]}
             className={clsx(

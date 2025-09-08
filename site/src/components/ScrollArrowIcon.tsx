@@ -22,17 +22,17 @@ export const ScrollArrowIcon = ({ rotate = 90, size = 48, end = false }) => {
       <path
         d="M14 12L26 24L14 36"
         stroke="#000000"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       {end && (
         <path
           d="M34 12V36"
           stroke="#000000"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       )}
     </svg>
