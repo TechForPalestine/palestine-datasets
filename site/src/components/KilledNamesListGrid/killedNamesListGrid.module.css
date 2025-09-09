@@ -93,7 +93,7 @@
   .titleRow {
     line-height: 1.2em;
     text-align: center;
-    margin: 0 10px;
+    margin: 10px;
   }
 
   .statusRow {
@@ -122,6 +122,10 @@
   border-top: 2px solid var(--ifm-footer-bg-color);
   font-weight: 700;
   display: inline-block;
+}
+
+[data-theme="light"] .headerCell {
+  background-color: var(--ifm-footer-bg-color);
 }
 
 .cell {
