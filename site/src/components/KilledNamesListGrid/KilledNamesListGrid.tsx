@@ -15,6 +15,7 @@ import { StatusRow } from "./components/StatusRow";
 
 import { TitleRow } from "./components/TitleRow";
 import { ScrollProgress } from "./components/ScrollProgress";
+import { Spinner } from "../../components/Spinner";
 
 const recordUpdateInterval = 100;
 const frameRangeUpdateInterval = 0;
@@ -237,7 +238,7 @@ export const KilledNamesListGrid = () => {
     <main ref={elementRef} className={styles.main}>
       <div ref={headerRef} className={styles.headerColumns}>
         <div className={styles.headerColumn}>
-          <TitleRow loading={loading} />
+          <TitleRow />
           <StatusRow
             loaded={recordCount}
             windowRecordCount={windowRecordCount}
@@ -250,6 +251,11 @@ export const KilledNamesListGrid = () => {
             onToggleFilter={onToggleFilter}
             onSearchInputChange={onSearchInputChange}
           />
+          {loading && (
+            <div className={styles.statusRowSpinner}>
+              <Spinner colorMode="dark" />
+            </div>
+          )}
         </div>
       </div>
       <ScrollProgress
