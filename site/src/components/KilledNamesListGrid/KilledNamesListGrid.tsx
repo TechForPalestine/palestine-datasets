@@ -30,12 +30,14 @@ import { FilterRow } from "./components/FilterRow";
 import { iconTypeForPerson, sexIsValid } from "../../lib/age-icon";
 import clsx from "clsx";
 import { ScrollButtonBar } from "./components/ScrollButtonBar";
+import { hasMobileToolbarDimensionChange } from "./dimension.utils";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
   const headerRef = useRef(null);
   const tableHeaderRef = useRef(null);
   const gridRef = useGridRef(null);
+  const lastDimension = useRef({ width: 0, height: 0 });
   const visibleRecords = useRef(0);
   const recordsVisibleInWindowViewport = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -81,6 +83,7 @@ export const KilledNamesListGrid = () => {
 
   const calcLayout = useCallback(() => {
     if (elementRef.current) {
+      const mainWidth = elementRef.current.offsetWidth;
       const mainHeight = elementRef.current.offsetHeight;
       const navDisplacement = elementRef.current.getBoundingClientRect().y ?? 0;
       const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
@@ -88,8 +91,17 @@ export const KilledNamesListGrid = () => {
       const gridHeight =
         mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
 
+      if (
+        hasMobileToolbarDimensionChange({
+          before: lastDimension.current,
+          after: { width: mainWidth, height: gridHeight },
+        })
+      ) {
+        return;
+      }
+
       setDimensions({
-        width: elementRef.current.offsetWidth,
+        width: mainWidth,
         height: gridHeight,
       });
 
@@ -111,6 +123,7 @@ export const KilledNamesListGrid = () => {
   useEffect(() => {
     if (typeof window !== "object") return;
     window.onresize = debounce(() => {
+      lastDimension.current = dimensions;
       setDimensions({ width: 0, height: 0 });
       setResized((r) => r + 1);
     }, resizeUpdateInterval);
