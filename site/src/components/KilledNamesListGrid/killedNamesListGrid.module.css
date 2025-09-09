@@ -65,6 +65,12 @@
   }
 }
 
+@media screen and (max-width: 920px) {
+  .cell {
+    cursor: pointer;
+  }
+}
+
 @media screen and (max-width: 725px) {
   .headerColumn:first-of-type {
     width: 100%;
@@ -203,4 +209,21 @@
 
 [data-theme="light"] .gridOverlay {
   background-color: rgba(220, 220, 220, 0.95);
+}
+
+.focusedRecordRow span {
+  min-width: 100px;
+  display: inline-block;
+}
+
+.dismissFocusedRecord {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+[data-theme="dark"] .dismissFocusedRecord path {
+  fill: white;
 }

@@ -47,12 +47,14 @@ const Icon = ({ record, hide }: { record: PersonRow; hide: boolean }) => {
 };
 
 export const Cell = ({
+  onPressCellSmallFormat,
   columnIndex,
   rowIndex,
   style,
   records,
   columnConfig,
 }: CellComponentProps<{
+  onPressCellSmallFormat: (record: PersonRow) => void;
   records: PersonRow[];
   recordCount: number;
   columnConfig: ReturnType<typeof getColumnConfig>;
@@ -77,8 +79,19 @@ export const Cell = ({
     styleClass += ` ${styles.englishNameCell}`;
   }
 
+  const onPressCell = () => {
+    // only allow click for smaller formats
+    if (columnConfig.colWeightShare.length > 3) return;
+
+    onPressCellSmallFormat(record);
+  };
+
   return (
-    <div className={styleClass} style={{ ...style, ...cellStyle }}>
+    <div
+      onClick={onPressCell}
+      className={styleClass}
+      style={{ ...style, ...cellStyle }}
+    >
       <Icon
         record={record}
         hide={columnIndex !== columnConfig.indices.en_name}

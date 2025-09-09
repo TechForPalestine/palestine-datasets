@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Grid, useGridRef } from "react-window";
 import debounce from "lodash.debounce";
-import { PersonRow, PersonType } from "./types";
+import { kig3FieldIndex, PersonRow, PersonType } from "./types";
 import { startWorker } from "./startWorker";
 import { Cell } from "./components/Cell";
 import { Header } from "./components/Header";
@@ -31,6 +31,7 @@ import { iconTypeForPerson, sexIsValid } from "../../lib/age-icon";
 import clsx from "clsx";
 import { ScrollButtonBar } from "./components/ScrollButtonBar";
 import { hasMobileToolbarDimensionChange } from "./dimension.utils";
+import { CancelCircleIcon } from "../CancelCircleIcon";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -64,6 +65,7 @@ export const KilledNamesListGrid = () => {
   });
   const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
+  const [focusedRecord, setFocusedRecord] = useState<PersonRow | null>(null);
 
   useEffect(() => {
     let count = 0;
@@ -236,6 +238,13 @@ export const KilledNamesListGrid = () => {
     setThresholdIndex(0);
   };
 
+  const onPressCellSmallFormat = useCallback(
+    (pressedRecord: PersonRow) => {
+      setFocusedRecord(pressedRecord);
+    },
+    [setFocusedRecord]
+  );
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -300,6 +309,7 @@ export const KilledNamesListGrid = () => {
               overscanCount={overscanRecordCount}
               cellComponent={Cell}
               cellProps={{
+                onPressCellSmallFormat,
                 records: windowRecords,
                 recordCount: windowRecordCount,
                 columnConfig,
@@ -326,6 +336,24 @@ export const KilledNamesListGrid = () => {
           </div>
         )}
         {loading && <div className={styles.gridOverlay}>Loading names...</div>}
+        {focusedRecord && (
+          <div className={clsx(styles.gridOverlay, styles.focusedRecord)}>
+            <div className={styles.focusedRecordContainer}>
+              {focusedRecord.map((col, i) => (
+                <div className={styles.focusedRecordRow} key={i}>
+                  <span>{kig3FieldIndex[i]}</span>
+                  {col}
+                </div>
+              ))}
+            </div>
+            <div
+              className={styles.dismissFocusedRecord}
+              onClick={() => setFocusedRecord(null)}
+            >
+              <CancelCircleIcon size={34} />
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
