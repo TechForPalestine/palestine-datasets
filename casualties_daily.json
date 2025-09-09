@@ -14667,5 +14667,29 @@
     "ext_civdef_killed_cum": 139,
     "ext_med_killed_cum": 1670,
     "ext_press_killed_cum": 248
+  },
+  {
+    "report_date": "2025-09-09",
+    "report_source": "mohtel",
+    "report_period": 24,
+    "ext_massacres_cum": 12000,
+    "killed": 83,
+    "killed_cum": 64605,
+    "killed_truce_new": 83,
+    "ext_killed": 83,
+    "ext_killed_cum": 64605,
+    "ext_killed_children_cum": 20000,
+    "ext_killed_women_cum": 12500,
+    "child_famine_cum": 140,
+    "famine_cum": 399,
+    "aid_seeker_killed_cum": 2444,
+    "aid_seeker_injured_cum": 17831,
+    "injured": 223,
+    "injured_cum": 163319,
+    "ext_injured": 223,
+    "ext_injured_cum": 163319,
+    "ext_civdef_killed_cum": 139,
+    "ext_med_killed_cum": 1670,
+    "ext_press_killed_cum": 248
   }
 ]
