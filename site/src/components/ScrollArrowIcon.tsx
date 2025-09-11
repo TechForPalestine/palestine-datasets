@@ -1,14 +1,7 @@
-export const ScrollArrowIcon = ({ rotate = 90, size = 48, end = false }) => {
-  let translate = "translate(0, 0)";
+import clsx from "clsx";
+import styles from "./ScrollArrowIcon.module.css";
 
-  if (!end && rotate === 270) {
-    translate = `translate(${(size / 48) * 3}, 0)`;
-  }
-
-  if (!end && rotate === 90) {
-    translate = `translate(${(size / 48) * 5}, 0)`;
-  }
-
+export const ScrollArrowIcon = ({ down = false, size = 48, end = false }) => {
   return (
     // License: Apache. Made by bytedance: https://github.com/bytedance/IconPark
     <svg
@@ -16,8 +9,8 @@ export const ScrollArrowIcon = ({ rotate = 90, size = 48, end = false }) => {
       height={size}
       viewBox="0 0 48 48"
       fill="none"
-      transform={`rotate(${rotate}) ${translate}`}
       xmlns="http://www.w3.org/2000/svg"
+      className={clsx(down ? styles.down : styles.up)}
     >
       <path
         d="M14 12L26 24L14 36"
