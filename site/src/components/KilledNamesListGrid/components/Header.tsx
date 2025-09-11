@@ -41,6 +41,16 @@ export const Header = React.memo(
             width: parentWidth * (columnConfig.colWeightShare[index] ?? 0),
           };
 
+          if (columnConfig.colWeightShare.length === 1) {
+            return (
+              <div
+                key={col}
+                className={`${styles.cell} ${styles.headerCell}`}
+                style={cellStyle}
+              />
+            );
+          }
+
           return (
             <div
               key={col}

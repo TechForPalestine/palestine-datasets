@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Grid, useGridRef } from "react-window";
 import debounce from "lodash.debounce";
-import { PersonRow, PersonType } from "./types";
+import { kig3FieldIndex, PersonRow, PersonType } from "./types";
 import { startWorker } from "./startWorker";
 import { Cell } from "./components/Cell";
 import { Header } from "./components/Header";
@@ -15,6 +15,7 @@ import { StatusRow } from "./components/StatusRow";
 
 import { TitleRow } from "./components/TitleRow";
 import { ScrollProgress } from "./components/ScrollProgress";
+import { Spinner } from "../../components/Spinner";
 
 const recordUpdateInterval = 100;
 const frameRangeUpdateInterval = 0;
@@ -29,12 +30,15 @@ import { FilterRow } from "./components/FilterRow";
 import { iconTypeForPerson, sexIsValid } from "../../lib/age-icon";
 import clsx from "clsx";
 import { ScrollButtonBar } from "./components/ScrollButtonBar";
+import { hasMobileToolbarDimensionChange } from "./dimension.utils";
+import { CancelCircleIcon } from "../CancelCircleIcon";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
   const headerRef = useRef(null);
   const tableHeaderRef = useRef(null);
   const gridRef = useGridRef(null);
+  const lastDimension = useRef({ width: 0, height: 0 });
   const visibleRecords = useRef(0);
   const recordsVisibleInWindowViewport = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -61,6 +65,7 @@ export const KilledNamesListGrid = () => {
   });
   const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
+  const [focusedRecord, setFocusedRecord] = useState<PersonRow | null>(null);
 
   useEffect(() => {
     let count = 0;
@@ -80,6 +85,7 @@ export const KilledNamesListGrid = () => {
 
   const calcLayout = useCallback(() => {
     if (elementRef.current) {
+      const mainWidth = elementRef.current.offsetWidth;
       const mainHeight = elementRef.current.offsetHeight;
       const navDisplacement = elementRef.current.getBoundingClientRect().y ?? 0;
       const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
@@ -87,10 +93,12 @@ export const KilledNamesListGrid = () => {
       const gridHeight =
         mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
 
-      setDimensions({
-        width: elementRef.current.offsetWidth,
+      const newDims = {
+        width: mainWidth,
         height: gridHeight,
-      });
+      };
+      setDimensions(newDims);
+      lastDimension.current = newDims;
 
       recordsVisibleInWindowViewport.current = Math.floor(
         gridHeight / rowHeight
@@ -110,6 +118,25 @@ export const KilledNamesListGrid = () => {
   useEffect(() => {
     if (typeof window !== "object") return;
     window.onresize = debounce(() => {
+      const main = document.querySelector("main");
+      const mainWidth = main.offsetWidth;
+      const mainHeight = main.offsetHeight;
+      const navDisplacement = main.getBoundingClientRect().y ?? 0;
+      const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
+      const headerRefHeight = headerRef?.current?.offsetHeight ?? 0;
+      const gridHeight =
+        mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
+
+      if (
+        hasMobileToolbarDimensionChange({
+          before: lastDimension.current,
+          after: { width: mainWidth, height: gridHeight },
+        })
+      ) {
+        // instead of this try to keep the last scroll position?
+        return;
+      }
+
       setDimensions({ width: 0, height: 0 });
       setResized((r) => r + 1);
     }, resizeUpdateInterval);
@@ -222,6 +249,13 @@ export const KilledNamesListGrid = () => {
     setThresholdIndex(0);
   };
 
+  const onPressCellSmallFormat = useCallback(
+    (pressedRecord: PersonRow) => {
+      setFocusedRecord(pressedRecord);
+    },
+    [setFocusedRecord]
+  );
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -237,7 +271,7 @@ export const KilledNamesListGrid = () => {
     <main ref={elementRef} className={styles.main}>
       <div ref={headerRef} className={styles.headerColumns}>
         <div className={styles.headerColumn}>
-          <TitleRow loading={loading} />
+          <TitleRow />
           <StatusRow
             loaded={recordCount}
             windowRecordCount={windowRecordCount}
@@ -250,6 +284,11 @@ export const KilledNamesListGrid = () => {
             onToggleFilter={onToggleFilter}
             onSearchInputChange={onSearchInputChange}
           />
+          {loading && (
+            <div className={styles.statusRowSpinner}>
+              <Spinner colorMode="dark" />
+            </div>
+          )}
         </div>
       </div>
       <ScrollProgress
@@ -281,6 +320,7 @@ export const KilledNamesListGrid = () => {
               overscanCount={overscanRecordCount}
               cellComponent={Cell}
               cellProps={{
+                onPressCellSmallFormat,
                 records: windowRecords,
                 recordCount: windowRecordCount,
                 columnConfig,
@@ -307,6 +347,24 @@ export const KilledNamesListGrid = () => {
           </div>
         )}
         {loading && <div className={styles.gridOverlay}>Loading names...</div>}
+        {focusedRecord && (
+          <div className={clsx(styles.gridOverlay, styles.focusedRecord)}>
+            <div className={styles.focusedRecordContainer}>
+              {focusedRecord.map((col, i) => (
+                <div className={styles.focusedRecordRow} key={i}>
+                  <span>{kig3FieldIndex[i]}</span>
+                  {col}
+                </div>
+              ))}
+            </div>
+            <div
+              className={styles.dismissFocusedRecord}
+              onClick={() => setFocusedRecord(null)}
+            >
+              <CancelCircleIcon size={34} />
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

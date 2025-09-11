@@ -26,11 +26,7 @@ const Button = ({
       className={styles.button}
       title={hint(direction, end)}
     >
-      <ScrollArrowIcon
-        rotate={direction === "down" ? 90 : 270}
-        end={end}
-        size={30}
-      />
+      <ScrollArrowIcon down={direction === "down"} end={end} size={30} />
     </div>
   );
 };

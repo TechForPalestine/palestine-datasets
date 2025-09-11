@@ -1,0 +1,7 @@
+.up {
+  transform: rotate(-90deg) translateX(2px) translateY(1px);
+}
+
+.down {
+  transform: rotate(90deg) translateX(3px) translateY(-1px);
+}

@@ -49,10 +49,8 @@
   border: 0px;
 }
 
-[data-theme="light"] {
-  .searchInput {
-    background-color: #eee;
-  }
+[data-theme="light"] .searchInput {
+  background-color: #eee;
 }
 
 .hideFilters {

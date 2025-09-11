@@ -30,6 +30,7 @@
   min-height: 50px;
   background-color: var(--ifm-navbar-background-color);
   cursor: pointer;
+  border: 2px solid var(--ifm-footer-bg-color);
   border-radius: 8px;
 }
 
