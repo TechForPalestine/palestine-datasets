@@ -93,19 +93,12 @@ export const KilledNamesListGrid = () => {
       const gridHeight =
         mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
 
-      if (
-        hasMobileToolbarDimensionChange({
-          before: lastDimension.current,
-          after: { width: mainWidth, height: gridHeight },
-        })
-      ) {
-        return;
-      }
-
-      setDimensions({
+      const newDims = {
         width: mainWidth,
         height: gridHeight,
-      });
+      };
+      setDimensions(newDims);
+      lastDimension.current = newDims;
 
       recordsVisibleInWindowViewport.current = Math.floor(
         gridHeight / rowHeight
@@ -125,7 +118,25 @@ export const KilledNamesListGrid = () => {
   useEffect(() => {
     if (typeof window !== "object") return;
     window.onresize = debounce(() => {
-      lastDimension.current = dimensions;
+      const main = document.querySelector("main");
+      const mainWidth = main.offsetWidth;
+      const mainHeight = main.offsetHeight;
+      const navDisplacement = main.getBoundingClientRect().y ?? 0;
+      const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
+      const headerRefHeight = headerRef?.current?.offsetHeight ?? 0;
+      const gridHeight =
+        mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
+
+      if (
+        hasMobileToolbarDimensionChange({
+          before: lastDimension.current,
+          after: { width: mainWidth, height: gridHeight },
+        })
+      ) {
+        // instead of this try to keep the last scroll position?
+        return;
+      }
+
       setDimensions({ width: 0, height: 0 });
       setResized((r) => r + 1);
     }, resizeUpdateInterval);

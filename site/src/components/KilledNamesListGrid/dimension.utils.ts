@@ -9,6 +9,10 @@ export const hasMobileToolbarDimensionChange = ({
   before: Dimension;
   after: Dimension;
 }) => {
+  if (!before.width) {
+    return false;
+  }
+
   if (before.width !== after.width) {
     return false;
   }
