@@ -14,7 +14,6 @@
   padding: 10px 12px 0 12px;
   display: flex;
   flex-direction: row;
-  min-height: 55px;
 }
 
 .headerColumns {
@@ -23,11 +22,13 @@
 }
 
 .headerColumn {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: center;
   width: 50%;
+  min-height: 92px;
 }
 
 .headerColumn:last-of-type .statusRowSpinner {
@@ -72,6 +73,9 @@
 }
 
 @media screen and (max-width: 725px) {
+  .headerColumn {
+    min-height: auto;
+  }
   .headerColumn:first-of-type {
     width: 100%;
     align-items: center;

@@ -25,14 +25,12 @@
   left: -1px;
 }
 
-[data-theme="light"] {
-  .button path {
-    stroke: #eee;
-  }
+[data-theme="light"] .button path {
+  stroke: #eee;
+}
 
-  .button {
-    box-shadow: 0px 8px 0px rgba(255, 255, 255, 0.8);
-    border: 1px solid white;
-    background-color: var(--ifm-color-primary-lightest);
-  }
+[data-theme="light"] .button {
+  box-shadow: 0px 8px 0px rgba(255, 255, 255, 0.8);
+  border: 1px solid white;
+  background-color: var(--ifm-color-primary-lightest);
 }
