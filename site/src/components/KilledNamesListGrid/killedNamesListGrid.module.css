@@ -66,6 +66,21 @@
   }
 }
 
+.statusRow {
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  padding: 6px 12px;
+  gap: 5px;
+}
+
+@media screen and (max-width: 860px) {
+  .statusRow {
+    flex-direction: column;
+    gap: 0px;
+  }
+}
+
 @media screen and (max-width: 725px) {
   .headerColumn {
     min-height: auto;
@@ -85,14 +100,6 @@
   }
 }
 
-.statusRow {
-  display: flex;
-  flex-direction: row;
-  font-size: 18px;
-  padding: 6px 12px;
-  gap: 10px;
-}
-
 @media screen and (max-width: 725px) {
   .titleRow {
     line-height: 1.2em;
@@ -107,6 +114,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    flex-direction: row;
+    gap: 5px;
   }
 }
 

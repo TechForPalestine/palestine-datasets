@@ -19,7 +19,10 @@ export const StatusRow = React.memo(
             : `Loaded ${loaded.toLocaleString()} records`}
         </div>
         {!!loaded && typeof thresholdIndex === "number" && !!thresholdIndex && (
-          <div>• Viewed {thresholdIndex.toLocaleString()}</div>
+          <div>
+            • Viewed {thresholdIndex.toLocaleString()} •{" "}
+            <a href="/docs/killed-in-gaza/">Learn More</a>
+          </div>
         )}
       </div>
     );
