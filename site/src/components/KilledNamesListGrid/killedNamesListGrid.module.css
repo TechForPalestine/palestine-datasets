@@ -204,6 +204,10 @@
   gap: 20px;
 }
 
+.gridContainer {
+  overflow-x: hidden;
+}
+
 .gridContainer::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 16px;
