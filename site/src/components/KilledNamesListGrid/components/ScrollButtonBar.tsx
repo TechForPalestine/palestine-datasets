@@ -36,20 +36,17 @@ export const ScrollButtonBar = ({
   thresholdIndex,
   maxRowIndex,
   recordsVisibleInWindowViewport,
-  onButtonScrolled,
 }: {
   gridRef: MutableRefObject<GridImperativeAPI>;
   thresholdIndex: number;
   maxRowIndex: number;
   recordsVisibleInWindowViewport: number;
-  onButtonScrolled: () => void;
 }) => {
   const onPressScrollTop = () => {
     gridRef.current.scrollToRow({
       behavior: "smooth",
       index: 0,
     });
-    onButtonScrolled();
   };
 
   const onPressScrollUp = () => {
@@ -59,7 +56,6 @@ export const ScrollButtonBar = ({
       behavior: "smooth",
       index: offset > 0 ? offset : 0,
     });
-    onButtonScrolled();
   };
 
   const onPressScrollDown = () => {
@@ -69,7 +65,6 @@ export const ScrollButtonBar = ({
       behavior: "smooth",
       index: offset,
     });
-    onButtonScrolled();
   };
 
   const onPressScrollBottom = () => {
@@ -77,7 +72,6 @@ export const ScrollButtonBar = ({
       behavior: "smooth",
       index: maxRowIndex,
     });
-    onButtonScrolled();
   };
 
   return (

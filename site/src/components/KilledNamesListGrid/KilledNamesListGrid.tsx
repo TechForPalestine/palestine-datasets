@@ -245,10 +245,6 @@ export const KilledNamesListGrid = () => {
     [setFilterState]
   );
 
-  const onButtonScrolled = () => {
-    setThresholdIndex(0);
-  };
-
   const onPressCellSmallFormat = useCallback(
     (pressedRecord: PersonRow) => {
       setFocusedRecord(pressedRecord);
@@ -333,7 +329,6 @@ export const KilledNamesListGrid = () => {
               recordsVisibleInWindowViewport={
                 recordsVisibleInWindowViewport.current
               }
-              onButtonScrolled={onButtonScrolled}
             />
           </>
         )}
