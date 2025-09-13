@@ -66,12 +66,6 @@
   }
 }
 
-@media screen and (max-width: 920px) {
-  .cell {
-    cursor: pointer;
-  }
-}
-
 @media screen and (max-width: 725px) {
   .headerColumn {
     min-height: auto;
@@ -142,6 +136,7 @@
   position: relative;
   padding: 4px 10px;
   border-bottom: 1px solid var(--ifm-footer-bg-color);
+  cursor: pointer;
 }
 
 .cellText {
@@ -215,9 +210,14 @@
   background-color: rgba(220, 220, 220, 0.95);
 }
 
+.focusedRecord {
+  padding: 20px;
+}
+
 .focusedRecordRow span {
   min-width: 100px;
   display: inline-block;
+  font-weight: 600;
 }
 
 .dismissFocusedRecord {

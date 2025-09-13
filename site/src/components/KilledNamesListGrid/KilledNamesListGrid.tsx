@@ -32,6 +32,7 @@ import clsx from "clsx";
 import { ScrollButtonBar } from "./components/ScrollButtonBar";
 import { hasMobileToolbarDimensionChange } from "./dimension.utils";
 import { CancelCircleIcon } from "../CancelCircleIcon";
+import { updateLinks } from "./updates";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -245,7 +246,7 @@ export const KilledNamesListGrid = () => {
     [setFilterState]
   );
 
-  const onPressCellSmallFormat = useCallback(
+  const onPressCell = useCallback(
     (pressedRecord: PersonRow) => {
       setFocusedRecord(pressedRecord);
     },
@@ -316,7 +317,7 @@ export const KilledNamesListGrid = () => {
               overscanCount={overscanRecordCount}
               cellComponent={Cell}
               cellProps={{
-                onPressCellSmallFormat,
+                onPressCell,
                 records: windowRecords,
                 recordCount: windowRecordCount,
                 columnConfig,
@@ -345,12 +346,32 @@ export const KilledNamesListGrid = () => {
         {focusedRecord && (
           <div className={clsx(styles.gridOverlay, styles.focusedRecord)}>
             <div className={styles.focusedRecordContainer}>
-              {focusedRecord.map((col, i) => (
-                <div className={styles.focusedRecordRow} key={i}>
-                  <span>{kig3FieldIndex[i]}</span>
-                  {col}
-                </div>
-              ))}
+              {focusedRecord.map((col, i) => {
+                if (kig3FieldIndex[i] === "update") {
+                  return (
+                    <div
+                      className={styles.focusedRecordRow}
+                      style={{ marginTop: 10 }}
+                      key={i}
+                    >
+                      <a
+                        href={updateLinks[focusedRecord[i]]}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Added during list update #{focusedRecord[i]}
+                      </a>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className={styles.focusedRecordRow} key={i}>
+                    <span>{kig3FieldIndex[i]}</span>
+                    {col}
+                  </div>
+                );
+              })}
             </div>
             <div
               className={styles.dismissFocusedRecord}
