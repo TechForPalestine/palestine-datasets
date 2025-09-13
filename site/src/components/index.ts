@@ -11,3 +11,4 @@ export * from "./KilledListCountLabel";
 export * from "./KilledListPagingLabel";
 export * from "./KilledPersonSearchResult";
 export * from "./PressKilledListCountLabel";
+export * from "./ListViewerImgButton";
