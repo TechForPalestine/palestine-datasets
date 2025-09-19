@@ -29,7 +29,7 @@
 }
 
 .cancelSearchIconActive svg {
-  display: inline-block;
+  display: inline-block !important;
 }
 
 .cancelSearchIconActive path {

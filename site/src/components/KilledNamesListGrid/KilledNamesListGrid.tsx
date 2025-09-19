@@ -191,6 +191,11 @@ export const KilledNamesListGrid = () => {
         }
 
         let hasNameMatch = true;
+        const nameSearches = nameSearch
+          .trim()
+          .split(/\s+/)
+          .filter((s) => !!s)
+          .map((s) => s.toLowerCase());
 
         if (nameSearch.length) {
           const arName = row[recordCols.ar_name];
@@ -198,9 +203,11 @@ export const KilledNamesListGrid = () => {
           if (typeof arName !== "string" || typeof enName !== "string") {
             return false;
           }
-          hasNameMatch =
-            arName.toLowerCase().includes(nameSearch) ||
-            enName.toLowerCase().includes(nameSearch);
+          hasNameMatch = nameSearches.some(
+            (nameSearch) =>
+              arName.toLowerCase().includes(nameSearch) ||
+              enName.toLowerCase().includes(nameSearch)
+          );
         }
 
         return hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
