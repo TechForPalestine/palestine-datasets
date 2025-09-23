@@ -32,7 +32,10 @@ import clsx from "clsx";
 import { ScrollButtonBar } from "./components/ScrollButtonBar";
 import { hasMobileToolbarDimensionChange } from "./dimension.utils";
 import { CancelCircleIcon } from "../CancelCircleIcon";
-import { updateLinks } from "../../../../scripts/data/common/killed-in-gaza/constants";
+import {
+  updateDates,
+  updateLinks,
+} from "../../../../scripts/data/common/killed-in-gaza/constants";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -362,11 +365,12 @@ export const KilledNamesListGrid = () => {
                       key={i}
                     >
                       <a
-                        href={updateLinks[focusedRecord[i]]}
+                        href={updateLinks[+focusedRecord[i] - 1]}
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Added during list update #{focusedRecord[i]}
+                        Added during list update #{focusedRecord[i]} on{" "}
+                        {updateDates[+focusedRecord[i] - 1]?.on}
                       </a>
                     </div>
                   );
