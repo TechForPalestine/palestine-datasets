@@ -6,6 +6,8 @@ import killedPersons from "../../../killed-in-gaza.json";
 import killedPress from "../../../press_killed_in_gaza.json";
 import gazaDailies from "../../../casualties_daily.json";
 import westBankDailies from "../../../west_bank_daily.json";
+import { KilledInGaza } from "../../../types/killed-in-gaza.types";
+import { updateDates } from "../common/killed-in-gaza/constants";
 
 const [lastGazaReport] = gazaDailies.slice().reverse();
 const [lastWestBankReport] = westBankDailies.slice().reverse();
@@ -13,7 +15,7 @@ const [lastWestBankReport] = westBankDailies.slice().reverse();
 const kigPageSize = 100;
 
 const genderAge = (
-  record: (typeof killedPersons)[0]
+  record: KilledInGaza
 ): [Exclude<typeof gender, undefined>, Exclude<typeof ageGroup, undefined>] => {
   let gender: "male" | "female" | undefined;
   let ageGroup: "no_age" | "senior" | "adult" | "child" | undefined;
@@ -40,20 +42,28 @@ const genderAge = (
 
   return [gender, ageGroup ?? "adult"];
 };
-const known_killed_in_gaza = killedPersons.reduce((acc, record) => {
-  const [gender, ageGroup] = genderAge(record);
-  const recordCount = (acc.records ?? 0) + 1;
-  return {
-    ...acc,
-    records: recordCount,
-    pages: Math.ceil(recordCount / kigPageSize),
-    page_size: kigPageSize,
-    [gender]: {
-      ...acc[gender],
-      [ageGroup]: (acc[gender]?.[ageGroup] ?? 0) + 1,
-    },
-  };
-}, {} as PreviewDataV3["known_killed_in_gaza"]);
+const known_killed_in_gaza = (killedPersons as KilledInGaza[]).reduce(
+  (acc, record) => {
+    const [gender, ageGroup] = genderAge(record);
+    const recordCount = (acc.records ?? 0) + 1;
+    return {
+      ...acc,
+      records: recordCount,
+      pages: Math.ceil(recordCount / kigPageSize),
+      page_size: kigPageSize,
+      [gender]: {
+        ...acc[gender],
+        [ageGroup]: (acc[gender]?.[ageGroup] ?? 0) + 1,
+      },
+    };
+  },
+  {} as Omit<
+    PreviewDataV3["known_killed_in_gaza"],
+    "last_update" | "includes_until"
+  >
+);
+
+const lastKigUpdate = updateDates[updateDates.length - 1];
 
 const previewData: PreviewDataV3 = {
   gaza: {
@@ -101,7 +111,11 @@ const previewData: PreviewDataV3 = {
         lastWestBankReport.injured_children_cum,
     },
   },
-  known_killed_in_gaza,
+  known_killed_in_gaza: {
+    ...known_killed_in_gaza,
+    last_update: lastKigUpdate.on,
+    includes_until: lastKigUpdate.includesUntil,
+  },
   known_press_killed_in_gaza: {
     records: killedPress.length,
   },

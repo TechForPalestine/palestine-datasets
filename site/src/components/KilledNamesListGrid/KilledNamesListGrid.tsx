@@ -32,7 +32,7 @@ import clsx from "clsx";
 import { ScrollButtonBar } from "./components/ScrollButtonBar";
 import { hasMobileToolbarDimensionChange } from "./dimension.utils";
 import { CancelCircleIcon } from "../CancelCircleIcon";
-import { updateLinks } from "./updates";
+import { updateLinks } from "../../../../scripts/data/common/killed-in-gaza/constants";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
