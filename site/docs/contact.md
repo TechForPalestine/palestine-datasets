@@ -8,7 +8,7 @@ If you have an issue or noticed a problem with our site or its datasets, we'd pr
 
 If you'd like to help or get involved in our work please see [Contributing](/docs/guides/contributing).
 
-For all other inquiries or questions please write to datasets at techforpalestine.org.
+For all other inquiries or questions please write to datasets@techforpalestine.org.
 
 import { DocWarningBubble } from "@site/src/components";
 
