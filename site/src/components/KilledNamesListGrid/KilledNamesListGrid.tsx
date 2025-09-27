@@ -68,7 +68,11 @@ export const KilledNamesListGrid = () => {
       "girl",
     ].sort() as PersonType[],
   });
-  const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
+  const [columnConfig, setColumnConfig] = useState<
+    ReturnType<typeof getColumnConfig> & {
+      sort?: [(typeof kig3FieldIndex)[number], "asc" | "desc"] | null;
+    }
+  >(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
   const [focusedRecord, setFocusedRecord] = useState<PersonRow | null>(null);
   const [csvDownloadParams, setCSVDownloadParams] = useState(
@@ -284,6 +288,55 @@ export const KilledNamesListGrid = () => {
     [setFocusedRecord]
   );
 
+  const onPressHeader = useCallback(
+    (col: (typeof kig3FieldIndex)[number]) => {
+      setColumnConfig((prevConfig) => {
+        const prev = prevConfig.sort;
+        let newSort: [(typeof kig3FieldIndex)[number], "asc" | "desc"];
+        if (prev?.[0] === col) {
+          newSort = [col, prev[1] === "asc" ? "desc" : "asc"];
+        } else {
+          newSort = [col, "asc"];
+        }
+
+        const colIndex = kig3FieldIndex.indexOf(col);
+        if (colIndex === -1) {
+          return null;
+        }
+
+        records.current.sort((a, b) => {
+          const aVal = a[colIndex];
+          const bVal = b[colIndex];
+
+          if (aVal === bVal) {
+            return 0;
+          }
+
+          if (aVal === null || aVal === undefined) {
+            return 1;
+          }
+
+          if (bVal === null || bVal === undefined) {
+            return -1;
+          }
+
+          if (typeof aVal === "number" && typeof bVal === "number") {
+            return newSort[1] === "asc" ? aVal - bVal : bVal - aVal;
+          }
+
+          return newSort[1] === "asc"
+            ? String(aVal).localeCompare(String(bVal))
+            : String(bVal).localeCompare(String(aVal));
+        });
+
+        applyFilters(filterState.filters, filterState.nameSearch);
+
+        return { ...prevConfig, sort: newSort };
+      });
+    },
+    [setColumnConfig, applyFilters, filterState]
+  );
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -331,6 +384,8 @@ export const KilledNamesListGrid = () => {
           <>
             <div ref={tableHeaderRef}>
               <Header
+                sort={columnConfig.sort}
+                onPress={onPressHeader}
                 parentWidth={dimensions.width}
                 columnConfig={columnConfig}
               />

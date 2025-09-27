@@ -1,14 +1,19 @@
 import { getColumnConfig } from "../getColumnConfig";
 import styles from "../killedNamesListGrid.module.css";
 import React from "react";
+import { kig3FieldIndex } from "../types";
 
 export const Header = React.memo(
   ({
+    sort,
     parentWidth,
     columnConfig,
+    onPress,
   }: {
+    sort: [(typeof kig3FieldIndex)[number], "asc" | "desc"] | null;
     parentWidth: number;
     columnConfig: ReturnType<typeof getColumnConfig>;
+    onPress: (col: (typeof kig3FieldIndex)[number]) => void;
   }) => {
     return (
       <>
@@ -56,8 +61,10 @@ export const Header = React.memo(
               key={col}
               className={`${styles.cell} ${styles.headerCell}`}
               style={cellStyle}
+              onClick={() => onPress(col)}
             >
               {remappedContent}&nbsp;
+              {sort?.[0] === col ? (sort[1] === "asc" ? "▲" : "▼") : ""}
             </div>
           );
         })}
