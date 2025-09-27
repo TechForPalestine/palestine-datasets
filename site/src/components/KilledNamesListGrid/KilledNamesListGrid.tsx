@@ -20,11 +20,10 @@ import { Spinner } from "../../components/Spinner";
 const recordUpdateInterval = 100;
 const frameRangeUpdateInterval = 0;
 const searchInputUpdateInterval = 300;
+const searchUniqueNameHitFactor = 3;
 const resizeUpdateInterval = 200;
 const overscanRecordCount = 40;
 const rowHeight = 40;
-
-const englishNameIndex = kig3FieldIndex.indexOf("en_name");
 
 import styles from "./killedNamesListGrid.module.css";
 import { getColumnConfig, recordCols } from "./getColumnConfig";
@@ -53,6 +52,13 @@ export const KilledNamesListGrid = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const records = useRef<PersonRow[]>([]);
   const filteredRecords = useRef<PersonRow[]>([]);
+  const filteredSearchMatches = useRef<
+    Record<
+      string /* record id */,
+      [number[], number[], number] /* match indices 0,1 and sort factor 2 */
+    >
+  >({});
+  const searchHasSortPriority = useRef(false);
   const uniqueEnglishNames = useRef(new Set<string>());
   const [recordCount, setRecordCount] = useState(0);
   const [resized, setResized] = useState(0);
@@ -93,7 +99,7 @@ export const KilledNamesListGrid = () => {
     startWorker({
       onRecord: (row) => {
         records.current.push(row);
-        (row[englishNameIndex] || "")
+        (row[recordCols.en_name] || "")
           .toString()
           .split(/\s+/)
           .forEach((part) =>
@@ -206,13 +212,20 @@ export const KilledNamesListGrid = () => {
 
   const applyFilters = useCallback(
     (filters: PersonType[], nameSearch: string) => {
-      if (filters.length === 6 && !nameSearch.length) {
+      if (filters.length === 6 && !nameSearch.trim().length) {
         filteredRecords.current = [];
+        filteredSearchMatches.current = {};
         setCSVDownloadParams(
           createCSVDownload(records.current, records.current.length)
         );
         return;
       }
+
+      const nameSearches = nameSearch
+        .trim()
+        .split(/\s+/)
+        .filter((s) => !!s)
+        .map((s) => s.toLowerCase());
 
       filteredRecords.current = records.current.filter((row) => {
         const age = row[recordCols.age];
@@ -226,11 +239,9 @@ export const KilledNamesListGrid = () => {
         }
 
         let hasNameMatch = true;
-        const nameSearches = nameSearch
-          .trim()
-          .split(/\s+/)
-          .filter((s) => !!s)
-          .map((s) => s.toLowerCase());
+        let partialMatchHitFactor = 0;
+        let arNameSearchMatches = new Set<number>();
+        let enNameSearchMatches = new Set<number>();
 
         if (nameSearch.length) {
           const arName = row[recordCols.ar_name];
@@ -238,15 +249,68 @@ export const KilledNamesListGrid = () => {
           if (typeof arName !== "string" || typeof enName !== "string") {
             return false;
           }
-          hasNameMatch = nameSearches.some(
-            (nameSearch) =>
-              arName.toLowerCase().includes(nameSearch) ||
-              enName.toLowerCase().includes(nameSearch)
-          );
+          const arNameParts = arName.toLowerCase().split(/\s+/);
+          const enNameParts = enName.toLowerCase().split(/\s+/);
+          const partialArMatches = arNameParts.filter((namePart, idx) => {
+            let nameMatchIndex = -1;
+            const nameMatch = nameSearches.find((searchPart) => {
+              if (namePart.includes(searchPart)) {
+                nameMatchIndex = idx;
+                return true;
+              }
+            });
+            if (nameMatch) {
+              arNameSearchMatches.add(nameMatchIndex);
+              return true;
+            }
+          });
+          const partialEnMatches = enNameParts.filter((namePart, idx) => {
+            let nameMatchIndex = -1;
+            const nameMatch = nameSearches.find((searchPart) => {
+              if (namePart.includes(searchPart)) {
+                nameMatchIndex = idx;
+                return true;
+              }
+            });
+            if (nameMatch) {
+              enNameSearchMatches.add(nameMatchIndex);
+              return true;
+            }
+          });
+          const partialMatches =
+            partialArMatches.length + partialEnMatches.length;
+          partialMatchHitFactor =
+            partialMatches +
+            (arNameSearchMatches.size + enNameSearchMatches.size) *
+              searchUniqueNameHitFactor;
+          hasNameMatch = partialMatches > 0;
         }
 
-        return hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
+        const filtersMatched =
+          hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
+        if (filtersMatched) {
+          filteredSearchMatches.current[row[recordCols.id]] = [
+            Array.from(arNameSearchMatches),
+            Array.from(enNameSearchMatches),
+            partialMatchHitFactor,
+          ];
+        }
+
+        return filtersMatched;
       });
+
+      const applySearchMatchPrioritySort =
+        searchHasSortPriority.current && nameSearch.trim();
+
+      if (applySearchMatchPrioritySort) {
+        filteredRecords.current.sort((a, b) => {
+          const aId = a[recordCols.id];
+          const bId = b[recordCols.id];
+          const aSize = filteredSearchMatches.current[aId][2];
+          const bSize = filteredSearchMatches.current[bId][2];
+          return (bSize ?? 0) - (aSize ?? 0);
+        });
+      }
 
       setCSVDownloadParams(
         createCSVDownload(filteredRecords.current, records.current.length)
@@ -259,6 +323,8 @@ export const KilledNamesListGrid = () => {
 
   const onToggleFilter = useCallback(
     (type: PersonType) => {
+      searchHasSortPriority.current = false;
+
       setFilterState((prev) => {
         const newFilters = prev.filters.includes(type)
           ? prev.filters.filter((t) => t !== type)
@@ -279,6 +345,8 @@ export const KilledNamesListGrid = () => {
   const onSearchInputChange = useCallback(
     debounce((query: string) => {
       setFilterState((prev) => {
+        searchHasSortPriority.current = true;
+
         const filteredCount = applyFilters(prev.filters, query);
 
         return {
@@ -298,8 +366,15 @@ export const KilledNamesListGrid = () => {
     [setFocusedRecord]
   );
 
+  const onAcceptSearchSuggestion = useCallback((value: string) => {
+    searchHasSortPriority.current = true;
+    filterRowRef.current.setSearchValue(value);
+  }, []);
+
   const onPressHeader = useCallback(
     (col: (typeof kig3FieldIndex)[number]) => {
+      searchHasSortPriority.current = false;
+
       setColumnConfig((prevConfig) => {
         const prev = prevConfig.sort;
         let newSort: [(typeof kig3FieldIndex)[number], "asc" | "desc"];
@@ -405,7 +480,8 @@ export const KilledNamesListGrid = () => {
               .filter((name) => name !== filterState.nameSearch)
               .map((alt) => (
                 <span
-                  onClick={() => filterRowRef.current.setSearchValue(alt)}
+                  key={alt}
+                  onClick={() => onAcceptSearchSuggestion(alt)}
                   style={{ display: "inline-block", marginRight: 6 }}
                 >
                   {alt}
@@ -441,6 +517,7 @@ export const KilledNamesListGrid = () => {
                 records: windowRecords,
                 recordCount: windowRecordCount,
                 columnConfig,
+                filteredSearchMatches,
               }}
             />
             <ScrollButtonBar
@@ -462,7 +539,7 @@ export const KilledNamesListGrid = () => {
                   Did you mean{" "}
                   <span
                     onClick={() =>
-                      filterRowRef.current.setSearchValue(searchSuggestion.main)
+                      onAcceptSearchSuggestion(searchSuggestion.main)
                     }
                   >
                     {searchSuggestion.main}
@@ -474,7 +551,7 @@ export const KilledNamesListGrid = () => {
                     Alternate transliterations:{" "}
                     {searchSuggestion.others.map((alt) => (
                       <span
-                        onClick={() => filterRowRef.current.setSearchValue(alt)}
+                        onClick={() => onAcceptSearchSuggestion(alt)}
                         style={{ display: "inline-block", marginRight: 6 }}
                       >
                         {alt}

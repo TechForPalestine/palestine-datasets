@@ -209,6 +209,16 @@
   gap: 20px;
 }
 
+.cellName {
+  margin-right: 0.25em;
+}
+
+.cellNameSearchHit {
+  border-radius: 4px;
+  background-color: var(--ifm-footer-bg-color);
+  padding: 0 2px;
+}
+
 .searchSuggestion {
   font-size: 1.3em;
 }
