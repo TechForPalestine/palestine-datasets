@@ -30,13 +30,13 @@ export const ListViewerImgButton = () => {
           <span
             style={{
               color: "white",
-              fontSize: "1.5em",
+              fontSize: "1.3em",
               backgroundColor: "rgba(100, 100, 100, 0.6)",
               padding: 20,
               borderRadius: 20,
             }}
           >
-            Names list web viewer
+            Names list web viewer →
           </span>
         </div>
       </div>

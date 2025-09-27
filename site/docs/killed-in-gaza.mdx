@@ -2,11 +2,15 @@
 description: List of known victims with their arabic name, english name, birth date, gender, and ID number. Derived from a list issued by health officials in Gaza. Available in JSON and CSV formats. Useful applications include tributes, demographics, search, family analysis.
 ---
 
+import {
+  DocWarningBubble,
+  KilledNamesUpdateSourceLink,
+  KilledNamesLastUpdateUntilLabel,
+} from "@site/src/components";
+
 # Killed in Gaza
 
-Latest data available is as of July 31st, 2025 (see source info below).
-
-import { DocWarningBubble } from "@site/src/components";
+Latest data available is until <KilledNamesLastUpdateUntilLabel /> (see [updates](#updates) detailed below).
 
 <DocWarningBubble>
   The names & numbers we publish here are not fully representative of the human
@@ -29,7 +33,9 @@ The dataset is available as a CSV and JSON array. For programmatic use cases, we
 
 import { JSONFileLinks } from "@site/src/components";
 
-<JSONFileLinks resource="KilledInGaza_V2" minifiedOnly />
+<JSONFileLinks resource="KilledInGaza_V3" minifiedOnly />
+
+You can replace the `v3` path in these links with `v2` for our older format. For JSON we recommend `v3` as it's a faster download. See [versions](#versions).
 
 ### Paging
 
@@ -47,21 +53,56 @@ https://data.techforpalestine.org/api/v2/killed-in-gaza/page-1.json
 
 Each record will have the following fields:
 
-| Key     | Value                                                                                                                                                                   |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name    | original arabic name from the source list                                                                                                                               |
-| en_name | english name translation                                                                                                                                                |
-| id      | unique string (do not depend on format, it may change), and it may not be provided                                                                                      |
-| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                                                                                            |
-| sex     | string of one of `m` for male or `f` for female                                                                                                                         |
-| age     | age as a number                                                                                                                                                         |
-| source  | string indicating the source of the record (either `h` for "Ministry of Health", `c` for "Public Submission", `j` for "judicial or house committee", `u` for "unknown") |
+| Key     | Value                                                                                                                                                                   | Version |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| name    | original arabic name from the source list                                                                                                                               | v2,v3   |
+| en_name | english name translation                                                                                                                                                | v2,v3   |
+| id      | unique string (do not depend on format, it may change), and it may not be provided                                                                                      | v2,v3   |
+| dob     | date of birth: string in YYYY-MM-DD format, or empty string if not available                                                                                            | v2,v3   |
+| sex     | string of one of `m` for male or `f` for female                                                                                                                         | v2,v3   |
+| age     | age as a number                                                                                                                                                         | v2,v3   |
+| source  | string indicating the source of the record (either `h` for "Ministry of Health", `c` for "Public Submission", `j` for "judicial or house committee", `u` for "unknown") | v2      |
+| update  | number corresponding to the list update noted below under [sources](#source)                                                                                            | v3      |
+
+## Versions
+
+We maintain two formats of this dataset: a v2 and v3 version. Both receive updates as we receive list updates from the ministry. These versions represent data format changes and not unique list updates. For unique list update numbering refer to the `update` field noted above (only available for the v3 format).
+
+v2 has the [paged format](#paging) noted above alongside CSV and JSON. v3 provides CSV & JSON in a condensed format. The v3 format does not include the "source" field that's in v2. We removed the source field after the ministry stopped using it in the [sixth list update](/updates/killed-in-gaza-update-6/). To keep the v3 JSON format small, we've switched the format from an array of JSON objects to an array of arrays, similar to a CSV. The first array specifies the fields and their order for the rest of the records in the main array.
 
 ---
 
-## English Name Translation
+## Source
 
-For a discussion of our translation methodology, [see our February update](/updates/killed-in-gaza-update-1).
+The dataset is updated when a new list is released by Gaza's Ministry of Health. Typically, this has been done in PDF format via [their Telegram channel](https://t.me/s/MOHMediaGaza). Refer to the [list of updates](#updates) below for an idea of frequency.
+
+In their initial January 2024 update, the Ministry indicated the following about the list:
+
+1. The missing persons and the bodies of those trapped under the rubble were not counted.
+2. The unidentified people who arrived at hospitals were not counted.
+3. The unidentified persons whose bodies were handed over by the occupation were not counted.
+4. Those who were buried by their families without passing through hospitals were not counted.
+5. The victims in Gaza and North Gaza were not counted after the date of stopping the information system in November.
+
+Where the ministry's format has changed since the first update, we've tried to document this in our update posts linked below. The above bullets are presented to give you insight into their initial methodology and constraints, which have mostly held true (with the exception of #5 as the list was updated over time). The above caveats should make it clear that this list will be an undercount. You can [read more about other factors you should consider](/updates/gaza-ministry-casualty-context/).
+
+The aggregate numbers in the [Daily Casualties - Gaza](/docs/casualties-daily) dataset will necessarily diverge from this list due to the number of unidentified people.
+
+## Updates
+
+This list incorporates the following releases from the Ministry of Health:
+
+- The first was as of January 5th, 2024 for hospitals reporting in the South and November 2nd 2023 for the North. Additionally, 21 records were included from an earlier release as [noted in our Feburary update](/updates/killed-in-gaza-update-1#notable-changes). <KilledNamesUpdateSourceLink update={1} />
+- The second was as of March 29th, 2024 and it included submissions from the public to the Ministry (ie: families of those killed). We detailed the changes in our [April 29th update](/updates/killed-in-gaza-update-2). <KilledNamesUpdateSourceLink update={2} />
+- The third was as of April 30th, 2024 and released on May 5th from the Ministry. We detailed the changes in our [June 26th update](/updates/killed-in-gaza-update-3). <KilledNamesUpdateSourceLink update={3} />
+- The fourth was as of June 30th, 2024 and released on July 24th from the Ministry. We detailed the changes in our [September 7th update](/updates/killed-in-gaza-update-4). <KilledNamesUpdateSourceLink update={4} />
+- The fifth was as of August 31st, 2024 and released around September 15th by the Ministry. We detailed the changes in our [September 21st update](/updates/killed-in-gaza-update-5). <KilledNamesUpdateSourceLink update={5} />
+- The sixth was as of March 23rd, 2025, and released on the same day by the Ministry via Iraq Body Count. We detailed the changes in our [May 11th update](/updates/killed-in-gaza-update-6). <KilledNamesUpdateSourceLink update={6} />
+- The seventh was as of June 15th, 2025, and released on June 23rd from the Ministry via Iraq Body Count. We detailed the changes in our [July 6th update](/updates/killed-in-gaza-update-2025-06-15). <KilledNamesUpdateSourceLink update={7} />
+- The eighth was as of July 15th, 2025, and released on July 16th from the Ministry via Iraq Body Count. We detailed the changes in our [July 20th update](/updates/killed-in-gaza-update-2025-07-15). <KilledNamesUpdateSourceLink update={8} />
+- The ninth was as of July 31st, 2025, and released on August 4th from the Ministry via Iraq Body Count. We detailed the changes in our [August 17th update](/updates/killed-in-gaza-update-2025-08-17). <KilledNamesUpdateSourceLink update={9} />
+
+---
 
 ## Child Name Counts
 
@@ -72,37 +113,3 @@ https://data.techforpalestine.org/api/v2/killed-in-gaza/name-freq-en.json
 ```
 
 This dataset is used to derive estimates of children killed for our home page name cards as documented on our [Summary dataset page](/docs/summary/#killed-children-by-name-usage).
-
-## Source
-
-The file is updated when a new list is released by Gaza's Ministry of Health.
-
-This list incorporates the following releases from the Ministry of Health:
-
-- The first was as of January 5th, 2024 for hospitals reporting in the South and November 2nd 2023 for the North. Additionally, 21 records were included from an earlier release as [noted in our Feburary update](/updates/killed-in-gaza-update-1#notable-changes).
-- The second was as of March 29th, 2024 and it included submissions from the public to the Ministry (ie: families of those killed). We detailed the changes in our [April 29th update](/updates/killed-in-gaza-update-2).
-- The third was as of April 30th, 2024 and released on May 5th from the Ministry. We detailed the changes in our [June 26th update](/updates/killed-in-gaza-update-3).
-- The fourth was as of June 30th, 2024 and released on July 24th from the Ministry. We detailed the changes in our [September 7th update](/updates/killed-in-gaza-update-4).
-- The fifth was as of August 31st, 2024 and released around September 15th by the Ministry. We detailed the changes in our [September 21st update](/updates/killed-in-gaza-update-5).
-- The sixth was as of March 23rd, 2025, and released on the same day by the Ministry via Iraq Body Count. We detailed the changes in our [May 11th update](/updates/killed-in-gaza-update-6).
-- The seventh was as of June 15th, 2025, and released on June 23rd from the Ministry via Iraq Body Count. We detailed the changes in our [July 6th update](/updates/killed-in-gaza-update-2025-06-15).
-- The eighth was as of July 15th, 2025, and released on July 16th from the Ministry via Iraq Body Count. We detailed the changes in our [July 20th update](/updates/killed-in-gaza-update-2025-07-15).
-- The ninth was as of July 31st, 2025, and released on August 4th from the Ministry via Iraq Body Count. We detailed the changes in our [August 17th update](/updates/killed-in-gaza-update-2025-08-17).
-
-In their initial January 2024 update, the Ministry indicated the following about the list:
-
-1. The missing persons and the bodies of those trapped under the rubble were not counted.
-2. The unidentified people who arrived at hospitals were not counted.
-3. The unidentified persons whose bodies were handed over by the occupation were not counted.
-4. Those who were buried by their families without passing through hospitals were not counted.
-5. The victims in Gaza and North Gaza were not counted after the date of stopping the information system in November.
-
-The aggregate numbers in the [Daily Casualties - Gaza](/docs/casualties-daily) dataset will necessarily diverge from this list due to the number of unidentified people.
-
-## Prior Versions
-
-During earlier updates we created snapshot CSVs of the dataset before an updated was applied. For more recent updates we have not provided this since our raw data and the changes are readily available for historical reference [via Github commit history](https://github.com/TechForPalestine/palestine-datasets/commits/main/killed-in-gaza.json).
-
-- January 2024 list CSV captured prior to the April update: <a href="/sources/20240413killed-in-gaza.csv">Download CSV</a>
-- Our list of names prior to the June 2024 update: <a href="/sources/20240808killed-in-gaza.csv">Download CSV</a>
-- Our list prior to the August 2024 update: <a href="/sources/20240921killed-in-gaza.csv">Download CSV</a>
