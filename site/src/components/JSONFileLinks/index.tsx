@@ -60,7 +60,11 @@ export const JSONFileLinks = ({
           <>
             <h3>CSV </h3>
             <CodeBlock>{`${siteUrl}/${csv.apiPath}/${csv.name}`}</CodeBlock>
-            <a href={`${siteUrl}/${csv.apiPath}/${csv.name}`} download>
+            <a
+              href={`${siteUrl}/${csv.apiPath}/${csv.name}`}
+              download
+              style={{ marginBottom: 20, display: "block" }}
+            >
               Download CSV
             </a>
           </>
