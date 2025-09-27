@@ -246,7 +246,7 @@
 }
 
 .gridContainer {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 .gridContainer::-webkit-scrollbar {
