@@ -219,6 +219,10 @@
   padding: 0 2px;
 }
 
+[data-theme="dark"] .cellNameSearchHit {
+  background-color: var(--ifm-navbar-background-color);
+}
+
 .searchSuggestion {
   font-size: 1.3em;
 }
@@ -227,6 +231,10 @@
   padding: 10px;
   border: 2px solid var(--ifm-footer-bg-color);
   text-align: center;
+}
+
+[data-theme="dark"] .searchSuggestionsWithMatch {
+  background-color: var(--ifm-footer-bg-color);
 }
 
 .searchSuggestion span,
