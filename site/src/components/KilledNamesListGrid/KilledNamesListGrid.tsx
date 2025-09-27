@@ -456,7 +456,10 @@ export const KilledNamesListGrid = () => {
     filterState.nameSearch.trim().length > 3 && englishSearch
       ? suggestSearch(uniqueEnglishNames.current, filterState.nameSearch)
       : undefined;
-  const mobileViewport = window.innerWidth / window.innerHeight < 0.7;
+  const mobileViewport =
+    typeof window === "undefined"
+      ? false
+      : window.innerWidth / window.innerHeight < 0.7;
   const showInlineSearchSuggestions =
     !noSearchMatches && !mobileViewport && searchSuggestion?.others;
 
