@@ -383,12 +383,12 @@ export const KilledNamesListGrid = () => {
                   </div>
                 );
               })}
-            </div>
-            <div
-              className={styles.dismissFocusedRecord}
-              onClick={() => setFocusedRecord(null)}
-            >
-              <CancelCircleIcon size={34} />
+              <div
+                className={styles.dismissFocusedRecord}
+                onClick={() => setFocusedRecord(null)}
+              >
+                <CancelCircleIcon size={34} />
+              </div>
             </div>
           </div>
         )}

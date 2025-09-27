@@ -233,12 +233,30 @@
   font-weight: 600;
 }
 
+.focusedRecordContainer {
+  position: relative;
+}
+
 .dismissFocusedRecord {
   position: absolute;
-  top: 14px;
-  right: 12px;
+  top: -30px;
+  right: -30px;
   cursor: pointer;
   opacity: 0.7;
+}
+
+@media screen and (max-width: 500px) {
+  .focusedRecordContainer {
+    position: unset;
+  }
+
+  .dismissFocusedRecord {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+  }
 }
 
 [data-theme="dark"] .dismissFocusedRecord path {
