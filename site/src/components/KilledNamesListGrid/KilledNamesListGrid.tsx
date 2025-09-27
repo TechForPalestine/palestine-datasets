@@ -456,6 +456,9 @@ export const KilledNamesListGrid = () => {
     filterState.nameSearch.trim().length > 3 && englishSearch
       ? suggestSearch(uniqueEnglishNames.current, filterState.nameSearch)
       : undefined;
+  const mobileViewport = window.innerWidth / window.innerHeight < 0.7;
+  const showInlineSearchSuggestions =
+    !noSearchMatches && !mobileViewport && searchSuggestion?.others;
 
   return (
     <main ref={elementRef} className={styles.main}>
@@ -490,7 +493,7 @@ export const KilledNamesListGrid = () => {
         )}%`}
       />
       <div className={styles.gridConstraint}>
-        {!noSearchMatches && searchSuggestion?.others && (
+        {showInlineSearchSuggestions && (
           <InlineSearchSuggestions
             ref={inlineSearchSuggestionsRef}
             searchSuggestion={searchSuggestion}
