@@ -39,11 +39,13 @@ import {
 } from "../../../../scripts/data/common/killed-in-gaza/constants";
 import { createCSVDownload } from "./csvDownload";
 import { suggestSearch } from "./searchSuggestion";
+import { InlineSearchSuggestions } from "./components/InlineSearchSuggestions";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
   const headerRef = useRef(null);
   const tableHeaderRef = useRef(null);
+  const inlineSearchSuggestionsRef = useRef(null);
   const gridRef = useGridRef(null);
   const filterRowRef = useRef({ setSearchValue: (_: string) => {} });
   const lastDimension = useRef({ width: 0, height: 0 });
@@ -128,9 +130,15 @@ export const KilledNamesListGrid = () => {
       const mainHeight = elementRef.current.offsetHeight;
       const navDisplacement = elementRef.current.getBoundingClientRect().y ?? 0;
       const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
+      const inlineSearchSuggestionsHeight =
+        inlineSearchSuggestionsRef?.current?.offsetHeight ?? 0;
       const headerRefHeight = headerRef?.current?.offsetHeight ?? 0;
       const gridHeight =
-        mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
+        mainHeight -
+        navDisplacement -
+        tableHeaderHeight -
+        headerRefHeight -
+        inlineSearchSuggestionsHeight;
 
       const newDims = {
         width: mainWidth,
@@ -162,9 +170,15 @@ export const KilledNamesListGrid = () => {
       const mainHeight = main.offsetHeight;
       const navDisplacement = main.getBoundingClientRect().y ?? 0;
       const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
+      const inlineSearchSuggestionsHeight =
+        inlineSearchSuggestionsRef?.current?.offsetHeight ?? 0;
       const headerRefHeight = headerRef?.current?.offsetHeight ?? 0;
       const gridHeight =
-        mainHeight - navDisplacement - tableHeaderHeight - headerRefHeight;
+        mainHeight -
+        navDisplacement -
+        tableHeaderHeight -
+        headerRefHeight -
+        inlineSearchSuggestionsHeight;
 
       if (
         hasMobileToolbarDimensionChange({
@@ -422,6 +436,10 @@ export const KilledNamesListGrid = () => {
     [setColumnConfig, applyFilters, filterState]
   );
 
+  const onInlineSearchSuggestionsShown = useCallback(() => {
+    calcLayout();
+  }, [calcLayout]);
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -473,21 +491,13 @@ export const KilledNamesListGrid = () => {
       />
       <div className={styles.gridConstraint}>
         {!noSearchMatches && searchSuggestion?.others && (
-          <div className={styles.searchSuggestionsWithMatch}>
-            🔍 You may need to use alternate transliterations when searching in
-            english. Some suggestions:{" "}
-            {[searchSuggestion.main, ...searchSuggestion.others]
-              .filter((name) => name !== filterState.nameSearch)
-              .map((alt) => (
-                <span
-                  key={alt}
-                  onClick={() => onAcceptSearchSuggestion(alt)}
-                  style={{ display: "inline-block", marginRight: 6 }}
-                >
-                  {alt}
-                </span>
-              ))}
-          </div>
+          <InlineSearchSuggestions
+            ref={inlineSearchSuggestionsRef}
+            searchSuggestion={searchSuggestion}
+            nameSearch={filterState.nameSearch}
+            onInlineSearchSuggestionsShown={onInlineSearchSuggestionsShown}
+            onAcceptSearchSuggestion={onAcceptSearchSuggestion}
+          />
         )}
         {showGrid && (
           <>
