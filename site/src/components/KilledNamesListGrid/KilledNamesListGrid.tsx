@@ -24,6 +24,8 @@ const resizeUpdateInterval = 200;
 const overscanRecordCount = 40;
 const rowHeight = 40;
 
+const englishNameIndex = kig3FieldIndex.indexOf("en_name");
+
 import styles from "./killedNamesListGrid.module.css";
 import { getColumnConfig, recordCols } from "./getColumnConfig";
 import { FilterRow } from "./components/FilterRow";
@@ -37,18 +39,21 @@ import {
   updateLinks,
 } from "../../../../scripts/data/common/killed-in-gaza/constants";
 import { createCSVDownload } from "./csvDownload";
+import { suggestSearch } from "./searchSuggestion";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
   const headerRef = useRef(null);
   const tableHeaderRef = useRef(null);
   const gridRef = useGridRef(null);
+  const filterRowRef = useRef({ setSearchValue: (_: string) => {} });
   const lastDimension = useRef({ width: 0, height: 0 });
   const visibleRecords = useRef(0);
   const recordsVisibleInWindowViewport = useRef(0);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const records = useRef<PersonRow[]>([]);
   const filteredRecords = useRef<PersonRow[]>([]);
+  const uniqueEnglishNames = useRef(new Set<string>());
   const [recordCount, setRecordCount] = useState(0);
   const [resized, setResized] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -88,6 +93,12 @@ export const KilledNamesListGrid = () => {
     startWorker({
       onRecord: (row) => {
         records.current.push(row);
+        (row[englishNameIndex] || "")
+          .toString()
+          .split(/\s+/)
+          .forEach((part) =>
+            uniqueEnglishNames.current.add(part.toLowerCase())
+          );
         count += 1;
         updateState();
       },
@@ -266,8 +277,7 @@ export const KilledNamesListGrid = () => {
   );
 
   const onSearchInputChange = useCallback(
-    debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-      const query = e.target.value.trim().toLowerCase();
+    debounce((query: string) => {
       setFilterState((prev) => {
         const filteredCount = applyFilters(prev.filters, query);
 
@@ -348,6 +358,10 @@ export const KilledNamesListGrid = () => {
     filterState.nameSearch.trim().length > 0 &&
     windowRecordCount === recordCount;
 
+  const searchSuggestion = noSearchMatches
+    ? suggestSearch(uniqueEnglishNames.current, filterState.nameSearch)
+    : undefined;
+
   return (
     <main ref={elementRef} className={styles.main}>
       <div ref={headerRef} className={styles.headerColumns}>
@@ -362,6 +376,7 @@ export const KilledNamesListGrid = () => {
         </div>
         <div className={styles.headerColumn}>
           <FilterRow
+            ref={filterRowRef}
             selectedFilters={filterState.filters}
             onToggleFilter={onToggleFilter}
             onSearchInputChange={onSearchInputChange}
@@ -423,6 +438,19 @@ export const KilledNamesListGrid = () => {
         {noSearchMatches && (
           <div className={clsx(styles.gridOverlay, styles.noSearchMatches)}>
             <div>No matches found. Try adjusting your search or filters.</div>
+            {searchSuggestion && (
+              <div className={styles.searchSuggestion}>
+                Did you mean{" "}
+                <span
+                  onClick={() =>
+                    filterRowRef.current.setSearchValue(searchSuggestion)
+                  }
+                >
+                  {searchSuggestion}
+                </span>
+                ?
+              </div>
+            )}
             <div className={styles.noSearchMatchesHint}>
               (you may need to try alternate spellings when searching in
               English)
