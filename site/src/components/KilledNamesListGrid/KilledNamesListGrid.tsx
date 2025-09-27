@@ -36,6 +36,7 @@ import {
   updateDates,
   updateLinks,
 } from "../../../../scripts/data/common/killed-in-gaza/constants";
+import { createCSVDownload } from "./csvDownload";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -70,6 +71,9 @@ export const KilledNamesListGrid = () => {
   const [columnConfig, setColumnConfig] = useState(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
   const [focusedRecord, setFocusedRecord] = useState<PersonRow | null>(null);
+  const [csvDownloadParams, setCSVDownloadParams] = useState(
+    createCSVDownload([], 0)
+  );
 
   useEffect(() => {
     let count = 0;
@@ -86,6 +90,16 @@ export const KilledNamesListGrid = () => {
       onFinished: () => setLoading(false),
     });
   }, []);
+
+  useEffect(() => {
+    if (loading || csvDownloadParams.csvDataObjectURL) {
+      return;
+    }
+
+    setCSVDownloadParams(
+      createCSVDownload(records.current, records.current.length)
+    );
+  }, [loading]);
 
   const calcLayout = useCallback(() => {
     if (elementRef.current) {
@@ -179,6 +193,9 @@ export const KilledNamesListGrid = () => {
     (filters: PersonType[], nameSearch: string) => {
       if (filters.length === 6 && !nameSearch.length) {
         filteredRecords.current = [];
+        setCSVDownloadParams(
+          createCSVDownload(records.current, records.current.length)
+        );
         return;
       }
 
@@ -215,6 +232,10 @@ export const KilledNamesListGrid = () => {
 
         return hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
       });
+
+      setCSVDownloadParams(
+        createCSVDownload(filteredRecords.current, records.current.length)
+      );
 
       return filteredRecords.current.length;
     },
@@ -283,6 +304,7 @@ export const KilledNamesListGrid = () => {
             loaded={recordCount}
             windowRecordCount={windowRecordCount}
             thresholdIndex={thresholdIndex}
+            {...csvDownloadParams}
           />
         </div>
         <div className={styles.headerColumn}>

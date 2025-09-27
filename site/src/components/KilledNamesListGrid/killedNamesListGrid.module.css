@@ -79,6 +79,10 @@
     flex-direction: column;
     gap: 0px;
   }
+
+  .statusRowViewedLabel {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 725px) {
