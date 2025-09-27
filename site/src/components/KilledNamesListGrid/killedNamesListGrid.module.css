@@ -202,6 +202,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(20, 20, 20, 0.95);
+  padding: 0 20px;
 }
 
 .noSearchMatches {
@@ -212,7 +213,15 @@
   font-size: 1.3em;
 }
 
-.searchSuggestion span {
+.searchSuggestionsWithMatch {
+  padding: 10px;
+  border: 2px solid var(--ifm-footer-bg-color);
+  text-align: center;
+}
+
+.searchSuggestion span,
+.searchSuggestionAlternates span,
+.searchSuggestionsWithMatch span {
   font-weight: 700;
   color: var(--ifm-color-primary);
   cursor: pointer;

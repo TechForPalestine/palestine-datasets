@@ -358,9 +358,11 @@ export const KilledNamesListGrid = () => {
     filterState.nameSearch.trim().length > 0 &&
     windowRecordCount === recordCount;
 
-  const searchSuggestion = noSearchMatches
-    ? suggestSearch(uniqueEnglishNames.current, filterState.nameSearch)
-    : undefined;
+  const englishSearch = /^[a-zA-Z]/.test(filterState.nameSearch.trim());
+  const searchSuggestion =
+    filterState.nameSearch.trim().length > 3 && englishSearch
+      ? suggestSearch(uniqueEnglishNames.current, filterState.nameSearch)
+      : undefined;
 
   return (
     <main ref={elementRef} className={styles.main}>
@@ -395,6 +397,22 @@ export const KilledNamesListGrid = () => {
         )}%`}
       />
       <div className={styles.gridConstraint}>
+        {!noSearchMatches && searchSuggestion?.others && (
+          <div className={styles.searchSuggestionsWithMatch}>
+            🔍 You may need to use alternate transliterations when searching in
+            english. Some suggestions:{" "}
+            {[searchSuggestion.main, ...searchSuggestion.others]
+              .filter((name) => name !== filterState.nameSearch)
+              .map((alt) => (
+                <span
+                  onClick={() => filterRowRef.current.setSearchValue(alt)}
+                  style={{ display: "inline-block", marginRight: 6 }}
+                >
+                  {alt}
+                </span>
+              ))}
+          </div>
+        )}
         {showGrid && (
           <>
             <div ref={tableHeaderRef}>
@@ -438,18 +456,33 @@ export const KilledNamesListGrid = () => {
         {noSearchMatches && (
           <div className={clsx(styles.gridOverlay, styles.noSearchMatches)}>
             <div>No matches found. Try adjusting your search or filters.</div>
-            {searchSuggestion && (
-              <div className={styles.searchSuggestion}>
-                Did you mean{" "}
-                <span
-                  onClick={() =>
-                    filterRowRef.current.setSearchValue(searchSuggestion)
-                  }
-                >
-                  {searchSuggestion}
-                </span>
-                ?
-              </div>
+            {searchSuggestion?.main && (
+              <>
+                <div className={styles.searchSuggestion}>
+                  Did you mean{" "}
+                  <span
+                    onClick={() =>
+                      filterRowRef.current.setSearchValue(searchSuggestion.main)
+                    }
+                  >
+                    {searchSuggestion.main}
+                  </span>
+                  ?
+                </div>
+                {!!searchSuggestion.others?.length && (
+                  <div className={styles.searchSuggestionAlternates}>
+                    Alternate transliterations:{" "}
+                    {searchSuggestion.others.map((alt) => (
+                      <span
+                        onClick={() => filterRowRef.current.setSearchValue(alt)}
+                        style={{ display: "inline-block", marginRight: 6 }}
+                      >
+                        {alt}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
             <div className={styles.noSearchMatchesHint}>
               (you may need to try alternate spellings when searching in
