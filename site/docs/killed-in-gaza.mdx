@@ -66,9 +66,9 @@ Each record will have the following fields:
 
 ## Versions
 
-We maintain two formats of this dataset: a V2 and V3 version. Both receive updates as we receive list updates from the ministry. These versions represent data format changes and not unique list updates. For unique list update numbering refer to the `update` field noted above (only available for the V3 format).
+We maintain two formats of this dataset: a v2 and v3 version. Both receive updates as we receive list updates from the ministry. These versions represent data format changes and not unique list updates. For unique list update numbering refer to the `update` field noted above (only available for the v3 format).
 
-V2 has the [paged format](#paging) noted above alongside CSV and JSON. V3 provides CSV & JSON in a condensed format. The V3 format does not include the "source" field that's in V2. We removed the source field after the ministry stopped using it in the [sixth list update](/updates/killed-in-gaza-update-6/). To keep the V3 JSON format small, we've switched the format from an array of JSON objects to an array of arrays, similar to a CSV. The first array specifies the fields and their order for the rest of the records in the main array.
+v2 has the [paged format](#paging) noted above alongside CSV and JSON. v3 provides CSV & JSON in a condensed format. The v3 format does not include the "source" field that's in v2. We removed the source field after the ministry stopped using it in the [sixth list update](/updates/killed-in-gaza-update-6/). To keep the v3 JSON format small, we've switched the format from an array of JSON objects to an array of arrays, similar to a CSV. The first array specifies the fields and their order for the rest of the records in the main array.
 
 ---
 
