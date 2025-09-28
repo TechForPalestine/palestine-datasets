@@ -360,8 +360,15 @@ export const KilledNamesListGrid = () => {
 
   const onSearchInputChange = useCallback(
     debounce((query: string) => {
+      if (!query) {
+        searchHasSortPriority.current = false;
+        acceptedSearchSuggestions.current.clear();
+      }
+
       setFilterState((prev) => {
-        searchHasSortPriority.current = true;
+        if (query) {
+          searchHasSortPriority.current = true;
+        }
 
         const filteredCount = applyFilters(prev.filters, query);
 
@@ -454,7 +461,7 @@ export const KilledNamesListGrid = () => {
     filterState.nameSearch.trim().length > 0 &&
     windowRecordCount === recordCount;
 
-  const englishSearch = /^[a-zA-Z]/.test(filterState.nameSearch.trim());
+  const englishSearch = /^[a-zA-Z\s-]+$/.test(filterState.nameSearch.trim());
   const searchSuggestion =
     filterState.nameSearch.trim().length > 3 && englishSearch
       ? suggestSearch(

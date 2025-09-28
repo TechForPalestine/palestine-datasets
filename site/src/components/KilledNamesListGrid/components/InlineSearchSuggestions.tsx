@@ -26,21 +26,27 @@ export const InlineSearchSuggestions = forwardRef<HTMLDivElement, Props>(
       onInlineSearchSuggestionsShown();
     }, []);
 
+    const suggestions = [searchSuggestion.main, ...searchSuggestion.others]
+      .filter((name) => !nameSearch.includes(name))
+      .map((alt) => (
+        <span
+          key={alt}
+          onClick={() => onAcceptSearchSuggestion(alt)}
+          style={{ display: "inline-block", marginRight: 6 }}
+        >
+          {alt}
+        </span>
+      ));
+
+    if (!suggestions.length) {
+      return null;
+    }
+
     return (
       <div ref={ref} className={styles.searchSuggestionsWithMatch}>
         🔍 You may need to use alternate transliterations when searching in
-        english. Some suggestions:{" "}
-        {[searchSuggestion.main, ...searchSuggestion.others]
-          .filter((name) => !nameSearch.includes(name))
-          .map((alt) => (
-            <span
-              key={alt}
-              onClick={() => onAcceptSearchSuggestion(alt)}
-              style={{ display: "inline-block", marginRight: 6 }}
-            >
-              {alt}
-            </span>
-          ))}
+        english. {suggestions.length === 1 ? "Suggestion" : "Suggestions"}:{" "}
+        {suggestions}
       </div>
     );
   }

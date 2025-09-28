@@ -49,7 +49,7 @@ export const replaceSearchPart = (
 
   const currentParts = currentSearch.split(/\s+/);
   const lastPart = currentParts[currentParts.length - 1];
-  if (distance(lastPart, acceptedPart) < levenshteinThreshold) {
+  if (distance(lastPart, acceptedPart) <= levenshteinThreshold) {
     return [...currentParts.slice(0, -1), acceptedPart].join(" ");
   }
 
