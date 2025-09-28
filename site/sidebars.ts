@@ -30,9 +30,10 @@ const sidebars: SidebarsConfig = {
     },
 
     {
-      type: "link",
+      type: "category",
       label: "Example Usage",
-      href: "/docs/examples",
+      link: { type: "doc", id: "examples" },
+      items: ["examples/rebel-metrics", "examples/poster"],
     },
     {
       type: "link",
