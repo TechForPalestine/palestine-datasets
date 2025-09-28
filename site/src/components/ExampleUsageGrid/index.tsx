@@ -8,6 +8,12 @@ type Props = {
 
 const numberPerRow = 2;
 
+const linkTargetFor = (link: string) => {
+  if (link.endsWith("pdf") || link.startsWith("http")) {
+    return "_blank";
+  }
+};
+
 export const ExampleUsageGrid = (props: Props) => {
   const rows = useMemo(() => {
     return props.examples.reduce((acc, example) => {
@@ -27,10 +33,7 @@ export const ExampleUsageGrid = (props: Props) => {
         <div className="row">
           {row.map((col) => (
             <div key={col.link} className={clsx("col col--6")}>
-              <a
-                href={col.link}
-                target={col.link.startsWith("/") ? undefined : "_blank"}
-              >
+              <a href={col.link} target={linkTargetFor(col.link)}>
                 <div className={styles.exampleCard}>
                   <div
                     className={styles.exampleImage}
