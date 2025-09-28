@@ -27,7 +27,10 @@ export const ExampleUsageGrid = (props: Props) => {
         <div className="row">
           {row.map((col) => (
             <div key={col.link} className={clsx("col col--6")}>
-              <a href={col.link} target="_blank">
+              <a
+                href={col.link}
+                target={col.link.startsWith("/") ? undefined : "_blank"}
+              >
                 <div className={styles.exampleCard}>
                   <div
                     className={styles.exampleImage}
