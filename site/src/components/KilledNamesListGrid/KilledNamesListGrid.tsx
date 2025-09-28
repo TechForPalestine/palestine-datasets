@@ -46,6 +46,7 @@ export const KilledNamesListGrid = () => {
   const headerRef = useRef(null);
   const tableHeaderRef = useRef(null);
   const inlineSearchSuggestionsRef = useRef(null);
+  const acceptedSearchSuggestions = useRef(new Set<string>());
   const gridRef = useGridRef(null);
   const filterRowRef = useRef({ setSearchValue: (_: string) => {} });
   const lastDimension = useRef({ width: 0, height: 0 });
@@ -254,8 +255,9 @@ export const KilledNamesListGrid = () => {
 
         let hasNameMatch = true;
         let partialMatchHitFactor = 0;
-        let arNameSearchMatches = new Set<number>();
-        let enNameSearchMatches = new Set<number>();
+        const arNameSearchMatches = new Set<number>();
+        const enNameSearchMatches = new Set<number>();
+        const uniqueNameMatches = new Set<string>();
 
         if (nameSearch.length) {
           const arName = row[recordCols.ar_name];
@@ -275,6 +277,7 @@ export const KilledNamesListGrid = () => {
             });
             if (nameMatch) {
               arNameSearchMatches.add(nameMatchIndex);
+              uniqueNameMatches.add(namePart);
               return true;
             }
           });
@@ -288,15 +291,14 @@ export const KilledNamesListGrid = () => {
             });
             if (nameMatch) {
               enNameSearchMatches.add(nameMatchIndex);
+              uniqueNameMatches.add(namePart);
               return true;
             }
           });
           const partialMatches =
             partialArMatches.length + partialEnMatches.length;
           partialMatchHitFactor =
-            partialMatches +
-            (arNameSearchMatches.size + enNameSearchMatches.size) *
-              searchUniqueNameHitFactor;
+            partialMatches + uniqueNameMatches.size * searchUniqueNameHitFactor;
           hasNameMatch = partialMatches > 0;
         }
 
@@ -381,6 +383,7 @@ export const KilledNamesListGrid = () => {
   );
 
   const onAcceptSearchSuggestion = useCallback((value: string) => {
+    acceptedSearchSuggestions.current.add(value);
     searchHasSortPriority.current = true;
     filterRowRef.current.setSearchValue(value);
   }, []);
@@ -454,7 +457,11 @@ export const KilledNamesListGrid = () => {
   const englishSearch = /^[a-zA-Z]/.test(filterState.nameSearch.trim());
   const searchSuggestion =
     filterState.nameSearch.trim().length > 3 && englishSearch
-      ? suggestSearch(uniqueEnglishNames.current, filterState.nameSearch)
+      ? suggestSearch(
+          uniqueEnglishNames.current,
+          filterState.nameSearch,
+          acceptedSearchSuggestions.current
+        )
       : undefined;
   const mobileViewport =
     typeof window === "undefined"
@@ -567,6 +574,7 @@ export const KilledNamesListGrid = () => {
                     Alternate transliterations:{" "}
                     {searchSuggestion.others.map((alt) => (
                       <span
+                        key={alt}
                         onClick={() => onAcceptSearchSuggestion(alt)}
                         style={{ display: "inline-block", marginRight: 6 }}
                       >

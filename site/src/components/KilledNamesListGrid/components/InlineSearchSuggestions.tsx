@@ -31,7 +31,7 @@ export const InlineSearchSuggestions = forwardRef<HTMLDivElement, Props>(
         🔍 You may need to use alternate transliterations when searching in
         english. Some suggestions:{" "}
         {[searchSuggestion.main, ...searchSuggestion.others]
-          .filter((name) => name !== nameSearch)
+          .filter((name) => !nameSearch.includes(name))
           .map((alt) => (
             <span
               key={alt}

@@ -5,6 +5,7 @@ import styles from "./FilterRow.module.css";
 import { GenderAgeFilters } from "./GenderAgeFilters";
 import { SharedProps } from "./shared.types";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { replaceSearchPart } from "../searchSuggestion";
 
 interface FilterRowProps extends SharedProps {
   onSearchInputChange: (value: string) => void;
@@ -24,7 +25,7 @@ export const FilterRow = forwardRef<
 
     useImperativeHandle(ref, () => ({
       setSearchValue: (value: string) => {
-        setSearchValue(value);
+        setSearchValue(replaceSearchPart(searchValue, value));
         onSearchInputChange(value);
       },
     }));
