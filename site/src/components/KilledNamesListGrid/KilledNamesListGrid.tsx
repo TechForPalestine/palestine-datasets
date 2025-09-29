@@ -38,7 +38,7 @@ import {
   updateLinks,
 } from "../../../../scripts/data/common/killed-in-gaza/constants";
 import { createCSVDownload } from "./csvDownload";
-import { suggestSearch } from "./searchSuggestion";
+import { minimumSearchTermLength, suggestSearch } from "./searchSuggestion";
 import { InlineSearchSuggestions } from "./components/InlineSearchSuggestions";
 
 export const KilledNamesListGrid = () => {
@@ -239,7 +239,7 @@ export const KilledNamesListGrid = () => {
       const nameSearches = nameSearch
         .trim()
         .split(/\s+/)
-        .filter((s) => !!s)
+        .filter((s) => !!s && s.length >= minimumSearchTermLength)
         .map((s) => s.toLowerCase());
 
       filteredRecords.current = records.current.filter((row) => {
@@ -562,6 +562,11 @@ export const KilledNamesListGrid = () => {
         )}
         {noSearchMatches && (
           <div className={clsx(styles.gridOverlay, styles.noSearchMatches)}>
+            {filterState.nameSearch.trim().length < minimumSearchTermLength && (
+              <div>
+                <strong>Enter at least 3 characters to see results.</strong>
+              </div>
+            )}
             <div>No matches found. Try adjusting your search or filters.</div>
             {searchSuggestion?.main && (
               <>

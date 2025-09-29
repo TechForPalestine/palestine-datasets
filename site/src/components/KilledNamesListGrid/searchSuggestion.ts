@@ -3,13 +3,20 @@ import { closest, distance } from "fastest-levenshtein";
 const maxSuggestions = 15;
 const levenshteinThreshold = 2;
 
+export const minimumSearchTermLength = 3;
+
 export const suggestSearch = (
   names: Set<string>,
   search: string,
   accepted: Set<string>
 ) => {
-  const searchParts = search.split(/\s+/).filter((part) => !accepted.has(part));
-  const lastPart = searchParts[searchParts.length - 1];
+  const searchParts = search
+    .split(/\s+/)
+    .filter((part) => !accepted.has(part))
+    .reverse();
+  const lastPart = searchParts.find(
+    (part) => part.length >= minimumSearchTermLength
+  );
 
   if (!lastPart) {
     return;
