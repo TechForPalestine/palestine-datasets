@@ -25,8 +25,9 @@ export const FilterRow = forwardRef<
 
     useImperativeHandle(ref, () => ({
       setSearchValue: (value: string) => {
-        setSearchValue(replaceSearchPart(searchValue, value));
-        onSearchInputChange(value);
+        const newValue = replaceSearchPart(searchValue, value);
+        setSearchValue(newValue);
+        onSearchInputChange(newValue);
       },
     }));
 

@@ -54,10 +54,13 @@ export const replaceSearchPart = (
     return acceptedPart;
   }
 
-  const currentParts = currentSearch.split(/\s+/);
-  const lastPart = currentParts[currentParts.length - 1];
-  if (distance(lastPart, acceptedPart) <= levenshteinThreshold) {
-    return [...currentParts.slice(0, -1), acceptedPart].join(" ");
+  const currentPartsReversed = currentSearch.split(/\s+/).reverse();
+  const matchIndex = currentPartsReversed.findIndex(
+    (part) => distance(part, acceptedPart) <= levenshteinThreshold
+  );
+  if (matchIndex > -1) {
+    currentPartsReversed.splice(matchIndex, 1, acceptedPart);
+    return currentPartsReversed.reverse().join(" ");
   }
 
   return currentSearch + ` ${acceptedPart}`;
