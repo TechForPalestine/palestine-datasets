@@ -9382,6 +9382,8 @@
     "ext_massacres_cum": 4005,
     "killed": 531,
     "killed_cum": 46537,
+    "killed_truce_new": 32,
+    "killed_committee": 499,
     "ext_killed": 531,
     "ext_killed_cum": 46537,
     "ext_killed_children_cum": 17841,
