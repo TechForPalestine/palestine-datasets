@@ -36,7 +36,7 @@ const rowTransformerForDictResultType = {
   en: ([arKey, cleanedValue]: [string, string]) => {
     const normalizedArKey = new ArabicClass(arKey.trim()).normalize();
     trackDuplicateKeysForLogging(normalizedArKey);
-    return [normalizedArKey, cleanedValue.trim().toLowerCase()].join(",");
+    return [normalizedArKey, cleanedValue?.trim().toLowerCase()].join(",");
   },
 };
 
@@ -75,8 +75,8 @@ const sortCsv = (repoFilePath: string, resultType: "ar" | "en") => {
   );
 
   const cleanedRows = Object.entries(csvDict)
-    .map(rowTransformerForDictResultType[resultType])
-    .filter((row) => !!row);
+    .filter((row) => !!row)
+    .map(rowTransformerForDictResultType[resultType]);
 
   const sortedRows = sortForType(resultType, cleanedRows);
 
