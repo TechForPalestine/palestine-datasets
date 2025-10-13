@@ -39,8 +39,13 @@ jobs:
           bun run scripts/data/common/killed-in-gaza/generate_killed_list.ts
           mkdir -p ci-tmp
           bun run gen-killed
-          bun run gen-killed-press
           git diff origin/main:killed-in-gaza.json killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
+
+      - name: run press list script
+        run: |
+          bun run gen-killed-press
+        env:
+          TFP_SHEET_KEY: ${{ secrets.TFP_SHEET_KEY }}
 
       - name: upload debug artifacts
         uses: actions/upload-artifact@v4
@@ -53,7 +58,7 @@ jobs:
         id: commit
         with:
           message: "killed-in-gaza: json update"
-          add: '["killed-in-gaza.json", "killed-in-gaza.min.json", "scripts/data/common/killed-in-gaza/data/**"]'
+          add: '["killed-in-gaza.json", "killed-in-gaza.min.json", "scripts/data/common/killed-in-gaza/data/**", "press_killed_in_gaza.json", "press_killed_in_gaza.min.json"]'
           push: true
 
       - name: create & upload derived API resources artifact
