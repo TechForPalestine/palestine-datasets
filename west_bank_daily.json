@@ -11498,38 +11498,65 @@
   },
   {
     "report_date": "2026-01-19",
-    "killed_cum": 1042,
-    "killed_children_cum": 216,
-    "injured_cum": 10160,
-    "injured_children_cum": 1768,
-    "settler_attacks_cum": 3187,
-    "flash_source": "fill"
+    "killed_cum": 1044,
+    "killed_children_cum": 217,
+    "injured_cum": 10247,
+    "injured_children_cum": 1772,
+    "settler_attacks_cum": 3242,
+    "flash_source": "un"
   },
   {
     "report_date": "2026-01-20",
-    "killed_cum": 1042,
-    "killed_children_cum": 216,
-    "injured_cum": 10160,
-    "injured_children_cum": 1768,
-    "settler_attacks_cum": 3187,
+    "killed_cum": 1044,
+    "killed_children_cum": 217,
+    "injured_cum": 10247,
+    "injured_children_cum": 1772,
+    "settler_attacks_cum": 3242,
     "flash_source": "fill"
   },
   {
     "report_date": "2026-01-21",
-    "killed_cum": 1042,
-    "killed_children_cum": 216,
-    "injured_cum": 10160,
-    "injured_children_cum": 1768,
-    "settler_attacks_cum": 3187,
+    "killed_cum": 1044,
+    "killed_children_cum": 217,
+    "injured_cum": 10247,
+    "injured_children_cum": 1772,
+    "settler_attacks_cum": 3242,
     "flash_source": "fill"
   },
   {
     "report_date": "2026-01-22",
-    "killed_cum": 1042,
-    "killed_children_cum": 216,
-    "injured_cum": 10160,
-    "injured_children_cum": 1768,
-    "settler_attacks_cum": 3187,
+    "killed_cum": 1044,
+    "killed_children_cum": 217,
+    "injured_cum": 10247,
+    "injured_children_cum": 1772,
+    "settler_attacks_cum": 3242,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-01-23",
+    "killed_cum": 1044,
+    "killed_children_cum": 217,
+    "injured_cum": 10247,
+    "injured_children_cum": 1772,
+    "settler_attacks_cum": 3242,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-01-24",
+    "killed_cum": 1044,
+    "killed_children_cum": 217,
+    "injured_cum": 10247,
+    "injured_children_cum": 1772,
+    "settler_attacks_cum": 3242,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-01-25",
+    "killed_cum": 1044,
+    "killed_children_cum": 217,
+    "injured_cum": 10247,
+    "injured_children_cum": 1772,
+    "settler_attacks_cum": 3242,
     "flash_source": "fill"
   }
 ]
