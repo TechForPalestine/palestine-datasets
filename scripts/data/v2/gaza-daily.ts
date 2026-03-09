@@ -37,10 +37,17 @@ const generateJsonFromGSheet = async () => {
   const sheetJson = await fetchGoogleSheet(SheetTab.CasualtiesDaily);
   // drop the first two rows which are for sheet admin only
   const [_, __, headerKeys, ...rows] = sheetJson.values;
-  const renamedKeys = headerKeys.map(
+  const completedIdx = headerKeys.findIndex((col) => col === "completed");
+  const filteredRows = rows.filter((row) => row[completedIdx] === "TRUE");
+  // filter out the "completed" column from headers and rows
+  const filteredHeaderKeys = headerKeys.filter((_, i) => i !== completedIdx);
+  const filteredDataRows = filteredRows.map((row) =>
+    row.filter((_, i) => i !== completedIdx)
+  );
+  const renamedKeys = filteredHeaderKeys.map(
     (key) => fieldKeyRemap[key as keyof typeof fieldKeyRemap] ?? key
   );
-  const jsonArray = formatDailiesJson(renamedKeys, rows);
+  const jsonArray = formatDailiesJson(renamedKeys, filteredDataRows);
   validateDailiesJson(jsonArray);
   writeJson(ApiResource.CasualtiesDailyV2, jsonFileName, jsonArray);
   console.log(`generated JSON file: ${jsonFileName}`);
