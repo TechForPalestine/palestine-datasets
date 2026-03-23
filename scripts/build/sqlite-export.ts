@@ -254,6 +254,8 @@ async function main() {
       await loadInfrastructureDamaged(db);
       writeMetadata(db);
   } finally {
+    const tables = db.query("SELECT name FROM sqlite_master WHERE type='table'").all() as { name: string }[];
+    console.log("  tables:", tables.map((t) => t.name).join(", "));
     db.close();
   }
 
