@@ -49,7 +49,7 @@ jobs:
             | `infrastructure_damaged` | ~730 |
             | `_meta` | 3 |
 
-### Download
-curl -L https://github.com/TechForPalestine/palestine-datasets/releases/download/sqlite-latest/palestine-datasets.sqlite -o palestine-datasets.sqlite
-files: dist/palestine-datasets.sqlite
-make_latest: true
+            ### Download
+            curl -L https://github.com/TechForPalestine/palestine-datasets/releases/download/sqlite-latest/palestine-datasets.sqlite -o palestine-datasets.sqlite
+          files: dist/palestine-datasets.sqlite
+          make_latest: true
