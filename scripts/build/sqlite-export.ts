@@ -246,16 +246,17 @@ async function main() {
   db.run("PRAGMA journal_mode = WAL");
   db.run("PRAGMA synchronous = NORMAL");
 
-  try {
-      await loadPressKilled(db);
-      await loadCasualtiesDaily(db);
-      await loadWestBankDaily(db);
-      await loadKilledInGaza(db);
-      await loadInfrastructureDamaged(db);
-      writeMetadata(db);
-  } finally {
+try {
+    await loadPressKilled(db);
+    await loadCasualtiesDaily(db);
+    await loadWestBankDaily(db);
+    await loadKilledInGaza(db);
+    await loadInfrastructureDamaged(db);
+    writeMetadata(db);
     const tables = db.query("SELECT name FROM sqlite_master WHERE type='table'").all() as { name: string }[];
     console.log("  tables:", tables.map((t) => t.name).join(", "));
+  } finally {
+    db.run("PRAGMA wal_checkpoint(TRUNCATE)");
     db.close();
   }
 
