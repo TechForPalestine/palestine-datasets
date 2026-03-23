@@ -1,0 +1,55 @@
+name: SQLite Export
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.22
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build SQLite
+        run: bun run gen-sqlite
+
+      - name: Get date
+        id: date
+        run: echo "today=$(date -u +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: sqlite-latest
+          name: "SQLite Export — ${{ steps.date.outputs.today }}"
+          body: |
+            Daily SQLite export of all palestine-datasets JSON files.
+            Built: ${{ steps.date.outputs.today }}
+
+            ### Tables
+            | Table | Rows (approx) |
+            |-------|---------------|
+            | `casualties_daily` | ~900 |
+            | `west_bank_daily` | ~900 |
+            | `killed_in_gaza` | ~60k |
+            | `press_killed_in_gaza` | ~260 |
+            | `infrastructure_damaged` | ~730 |
+            | `_meta` | 3 |
+
+            ### Download
+            curl -L https://github.com/TechForPalestine/palestine-datasets/releases/download/sqlite-latest/palestine-datasets.sqlite -o palestine-datasets.sqlite
+          files: dist/palestine-datasets.sqlite
+          make_latest: true

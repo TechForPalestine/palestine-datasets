@@ -22,3 +22,5 @@ ci-tmp/
 /downloads/
 /pdfservices-*
 /config/pdfservices-*
+
+dist/
