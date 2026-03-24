@@ -24,6 +24,9 @@ jobs:
         env:
           TFP_SHEET_KEY: ${{ secrets.TFP_SHEET_KEY }}
 
+      - name: check series are chartable
+        run: bun run chart-viz
+
       - name: commit vars
         id: commitvars
         run: |
