@@ -169,13 +169,13 @@ export const HomeDailyChart = () => {
               {numFmt.format(dayData.starved)} <span>starved to death</span>
             </div>
           )}
+        </div>
+        <div className={styles.chartBreakdownTagsSubsequentRows}>
           {!!dayData.women && (
             <div className={styles.chartBreakdownTag}>
               {numFmt.format(dayData.women)} women <span>killed</span>
             </div>
           )}
-        </div>
-        <div className={styles.chartBreakdownTagsSubsequentRows}>
           <div className={styles.chartBreakdownTag}>
             {numFmt.format(dayData.medical)} medical personnel{" "}
             <span>killed</span>
