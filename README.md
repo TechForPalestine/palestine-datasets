@@ -16,6 +16,8 @@ There are five datasets:
 - `press_killed_in_gaza.json` has a list of journalists known to have been killed in Gaza
 - `infrastructure-damaged.json` has weekly reports of damage estimates to human infrastructure
 
+These datasets are also published in a [sqlite database available here](https://github.com/TechForPalestine/palestine-datasets/releases/tag/sqlite-latest).
+
 Note that the JSON files in this repo are intended for tracking historical changes and manual access/download. If you're building a system that relies on pulling in regular updates please see our [API docs](https://data.techforpalestine.org/docs/datasets/) for versioned endpoints instead.
 
 There's also the source for the static documentation website under `site/`.
