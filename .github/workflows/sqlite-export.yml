@@ -1,9 +1,12 @@
 name: SQLite Export
 
 on:
-  schedule:
-    - cron: "0 8 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "*.json"
 
 permissions:
   contents: write
