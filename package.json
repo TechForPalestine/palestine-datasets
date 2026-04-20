@@ -20,6 +20,7 @@
     "gen-infrastructure": "bun run scripts/data/v3/infrastructure-damaged.ts",
     "gen-csv": "bun run scripts/data/v2/derived/csv.ts && bun run scripts/data/v3/derived/csv.ts",
     "gen-all": "bun run gen-daily && bun run gen-killed && bun run gen-killed-press && bun run gen-derived",
+    "gen-sqlite": "bun run scripts/build/sqlite-export.ts",
     "chart-viz": "bun run site/src/components/HomeDailyChart/generator/chart-generator.ts",
     "chart-viz-dev": "bun --watch site/src/components/HomeDailyChart/generator/chart-generator.ts",
     "flightcheck": "bun run types && bun run reset-manifest && bun run gen-all && bun run docs-build && bun run docs-serve",
