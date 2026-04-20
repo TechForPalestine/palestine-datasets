@@ -2,6 +2,8 @@ name: SQLite Export
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: [sqlite-export]
   push:
     branches:
       - "main"
