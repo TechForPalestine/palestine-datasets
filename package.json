@@ -36,6 +36,7 @@
     "postinstall": "bun run patch-deps"
   },
   "devDependencies": {
+    "@types/bun": "^1.3.12",
     "@types/node": "^20.11.0"
   },
   "dependencies": {

@@ -24,3 +24,4 @@ ci-tmp/
 /config/pdfservices-*
 
 dist/
+/palestine-datasets.sqlite*

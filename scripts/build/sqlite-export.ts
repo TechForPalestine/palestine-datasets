@@ -1,4 +1,4 @@
-import { Database } from "bun:sqlite";
+import { Database, type SQLQueryBindings } from "bun:sqlite";
 import { mkdirSync } from "fs";
 
 const DB_PATH = "dist/palestine-datasets.sqlite";
@@ -16,7 +16,7 @@ function inferType(v: unknown): string {
   return "TEXT";
 }
 
-function toSQLite(v: unknown): string | number | null {
+function toSQLite(v: unknown): SQLQueryBindings {
   if (v === null || v === undefined) return null;
   if (typeof v === "boolean") return v ? 1 : 0;
   if (typeof v === "number") return v;
@@ -51,12 +51,14 @@ function buildTable(
 
   const placeholders = keys.map(() => "?").join(", ");
   const insert = db.prepare(
-    `INSERT OR REPLACE INTO "${tableName}" (${keys.map((k) => `"${k}"`).join(", ")}) VALUES (${placeholders})`
+    `INSERT OR REPLACE INTO "${tableName}" (${keys
+      .map((k) => `"${k}"`)
+      .join(", ")}) VALUES (${placeholders})`
   );
 
   db.transaction((items: Record<string, unknown>[]) => {
     for (const row of items) {
-      insert.run(keys.map((k) => toSQLite(row[k])));
+      insert.run(...keys.map((k) => toSQLite(row[k])));
     }
   })(rows);
 
@@ -64,17 +66,23 @@ function buildTable(
 }
 
 async function loadPressKilled(db: Database) {
-  const rows: Record<string, unknown>[] = await Bun.file("press_killed_in_gaza.json").json();
+  const rows: Record<string, unknown>[] = await Bun.file(
+    "press_killed_in_gaza.json"
+  ).json();
   buildTable(db, "press_killed_in_gaza", rows);
 }
 
 async function loadCasualtiesDaily(db: Database) {
-  const rows: Record<string, unknown>[] = await Bun.file("casualties_daily.json").json();
+  const rows: Record<string, unknown>[] = await Bun.file(
+    "casualties_daily.json"
+  ).json();
   buildTable(db, "casualties_daily", rows, "report_date");
 }
 
 async function loadWestBankDaily(db: Database) {
-  const raw: Record<string, unknown>[] = await Bun.file("west_bank_daily.json").json();
+  const raw: Record<string, unknown>[] = await Bun.file(
+    "west_bank_daily.json"
+  ).json();
 
   // flatten nested "verified" object → verified_* prefix
   const rows = raw.map((row) => {
@@ -103,7 +111,9 @@ async function loadKilledInGaza(db: Database) {
 
   const rows = dataRows.map((row) => {
     const obj: Record<string, unknown> = {};
-    keys.forEach((k, i) => { obj[k] = (row as unknown[])[i]; });
+    keys.forEach((k, i) => {
+      obj[k] = (row as unknown[])[i];
+    });
     return obj;
   });
 
@@ -111,7 +121,9 @@ async function loadKilledInGaza(db: Database) {
 }
 
 async function loadInfrastructureDamaged(db: Database) {
-  const raw: Record<string, unknown>[] = await Bun.file("infrastructure-damaged.json").json();
+  const raw: Record<string, unknown>[] = await Bun.file(
+    "infrastructure-damaged.json"
+  ).json();
 
   // flatten nested category objects → category_field prefix
   const rows = raw.map((row) => {
@@ -138,7 +150,10 @@ function writeMetadata(db: Database) {
   const insert = db.prepare(`INSERT INTO _meta (key, value) VALUES (?, ?)`);
   db.transaction(() => {
     insert.run("built_at", new Date().toISOString());
-    insert.run("source", "https://github.com/TechForPalestine/palestine-datasets");
+    insert.run(
+      "source",
+      "https://github.com/TechForPalestine/palestine-datasets"
+    );
     insert.run("script_version", "1.0.0");
   })();
 
