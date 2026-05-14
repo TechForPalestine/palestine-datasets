@@ -12521,5 +12521,14 @@
     "injured_children_cum": 1852,
     "settler_attacks_cum": 3903,
     "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-05-13",
+    "killed_cum": 1076,
+    "killed_children_cum": 227,
+    "injured_cum": 10932,
+    "injured_children_cum": 1852,
+    "settler_attacks_cum": 3903,
+    "flash_source": "fill"
   }
 ]
