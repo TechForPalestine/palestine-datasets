@@ -4,11 +4,6 @@
  * Key: canonical ID (the record to keep)
  * Value: array of duplicate IDs to be removed and merged into the canonical record
  *
- * When adding a new duplicate group:
- * 1. Add an entry here mapping canonical ID → [duplicate IDs]
- * 2. Remove the duplicate rows from raw.csv (keep only the canonical row)
- * 3. Re-run the pipeline
- *
  * The canonical record will get a `duplicate_ids` field listing the merged IDs
  * so API consumers can trace consolidated records.
  */
