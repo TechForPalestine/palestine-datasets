@@ -59,19 +59,7 @@ const config: Config = {
 
   i18n: {
     defaultLocale: "en",
-    locales: ["en", "ar"],
-    localeConfigs: {
-      en: {
-        label: "English",
-        direction: "ltr",
-        htmlLang: "en-US",
-      },
-      fa: {
-        label: "Arabic",
-        direction: "rtl",
-        htmlLang: "ar-PS",
-      },
-    },
+    locales: ["en"],
   },
 
   presets: [
