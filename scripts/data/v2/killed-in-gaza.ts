@@ -3,6 +3,7 @@ import toEnName from "arabic-name-to-en";
 import { writeJson } from "../../utils/fs";
 import { ApiResource } from "../../../types/api.types";
 import { readCsv } from "../../utils/csv";
+import { knownDuplicates } from "../common/killed-in-gaza/duplicates";
 
 const jsonFileName = "killed-in-gaza.json";
 
@@ -27,7 +28,7 @@ interface MappedRecord extends Record<string, string | number> {
 
 const sexMapping = {
   M: "m",
-  F: "f"
+  F: "f",
 };
 
 const namesFallbackTranslated = new Map<string, number>();
@@ -176,18 +177,111 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
   }
 };
 
+/**
+ * Build a set of all IDs that are known duplicates (values in knownDuplicates map)
+ * so we can skip them during consolidation and unknown duplicate detection.
+ */
+const allKnownDuplicateIds = new Set<string>();
+for (const dupIds of Object.values(knownDuplicates)) {
+  for (const dupId of dupIds) {
+    allKnownDuplicateIds.add(dupId);
+  }
+}
+
+/**
+ * Detect records that share the same name+dob+sex but have different IDs.
+ * These are potential duplicates that should be resolved in the duplicates config.
+ * Known duplicates (from the config) are excluded from this check.
+ */
+const detectUnknownDuplicates = (
+  json: MappedRecord[]
+): Map<string, MappedRecord[]> => {
+  const keyMap = new Map<string, MappedRecord[]>();
+
+  for (const record of json) {
+    // Skip records that are known duplicates (to be consolidated)
+    if (allKnownDuplicateIds.has(record.id)) {
+      continue;
+    }
+    const key = `${record.name}|${record.dob}|${record.sex}`;
+    if (!keyMap.has(key)) {
+      keyMap.set(key, []);
+    }
+    keyMap.get(key)!.push(record);
+  }
+
+  const unknownDupes = new Map<string, MappedRecord[]>();
+  for (const [key, records] of keyMap) {
+    if (records.length > 1) {
+      unknownDupes.set(key, records);
+    }
+  }
+  return unknownDupes;
+};
+
+/**
+ * Consolidate known duplicates: remove duplicate records and add duplicate_ids
+ * to the canonical record.
+ */
+const consolidateKnownDuplicates = (json: MappedRecord[]): MappedRecord[] => {
+  const result: MappedRecord[] = [];
+
+  for (const record of json) {
+    // Skip records that are known duplicate IDs (non-canonical)
+    if (allKnownDuplicateIds.has(record.id)) {
+      continue;
+    }
+
+    // If this is a canonical record with known duplicates, add the field
+    if (knownDuplicates[record.id]) {
+      (record as Record<string, unknown>).duplicate_ids =
+        knownDuplicates[record.id];
+    }
+
+    result.push(record);
+  }
+
+  return result;
+};
+
 const generateJsonFromTranslatedCsv = async () => {
   const [headerKeys, ...rows] = readCsv(
     "scripts/data/common/killed-in-gaza/output/result.csv"
   );
   const jsonArray = formatToJson(headerKeys, rows);
   validateJson(jsonArray);
+
+  // Detect unknown duplicates (same name+dob+sex, different IDs) and error
+  const unknownDupes = detectUnknownDuplicates(jsonArray);
+  if (unknownDupes.size > 0) {
+    const dupeDetails = Array.from(unknownDupes.entries())
+      .map(([key, records]) => {
+        const ids = records.map((r) => r.id).join(", ");
+        return `  ${records[0].en_name} (${key}): [${ids}]`;
+      })
+      .join("\n");
+    throw new Error(
+      `Found ${unknownDupes.size} unknown duplicate group(s) with same name+dob+sex but different IDs.\n` +
+        `Add them to scripts/data/common/killed-in-gaza/duplicates.ts and remove duplicates from raw.csv.\n` +
+        `Duplicate groups:\n${dupeDetails}`
+    );
+  }
+
+  // Consolidate known duplicates
+  const consolidated = consolidateKnownDuplicates(jsonArray);
+  const removedCount = jsonArray.length - consolidated.length;
+  if (removedCount > 0) {
+    console.log(
+      `Consolidated ${removedCount} known duplicate record(s) from ${jsonArray.length} total`
+    );
+  }
+
   // sort by descending ID
-  jsonArray.sort((a, b) => b.id.localeCompare(a.id));
-  writeJson(ApiResource.KilledInGazaV2, jsonFileName, jsonArray);
+  consolidated.sort((a, b) => b.id.localeCompare(a.id));
+  writeJson(ApiResource.KilledInGazaV2, jsonFileName, consolidated);
 
   console.log(
-    `generated JSON file with ${jsonArray.length} records: ${jsonFileName}`
+    `generated JSON file with ${consolidated.length} records: ${jsonFileName}`
   );
 
   const logLines: string[] = [];
