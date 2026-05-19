@@ -6,6 +6,8 @@ import {
   normalizeArabic,
   replaceBySubstring,
   replaceWholeNameSegments,
+  hasStandaloneAllah,
+  fixStandaloneAllah,
 } from "./translate";
 
 const pwd = "scripts/data/common/killed-in-gaza";
@@ -18,8 +20,15 @@ const [rawHeaderRow, ...rawListRows] = rawList;
 // Check if name_en column already exists
 const nameEnColumnIndex = rawHeaderRow.indexOf(arEnNameColumnLabel);
 if (nameEnColumnIndex !== -1) {
-  // If name_en column exists, simply copy the file
-  writeCsv(`${pwd}/output/result.csv`, rawList);
+  // If name_en column exists, fix any standalone "allah" segments and write
+  const fixedList = rawListRows.map((row) => {
+    const enName = row[nameEnColumnIndex];
+    row[nameEnColumnIndex] = hasStandaloneAllah(enName)
+      ? fixStandaloneAllah(enName)
+      : enName;
+    return row;
+  });
+  writeCsv(`${pwd}/output/result.csv`, [rawHeaderRow, ...fixedList]);
 } else {
   // Process the file as before
   const arToAr = getArToArMap();
@@ -35,7 +44,11 @@ if (nameEnColumnIndex !== -1) {
     const normalizedArName = normalizeArabic(arName);
     row[arRawColumn] = normalizedArName;
     // append name_en col value
-    return [...row, replaceWholeNameSegments(normalizedArName, arToEn)];
+    const enName = replaceWholeNameSegments(normalizedArName, arToEn);
+    return [
+      ...row,
+      hasStandaloneAllah(enName) ? fixStandaloneAllah(enName) : enName,
+    ];
   });
 
   const newHeaders = [...rawHeaderRow, arEnNameColumnLabel];
