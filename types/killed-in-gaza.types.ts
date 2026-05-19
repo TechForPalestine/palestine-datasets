@@ -6,6 +6,7 @@ export type KilledInGaza = {
   sex: "m" | "f";
   en_name: string;
   source: "h" | "c";
+  duplicate_ids?: string[];
 };
 
 export type MarqueePerson = Pick<KilledInGaza, "id" | "name" | "age" | "sex">;
