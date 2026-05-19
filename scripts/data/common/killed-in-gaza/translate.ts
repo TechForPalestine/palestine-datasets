@@ -65,6 +65,35 @@ export const replaceWholeNameSegments = (
   return mapped;
 };
 
+/**
+ * Fixes standalone "allah" segments in English name translations.
+ * In Arabic, "الله" (allah) can be a separate name segment, but in English
+ * transliteration it should be joined with the preceding word.
+ * e.g. "Nasr Allah" → "Nasrallah", "Ata Allah" → "Atallah"
+ */
+const standaloneAllahRegex = /\ballah\b/i;
+
+export const hasStandaloneAllah = (name: string): boolean =>
+  standaloneAllahRegex.test(name);
+
+export const fixStandaloneAllah = (name: string): string => {
+  const segments = name.split(/\s+/);
+  const fixed: string[] = [];
+  for (const segment of segments) {
+    if (segment.toLowerCase() === "allah" && fixed.length > 0) {
+      // Collapse double 'a' when preceding segment ends with 'a'
+      // e.g. "Ata Allah" → "Atallah" (not "Ataallah")
+      const prev = fixed[fixed.length - 1];
+      fixed[fixed.length - 1] = prev.endsWith("a")
+        ? prev.slice(0, -1) + segment.toLowerCase()
+        : prev + segment.toLowerCase();
+    } else {
+      fixed.push(segment);
+    }
+  }
+  return fixed.join(" ");
+};
+
 export const replaceBySubstring = (
   name: string,
   dict: Record<string, string>
