@@ -15,7 +15,7 @@ export type Example = {
   image: string;
   description: string;
   link: string;
-  tags: Array<DatasetTag | TypeTag>;
+  tags?: Array<DatasetTag | TypeTag>;
 };
 
 type Props = {
@@ -54,6 +54,7 @@ const linkTargetFor = (link: string) => {
 };
 
 export const ExampleUsageGrid = (props: Props) => {
+  const showFilters = props.examples.some((example) => example.tags?.length);
   const [activeTags, setActiveTags] = useState<Set<TagKey>>(new Set());
 
   const toggleTag = (tag: TagKey) => {
@@ -73,7 +74,7 @@ export const ExampleUsageGrid = (props: Props) => {
   };
 
   const filteredExamples = useMemo(() => {
-    if (activeTags.size === 0) return props.examples;
+    if (!showFilters || activeTags.size === 0) return props.examples;
 
     const activeDatasetTags = Object.keys(tagGroups.dataset.tags).filter((t) =>
       activeTags.has(t as DatasetTag)
@@ -83,15 +84,16 @@ export const ExampleUsageGrid = (props: Props) => {
     );
 
     return props.examples.filter((example) => {
+      const exampleTags = example.tags ?? [];
       const matchesDataset =
         activeDatasetTags.length === 0 ||
-        activeDatasetTags.some((t) => example.tags.includes(t as DatasetTag));
+        activeDatasetTags.some((t) => exampleTags.includes(t as DatasetTag));
       const matchesType =
         activeTypeTags.length === 0 ||
-        activeTypeTags.some((t) => example.tags.includes(t as TypeTag));
+        activeTypeTags.some((t) => exampleTags.includes(t as TypeTag));
       return matchesDataset && matchesType;
     });
-  }, [props.examples, activeTags]);
+  }, [props.examples, activeTags, showFilters]);
 
   const rows = useMemo(() => {
     return filteredExamples.reduce((acc, example) => {
@@ -107,32 +109,34 @@ export const ExampleUsageGrid = (props: Props) => {
 
   return (
     <div>
-      <div className={styles.filterContainer}>
-        {Object.values(tagGroups).map((group) => (
-          <div key={group.label} className={styles.filterGroup}>
-            <span className={styles.filterGroupLabel}>{group.label}:</span>
-            <div className={styles.filterButtons}>
-              {Object.entries(group.tags).map(([tag, label]) => (
-                <button
-                  key={tag}
-                  className={clsx(
-                    styles.filterButton,
-                    activeTags.has(tag as TagKey) && styles.filterButtonActive
-                  )}
-                  onClick={() => toggleTag(tag as TagKey)}
-                >
-                  {label}
-                </button>
-              ))}
+      {showFilters && (
+        <div className={styles.filterContainer}>
+          {Object.values(tagGroups).map((group) => (
+            <div key={group.label} className={styles.filterGroup}>
+              <span className={styles.filterGroupLabel}>{group.label}:</span>
+              <div className={styles.filterButtons}>
+                {Object.entries(group.tags).map(([tag, label]) => (
+                  <button
+                    key={tag}
+                    className={clsx(
+                      styles.filterButton,
+                      activeTags.has(tag as TagKey) && styles.filterButtonActive
+                    )}
+                    onClick={() => toggleTag(tag as TagKey)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-        {activeTags.size > 0 && (
-          <button className={styles.clearButton} onClick={clearFilters}>
-            Clear filters
-          </button>
-        )}
-      </div>
+          ))}
+          {activeTags.size > 0 && (
+            <button className={styles.clearButton} onClick={clearFilters}>
+              Clear filters
+            </button>
+          )}
+        </div>
+      )}
       {filteredExamples.length === 0 && (
         <div className={styles.noResults}>
           No examples match the selected filters.
