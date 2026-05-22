@@ -1,9 +1,92 @@
 :root {
   --tfp-example-card-bg: rgb(245, 245, 245);
+  --tfp-filter-bg: transparent;
+  --tfp-filter-border: var(--ifm-color-emphasis-300);
+  --tfp-filter-active-bg: var(--ifm-color-primary);
+  --tfp-filter-active-border: var(--ifm-color-primary);
+  --tfp-filter-active-text: #fff;
+  --tfp-filter-hover-bg: var(--ifm-color-emphasis-100);
 }
 
 [data-theme="dark"] {
   --tfp-example-card-bg: var(--ifm-navbar-background-color);
+  --tfp-filter-hover-bg: var(--ifm-color-emphasis-200);
+}
+
+.filterContainer {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterGroupLabel {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-600);
+  min-width: fit-content;
+}
+
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filterButton {
+  background-color: var(--tfp-filter-bg);
+  border: 1px solid var(--tfp-filter-border);
+  border-radius: 16px;
+  padding: 4px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--ifm-font-color-base);
+}
+
+.filterButton:hover {
+  background-color: var(--tfp-filter-hover-bg);
+}
+
+.filterButtonActive {
+  background-color: var(--tfp-filter-active-bg);
+  border-color: var(--tfp-filter-active-border);
+  color: var(--tfp-filter-active-text);
+}
+
+.filterButtonActive:hover {
+  background-color: var(--tfp-filter-active-bg);
+  opacity: 0.9;
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  text-decoration: underline;
+}
+
+.clearButton:hover {
+  opacity: 0.8;
+}
+
+.noResults {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ifm-color-emphasis-500);
+  font-style: italic;
 }
 
 .exampleCard {
