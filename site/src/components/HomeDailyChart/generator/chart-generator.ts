@@ -1,7 +1,6 @@
 import fs from "fs";
 import D3Node from "d3-node";
 import { transform } from "@svgr/core";
-import pointAtLen from "point-at-length";
 import chartEvents from "./chart_events.json";
 import gazaDailyTimeSeries from "../../../../../casualties_daily.min.json";
 import westBankDailyTimeSeries from "../../../../../west_bank_daily.min.json";
@@ -210,15 +209,6 @@ const json: {
 
 const eventDotRadius = 9;
 
-// the chart line path is a "filled area" and we only want the stroke (chart line)
-// to appear for the top side of the filled gradient area, so we need to use a combo
-// of dasharray and dashoffset to achieve this for the two graph sizes we generate.
-// note: this has an effect on the coordinates we get for event dots, etc.
-const mobileLinePathLen = 660;
-const mobileLineStartOffset = 38;
-const desktopLinePathLen = 1080;
-const desktopLineStartOffset = 0;
-
 const render = async ({ mobile } = { mobile: false }) => {
   const width = mobile ? 500 : 1000;
   const height = 300;
@@ -279,23 +269,33 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const linePathId = "chartlinepath";
 
-  const path = svg
+  // Gradient-filled area (no stroke — rendered below the line)
+  const areaPathStr = pathData(data.chart) as string;
+  svg
     .append("path")
-    .datum(data.chart)
-    .attr("id", id(linePathId))
     .attr("fill", `url(#${id("pathFillGradient")})`)
+    .attr("stroke", "none")
+    .attr("d", areaPathStr);
+
+  // Stroke-only line path on top of the fill so stroke and fill appear
+  // continuous and both reach the right edge of the chart area.
+  const lineGenerator = d3
+    .line()
+    .x(function (d: any) {
+      return x(d.date);
+    })
+    .y(function (d: any) {
+      return y(d.value);
+    });
+
+  svg
+    .append("path")
+    .attr("id", id(linePathId))
+    .attr("fill", "none")
     .attr("stroke", "var(--ifm-color-primary-darker)")
     .attr("stroke-width", 3)
-    .attr(
-      "stroke-dashoffset",
-      mobile ? mobileLineStartOffset : desktopLineStartOffset
-    )
-    .attr(
-      "stroke-dasharray",
-      mobile ? `${mobileLinePathLen},850` : `${desktopLinePathLen},1305`
-    )
     .attr("stroke-linecap", "round")
-    .attr("d", pathData);
+    .attr("d", lineGenerator(data.chart) as string);
 
   const desiredTickCount = mobile ? 5 : 10;
   const xAxisPlan = days / desiredTickCount;
@@ -310,35 +310,21 @@ const render = async ({ mobile } = { mobile: false }) => {
   }
   xAxisSteps[0] = 1;
 
-  const pathDataValue = path.attr("d");
-  const pathPoints = pointAtLen(pathDataValue);
-  const svgDomain = {
-    maxPathLength: mobile ? mobileLinePathLen : desktopLinePathLen,
-  };
-  const daySegmentLength = svgDomain.maxPathLength / days;
-
-  let lastPoint: [number, number] = [0, height];
-  const topRightXThreshold = width * 0.98;
-  const verticalDropThreshold = 4;
-  const dayPoints = Array.from(new Array(days)).map((_, i) => {
-    const coordinates = pathPoints.at((i + 1) * daySegmentLength);
-    const [x, y] = coordinates;
-    // for some reason on mobile the visual chart path ends before the
-    // the "data path" does, so without this limiter, the movable dot
-    // would appear to drop off the cliff at the end of the chart so we'll
-    // hold it at the max even if that means the values change but the dot
-    // stays in place (TODO: figure out why this isn't the case on desktop)
-    if (x > topRightXThreshold && y > verticalDropThreshold) {
-      return lastPoint;
-    }
-    lastPoint = coordinates;
-    return coordinates;
-  });
+  // Compute day points directly from d3 scales — no need for point-at-length
+  // since d3.line()/d3.area() without curve produces a polyline matching these
+  // coordinates exactly.
+  const dayPoints: [number, number][] = data.chart.map((d) => [
+    x(d.date) as number,
+    y(d.value) as number,
+  ]);
 
   const axisStepMinDistance = width * 0.1;
   const xAxisPoints = xAxisSteps.reduce((points, stepValue) => {
-    const stepProgress = ((stepValue + 1) / days) * svgDomain.maxPathLength;
-    const point = pathPoints.at(stepProgress);
+    const idx = Math.min(stepValue, data.chart.length - 1);
+    const point: [number, number] = [
+      x(data.chart[idx].date) as number,
+      y(data.chart[idx].value) as number,
+    ];
     const lastPointX = points[points.length - 1]?.[0] ?? 0;
     // don't allow axis ticks too close together, particularly
     // near the right-side end where TODAY takes up more space
@@ -360,9 +346,10 @@ const render = async ({ mobile } = { mobile: false }) => {
     const eventIndex = data.slimData.findIndex(
       ({ date }) => date === chartEvent.date
     );
-    const eventTimeProgress =
-      ((eventIndex + 1) / days) * svgDomain.maxPathLength;
-    const eventPoint = pathPoints.at(eventTimeProgress);
+    const eventPoint: [number, number] = [
+      x(data.chart[eventIndex].date) as number,
+      y(data.chart[eventIndex].value) as number,
+    ];
     helpers.addEventPoint({
       eventPoint,
       eventLabel: chartEvent.label,
