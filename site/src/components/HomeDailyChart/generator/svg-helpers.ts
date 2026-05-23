@@ -76,7 +76,7 @@ const addAxisTickLabel =
   }) => {
     svg
       .append("text")
-      .attr("x", x - 10)
+      .attr("x", x)
       .attr("y", height + 30)
       .attr("fill", "#777")
       .attr("text-anchor", "middle")

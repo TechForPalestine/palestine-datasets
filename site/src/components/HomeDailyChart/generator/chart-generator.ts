@@ -320,12 +320,12 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const axisStepMinDistance = width * 0.1;
   const xAxisPoints = xAxisSteps.reduce((points, stepValue) => {
-    const idx = Math.min(stepValue, data.chart.length - 1);
+    const idx = Math.min(stepValue - 1, data.chart.length - 1);
     const point: [number, number] = [
       x(data.chart[idx].date) as number,
       y(data.chart[idx].value) as number,
     ];
-    const lastPointX = points[points.length - 1]?.[0] ?? 0;
+    const lastPointX = points[points.length - 1]?.[0] ?? -Infinity;
     // don't allow axis ticks too close together, particularly
     // near the right-side end where TODAY takes up more space
     if (point[0] < lastPointX + axisStepMinDistance) {
