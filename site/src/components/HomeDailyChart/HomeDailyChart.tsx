@@ -7,6 +7,7 @@ import chartData from "../../generated/daily-chart.json";
 import styles from "./HomeDailyChart.styles.module.css";
 import { Button } from "../Button";
 import { HalfRadialProgress, radialProgressCircum } from "./HalfRadialProgress";
+import { ChartTagCloud, TagItem } from "./ChartTagCloud";
 import previewData from "@site/src/generated/summary.json";
 
 const childrenRatePct = Math.round(
@@ -108,6 +109,109 @@ export const HomeDailyChart = () => {
   const tracked = useRef(false);
   const [day, setDay] = useState(days - 1);
   const dayData = chartData.data[day];
+  const tags: TagItem[] = [
+    ...(!!dayData.seekingAid
+      ? [
+          {
+            key: "seekingAid",
+            node: (
+              <>
+                {numFmt.format(dayData.seekingAid)} <span>attacked</span>{" "}
+                seeking aid
+              </>
+            ),
+          },
+        ]
+      : []),
+    {
+      key: "injured",
+      node: (
+        <>
+          {numFmt.format(dayData.injured)} <span>injured</span>
+        </>
+      ),
+    },
+    ...(!!dayData.children
+      ? [
+          {
+            key: "children",
+            node: (
+              <>
+                {numFmt.format(dayData.children)} children <span>killed</span>
+              </>
+            ),
+          },
+        ]
+      : []),
+    ...(!!dayData.starved
+      ? [
+          {
+            key: "starved",
+            node: (
+              <>
+                {numFmt.format(dayData.starved)} <span>starved to death</span>
+              </>
+            ),
+          },
+        ]
+      : []),
+    ...(!!dayData.women
+      ? [
+          {
+            key: "women",
+            node: (
+              <>
+                {numFmt.format(dayData.women)} women <span>killed</span>
+              </>
+            ),
+          },
+        ]
+      : []),
+    {
+      key: "medical",
+      node: (
+        <>
+          {numFmt.format(dayData.medical)} medical personnel <span>killed</span>
+        </>
+      ),
+    },
+    {
+      key: "press",
+      node: (
+        <>
+          {numFmt.format(dayData.press)}{" "}
+          {dayData.press === 1 ? "journalist" : "journalists"}{" "}
+          <span>killed</span>
+        </>
+      ),
+    },
+    ...(!!dayData.civdef
+      ? [
+          {
+            key: "civdef",
+            node: (
+              <>
+                {numFmt.format(dayData.civdef)} first responders{" "}
+                <span>killed</span>
+              </>
+            ),
+          },
+        ]
+      : []),
+    ...(!!dayData.settlerActs
+      ? [
+          {
+            key: "settlerActs",
+            node: (
+              <>
+                {numFmt.format(dayData.settlerActs)} settler{" "}
+                <span>attacks</span>
+              </>
+            ),
+          },
+        ]
+      : []),
+  ];
 
   const onSliderChange = (e) => {
     if (!tracked.current) {
@@ -144,67 +248,16 @@ export const HomeDailyChart = () => {
           Learn why these numbers do not fully reflect the human toll
         </a>
       </div>
-      <div className={styles.chartBreakdownTags}>
-        <div className={styles.chartBreakdownTagsTopRow}>
-          {!!dayData.seekingAid && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.seekingAid)} <span>attacked</span> seeking
-              aid
-            </div>
-          )}
-          <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.injured)} <span>injured</span>
-          </div>
-          {!!dayData.children && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.children)} children <span>killed</span>
-            </div>
-          )}
-          {!!dayData.starved && (
-            <div
-              className={[styles.chartBreakdownTag, styles.chartTagMax920].join(
-                " "
-              )}
-            >
-              {numFmt.format(dayData.starved)} <span>starved to death</span>
-            </div>
-          )}
+      <div className={styles.chartAreaWrapper}>
+        <ChartTagCloud tags={tags} />
+        <div className={styles.homeChartDesktop}>
+          <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />
         </div>
-        <div className={styles.chartBreakdownTagsSubsequentRows}>
-          {!!dayData.women && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.women)} women <span>killed</span>
-            </div>
-          )}
-          <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.medical)} medical personnel{" "}
-            <span>killed</span>
-          </div>
-          <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.press)}{" "}
-            {dayData.press === 1 ? "journalist" : "journalists"}{" "}
-            <span>killed</span>
-          </div>
-          {!!dayData.civdef && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.civdef)} first responders{" "}
-              <span>killed</span>
-            </div>
-          )}
-          {!!dayData.settlerActs && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.settlerActs)} settler <span>attacks</span>
-            </div>
-          )}
+        <div className={styles.homeChartMobile}>
+          <HomepageCasualtyChartMobile
+            style={{ width: "100%", height: "auto" }}
+          />
         </div>
-      </div>
-      <div className={styles.homeChartDesktop}>
-        <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />
-      </div>
-      <div className={styles.homeChartMobile}>
-        <HomepageCasualtyChartMobile
-          style={{ width: "100%", height: "auto" }}
-        />
       </div>
       <div className={styles.chartSlider}>
         <div style={{ position: "relative", height: 30 }}>
