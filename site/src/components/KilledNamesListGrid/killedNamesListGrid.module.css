@@ -303,3 +303,17 @@
 [data-theme="dark"] .dismissFocusedRecord path {
   fill: white;
 }
+
+.statusRowAction {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--ifm-link-color);
+  text-decoration: var(--ifm-link-decoration);
+  cursor: pointer;
+}
+
+.statusRowAction:hover {
+  text-decoration: underline;
+}

@@ -40,6 +40,7 @@ import {
 import { createCSVDownload } from "./csvDownload";
 import { minimumSearchTermLength, suggestSearch } from "./searchSuggestion";
 import { InlineSearchSuggestions } from "./components/InlineSearchSuggestions";
+import { PrintSurface } from "./components/PrintSurface";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -92,6 +93,7 @@ export const KilledNamesListGrid = () => {
   const [csvDownloadParams, setCSVDownloadParams] = useState(
     createCSVDownload([], 0)
   );
+  const [printing, setPrinting] = useState(false);
 
   useEffect(() => {
     let count = 0;
@@ -450,6 +452,27 @@ export const KilledNamesListGrid = () => {
     calcLayout();
   }, [calcLayout]);
 
+  const onPrint = useCallback(() => {
+    setPrinting(true);
+  }, []);
+
+  const onPrintReady = useCallback(() => {
+    if (typeof window !== "object") return;
+    try {
+      window.print();
+    } finally {
+      setPrinting(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!printing) return;
+    if (typeof window !== "object") return;
+    const onAfterPrint = () => setPrinting(false);
+    window.addEventListener("afterprint", onAfterPrint);
+    return () => window.removeEventListener("afterprint", onAfterPrint);
+  }, [printing]);
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -486,6 +509,7 @@ export const KilledNamesListGrid = () => {
             loaded={recordCount}
             windowRecordCount={windowRecordCount}
             thresholdIndex={thresholdIndex}
+            onPrint={onPrint}
             {...csvDownloadParams}
           />
         </div>
@@ -604,6 +628,23 @@ export const KilledNamesListGrid = () => {
           </div>
         )}
         {loading && <div className={styles.gridOverlay}>Loading names...</div>}
+        {printing && (
+          <>
+            <div className={styles.gridOverlay}>
+              <Spinner colorMode="dark" />
+              <div style={{ marginTop: 12 }}>
+                Preparing {windowRecordCount.toLocaleString()} records for
+                print…
+              </div>
+            </div>
+            <PrintSurface
+              records={windowRecords}
+              filtered={windowRecordCount !== recordCount}
+              totalLoaded={recordCount}
+              onReady={onPrintReady}
+            />
+          </>
+        )}
         {focusedRecord && (
           <div className={clsx(styles.gridOverlay, styles.focusedRecord)}>
             <div className={styles.focusedRecordContainer}>
