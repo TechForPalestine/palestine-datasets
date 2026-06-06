@@ -89,6 +89,7 @@ const config: Config = {
       logo: {
         alt: `${siteTitle} Logo`,
         src: "img/tfp-mark-header.png",
+        srcDark: "img/tfp-mark-header-dark.png",
       },
       items: [
         {
