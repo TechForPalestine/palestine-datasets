@@ -1,13 +1,15 @@
 :root {
-  --tfp-button-primary-bg: #29784c;
-  --tfp-button-primary-fg: #eee;
+  /* Refresh: light = "Record" — ink CTA buttons. */
+  --tfp-button-primary-bg: #211d19;
+  --tfp-button-primary-fg: #faf8f5;
   --tfp-button-secondary-bg: transparent;
-  --tfp-button-secondary-fg: #222;
+  --tfp-button-secondary-fg: #211d19;
 }
 
 [data-theme="dark"] {
-  --tfp-button-primary-bg: #21af90;
-  --tfp-button-primary-fg: #111;
+  /* Refresh: dark = "Stone" — graphite CTA buttons. */
+  --tfp-button-primary-bg: #3a3835;
+  --tfp-button-primary-fg: #e6e3dd;
   --tfp-button-secondary-bg: transparent;
-  --tfp-button-secondary-fg: #ccc;
+  --tfp-button-secondary-fg: #cfcbc3;
 }

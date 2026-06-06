@@ -11,13 +11,19 @@
   overflow: hidden;
 }
 
+/* Refresh: de-green the hero. Light = "Record" charcoal; was Infima green. */
+header.heroBanner {
+  background-color: #211d19;
+  color: #f7f3ec;
+}
+
 .heroSubtitle {
   padding-top: 0.4em;
 }
 
 [data-theme="dark"] .heroBanner {
   color: white;
-  background-color: #1a8870;
+  background-color: #141311;
 }
 
 @media screen and (max-width: 996px) {

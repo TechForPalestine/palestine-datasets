@@ -292,7 +292,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     .append("path")
     .attr("id", id(linePathId))
     .attr("fill", "none")
-    .attr("stroke", "var(--ifm-color-primary-darker)")
+    .attr("stroke", "var(--tfp-chart-line)")
     .attr("stroke-width", 3)
     .attr("stroke-linecap", "round")
     .attr("d", lineGenerator(data.chart) as string);

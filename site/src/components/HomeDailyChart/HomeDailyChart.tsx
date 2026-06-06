@@ -262,7 +262,7 @@ export const HomeDailyChart = () => {
           fontSize: "1.5em",
           fontWeight: "bold",
           textAlign: "center",
-          color: "var(--ifm-color-primary)",
+          color: "var(--tfp-radial-section-title)",
           paddingTop: "30px",
         }}
       >
