@@ -4,8 +4,13 @@
  * work well for content-centric websites.
  */
 
+/* Refresh typography: Record direction — serif display + humanist sans body. */
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+
 /* You can override the default Infima variables here. */
 :root {
+  /* Brand/identity green is intentionally retained for site chrome
+     (navbar, links, logo). Data surfaces are de-greened via --tfp-* tokens. */
   --ifm-color-primary: #2e8555;
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
@@ -16,6 +21,11 @@
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-footer-bg-color: #eee;
+
+  /* Refresh — light = "Record": warm paper base + serif/sans type system. */
+  --ifm-font-family-base: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ifm-heading-font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --ifm-background-color: #faf8f5;
 }
 
 footer.footer {
@@ -39,6 +49,9 @@ footer.footer a {
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
   --ifm-footer-bg-color: #111;
+
+  /* Refresh — dark = "Stone": cold monochrome concrete base. */
+  --ifm-background-color: #1c1b19;
 }
 
 [data-theme="dark"] .button--secondary {

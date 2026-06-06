@@ -42,7 +42,7 @@
   position: relative;
   top: 0.2em;
   display: block;
-  color: rgba(10, 10, 10, 0.2);
+  color: rgba(245, 242, 235, 0.13);
   font-weight: bold;
   font-size: 0.9em;
   line-height: 4em;
@@ -63,7 +63,7 @@
 }
 
 .namesRow svg path {
-  fill: rgba(10, 10, 10, 0.2);
+  fill: rgba(245, 242, 235, 0.13);
 }
 
 @keyframes marquee-left {

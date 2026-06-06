@@ -9,6 +9,7 @@
 .title {
   font-size: 2em;
   font-weight: bold;
+  font-family: var(--ifm-heading-font-family);
   color: var(--tfp-chart-title);
   text-align: center;
   margin-top: 10px;
@@ -19,9 +20,9 @@
 }
 
 .title span {
-  color: var(--ifm-color-primary-light);
+  color: var(--tfp-chart-accent);
   font-weight: normal;
-  border-left: 1px solid var(--ifm-color-primary-lightest);
+  border-left: 1px solid var(--tfp-chart-accent-border);
   margin-left: 14px;
   padding-left: 14px;
 }
@@ -66,6 +67,7 @@
 .question {
   font-size: 1.8em;
   font-weight: bold;
+  font-family: var(--ifm-heading-font-family);
   color: #eee;
   max-width: 60%;
   line-height: 1.2em;
@@ -87,6 +89,7 @@
 .label {
   font-size: 1.8em;
   font-weight: bold;
+  font-family: var(--ifm-heading-font-family);
   line-height: 1.2em;
   text-align: center;
   color: #eee;

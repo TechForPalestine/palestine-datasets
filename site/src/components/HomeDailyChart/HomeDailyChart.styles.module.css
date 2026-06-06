@@ -1,19 +1,23 @@
 :root {
-  --tfp-chart-gradient-top-stop: #b3d2c0;
-  --tfp-chart-gradient-bottom-stop: white;
-  --tfp-chart-axis-line: #eee;
-  --tfp-chart-today-line: #347843;
-  --tfp-chart-title: #444;
-  --tfp-chart-subtitle: #888;
-  --tfp-chart-tag-bg: white;
-  --tfp-chart-tag-border: #eee;
-  --tfp-chart-killed-count: #21af90;
-  --tfp-radial-section-title: #1fa588;
-  --tfp-radial-progress-track: #eee;
-  --tfp-radial-progress-fill: #29784c;
-  --tfp-chart-cta-box-fill: #f8f8f8;
-  --tfp-chart-cta-box-border: #eee;
-  --tfp-base-text: #222;
+  /* Refresh: light = "Record" — ink line, ash fill, red "today", ink data. */
+  --tfp-chart-gradient-top-stop: #cdc6ba;
+  --tfp-chart-gradient-bottom-stop: #faf8f5;
+  --tfp-chart-axis-line: #e4ddd2;
+  --tfp-chart-line: #211d19;
+  --tfp-chart-today-line: #b3261e;
+  --tfp-chart-title: #211d19;
+  --tfp-chart-subtitle: #6b6259;
+  --tfp-chart-tag-bg: #ffffff;
+  --tfp-chart-tag-border: #e4ddd2;
+  --tfp-chart-killed-count: #211d19;
+  --tfp-chart-accent: #3a342d;
+  --tfp-chart-accent-border: #d8d0c4;
+  --tfp-radial-section-title: #3a342d;
+  --tfp-radial-progress-track: #e8e0d4;
+  --tfp-radial-progress-fill: #211d19;
+  --tfp-chart-cta-box-fill: #f1ede6;
+  --tfp-chart-cta-box-border: #e4ddd2;
+  --tfp-base-text: #211d19;
   --tfp-warning-h: 3;
   --tfp-warning-s: 60%;
   --tfp-warning-l: 49%;
@@ -24,21 +28,25 @@
 }
 
 [data-theme="dark"] {
-  --tfp-chart-gradient-top-stop: #1a8870;
-  --tfp-chart-gradient-bottom-stop: rgb(27, 27, 29);
-  --tfp-chart-axis-line: #444;
-  --tfp-chart-today-line: #25c2a0;
-  --tfp-chart-title: #eee;
-  --tfp-chart-subtitle: #ddd;
-  --tfp-chart-tag-bg: #222;
-  --tfp-chart-tag-border: #333;
-  --tfp-chart-killed-count: #4fddbf;
-  --tfp-radial-section-title: #1fa588;
-  --tfp-radial-progress-track: #333;
-  --tfp-radial-progress-fill: #1fa588;
-  --tfp-chart-cta-box-fill: #222;
-  --tfp-chart-cta-box-border: #333;
-  --tfp-base-text: #eee;
+  /* Refresh: dark = "Stone" — monochrome concrete, single red "today". */
+  --tfp-chart-gradient-top-stop: #55524d;
+  --tfp-chart-gradient-bottom-stop: #1c1b19;
+  --tfp-chart-axis-line: #3a3835;
+  --tfp-chart-line: #cfcbc3;
+  --tfp-chart-today-line: #c2473d;
+  --tfp-chart-title: #e6e3dd;
+  --tfp-chart-subtitle: #908b83;
+  --tfp-chart-tag-bg: #242220;
+  --tfp-chart-tag-border: #3a3835;
+  --tfp-chart-killed-count: #d8d4cc;
+  --tfp-chart-accent: #b8b3aa;
+  --tfp-chart-accent-border: #3a3835;
+  --tfp-radial-section-title: #b8b3aa;
+  --tfp-radial-progress-track: #34322f;
+  --tfp-radial-progress-fill: #c2473d;
+  --tfp-chart-cta-box-fill: #242220;
+  --tfp-chart-cta-box-border: #3a3835;
+  --tfp-base-text: #e6e3dd;
   --tfp-chart-warning: hsl(var(--tfp-warning-hsl));
   --tfp-chart-warning-bg: hsla(var(--tfp-warning-hsl), 0.4);
 }
@@ -53,13 +61,14 @@
 .chartTitle {
   font-size: 2em;
   font-weight: bold;
+  font-family: var(--ifm-heading-font-family);
   color: var(--tfp-chart-title);
 }
 
 .chartTitle span {
-  color: var(--ifm-color-primary-light);
+  color: var(--tfp-chart-accent);
   font-weight: normal;
-  border-left: 1px solid var(--ifm-color-primary-lightest);
+  border-left: 1px solid var(--tfp-chart-accent-border);
   margin-left: 14px;
   padding-left: 14px;
 }
@@ -134,7 +143,7 @@
 
 .chartSlider input[type="range"] {
   width: 100%;
-  accent-color: var(--ifm-color-primary);
+  accent-color: var(--tfp-chart-line);
 }
 
 .chartSlider input[type="range"]::-webkit-slider-runnable-track {
@@ -175,6 +184,7 @@
   text-align: center;
   font-weight: bold;
   font-size: 1.2em;
+  font-family: var(--ifm-heading-font-family);
   color: var(--tfp-radial-section-title);
 }
 
@@ -196,7 +206,7 @@
   width: 100%;
   font-size: 1em;
   font-weight: bold;
-  color: var(--tfp-radial-progress-fill);
+  color: var(--tfp-base-text);
 }
 
 .chartRadialRateText {
@@ -206,7 +216,14 @@
   width: 100%;
   font-size: 2em;
   font-weight: bold;
+  font-family: var(--ifm-heading-font-family);
   color: var(--tfp-radial-progress-fill);
+}
+
+/* Big cumulative count baked into the chart SVG (ids set in the generator). */
+.chartContainer :global(#chartcount),
+.chartContainer :global(#chartcountMobile) {
+  font-family: var(--ifm-heading-font-family);
 }
 
 .chartFooterButtonsContainer {
