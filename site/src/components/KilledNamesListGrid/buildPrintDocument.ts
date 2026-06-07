@@ -122,12 +122,11 @@ export const buildPrintDocument = ({
 
   const endNumber = startNumber + records.length - 1;
   const isTranche = records.length < totalInSet;
-  const setLabel = filtered ? "filtered names" : "names";
   const subtitle = isTranche
-    ? `Names ${startNumber.toLocaleString()}–${endNumber.toLocaleString()} of ${totalInSet.toLocaleString()} ${setLabel}` +
-      (filtered ? ` (of ${totalLoaded.toLocaleString()} loaded)` : "")
+    ? `Names ${startNumber.toLocaleString()}–${endNumber.toLocaleString()} of ${totalInSet.toLocaleString()}` +
+      (filtered ? ` (subset of ${totalLoaded.toLocaleString()})` : "")
     : filtered
-    ? `${records.length.toLocaleString()} filtered names (of ${totalLoaded.toLocaleString()} loaded)`
+    ? `${records.length.toLocaleString()} names (subset of ${totalLoaded.toLocaleString()})`
     : `${records.length.toLocaleString()} names`;
 
   const layoutCss = detailed
@@ -161,9 +160,9 @@ ${layoutCss}</style>
 <body>
 <header>
   <h1>Killed in Gaza</h1>
-  <p>${escapeHtml(subtitle)} · List current through ${escapeHtml(
+  <p>${escapeHtml(subtitle)} · From 2023-10-07 to ${escapeHtml(
     lastUpdate,
-  )} · Source: data.techforpalestine.org</p>
+  )} · Source: data.techforpalestine.org/list</p>
 </header>
 ${body}
 <script>
