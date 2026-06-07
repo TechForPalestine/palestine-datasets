@@ -45,6 +45,12 @@ import {
   PRINT_TRANCHE_SIZE,
 } from "./buildPrintDocument";
 import { PrintModal } from "./components/PrintModal";
+import {
+  ALL_PERSON_TYPES,
+  AgeRange,
+  buildFilterQueryString,
+  parseUrlFilterParams,
+} from "./urlParams";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -75,17 +81,12 @@ export const KilledNamesListGrid = () => {
     nameSearch: string;
     filters: PersonType[];
     filteredCount: number;
+    ageRange: AgeRange;
   }>({
     nameSearch: "",
     filteredCount: 0,
-    filters: [
-      "elderly-man",
-      "elderly-woman",
-      "man",
-      "woman",
-      "boy",
-      "girl",
-    ].sort() as PersonType[],
+    ageRange: null,
+    filters: [...ALL_PERSON_TYPES].sort() as PersonType[],
   });
   const [columnConfig, setColumnConfig] = useState<
     ReturnType<typeof getColumnConfig> & {
@@ -122,14 +123,40 @@ export const KilledNamesListGrid = () => {
   }, []);
 
   useEffect(() => {
-    if (loading || csvDownloadParams.csvDataObjectURL) {
-      return;
-    }
+    if (loading) return;
 
-    setCSVDownloadParams(
-      createCSVDownload(records.current, records.current.length)
-    );
+    setFilterState((prev) => {
+      const filteredCount = applyFilters(
+        prev.filters,
+        prev.nameSearch,
+        prev.ageRange
+      );
+      return { ...prev, filteredCount: filteredCount ?? 0 };
+    });
   }, [loading]);
+
+  useEffect(() => {
+    if (typeof window !== "object") return;
+    const params = parseUrlFilterParams(window.location.search);
+    const hasParams =
+      params.excluded.length > 0 || !!params.search || !!params.ageRange;
+    if (!hasParams) return;
+
+    const newFilters = ALL_PERSON_TYPES.filter(
+      (t) => !params.excluded.includes(t)
+    ).sort() as PersonType[];
+
+    setFilterState((prev) => ({
+      ...prev,
+      filters: newFilters,
+      nameSearch: params.search,
+      ageRange: params.ageRange,
+    }));
+
+    if (params.search && filterRowRef.current) {
+      filterRowRef.current.setSearchValue(params.search);
+    }
+  }, []);
 
   const calcLayout = useCallback(() => {
     if (elementRef.current) {
@@ -232,8 +259,12 @@ export const KilledNamesListGrid = () => {
   );
 
   const applyFilters = useCallback(
-    (filters: PersonType[], nameSearch: string) => {
-      if (filters.length === 6 && !nameSearch.trim().length) {
+    (filters: PersonType[], nameSearch: string, ageRange: AgeRange) => {
+      if (
+        filters.length === 6 &&
+        !nameSearch.trim().length &&
+        !ageRange
+      ) {
         filteredRecords.current = [];
         filteredSearchMatches.current = {};
         setCSVDownloadParams(
@@ -256,6 +287,10 @@ export const KilledNamesListGrid = () => {
           typeof sex === "number" ||
           (typeof sex === "string" && !sexIsValid(sex))
         ) {
+          return false;
+        }
+
+        if (ageRange && (age < ageRange[0] || age > ageRange[1])) {
           return false;
         }
 
@@ -343,25 +378,49 @@ export const KilledNamesListGrid = () => {
     []
   );
 
+  const writeUrl = useCallback(
+    (filters: PersonType[], nameSearch: string, ageRange: AgeRange) => {
+      if (typeof window !== "object") return;
+      const qs = buildFilterQueryString({
+        filters,
+        search: nameSearch,
+        ageRange,
+      });
+      const url = `${window.location.pathname}${qs}${window.location.hash}`;
+      window.history.replaceState(null, "", url);
+    },
+    []
+  );
+
   const onToggleFilter = useCallback(
     (type: PersonType) => {
       searchHasSortPriority.current = false;
 
       setFilterState((prev) => {
-        const newFilters = prev.filters.includes(type)
-          ? prev.filters.filter((t) => t !== type)
-          : [...prev.filters, type].sort();
+        const exitingAgesMode = !!prev.ageRange;
+        const baseFilters = exitingAgesMode ? [] : prev.filters;
+        const newFilters = baseFilters.includes(type)
+          ? baseFilters.filter((t) => t !== type)
+          : [...baseFilters, type].sort();
+        const newAgeRange = exitingAgesMode ? null : prev.ageRange;
 
-        const filteredCount = applyFilters(newFilters, prev.nameSearch);
+        const filteredCount = applyFilters(
+          newFilters,
+          prev.nameSearch,
+          newAgeRange
+        );
+
+        writeUrl(newFilters, prev.nameSearch, newAgeRange);
 
         return {
-          nameSearch: prev.nameSearch,
+          ...prev,
           filters: newFilters,
+          ageRange: newAgeRange,
           filteredCount,
         };
       });
     },
-    [setFilterState, applyFilters]
+    [setFilterState, applyFilters, writeUrl]
   );
 
   const onSearchInputChange = useCallback(
@@ -376,16 +435,18 @@ export const KilledNamesListGrid = () => {
           searchHasSortPriority.current = true;
         }
 
-        const filteredCount = applyFilters(prev.filters, query);
+        const filteredCount = applyFilters(prev.filters, query, prev.ageRange);
+
+        writeUrl(prev.filters, query, prev.ageRange);
 
         return {
+          ...prev,
           nameSearch: query,
-          filters: prev.filters,
           filteredCount,
         };
       });
     }, searchInputUpdateInterval),
-    [setFilterState]
+    [setFilterState, writeUrl]
   );
 
   const onPressCell = useCallback(
@@ -444,7 +505,11 @@ export const KilledNamesListGrid = () => {
             : String(bVal).localeCompare(String(aVal));
         });
 
-        applyFilters(filterState.filters, filterState.nameSearch);
+        applyFilters(
+          filterState.filters,
+          filterState.nameSearch,
+          filterState.ageRange
+        );
 
         return { ...prevConfig, sort: newSort };
       });
@@ -550,6 +615,7 @@ export const KilledNamesListGrid = () => {
             selectedFilters={filterState.filters}
             onToggleFilter={onToggleFilter}
             onSearchInputChange={onSearchInputChange}
+            agesActive={!!filterState.ageRange}
           />
           {loading && (
             <div className={styles.statusRowSpinner}>

@@ -28,12 +28,14 @@ const filterButtons: PersonIconProps[] = [
 
 interface GenderAgeFiltersProps extends SharedProps {
   onPressSearchExpand: () => void;
+  agesActive: boolean;
 }
 
 export const GenderAgeFilters = ({
   selectedFilters,
   onPressSearchExpand,
   onToggleFilter,
+  agesActive,
 }: GenderAgeFiltersProps) => {
   return (
     <div className={styles.genderAgeFilters}>
@@ -54,7 +56,9 @@ export const GenderAgeFilters = ({
             title={personHints[btn.type]}
             className={clsx(
               styles.filterButton,
-              selectedFilters.includes(btn.type) && styles.filterButtonActive
+              !agesActive &&
+                selectedFilters.includes(btn.type) &&
+                styles.filterButtonActive
             )}
           >
             <PersonIcon size={30} {...btn} />
