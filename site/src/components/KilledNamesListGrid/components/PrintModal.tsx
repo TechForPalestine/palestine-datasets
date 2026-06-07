@@ -38,7 +38,9 @@ export const PrintModal = React.memo(
           <p className={styles.printModalBlurb}>
             {needsTranching
               ? "This list is too large for most browsers to print as one document. Print each batch below in its own tab."
-              : "A new tab will open and the print dialog will appear automatically."}
+              : "A new tab will open and the print dialog will appear automatically."}{" "}
+            The printouts reflect any searches or filters you've applied in the
+            prior view.
           </p>
 
           {needsTranching ? (
