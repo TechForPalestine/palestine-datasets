@@ -1,0 +1,429 @@
+/**
+ * StoriesInData styles. Color tokens follow the site's --tfp-* convention and
+ * adapt to Docusaurus light/dark mode. The carousel runs edge-to-edge with the
+ * container gutter baked into the scroll content.
+ */
+
+:root {
+  --story-maxw: 1140px; /* matches Docusaurus .container width */
+  --story-surface: #ffffff;
+  --story-surface-2: #fafdfb;
+  --story-line: #e7e9e8;
+  --story-ink: #211d19;
+  --story-ink-2: #46484a;
+  --story-muted: #6b7783;
+  --story-soft: #f1f6f2;
+
+  /* chart palette */
+  --story-red: #c0392f;
+  --story-blue: #3f6f8a;
+  --story-plum: #8a5a9c;
+  --story-amber: #bd8a2c;
+  --story-teal: #2f8f86;
+  --story-olive: #5f6f48;
+}
+
+[data-theme="dark"] {
+  --story-surface: #1c1a17;
+  --story-surface-2: #211f1b;
+  --story-line: #34322e;
+  --story-ink: #f1ede6;
+  --story-ink-2: #c9c5bd;
+  --story-muted: #9a948a;
+  --story-soft: #26241f;
+
+  --story-red: #e0655b;
+  --story-blue: #6fa6c2;
+  --story-plum: #b78fc8;
+  --story-amber: #d8b35a;
+  --story-teal: #58bdb3;
+  --story-olive: #9aac79;
+}
+
+/* -------------------------------------------------------------- section */
+
+.section {
+  padding: 30px 0 38px;
+  background: var(--story-surface);
+  border-top: 1px solid var(--story-line);
+  border-bottom: 1px solid var(--story-line);
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: var(--story-maxw);
+  margin: 0 auto 18px;
+  padding-inline: var(--ifm-spacing-horizontal, 1rem);
+}
+.headTitle {
+  margin: 0;
+  font-size: 1.7rem;
+  letter-spacing: -0.5px;
+  color: var(--story-ink);
+}
+.headSub {
+  margin: 5px 0 0;
+  color: var(--story-muted);
+  font-size: 0.95rem;
+}
+.tools {
+  display: flex;
+  gap: 8px;
+  flex: none;
+}
+.arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--story-line);
+  background: var(--story-surface);
+  color: var(--story-ink);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+.arrow:hover {
+  border-color: var(--story-red);
+  color: var(--story-red);
+}
+
+.kicker {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--story-red);
+}
+
+/* ------------------------------------------------------------- carousel */
+
+.viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: max(var(--ifm-spacing-horizontal, 1rem), calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem)));
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* room for the lifted-card shadow, pulled back so layout doesn't shift */
+  padding-block: 14px;
+  margin-block: -14px;
+}
+.viewport::-webkit-scrollbar {
+  display: none;
+}
+.track {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 2px;
+  padding-inline: max(var(--ifm-spacing-horizontal, 1rem), calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem)));
+}
+
+.card {
+  flex: 0 0 300px;
+  scroll-snap-align: start;
+  background: var(--story-surface);
+  border: 1px solid var(--story-line);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(20, 30, 25, 0.06), 0 10px 26px rgba(20, 30, 25, 0.05);
+  padding: 14px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 60px rgba(20, 30, 25, 0.22);
+  border-color: color-mix(in srgb, var(--story-red) 35%, var(--story-line));
+}
+.card:focus-visible {
+  outline: 2px solid var(--story-red);
+  outline-offset: 2px;
+}
+.cardChart {
+  height: 120px;
+  background: var(--story-soft);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardChartPie {
+  background: var(--story-surface-2);
+}
+.cardTitle {
+  margin: 6px 0 5px;
+  font-size: 1.12rem;
+  letter-spacing: -0.3px;
+  color: var(--story-ink);
+}
+.cardInsight {
+  margin: 0;
+  color: var(--story-ink-2);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+/* --------------------------------------------------------------- charts */
+
+.chartWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.grid {
+  stroke: color-mix(in srgb, var(--story-line) 70%, transparent);
+  stroke-width: 1;
+}
+.cross {
+  stroke: var(--story-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.pie {
+  width: 108px;
+  height: 108px;
+  max-width: 100%;
+}
+.slice {
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+  cursor: pointer;
+}
+.pieNum {
+  font-weight: 800;
+  fill: var(--story-ink);
+  font-size: 26px;
+  letter-spacing: -0.5px;
+}
+.pieLabel {
+  font-weight: 600;
+  fill: var(--story-muted);
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------- tooltip */
+
+.tip {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  background: var(--story-ink);
+  color: var(--story-surface);
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 12px;
+  pointer-events: none;
+  transition: opacity 0.12s;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+.tipDate {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 3px;
+  opacity: 0.85;
+}
+.tipRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-variant-numeric: tabular-nums;
+}
+.tipRow i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.tipLbl {
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------- modal */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(20, 28, 24, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: storyFadeIn 0.2s ease;
+}
+.modal {
+  position: relative;
+  background: var(--story-surface);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(20, 30, 25, 0.3);
+  width: min(780px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 26px 28px 22px;
+  animation: storyPopIn 0.24s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--story-line);
+  background: var(--story-surface);
+  font-size: 20px;
+  line-height: 1;
+  color: var(--story-ink-2);
+  cursor: pointer;
+}
+.close:hover {
+  background: var(--story-soft);
+}
+.modalTitle {
+  margin: 7px 0 6px;
+  font-size: 1.7rem;
+  letter-spacing: -0.6px;
+  color: var(--story-ink);
+}
+.modalInsight {
+  margin: 0 0 14px;
+  color: var(--story-ink-2);
+  font-size: 1rem;
+}
+.modalChart {
+  position: relative;
+  background: linear-gradient(180deg, var(--story-surface-2), var(--story-surface));
+  border: 1px solid var(--story-line);
+  border-radius: 12px;
+  padding: 6px;
+  aspect-ratio: 920 / 360;
+}
+.modalChartPie {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: auto;
+  padding: 16px 6px;
+}
+.modalChartPie .pie {
+  width: 300px;
+  height: 300px;
+  max-width: 64vw;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 13px 2px 0;
+}
+.lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.86rem;
+  color: var(--story-ink-2);
+}
+.lg i {
+  width: 16px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.lg b {
+  color: var(--story-ink);
+  font-variant-numeric: tabular-nums;
+}
+.lgClick {
+  cursor: default;
+  border-radius: 8px;
+  padding: 3px 7px;
+  transition: background 0.12s;
+}
+.lgOn {
+  background: var(--story-soft);
+}
+.lgPct {
+  color: var(--story-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  color: var(--story-muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin: 14px 2px 0;
+  max-width: 64ch;
+  text-wrap: pretty;
+}
+
+.foot {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--story-line);
+}
+.sources {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  color: var(--story-muted);
+  font-size: 0.8rem;
+}
+.sourcePill {
+  font-family: var(--ifm-font-family-monospace, monospace);
+  font-size: 0.74rem;
+  color: var(--story-ink-2);
+  background: var(--story-soft);
+  border: 1px solid var(--story-line);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+
+@keyframes storyFadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes storyPopIn {
+  from {
+    transform: translateY(16px) scale(0.985);
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 680px) {
+  .headTitle {
+    font-size: 1.4rem;
+  }
+  .modal {
+    padding: 22px 18px 18px;
+  }
+  .modalTitle {
+    font-size: 1.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .modal,
+  .card {
+    animation: none;
+    transition: none;
+  }
+}
