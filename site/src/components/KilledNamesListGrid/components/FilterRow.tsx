@@ -9,6 +9,7 @@ import { replaceSearchPart } from "../searchSuggestion";
 
 interface FilterRowProps extends SharedProps {
   onSearchInputChange: (value: string) => void;
+  onPressAgeRange: () => void;
   agesActive: boolean;
 }
 
@@ -21,6 +22,7 @@ export const FilterRow = forwardRef<
       selectedFilters,
       onToggleFilter,
       onSearchInputChange,
+      onPressAgeRange,
       agesActive,
     }: FilterRowProps,
     ref
@@ -99,6 +101,7 @@ export const FilterRow = forwardRef<
             selectedFilters={selectedFilters}
             onPressSearchExpand={onPressSearchExpand}
             onToggleFilter={onToggleFilter}
+            onPressAgeRange={onPressAgeRange}
             agesActive={agesActive}
           />
         </div>

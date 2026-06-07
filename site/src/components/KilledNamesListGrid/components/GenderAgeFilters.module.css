@@ -70,3 +70,9 @@
 .filterButton:last-of-type {
   border-right: 0px;
 }
+
+@media screen and (max-width: 725px) {
+  .filterButton:last-of-type {
+    display: none;
+  }
+}

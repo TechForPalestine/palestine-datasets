@@ -45,6 +45,7 @@ import {
   PRINT_TRANCHE_SIZE,
 } from "./buildPrintDocument";
 import { PrintModal } from "./components/PrintModal";
+import { AgeRangeModal } from "./components/AgeRangeModal";
 import {
   ALL_PERSON_TYPES,
   AgeRange,
@@ -99,6 +100,7 @@ export const KilledNamesListGrid = () => {
     createCSVDownload([], 0)
   );
   const [printModalTotal, setPrintModalTotal] = useState<number | null>(null);
+  const [ageRangeModalOpen, setAgeRangeModalOpen] = useState(false);
 
   useEffect(() => {
     let count = 0;
@@ -569,6 +571,33 @@ export const KilledNamesListGrid = () => {
     setPrintModalTotal(null);
   }, []);
 
+  const onPressAgeRange = useCallback(() => {
+    setAgeRangeModalOpen(true);
+  }, []);
+
+  const onDismissAgeRangeModal = useCallback(() => {
+    setAgeRangeModalOpen(false);
+  }, []);
+
+  const onConfirmAgeRange = useCallback(
+    (range: [number, number]) => {
+      searchHasSortPriority.current = false;
+      setFilterState((prev) => {
+        const newFilters = [...ALL_PERSON_TYPES].sort() as PersonType[];
+        const filteredCount = applyFilters(newFilters, prev.nameSearch, range);
+        writeUrl(newFilters, prev.nameSearch, range);
+        return {
+          ...prev,
+          filters: newFilters,
+          ageRange: range,
+          filteredCount,
+        };
+      });
+      setAgeRangeModalOpen(false);
+    },
+    [applyFilters, writeUrl]
+  );
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -615,6 +644,7 @@ export const KilledNamesListGrid = () => {
             selectedFilters={filterState.filters}
             onToggleFilter={onToggleFilter}
             onSearchInputChange={onSearchInputChange}
+            onPressAgeRange={onPressAgeRange}
             agesActive={!!filterState.ageRange}
           />
           {loading && (
@@ -731,6 +761,13 @@ export const KilledNamesListGrid = () => {
             trancheSize={PRINT_TRANCHE_SIZE}
             onPrintRange={printRange}
             onDismiss={onDismissPrintModal}
+          />
+        )}
+        {ageRangeModalOpen && (
+          <AgeRangeModal
+            initialRange={filterState.ageRange}
+            onConfirm={onConfirmAgeRange}
+            onDismiss={onDismissAgeRangeModal}
           />
         )}
         {focusedRecord && (
