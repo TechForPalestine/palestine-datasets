@@ -9,6 +9,7 @@ export const StatusRow = React.memo(
     csvDataObjectURL,
     csvDataFileName,
     csvDataFileHint,
+    onPrint,
   }: {
     loaded: number;
     thresholdIndex: number;
@@ -16,11 +17,13 @@ export const StatusRow = React.memo(
     csvDataObjectURL?: string;
     csvDataFileName?: string;
     csvDataFileHint?: string;
+    onPrint?: () => void;
   }) => {
+    const filtered = loaded !== windowRecordCount;
     return (
       <div className={styles.statusRow}>
         <div>
-          {loaded !== windowRecordCount
+          {filtered
             ? `Showing ${windowRecordCount.toLocaleString()} of ${loaded.toLocaleString()}`
             : `Loaded ${loaded.toLocaleString()} records`}{" "}
           {csvDataFileHint && csvDataFileName && csvDataObjectURL && (
@@ -35,6 +38,21 @@ export const StatusRow = React.memo(
               </a>
             </>
           )}{" "}
+          {onPrint && !!loaded && (
+            <>
+              •{" "}
+              <button
+                type="button"
+                onClick={onPrint}
+                className={styles.statusRowAction}
+                title={`Print the ${
+                  filtered ? "filtered" : "full"
+                } list (${windowRecordCount.toLocaleString()} records)`}
+              >
+                Print
+              </button>{" "}
+            </>
+          )}
           • <a href="/docs/killed-in-gaza/">About</a>
         </div>
         {!!loaded && typeof thresholdIndex === "number" && !!thresholdIndex && (

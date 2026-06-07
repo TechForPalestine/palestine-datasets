@@ -40,6 +40,11 @@ import {
 import { createCSVDownload } from "./csvDownload";
 import { minimumSearchTermLength, suggestSearch } from "./searchSuggestion";
 import { InlineSearchSuggestions } from "./components/InlineSearchSuggestions";
+import {
+  buildPrintDocument,
+  PRINT_TRANCHE_SIZE,
+} from "./buildPrintDocument";
+import { PrintModal } from "./components/PrintModal";
 
 export const KilledNamesListGrid = () => {
   const elementRef = useRef(null);
@@ -92,6 +97,7 @@ export const KilledNamesListGrid = () => {
   const [csvDownloadParams, setCSVDownloadParams] = useState(
     createCSVDownload([], 0)
   );
+  const [printModalTotal, setPrintModalTotal] = useState<number | null>(null);
 
   useEffect(() => {
     let count = 0;
@@ -450,6 +456,54 @@ export const KilledNamesListGrid = () => {
     calcLayout();
   }, [calcLayout]);
 
+  const printRange = useCallback(
+    (startIdx: number, endIdx: number, detailed: boolean) => {
+      if (typeof window !== "object") return;
+      const filteredRows = filteredRecords.current;
+      const allRows = records.current;
+      const sourceRows = filteredRows.length ? filteredRows : allRows;
+      const slice = sourceRows.slice(startIdx, endIdx);
+      const lastUpdate =
+        updateDates[updateDates.length - 1]?.includesUntil ?? "";
+
+      const html = buildPrintDocument({
+        records: slice,
+        filtered: filteredRows.length > 0,
+        totalLoaded: allRows.length,
+        lastUpdate,
+        startNumber: startIdx + 1,
+        totalInSet: sourceRows.length,
+        detailed,
+      });
+
+      const blob = new Blob([html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const popup = window.open(url, "_blank");
+      if (!popup) {
+        URL.revokeObjectURL(url);
+        alert(
+          "Couldn't open the print window — please allow popups for this site and try again."
+        );
+        return;
+      }
+      // give the popup time to parse the HTML and grab the URL before revoking
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    },
+    []
+  );
+
+  const onPrint = useCallback(() => {
+    const filteredRows = filteredRecords.current;
+    const allRows = records.current;
+    const total = filteredRows.length ? filteredRows.length : allRows.length;
+    if (!total) return;
+    setPrintModalTotal(total);
+  }, []);
+
+  const onDismissPrintModal = useCallback(() => {
+    setPrintModalTotal(null);
+  }, []);
+
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
   const windowRecords = filteredRecords.current.length
@@ -486,6 +540,7 @@ export const KilledNamesListGrid = () => {
             loaded={recordCount}
             windowRecordCount={windowRecordCount}
             thresholdIndex={thresholdIndex}
+            onPrint={onPrint}
             {...csvDownloadParams}
           />
         </div>
@@ -604,6 +659,14 @@ export const KilledNamesListGrid = () => {
           </div>
         )}
         {loading && <div className={styles.gridOverlay}>Loading names...</div>}
+        {printModalTotal !== null && (
+          <PrintModal
+            total={printModalTotal}
+            trancheSize={PRINT_TRANCHE_SIZE}
+            onPrintRange={printRange}
+            onDismiss={onDismissPrintModal}
+          />
+        )}
         {focusedRecord && (
           <div className={clsx(styles.gridOverlay, styles.focusedRecord)}>
             <div className={styles.focusedRecordContainer}>
