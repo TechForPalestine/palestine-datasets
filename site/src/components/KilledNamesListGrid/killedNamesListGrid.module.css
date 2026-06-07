@@ -317,3 +317,90 @@
 .statusRowAction:hover {
   text-decoration: underline;
 }
+
+.printModal {
+  padding: 20px;
+}
+
+.printModalContainer {
+  position: relative;
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.printModalTitle {
+  margin: 0;
+  font-size: 20px;
+}
+
+.printModalBlurb {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.printModalToggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.35;
+  cursor: pointer;
+  padding: 10px;
+  background: var(--ifm-footer-bg-color);
+  border-radius: 6px;
+}
+
+.printModalToggle div {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.printModalToggleHint {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.printModalList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.printModalButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 15px;
+  color: inherit;
+  background: var(--ifm-footer-bg-color);
+  border: 1px solid var(--ifm-color-primary-darkest);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.printModalButton:hover {
+  background: var(--ifm-color-primary-darkest);
+  color: white;
+}
+
+.printModalButtonCount {
+  font-size: 12px;
+  opacity: 0.75;
+}
