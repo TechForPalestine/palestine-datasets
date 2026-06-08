@@ -20,6 +20,7 @@ export const STORIES: Story[] = [
     schema: {
       type: "timeseries-multi",
       x: "report_date",
+      dualScale: true,
       sources: ["casualties_daily", "west_bank_daily"],
       fields: [
         { key: "ext_killed_cum", source: "casualties_daily", label: "Killed · Gaza", color: "var(--story-red)" },
