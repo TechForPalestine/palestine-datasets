@@ -14,13 +14,8 @@ interface Props {
 
 export const InlineSearchSuggestions = forwardRef<HTMLDivElement, Props>(
   (
-    {
-      searchSuggestion,
-      nameSearch,
-      onInlineSearchSuggestionsShown,
-      onAcceptSearchSuggestion,
-    },
-    ref
+    { searchSuggestion, nameSearch, onInlineSearchSuggestionsShown, onAcceptSearchSuggestion },
+    ref,
   ) => {
     useEffect(() => {
       onInlineSearchSuggestionsShown();
@@ -44,10 +39,9 @@ export const InlineSearchSuggestions = forwardRef<HTMLDivElement, Props>(
 
     return (
       <div ref={ref} className={styles.searchSuggestionsWithMatch}>
-        🔍 You may need to use alternate transliterations when searching in
-        english. {suggestions.length === 1 ? "Suggestion" : "Suggestions"}:{" "}
-        {suggestions}
+        🔍 You may need to use alternate transliterations when searching in english.{" "}
+        {suggestions.length === 1 ? "Suggestion" : "Suggestions"}: {suggestions}
       </div>
     );
-  }
+  },
 );

@@ -16,11 +16,7 @@ const columnFilter = ["name", "notes"];
 const arToAr = getArToArMap();
 const arToEn = getArToEnMap();
 
-const withTranslatedName = (record: {
-  name: string;
-  name_en: string;
-  notes: string;
-}) => {
+const withTranslatedName = (record: { name: string; name_en: string; notes: string }) => {
   const arName = replaceBySubstring(record.name, arToAr);
   const normalizedArName = normalizeArabic(arName);
   record.name = normalizedArName;
@@ -47,7 +43,7 @@ const generateJsonFromGSheet = async () => {
       ...acc,
       [key]: headerKeys.indexOf(key),
     }),
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   const jsonArray = rows.map((row) =>
@@ -55,7 +51,7 @@ const generateJsonFromGSheet = async () => {
       name: row[headerIdxLookup["name"]],
       name_en: "",
       notes: row[headerIdxLookup["notes"]],
-    })
+    }),
   );
 
   validateTranslations(jsonArray);

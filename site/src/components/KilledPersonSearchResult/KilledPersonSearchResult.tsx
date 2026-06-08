@@ -10,18 +10,14 @@ import { ExternalWindowIcon } from "../ExternalWindowIcon";
 
 const pageCache = new Map<string, KilledInGaza[]>();
 
-const fetchPersonPage = async (
-  id: string
-): Promise<KilledInGaza | undefined> => {
+const fetchPersonPage = async (id: string): Promise<KilledInGaza | undefined> => {
   const [pageIndex, personIndex] = id.split(".");
   if (pageCache.has(pageIndex)) {
     return pageCache.get(pageIndex)[+personIndex];
   }
 
   try {
-    const response = await fetch(
-      `/api/v2/killed-in-gaza/page-${pageIndex}.json`
-    );
+    const response = await fetch(`/api/v2/killed-in-gaza/page-${pageIndex}.json`);
     if (!response.ok || response.status !== 200) {
       return;
     }
@@ -67,9 +63,9 @@ const correctionFormLink = ({
   yyyymmddDob?: string;
 }) =>
   `https://docs.google.com/forms/d/e/1FAIpQLSfYazQFosIuvMg5DiJri5oAKIc0aq3evz3_lHzxuLam59aj7Q/viewform?usp=pp_url&entry.1898888411=${encodeURIComponent(
-    recordId
+    recordId,
   )}&entry.284230456=${encodeURIComponent(
-    englishName
+    englishName,
   )}&entry.1695503817=${encodeURIComponent(arabicName)}${
     yyyymmddDob ? `&entry.1111739377=${yyyymmddDob}` : ""
   }`;
@@ -113,13 +109,10 @@ export const KilledPersonSearchResult = () => {
                 <div className={`card ${styles.personCard}`}>
                   <div className="card__body">
                     <div className={styles.personCardName}>
-                      <PersonIcon type={iconType} />{" "}
-                      {formatName(person.en_name)}
+                      <PersonIcon type={iconType} /> {formatName(person.en_name)}
                     </div>
                     <div className={styles.personCardInnerPad}>
-                      <div className={styles.personCardArabicName}>
-                        {person.name}
-                      </div>
+                      <div className={styles.personCardArabicName}>{person.name}</div>
                       {person.age >= 0 && (
                         <div className={styles.personCardAge}>
                           {person.age === 0
@@ -128,9 +121,7 @@ export const KilledPersonSearchResult = () => {
                         </div>
                       )}
                       {!!person.dob && (
-                        <div>
-                          Born {format(parseISO(person.dob), "MMMM do, yyyy")}
-                        </div>
+                        <div>Born {format(parseISO(person.dob), "MMMM do, yyyy")}</div>
                       )}
                       <div className={styles.personCardLinkFooter}>
                         <a

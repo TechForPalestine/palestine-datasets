@@ -1,10 +1,7 @@
 import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
 import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
-import {
-  formatDailiesJson,
-  validateDailiesJson,
-} from "../common/casualties-daily";
+import { formatDailiesJson, validateDailiesJson } from "../common/casualties-daily";
 
 const jsonFileName = "west_bank_daily.json";
 

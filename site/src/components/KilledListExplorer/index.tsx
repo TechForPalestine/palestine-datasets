@@ -1,19 +1,8 @@
 import React from "react";
 import Fuse from "fuse.js";
-import {
-  Configure,
-  Hits,
-  InstantSearch,
-  SearchBox,
-  useInstantSearch,
-} from "react-instantsearch";
+import { Configure, Hits, InstantSearch, SearchBox, useInstantSearch } from "react-instantsearch";
 import styles from "./styles.module.css";
-import {
-  LangOption,
-  SearchPerson,
-  fetchIndex,
-  listSort,
-} from "../../lib/search-index";
+import { LangOption, SearchPerson, fetchIndex, listSort } from "../../lib/search-index";
 
 const hitsLimit = 100;
 
@@ -56,9 +45,7 @@ const SearchHit = (props: { hit: { item: SearchPerson } }) => {
     <div className={styles.searchResultItem}>
       <a href={`/docs/killed-in-gaza/person?ids=${props.hit.item.key}`}>
         {props.hit.item.name}{" "}
-        <span className={styles.searchResultItemOccurrence}>
-          ({recordCount})
-        </span>
+        <span className={styles.searchResultItemOccurrence}>({recordCount})</span>
       </a>
     </div>
   );
@@ -119,10 +106,8 @@ const SearchModal = ({ lang, searchClient, onClose, totalCount }) => {
   );
 };
 
-const preventPageScroll = () =>
-  (document.querySelector("body").style.overflow = "hidden");
-const allowPageScroll = () =>
-  (document.querySelector("body").style.overflow = "auto");
+const preventPageScroll = () => (document.querySelector("body").style.overflow = "hidden");
+const allowPageScroll = () => (document.querySelector("body").style.overflow = "auto");
 
 export const KilledListExplorer = () => {
   const [loading, setLoading] = React.useState<LangOption | "idle">("idle");
@@ -162,13 +147,8 @@ export const KilledListExplorer = () => {
   };
 
   const onClose = (e) => {
-    const mobileCloseTap =
-      e?.target.tagName === "path" || e?.target.tagName === "svg";
-    if (
-      !e ||
-      mobileCloseTap ||
-      e.target.className.includes("searchModalContainer")
-    ) {
+    const mobileCloseTap = e?.target.tagName === "path" || e?.target.tagName === "svg";
+    if (!e || mobileCloseTap || e.target.className.includes("searchModalContainer")) {
       allowPageScroll();
       setOpen("closed");
     }
@@ -192,9 +172,7 @@ export const KilledListExplorer = () => {
           {loading === "en" ? "Loading..." : "Search English Name"}
         </div>
       </div>
-      {open !== "closed" && (
-        <SearchModal {...{ lang: open, searchClient, onClose, totalCount }} />
-      )}
+      {open !== "closed" && <SearchModal {...{ lang: open, searchClient, onClose, totalCount }} />}
     </div>
   );
 };

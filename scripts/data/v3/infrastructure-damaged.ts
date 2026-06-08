@@ -46,9 +46,7 @@ export const validateJson = (json: Array<Record<string, any>>) => {
     // validate date format is as expected for the base daily dataset format
     const dateValid = yyyymmddFormat.test(record.report_date as string);
     if (!dateValid) {
-      throw new Error(
-        `Report date '${record.report_date}' is invalid, expected YYYY-MM-DD`
-      );
+      throw new Error(`Report date '${record.report_date}' is invalid, expected YYYY-MM-DD`);
     }
 
     // track all of the field names we use in the dataset
@@ -63,7 +61,7 @@ export const validateJson = (json: Array<Record<string, any>>) => {
     });
   });
   const extKeys = Array.from(uniqueFieldNames).filter(
-    (key) => key.includes(".ext_") || key.startsWith("ext_")
+    (key) => key.includes(".ext_") || key.startsWith("ext_"),
   );
   json.forEach((record) => {
     extKeys.forEach((expectedKey) => {
@@ -75,7 +73,7 @@ export const validateJson = (json: Array<Record<string, any>>) => {
         }
         if (!record[keyPart]) {
           throw new Error(
-            `Record for ${record.report_date} is missing expected key: ${expectedKey} (on part ${keyPart})`
+            `Record for ${record.report_date} is missing expected key: ${expectedKey} (on part ${keyPart})`,
           );
         }
       }
@@ -88,28 +86,23 @@ generateJsonFromGSheet();
 const formatInfrastructreJson = (
   headerKeys: string[],
   rows: string[][],
-  columnFilter = new Set<string>()
+  columnFilter = new Set<string>(),
 ) => {
   return rows.reverse().map((rowColumns) =>
     rowColumns.reduce(
       (dayRecord, colValue, colIndex) => ({
         ...dayRecord,
-        ...((columnFilter.size && columnFilter.has(headerKeys[colIndex])) ||
-        !columnFilter.size
+        ...((columnFilter.size && columnFilter.has(headerKeys[colIndex])) || !columnFilter.size
           ? addRecordField(headerKeys[colIndex], colValue, dayRecord)
           : {}),
       }),
-      {}
-    )
+      {},
+    ),
   );
 };
 
 const rawValueFields = ["report_date", "report_source"];
-const addRecordField = (
-  fieldKey: string,
-  fieldValue: string,
-  record: Record<string, any>
-) => {
+const addRecordField = (fieldKey: string, fieldValue: string, record: Record<string, any>) => {
   const rawValue = rawValueFields.includes(fieldKey);
   const isObjectValue = fieldKey.includes(".");
   if (isObjectValue && fieldValue) {

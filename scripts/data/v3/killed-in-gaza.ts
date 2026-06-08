@@ -9,9 +9,7 @@ const apiFileName = "killed-in-gaza.json";
 
 const identifierUpdateIndex = new Map<string, number>();
 
-const remapFields = (
-  person: Omit<KilledInGaza, "source"> & { update: number }
-) => {
+const remapFields = (person: Omit<KilledInGaza, "source"> & { update: number }) => {
   return Object.keys(person).reduce((acc, key) => {
     const keyIndex = kig3ColMapping[key as keyof typeof kig3ColMapping];
     acc[keyIndex] = person[key as keyof typeof kig3ColMapping] ?? null;
@@ -21,12 +19,10 @@ const remapFields = (
 
 const fetchFileForCommit = async (commit: string) => {
   const response = await fetch(
-    `https://raw.githubusercontent.com/TechForPalestine/palestine-datasets/${commit}/killed-in-gaza.json`
+    `https://raw.githubusercontent.com/TechForPalestine/palestine-datasets/${commit}/killed-in-gaza.json`,
   );
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch file for commit ${commit}: ${response.statusText}`
-    );
+    throw new Error(`Failed to fetch file for commit ${commit}: ${response.statusText}`);
   }
 
   console.log(`Fetched data for commit ${commit} (${response.status})`);
@@ -57,24 +53,22 @@ const generateFromV2JSONWithUpdateReference = async () => {
     gatherIds(data, index);
   }, Promise.resolve());
 
-  const latestJson = require("../../../killed-in-gaza.min.json").map(
-    (person: KilledInGaza) => {
-      const { source, ...rest } = person; // exclude `source` field
-      return remapFields({
-        ...rest,
-        update: identifierUpdateIndex.get(person.id) ?? -1,
-      });
-    }
-  );
+  const latestJson = require("../../../killed-in-gaza.min.json").map((person: KilledInGaza) => {
+    const { source, ...rest } = person; // exclude `source` field
+    return remapFields({
+      ...rest,
+      update: identifierUpdateIndex.get(person.id) ?? -1,
+    });
+  });
 
   writeJson(
     ApiResource.KilledInGazaV3,
     { from: jsonFileName, to: apiFileName },
-    [kig3FieldIndex].concat(latestJson)
+    [kig3FieldIndex].concat(latestJson),
   );
 
   console.log(
-    `generated JSON file with ${latestJson.length} records: ${jsonFileName}, associated with ${identifierUpdateIndex.size} unique identifiers`
+    `generated JSON file with ${latestJson.length} records: ${jsonFileName}, associated with ${identifierUpdateIndex.size} unique identifiers`,
   );
 };
 

@@ -13,10 +13,7 @@ interface FilterRowProps extends SharedProps {
   agesActive: boolean;
 }
 
-export const FilterRow = forwardRef<
-  { setSearchValue: (value: string) => void },
-  FilterRowProps
->(
+export const FilterRow = forwardRef<{ setSearchValue: (value: string) => void }, FilterRowProps>(
   (
     {
       selectedFilters,
@@ -25,7 +22,7 @@ export const FilterRow = forwardRef<
       onPressAgeRange,
       agesActive,
     }: FilterRowProps,
-    ref
+    ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [searchValue, setSearchValue] = useState("");
@@ -65,12 +62,7 @@ export const FilterRow = forwardRef<
 
     return (
       <div className={styles.filterRow}>
-        <div
-          className={clsx(
-            styles.inputContainer,
-            searchExpanded && styles.inputContainerActive
-          )}
-        >
+        <div className={clsx(styles.inputContainer, searchExpanded && styles.inputContainerActive)}>
           <div className={styles.input}>
             <input
               ref={inputRef}
@@ -88,8 +80,7 @@ export const FilterRow = forwardRef<
               onClick={handleInputClear}
               className={clsx(
                 styles.cancelSearchIcon,
-                (searchValue.trim().length > 0 || searchExpanded) &&
-                  styles.cancelSearchIconActive
+                (searchValue.trim().length > 0 || searchExpanded) && styles.cancelSearchIconActive,
               )}
             >
               <CancelCircleIcon size={20} />
@@ -107,5 +98,5 @@ export const FilterRow = forwardRef<
         </div>
       </div>
     );
-  }
+  },
 );

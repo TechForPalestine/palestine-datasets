@@ -4,10 +4,8 @@ import summary from "../../../../site/src/generated/summary.json";
 import { writeOffManifestJson } from "../../../utils/fs";
 
 const listChildrenCount =
-  summary.known_killed_in_gaza.female.child +
-  summary.known_killed_in_gaza.male.child;
-const totalChildrenKilled =
-  summary.gaza.killed.children + summary.west_bank.killed.children;
+  summary.known_killed_in_gaza.female.child + summary.known_killed_in_gaza.male.child;
+const totalChildrenKilled = summary.gaza.killed.children + summary.west_bank.killed.children;
 const estimator = ([name, listCount]: (string | number)[]) => {
   const adjustedCount = (+listCount / listChildrenCount) * totalChildrenKilled;
   return [name, Math.round(adjustedCount)];

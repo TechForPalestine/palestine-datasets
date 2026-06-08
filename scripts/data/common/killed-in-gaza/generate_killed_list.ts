@@ -23,9 +23,7 @@ if (nameEnColumnIndex !== -1) {
   // If name_en column exists, fix any standalone "allah" segments and write
   const fixedList = rawListRows.map((row) => {
     const enName = row[nameEnColumnIndex];
-    row[nameEnColumnIndex] = hasStandaloneAllah(enName)
-      ? fixStandaloneAllah(enName)
-      : enName;
+    row[nameEnColumnIndex] = hasStandaloneAllah(enName) ? fixStandaloneAllah(enName) : enName;
     return row;
   });
   writeCsv(`${pwd}/output/result.csv`, [rawHeaderRow, ...fixedList]);
@@ -45,10 +43,7 @@ if (nameEnColumnIndex !== -1) {
     row[arRawColumn] = normalizedArName;
     // append name_en col value
     const enName = replaceWholeNameSegments(normalizedArName, arToEn);
-    return [
-      ...row,
-      hasStandaloneAllah(enName) ? fixStandaloneAllah(enName) : enName,
-    ];
+    return [...row, hasStandaloneAllah(enName) ? fixStandaloneAllah(enName) : enName];
   });
 
   const newHeaders = [...rawHeaderRow, arEnNameColumnLabel];

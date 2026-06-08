@@ -21,8 +21,7 @@
   --tfp-warning-h: 3;
   --tfp-warning-s: 60%;
   --tfp-warning-l: 49%;
-  --tfp-warning-hsl: var(--tfp-warning-h), var(--tfp-warning-s),
-    var(--tfp-warning-l);
+  --tfp-warning-hsl: var(--tfp-warning-h), var(--tfp-warning-s), var(--tfp-warning-l);
   --tfp-chart-warning: hsl(var(--tfp-warning-hsl));
   --tfp-chart-warning-bg: hsla(var(--tfp-warning-hsl), 0.4);
 }

@@ -11,7 +11,7 @@ export const KilledListPagingLabel = () => {
         {
           page_size: format(previewData.known_killed_in_gaza.page_size),
           page_count: format(previewData.known_killed_in_gaza.pages),
-        }
+        },
       )}
     </div>
   );

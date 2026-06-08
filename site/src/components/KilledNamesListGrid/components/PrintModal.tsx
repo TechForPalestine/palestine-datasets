@@ -32,15 +32,12 @@ export const PrintModal = React.memo(
     return (
       <div className={clsx(styles.gridOverlay, styles.printModal)}>
         <div className={styles.printModalContainer}>
-          <h3 className={styles.printModalTitle}>
-            Print {total.toLocaleString()} names
-          </h3>
+          <h3 className={styles.printModalTitle}>Print {total.toLocaleString()} names</h3>
           <p className={styles.printModalBlurb}>
             {needsTranching
               ? "This list is too large for most browsers to print as one document. Print each batch below in its own tab."
               : "A new tab will open and the print dialog will appear automatically."}{" "}
-            The printouts reflect any searches or filters you've applied in the
-            prior view.
+            The printouts reflect any searches or filters you've applied in the prior view.
           </p>
 
           {needsTranching ? (
@@ -52,8 +49,7 @@ export const PrintModal = React.memo(
                     className={styles.printModalButton}
                     onClick={() => onPrintRange(start, end, detailed)}
                   >
-                    Print names {(start + 1).toLocaleString()}–
-                    {end.toLocaleString()}
+                    Print names {(start + 1).toLocaleString()}–{end.toLocaleString()}
                     <span className={styles.printModalButtonCount}>
                       {(end - start).toLocaleString()} records
                     </span>

@@ -38,23 +38,21 @@ describe("fixStandaloneAllah", () => {
   });
 
   test("handles multiple standalone Allah segments", () => {
-    expect(fixStandaloneAllah("Awad Allah Awad Allah")).toBe(
-      "Awadallah Awadallah"
-    );
+    expect(fixStandaloneAllah("Awad Allah Awad Allah")).toBe("Awadallah Awadallah");
   });
 
   test("merges standalone Allah in the middle of a full name", () => {
     expect(fixStandaloneAllah("Salwa Suleiman Nasr Allah Al-Farra")).toBe(
-      "Salwa Suleiman Nasrallah Al-Farra"
+      "Salwa Suleiman Nasrallah Al-Farra",
     );
     expect(fixStandaloneAllah("Said Ata Allah Mohammed Abu Jalala")).toBe(
-      "Said Atallah Mohammed Abu Jalala"
+      "Said Atallah Mohammed Abu Jalala",
     );
   });
 
   test("handles standalone Allah at end of name", () => {
     expect(fixStandaloneAllah("Ali Mousa Mohammed Khalaf Allah")).toBe(
-      "Ali Mousa Mohammed Khalafallah"
+      "Ali Mousa Mohammed Khalafallah",
     );
   });
 

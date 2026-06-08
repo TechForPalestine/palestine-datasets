@@ -15,11 +15,7 @@ onmessage = (e) => {
     url: "/api/v3/killed-in-gaza.min.json",
   })
     .node(".[*][*]", function (data) {
-      if (
-        typeof data === "object" &&
-        maxRecordsToFetch &&
-        records > maxRecordsToFetch
-      ) {
+      if (typeof data === "object" && maxRecordsToFetch && records > maxRecordsToFetch) {
         this.abort();
         postMessage("done");
         return;

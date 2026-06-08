@@ -3,10 +3,7 @@ import { kig3FieldIndex, PersonRow } from "./types";
 
 const lastUpdate = updateDates[updateDates.length - 1];
 
-export const createCSVDownload = (
-  records: PersonRow[],
-  totalRecords: number
-) => {
+export const createCSVDownload = (records: PersonRow[], totalRecords: number) => {
   if (!records.length) {
     return {};
   }
@@ -22,11 +19,9 @@ export const createCSVDownload = (
         }
         return col;
       })
-      .join(",")
+      .join(","),
   );
-  const headerRow = kig3FieldIndex
-    .map((col) => `"${col.replace(/"/g, '""')}"`)
-    .join(",");
+  const headerRow = kig3FieldIndex.map((col) => `"${col.replace(/"/g, '""')}"`).join(",");
   csvContent.unshift(headerRow);
   const csvBlob = new Blob([csvContent.join("\n")], {
     type: "text/csv;charset=utf-8;",

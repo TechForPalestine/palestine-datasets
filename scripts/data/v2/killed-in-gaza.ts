@@ -7,15 +7,7 @@ import { knownDuplicates } from "../common/killed-in-gaza/duplicates";
 
 const jsonFileName = "killed-in-gaza.json";
 
-const expectedFields = [
-  "id",
-  "name_ar_raw",
-  "dob",
-  "age",
-  "sex",
-  "name_en",
-  "source",
-];
+const expectedFields = ["id", "name_ar_raw", "dob", "age", "sex", "name_en", "source"];
 
 interface MappedRecord extends Record<string, string | number> {
   id: string;
@@ -86,11 +78,7 @@ const addSingleRecordField = (fieldKey: string, fieldValue: string) => {
   };
 };
 
-const handleColumn = (
-  headerKeys: string[],
-  currentColValue: string,
-  currentColIndex: number
-) => {
+const handleColumn = (headerKeys: string[], currentColValue: string, currentColIndex: number) => {
   const currentKey = headerKeys[currentColIndex];
   return addSingleRecordField(currentKey, currentColValue);
 };
@@ -109,7 +97,7 @@ const formatToJson = (headerKeys: string[], rows: string[][]) => {
           ...dayRecord,
           ...handleColumn(headerKeys, colValue, colIndex),
         }),
-        {} as MappedRecord
+        {} as MappedRecord,
       );
     })
     .filter((row) => !!row.id);
@@ -132,9 +120,7 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
     }
 
     if (typeof record.id !== "string") {
-      throw new Error(
-        `Encountered record with non-string ID at index=${index}`
-      );
+      throw new Error(`Encountered record with non-string ID at index=${index}`);
     }
 
     if (uniqueIds.has(record.id)) {
@@ -146,26 +132,18 @@ const validateJson = (json: Array<Record<string, number | string>>) => {
     if (typeof record.sex === "string") {
       uniqueSexValues.add(record.sex);
     } else {
-      throw new Error(
-        `Unexpected "sex" value for record with id=${record.id} (${record.sex})`
-      );
+      throw new Error(`Unexpected "sex" value for record with id=${record.id} (${record.sex})`);
     }
   });
 
   if (duplicateIds.size) {
     throw new Error(
-      `Encountered the following duplicate IDs: ${Array.from(duplicateIds).join(
-        ", "
-      )}`
+      `Encountered the following duplicate IDs: ${Array.from(duplicateIds).join(", ")}`,
     );
   }
 
   if (!uniqueSexValues.has("m") || !uniqueSexValues.has("f")) {
-    throw new Error(
-      `Unexpected "sex" value(s) found: ${Array.from(uniqueSexValues).join(
-        ", "
-      )}`
-    );
+    throw new Error(`Unexpected "sex" value(s) found: ${Array.from(uniqueSexValues).join(", ")}`);
   }
 
   if (minAgeValue < -1) {
@@ -193,9 +171,7 @@ for (const dupIds of Object.values(knownDuplicates)) {
  * These are potential duplicates that should be resolved in the duplicates config.
  * Known duplicates (from the config) are excluded from this check.
  */
-const detectUnknownDuplicates = (
-  json: MappedRecord[]
-): Map<string, MappedRecord[]> => {
+const detectUnknownDuplicates = (json: MappedRecord[]): Map<string, MappedRecord[]> => {
   const keyMap = new Map<string, MappedRecord[]>();
 
   for (const record of json) {
@@ -234,8 +210,7 @@ const consolidateKnownDuplicates = (json: MappedRecord[]): MappedRecord[] => {
 
     // If this is a canonical record with known duplicates, add the field
     if (knownDuplicates[record.id]) {
-      (record as Record<string, unknown>).duplicate_ids =
-        knownDuplicates[record.id];
+      (record as Record<string, unknown>).duplicate_ids = knownDuplicates[record.id];
     }
 
     result.push(record);
@@ -245,9 +220,7 @@ const consolidateKnownDuplicates = (json: MappedRecord[]): MappedRecord[] => {
 };
 
 const generateJsonFromTranslatedCsv = async () => {
-  const [headerKeys, ...rows] = readCsv(
-    "scripts/data/common/killed-in-gaza/output/result.csv"
-  );
+  const [headerKeys, ...rows] = readCsv("scripts/data/common/killed-in-gaza/output/result.csv");
   const jsonArray = formatToJson(headerKeys, rows);
   validateJson(jsonArray);
 
@@ -263,7 +236,7 @@ const generateJsonFromTranslatedCsv = async () => {
     throw new Error(
       `Found ${unknownDupes.size} unknown duplicate group(s) with same name+dob+sex but different IDs.\n` +
         `Add them to scripts/data/common/killed-in-gaza/duplicates.ts and remove duplicates from raw.csv.\n` +
-        `Duplicate groups:\n${dupeDetails}`
+        `Duplicate groups:\n${dupeDetails}`,
     );
   }
 
@@ -272,7 +245,7 @@ const generateJsonFromTranslatedCsv = async () => {
   const removedCount = jsonArray.length - consolidated.length;
   if (removedCount > 0) {
     console.log(
-      `Consolidated ${removedCount} known duplicate record(s) from ${jsonArray.length} total`
+      `Consolidated ${removedCount} known duplicate record(s) from ${jsonArray.length} total`,
     );
   }
 
@@ -280,15 +253,13 @@ const generateJsonFromTranslatedCsv = async () => {
   consolidated.sort((a, b) => b.id.localeCompare(a.id));
   writeJson(ApiResource.KilledInGazaV2, jsonFileName, consolidated);
 
-  console.log(
-    `generated JSON file with ${consolidated.length} records: ${jsonFileName}`
-  );
+  console.log(`generated JSON file with ${consolidated.length} records: ${jsonFileName}`);
 
   const logLines: string[] = [];
 
   if (namesFallbackTranslated.size) {
     logLines.push(
-      `\n\n⚠️ ${namesFallbackTranslated.size} were translated using the fallback library (namePart,occurrences):\n`
+      `\n\n⚠️ ${namesFallbackTranslated.size} were translated using the fallback library (namePart,occurrences):\n`,
     );
     Array.from(namesFallbackTranslated)
       .sort((a, b) => b[1] - a[1])
@@ -298,9 +269,7 @@ const generateJsonFromTranslatedCsv = async () => {
   }
 
   if (duplicateIds.size) {
-    logLines.push(
-      `\n\n⚠️ ${duplicateIds.size} record ID conflicts were encountered:\n`
-    );
+    logLines.push(`\n\n⚠️ ${duplicateIds.size} record ID conflicts were encountered:\n`);
     duplicateIds.forEach((id) => {
       logLines.push(id);
     });

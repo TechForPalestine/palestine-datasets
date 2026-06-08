@@ -22,6 +22,8 @@ jobs:
           bun-version: 1.0.22
       - name: install dependencies
         run: bun install
+      - name: check formatting
+        run: bun run fmt:check
       - name: stub generated
         run: |
           mkdir -p site/src/generated/killed-in-gaza

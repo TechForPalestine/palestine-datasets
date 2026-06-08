@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Grid, useGridRef } from "react-window";
 import debounce from "lodash.debounce";
 import { kig3FieldIndex, PersonRow, PersonType } from "./types";
@@ -33,17 +27,11 @@ import clsx from "clsx";
 import { ScrollButtonBar } from "./components/ScrollButtonBar";
 import { hasMobileToolbarDimensionChange } from "./dimension.utils";
 import { CancelCircleIcon } from "../CancelCircleIcon";
-import {
-  updateDates,
-  updateLinks,
-} from "../../../../scripts/data/common/killed-in-gaza/constants";
+import { updateDates, updateLinks } from "../../../../scripts/data/common/killed-in-gaza/constants";
 import { createCSVDownload } from "./csvDownload";
 import { minimumSearchTermLength, suggestSearch } from "./searchSuggestion";
 import { InlineSearchSuggestions } from "./components/InlineSearchSuggestions";
-import {
-  buildPrintDocument,
-  PRINT_TRANCHE_SIZE,
-} from "./buildPrintDocument";
+import { buildPrintDocument, PRINT_TRANCHE_SIZE } from "./buildPrintDocument";
 import { PrintModal } from "./components/PrintModal";
 import { AgeRangeModal } from "./components/AgeRangeModal";
 import {
@@ -96,9 +84,7 @@ export const KilledNamesListGrid = () => {
   >(getColumnConfig(1600));
   const [thresholdIndex, setThresholdIndex] = useState<number>(0);
   const [focusedRecord, setFocusedRecord] = useState<PersonRow | null>(null);
-  const [csvDownloadParams, setCSVDownloadParams] = useState(
-    createCSVDownload([], 0)
-  );
+  const [csvDownloadParams, setCSVDownloadParams] = useState(createCSVDownload([], 0));
   const [printModalTotal, setPrintModalTotal] = useState<number | null>(null);
   const [ageRangeModalOpen, setAgeRangeModalOpen] = useState(false);
 
@@ -114,9 +100,7 @@ export const KilledNamesListGrid = () => {
         (row[recordCols.en_name] || "")
           .toString()
           .split(/\s+/)
-          .forEach((part) =>
-            uniqueEnglishNames.current.add(part.toLowerCase())
-          );
+          .forEach((part) => uniqueEnglishNames.current.add(part.toLowerCase()));
         count += 1;
         updateState();
       },
@@ -128,11 +112,7 @@ export const KilledNamesListGrid = () => {
     if (loading) return;
 
     setFilterState((prev) => {
-      const filteredCount = applyFilters(
-        prev.filters,
-        prev.nameSearch,
-        prev.ageRange
-      );
+      const filteredCount = applyFilters(prev.filters, prev.nameSearch, prev.ageRange);
       return { ...prev, filteredCount: filteredCount ?? 0 };
     });
   }, [loading]);
@@ -140,12 +120,11 @@ export const KilledNamesListGrid = () => {
   useEffect(() => {
     if (typeof window !== "object") return;
     const params = parseUrlFilterParams(window.location.search);
-    const hasParams =
-      params.excluded.length > 0 || !!params.search || !!params.ageRange;
+    const hasParams = params.excluded.length > 0 || !!params.search || !!params.ageRange;
     if (!hasParams) return;
 
     const newFilters = ALL_PERSON_TYPES.filter(
-      (t) => !params.excluded.includes(t)
+      (t) => !params.excluded.includes(t),
     ).sort() as PersonType[];
 
     setFilterState((prev) => ({
@@ -166,8 +145,7 @@ export const KilledNamesListGrid = () => {
       const mainHeight = elementRef.current.offsetHeight;
       const navDisplacement = elementRef.current.getBoundingClientRect().y ?? 0;
       const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
-      const inlineSearchSuggestionsHeight =
-        inlineSearchSuggestionsRef?.current?.offsetHeight ?? 0;
+      const inlineSearchSuggestionsHeight = inlineSearchSuggestionsRef?.current?.offsetHeight ?? 0;
       const headerRefHeight = headerRef?.current?.offsetHeight ?? 0;
       const gridHeight =
         mainHeight -
@@ -183,9 +161,7 @@ export const KilledNamesListGrid = () => {
       setDimensions(newDims);
       lastDimension.current = newDims;
 
-      recordsVisibleInWindowViewport.current = Math.floor(
-        gridHeight / rowHeight
-      );
+      recordsVisibleInWindowViewport.current = Math.floor(gridHeight / rowHeight);
 
       setColumnConfig(getColumnConfig(elementRef.current.offsetWidth));
     }
@@ -206,8 +182,7 @@ export const KilledNamesListGrid = () => {
       const mainHeight = main.offsetHeight;
       const navDisplacement = main.getBoundingClientRect().y ?? 0;
       const tableHeaderHeight = tableHeaderRef?.current?.offsetHeight ?? 0;
-      const inlineSearchSuggestionsHeight =
-        inlineSearchSuggestionsRef?.current?.offsetHeight ?? 0;
+      const inlineSearchSuggestionsHeight = inlineSearchSuggestionsRef?.current?.offsetHeight ?? 0;
       const headerRefHeight = headerRef?.current?.offsetHeight ?? 0;
       const gridHeight =
         mainHeight -
@@ -246,32 +221,23 @@ export const KilledNamesListGrid = () => {
     debounce(
       ({ rowStopIndex }) => {
         const thresholdRecordIndex = rowStopIndex - overscanRecordCount;
-        if (
-          thresholdRecordIndex < 0 ||
-          thresholdRecordIndex <= visibleRecords.current + 1
-        ) {
+        if (thresholdRecordIndex < 0 || thresholdRecordIndex <= visibleRecords.current + 1) {
           return;
         }
         setThresholdIndex(thresholdRecordIndex);
       },
       frameRangeUpdateInterval,
-      { leading: true, trailing: true }
+      { leading: true, trailing: true },
     ),
-    [setThresholdIndex, visibleRecords]
+    [setThresholdIndex, visibleRecords],
   );
 
   const applyFilters = useCallback(
     (filters: PersonType[], nameSearch: string, ageRange: AgeRange) => {
-      if (
-        filters.length === 6 &&
-        !nameSearch.trim().length &&
-        !ageRange
-      ) {
+      if (filters.length === 6 && !nameSearch.trim().length && !ageRange) {
         filteredRecords.current = [];
         filteredSearchMatches.current = {};
-        setCSVDownloadParams(
-          createCSVDownload(records.current, records.current.length)
-        );
+        setCSVDownloadParams(createCSVDownload(records.current, records.current.length));
         return;
       }
 
@@ -338,15 +304,13 @@ export const KilledNamesListGrid = () => {
               return true;
             }
           });
-          const partialMatches =
-            partialArMatches.length + partialEnMatches.length;
+          const partialMatches = partialArMatches.length + partialEnMatches.length;
           partialMatchHitFactor =
             partialMatches + uniqueNameMatches.size * searchUniqueNameHitFactor;
           hasNameMatch = partialMatches > 0;
         }
 
-        const filtersMatched =
-          hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
+        const filtersMatched = hasNameMatch && filters.includes(iconTypeForPerson(age, sex));
         if (filtersMatched) {
           filteredSearchMatches.current[row[recordCols.id]] = [
             Array.from(arNameSearchMatches),
@@ -358,8 +322,7 @@ export const KilledNamesListGrid = () => {
         return filtersMatched;
       });
 
-      const applySearchMatchPrioritySort =
-        searchHasSortPriority.current && nameSearch.trim();
+      const applySearchMatchPrioritySort = searchHasSortPriority.current && nameSearch.trim();
 
       if (applySearchMatchPrioritySort) {
         filteredRecords.current.sort((a, b) => {
@@ -371,28 +334,23 @@ export const KilledNamesListGrid = () => {
         });
       }
 
-      setCSVDownloadParams(
-        createCSVDownload(filteredRecords.current, records.current.length)
-      );
+      setCSVDownloadParams(createCSVDownload(filteredRecords.current, records.current.length));
 
       return filteredRecords.current.length;
     },
-    []
+    [],
   );
 
-  const writeUrl = useCallback(
-    (filters: PersonType[], nameSearch: string, ageRange: AgeRange) => {
-      if (typeof window !== "object") return;
-      const qs = buildFilterQueryString({
-        filters,
-        search: nameSearch,
-        ageRange,
-      });
-      const url = `${window.location.pathname}${qs}${window.location.hash}`;
-      window.history.replaceState(null, "", url);
-    },
-    []
-  );
+  const writeUrl = useCallback((filters: PersonType[], nameSearch: string, ageRange: AgeRange) => {
+    if (typeof window !== "object") return;
+    const qs = buildFilterQueryString({
+      filters,
+      search: nameSearch,
+      ageRange,
+    });
+    const url = `${window.location.pathname}${qs}${window.location.hash}`;
+    window.history.replaceState(null, "", url);
+  }, []);
 
   const onToggleFilter = useCallback(
     (type: PersonType) => {
@@ -406,11 +364,7 @@ export const KilledNamesListGrid = () => {
           : [...baseFilters, type].sort();
         const newAgeRange = exitingAgesMode ? null : prev.ageRange;
 
-        const filteredCount = applyFilters(
-          newFilters,
-          prev.nameSearch,
-          newAgeRange
-        );
+        const filteredCount = applyFilters(newFilters, prev.nameSearch, newAgeRange);
 
         writeUrl(newFilters, prev.nameSearch, newAgeRange);
 
@@ -422,7 +376,7 @@ export const KilledNamesListGrid = () => {
         };
       });
     },
-    [setFilterState, applyFilters, writeUrl]
+    [setFilterState, applyFilters, writeUrl],
   );
 
   const onSearchInputChange = useCallback(
@@ -448,14 +402,14 @@ export const KilledNamesListGrid = () => {
         };
       });
     }, searchInputUpdateInterval),
-    [setFilterState, writeUrl]
+    [setFilterState, writeUrl],
   );
 
   const onPressCell = useCallback(
     (pressedRecord: PersonRow) => {
       setFocusedRecord(pressedRecord);
     },
-    [setFocusedRecord]
+    [setFocusedRecord],
   );
 
   const onAcceptSearchSuggestion = useCallback((value: string) => {
@@ -507,57 +461,47 @@ export const KilledNamesListGrid = () => {
             : String(bVal).localeCompare(String(aVal));
         });
 
-        applyFilters(
-          filterState.filters,
-          filterState.nameSearch,
-          filterState.ageRange
-        );
+        applyFilters(filterState.filters, filterState.nameSearch, filterState.ageRange);
 
         return { ...prevConfig, sort: newSort };
       });
     },
-    [setColumnConfig, applyFilters, filterState]
+    [setColumnConfig, applyFilters, filterState],
   );
 
   const onInlineSearchSuggestionsShown = useCallback(() => {
     calcLayout();
   }, [calcLayout]);
 
-  const printRange = useCallback(
-    (startIdx: number, endIdx: number, detailed: boolean) => {
-      if (typeof window !== "object") return;
-      const filteredRows = filteredRecords.current;
-      const allRows = records.current;
-      const sourceRows = filteredRows.length ? filteredRows : allRows;
-      const slice = sourceRows.slice(startIdx, endIdx);
-      const lastUpdate =
-        updateDates[updateDates.length - 1]?.includesUntil ?? "";
+  const printRange = useCallback((startIdx: number, endIdx: number, detailed: boolean) => {
+    if (typeof window !== "object") return;
+    const filteredRows = filteredRecords.current;
+    const allRows = records.current;
+    const sourceRows = filteredRows.length ? filteredRows : allRows;
+    const slice = sourceRows.slice(startIdx, endIdx);
+    const lastUpdate = updateDates[updateDates.length - 1]?.includesUntil ?? "";
 
-      const html = buildPrintDocument({
-        records: slice,
-        filtered: filteredRows.length > 0,
-        totalLoaded: allRows.length,
-        lastUpdate,
-        startNumber: startIdx + 1,
-        totalInSet: sourceRows.length,
-        detailed,
-      });
+    const html = buildPrintDocument({
+      records: slice,
+      filtered: filteredRows.length > 0,
+      totalLoaded: allRows.length,
+      lastUpdate,
+      startNumber: startIdx + 1,
+      totalInSet: sourceRows.length,
+      detailed,
+    });
 
-      const blob = new Blob([html], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-      const popup = window.open(url, "_blank");
-      if (!popup) {
-        URL.revokeObjectURL(url);
-        alert(
-          "Couldn't open the print window — please allow popups for this site and try again."
-        );
-        return;
-      }
-      // give the popup time to parse the HTML and grab the URL before revoking
-      setTimeout(() => URL.revokeObjectURL(url), 60_000);
-    },
-    []
-  );
+    const blob = new Blob([html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const popup = window.open(url, "_blank");
+    if (!popup) {
+      URL.revokeObjectURL(url);
+      alert("Couldn't open the print window — please allow popups for this site and try again.");
+      return;
+    }
+    // give the popup time to parse the HTML and grab the URL before revoking
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
+  }, []);
 
   const onPrint = useCallback(() => {
     const filteredRows = filteredRecords.current;
@@ -595,19 +539,16 @@ export const KilledNamesListGrid = () => {
       });
       setAgeRangeModalOpen(false);
     },
-    [applyFilters, writeUrl]
+    [applyFilters, writeUrl],
   );
 
   const showGrid = dimensions.width > 0 && dimensions.height > 0;
 
-  const windowRecords = filteredRecords.current.length
-    ? filteredRecords.current
-    : records.current;
+  const windowRecords = filteredRecords.current.length ? filteredRecords.current : records.current;
 
   const windowRecordCount = filterState.filteredCount || recordCount;
   const noSearchMatches =
-    filterState.nameSearch.trim().length > 0 &&
-    windowRecordCount === recordCount;
+    filterState.nameSearch.trim().length > 0 && windowRecordCount === recordCount;
 
   const englishSearch = /^[a-zA-Z\s-]+$/.test(filterState.nameSearch.trim());
   const searchSuggestion =
@@ -615,13 +556,11 @@ export const KilledNamesListGrid = () => {
       ? suggestSearch(
           uniqueEnglishNames.current,
           filterState.nameSearch,
-          acceptedSearchSuggestions.current
+          acceptedSearchSuggestions.current,
         )
       : undefined;
   const mobileViewport =
-    typeof window === "undefined"
-      ? false
-      : window.innerWidth / window.innerHeight < 0.7;
+    typeof window === "undefined" ? false : window.innerWidth / window.innerHeight < 0.7;
   const showInlineSearchSuggestions =
     !noSearchMatches && !mobileViewport && searchSuggestion?.others;
 
@@ -655,10 +594,7 @@ export const KilledNamesListGrid = () => {
         </div>
       </div>
       <ScrollProgress
-        pct={`${Math.min(
-          100,
-          Math.round((thresholdIndex / windowRecordCount) * 1000) / 10
-        )}%`}
+        pct={`${Math.min(100, Math.round((thresholdIndex / windowRecordCount) * 1000) / 10)}%`}
       />
       <div className={styles.gridConstraint}>
         {showInlineSearchSuggestions && (
@@ -686,9 +622,7 @@ export const KilledNamesListGrid = () => {
               onCellsRendered={onCellsRendered}
               style={{ width: dimensions.width, height: dimensions.height }}
               columnCount={columnConfig.columns.length}
-              columnWidth={(index) =>
-                dimensions.width * (columnConfig.colWeightShare[index] ?? 0)
-              }
+              columnWidth={(index) => dimensions.width * (columnConfig.colWeightShare[index] ?? 0)}
               rowCount={windowRecordCount + 1} // +1 for the header row
               rowHeight={rowHeight}
               overscanCount={overscanRecordCount}
@@ -705,9 +639,7 @@ export const KilledNamesListGrid = () => {
               gridRef={gridRef}
               thresholdIndex={thresholdIndex}
               maxRowIndex={windowRecordCount}
-              recordsVisibleInWindowViewport={
-                recordsVisibleInWindowViewport.current
-              }
+              recordsVisibleInWindowViewport={recordsVisibleInWindowViewport.current}
             />
           </>
         )}
@@ -723,11 +655,7 @@ export const KilledNamesListGrid = () => {
               <>
                 <div className={styles.searchSuggestion}>
                   Did you mean{" "}
-                  <span
-                    onClick={() =>
-                      onAcceptSearchSuggestion(searchSuggestion.main)
-                    }
-                  >
+                  <span onClick={() => onAcceptSearchSuggestion(searchSuggestion.main)}>
                     {searchSuggestion.main}
                   </span>
                   ?
@@ -749,8 +677,7 @@ export const KilledNamesListGrid = () => {
               </>
             )}
             <div className={styles.noSearchMatchesHint}>
-              (you may need to try alternate spellings when searching in
-              English)
+              (you may need to try alternate spellings when searching in English)
             </div>
           </div>
         )}
@@ -776,16 +703,8 @@ export const KilledNamesListGrid = () => {
               {focusedRecord.map((col, i) => {
                 if (kig3FieldIndex[i] === "update") {
                   return (
-                    <div
-                      className={styles.focusedRecordRow}
-                      style={{ marginTop: 10 }}
-                      key={i}
-                    >
-                      <a
-                        href={updateLinks[+focusedRecord[i] - 1]}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
+                    <div className={styles.focusedRecordRow} style={{ marginTop: 10 }} key={i}>
+                      <a href={updateLinks[+focusedRecord[i] - 1]} target="_blank" rel="noreferrer">
                         Added during list update #{focusedRecord[i]} on{" "}
                         {updateDates[+focusedRecord[i] - 1]?.on}
                       </a>
@@ -800,10 +719,7 @@ export const KilledNamesListGrid = () => {
                   </div>
                 );
               })}
-              <div
-                className={styles.dismissFocusedRecord}
-                onClick={() => setFocusedRecord(null)}
-              >
+              <div className={styles.dismissFocusedRecord} onClick={() => setFocusedRecord(null)}>
                 <CancelCircleIcon size={34} />
               </div>
             </div>

@@ -21,11 +21,7 @@ const Button = ({
   end?: boolean;
 }) => {
   return (
-    <div
-      onClick={onPress}
-      className={styles.button}
-      title={hint(direction, end)}
-    >
+    <div onClick={onPress} className={styles.button} title={hint(direction, end)}>
       <ScrollArrowIcon down={direction === "down"} end={end} size={30} />
     </div>
   );

@@ -8,19 +8,19 @@ const generateToken = async () => {
   const response = await fetch("https://pdf-services.adobe.io/token", {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
-      'client_id': apiKey,
-      'client_secret': secret
-    })
+      client_id: apiKey,
+      client_secret: secret,
+    }),
   });
-  if(!response.ok || response.status>299) {
+  if (!response.ok || response.status > 299) {
     throw new Error(`Failed to generate token (${response.status})`);
   }
-  const data = await response.json()
-  return data.access_token
-}
+  const data = await response.json();
+  return data.access_token;
+};
 
 const getUploadUrl = async (token: string) => {
   const response = await fetch("https://pdf-services.adobe.io/assets", {
@@ -43,7 +43,7 @@ const getUploadUrl = async (token: string) => {
 
 const uploadFile = async (filepath: string, uploadUrl: string) => {
   execSync(
-    `curl --location -g --request PUT '${uploadUrl}' --header 'Content-Type: application/pdf' --data-binary '@${filepath}'`
+    `curl --location -g --request PUT '${uploadUrl}' --header 'Content-Type: application/pdf' --data-binary '@${filepath}'`,
   );
 };
 
@@ -58,18 +58,15 @@ const makePayload = (assetID: string) => ({
 });
 
 const startExtraction = async (assetID: string, token: string) => {
-  const response = await fetch(
-    `https://pdf-services.adobe.io/operation/extractpdf`,
-    {
-      method: "POST",
-      headers: {
-        "X-API-Key": apiKey,
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(makePayload(assetID)),
-    }
-  );
+  const response = await fetch(`https://pdf-services.adobe.io/operation/extractpdf`, {
+    method: "POST",
+    headers: {
+      "X-API-Key": apiKey,
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(makePayload(assetID)),
+  });
   if (!response.ok || response.status >= 400) {
     throw new Error(`Failed to start extraction (${response.status})`);
   }
@@ -81,10 +78,7 @@ const downloadFile = async (fileUrl: string) => {
   execSync(`wget '${fileUrl}'`, { stdio: "inherit" });
 };
 
-const pollForExtraction = async (
-  pollUrl: string,
-  token: string
-): Promise<boolean | undefined> => {
+const pollForExtraction = async (pollUrl: string, token: string): Promise<boolean | undefined> => {
   console.log("polling...");
   const response = await fetch(pollUrl, {
     method: "GET",
@@ -109,13 +103,11 @@ const pollForExtraction = async (
   }
 };
 
-const files: string[] = [
-  "2024-05-01-part-1.pdf"
-];
+const files: string[] = ["2024-05-01-part-1.pdf"];
 
 const run = async () => {
-  console.log("Generating token.")
-  const token = await generateToken()
+  console.log("Generating token.");
+  const token = await generateToken();
   for (const file of files) {
     console.log(`Processing ${file}`);
     const { uploadUri, assetID } = await getUploadUrl(token);

@@ -10,13 +10,7 @@ const getUpdateDateStrings = () => {
   };
 };
 
-type OverallTableKeys =
-  | "Men"
-  | "Boys"
-  | "Girls"
-  | "Women"
-  | "Senior Men"
-  | "Senior Women";
+type OverallTableKeys = "Men" | "Boys" | "Girls" | "Women" | "Senior Men" | "Senior Women";
 
 export const generateBlogUpdate = (stats: DiffStats) => {
   const { yyyymmdd } = getUpdateDateStrings();
@@ -38,11 +32,9 @@ export const generateBlogUpdate = (stats: DiffStats) => {
 
   const tables = Object.keys(stats.demographics).reduce(
     (acc, key) => {
-      const overallValueKey: OverallTableKeys =
-        overallMapping[key as keyof Demographics];
+      const overallValueKey: OverallTableKeys = overallMapping[key as keyof Demographics];
       const priorOverallValue = acc.overall[overallValueKey]?.[0] ?? 0;
-      const newOverallValue =
-        priorOverallValue + stats.demographics[key as keyof Demographics];
+      const newOverallValue = priorOverallValue + stats.demographics[key as keyof Demographics];
 
       let children = acc.children;
 
@@ -68,14 +60,11 @@ export const generateBlogUpdate = (stats: DiffStats) => {
     {
       overall: {} as Record<OverallTableKeys, [number, string]>,
       children: {} as Record<keyof Demographics, number>,
-    }
+    },
   );
 
   const totalChildren = tables.overall.Boys[0] + tables.overall.Girls[0];
-  const overallTotal = Object.values(tables.overall).reduce(
-    (sum, [number]) => sum + number,
-    0
-  );
+  const overallTotal = Object.values(tables.overall).reduce((sum, [number]) => sum + number, 0);
 
   const content = `
 ---
@@ -106,7 +95,7 @@ ${Object.entries(tables.overall)
     ([key, [number, percentage]], index) =>
       `| ${key} | ${number.toLocaleString()} | ${percentage} |${
         index < Object.keys(tables.overall).length - 1 ? "\n" : ""
-      }`
+      }`,
   )
   .join("")}
 | Total Persons | ${overallTotal.toLocaleString()} | 100% |
@@ -119,7 +108,7 @@ Between this update and the last, based on the Ministry-provided ID:
 - ${stats.updated.toLocaleString()} had updated details
 
 Of the children in this list (${((totalChildren / stats.total) * 100).toFixed(
-    1
+    1,
   )}% of the total), the following is the breakdown by age group:
 
 | Child Age Group          | Number | %     |
@@ -129,14 +118,10 @@ ${Object.entries(tables.children)
     ([key, value], index) =>
       `| ${key
         .replace(/-/g, " ")
-        .replace(/\b\w/g, (c) =>
-          c.toUpperCase()
-        )} | ${value.toLocaleString()} | ${(
+        .replace(/\b\w/g, (c) => c.toUpperCase())} | ${value.toLocaleString()} | ${(
         (value / totalChildren) *
         100
-      ).toFixed(1)} |${
-        index < Object.keys(tables.children).length - 1 ? "\n" : ""
-      }`
+      ).toFixed(1)} |${index < Object.keys(tables.children).length - 1 ? "\n" : ""}`,
   )
   .join("")}
 | Total Children | ${totalChildren.toLocaleString()} | 100% |

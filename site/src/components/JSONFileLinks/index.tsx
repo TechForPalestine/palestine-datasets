@@ -36,10 +36,7 @@ export const JSONFileLinks = ({
         </ExternalLinkButton>
       )}
       {minifiedOnly && (
-        <ExternalLinkButton
-          to={`/${minified.apiPath}/${minified.name}`}
-          buttonType="secondary"
-        >
+        <ExternalLinkButton to={`/${minified.apiPath}/${minified.name}`} buttonType="secondary">
           {minified.name}
         </ExternalLinkButton>
       )}

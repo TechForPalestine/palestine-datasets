@@ -5,18 +5,12 @@ const levenshteinThreshold = 2;
 
 export const minimumSearchTermLength = 3;
 
-export const suggestSearch = (
-  names: Set<string>,
-  search: string,
-  accepted: Set<string>
-) => {
+export const suggestSearch = (names: Set<string>, search: string, accepted: Set<string>) => {
   const searchParts = search
     .split(/\s+/)
     .filter((part) => !accepted.has(part))
     .reverse();
-  const lastPart = searchParts.find(
-    (part) => part.length >= minimumSearchTermLength
-  );
+  const lastPart = searchParts.find((part) => part.length >= minimumSearchTermLength);
 
   if (!lastPart) {
     return;
@@ -46,17 +40,14 @@ export const suggestSearch = (
   };
 };
 
-export const replaceSearchPart = (
-  currentSearch: string,
-  acceptedPart: string
-) => {
+export const replaceSearchPart = (currentSearch: string, acceptedPart: string) => {
   if (!currentSearch.trim()) {
     return acceptedPart;
   }
 
   const currentPartsReversed = currentSearch.split(/\s+/).reverse();
   const matchIndex = currentPartsReversed.findIndex(
-    (part) => distance(part, acceptedPart) <= levenshteinThreshold
+    (part) => distance(part, acceptedPart) <= levenshteinThreshold,
   );
   if (matchIndex > -1) {
     currentPartsReversed.splice(matchIndex, 1, acceptedPart);

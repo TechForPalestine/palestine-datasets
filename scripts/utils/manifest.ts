@@ -26,7 +26,7 @@ const getManifestAndPath = (resource: ApiResource) => {
  */
 export const addToManifest = (
   resource: ApiResource,
-  files: Partial<Record<ResourceFormat, string | { from: string; to: string }>>
+  files: Partial<Record<ResourceFormat, string | { from: string; to: string }>>,
 ) => {
   const { manifest, apiPath } = getManifestAndPath(resource);
   const types = Object.keys(files) as ResourceFormat[];
@@ -50,10 +50,7 @@ export const addToManifest = (
   writeManifest(manifest);
 };
 
-export const addFolderToManifest = (
-  resource: ApiResource,
-  folderPath: string
-) => {
+export const addFolderToManifest = (resource: ApiResource, folderPath: string) => {
   const { manifest, apiPath } = getManifestAndPath(resource);
   manifest[resource] = {
     ...manifest[resource],

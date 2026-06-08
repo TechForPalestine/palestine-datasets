@@ -33,14 +33,14 @@ const parseAgeRange = (value: string | null): AgeRange => {
 export const parseUrlFilterParams = (search: string): UrlFilterParams => {
   const params = new URLSearchParams(search);
   const ageRange = parseAgeRange(params.get("ages"));
-  const excludedRaw = ageRange ? "" : params.get("excluded") ?? "";
+  const excludedRaw = ageRange ? "" : (params.get("excluded") ?? "");
   const excluded = Array.from(
     new Set(
       excludedRaw
         .split("|")
         .filter((v) => v.length > 0)
-        .filter(isPersonType)
-    )
+        .filter(isPersonType),
+    ),
   );
   return {
     excluded,

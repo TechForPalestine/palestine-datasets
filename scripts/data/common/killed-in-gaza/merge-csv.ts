@@ -56,12 +56,7 @@ const issues = {
   otherSource: new Set<string>(),
 };
 
-const formatRecordValue = (
-  value: string,
-  header: string,
-  id: string,
-  index: string
-) => {
+const formatRecordValue = (value: string, header: string, id: string, index: string) => {
   if (header === "sex") {
     const enSex = genders[value.trim() as keyof typeof genders];
     return enSex || value.trim();
@@ -132,11 +127,7 @@ const formatRecordValue = (
       const reversed = parts.slice().reverse();
       let fixed = false;
 
-      if (
-        reversed[0] === "0002" ||
-        reversed[0] === "0001" ||
-        reversed[0] === "0200"
-      ) {
+      if (reversed[0] === "0002" || reversed[0] === "0001" || reversed[0] === "0200") {
         reversed[0] = "00"; // assume got reversed via RTL
       }
 
@@ -149,9 +140,7 @@ const formatRecordValue = (
       }
 
       reversed[0] =
-        +reversed[0] >= 0 && +reversed[0] <= 24
-          ? `20${reversed[0]}`
-          : `19${reversed[0]}`;
+        +reversed[0] >= 0 && +reversed[0] <= 24 ? `20${reversed[0]}` : `19${reversed[0]}`;
       dirtyDob = reversed;
     }
 
@@ -225,13 +214,16 @@ for (const filepath of files) {
     }
     const id = cells[idIdx];
     const index = cells[indexIdx];
-    const record = cells.reduce((rec, cell, idx) => {
-      const header = headers[idx];
-      return {
-        ...rec,
-        [header]: formatRecordValue(cell, header, id, index),
-      };
-    }, {} as Record<string, string>);
+    const record = cells.reduce(
+      (rec, cell, idx) => {
+        const header = headers[idx];
+        return {
+          ...rec,
+          [header]: formatRecordValue(cell, header, id, index),
+        };
+      },
+      {} as Record<string, string>,
+    );
     if (record.dob && !record.age && record.dob.length < 4) {
       record.age = record.dob;
       record.dob = "";
@@ -250,9 +242,7 @@ for (const filepath of files) {
   };
 
   const handleCombinedRow = (cells: string[]) => {
-    const splitPoint =
-      cells.slice(1).findIndex((cell) => cell.includes("سجلات وزارة الصحة ")) +
-      1;
+    const splitPoint = cells.slice(1).findIndex((cell) => cell.includes("سجلات وزارة الصحة ")) + 1;
     if (splitPoint <= 0) {
       console.log("could not find split point in combined row:", cells);
       process.exit(1);
@@ -264,10 +254,7 @@ for (const filepath of files) {
     [firstRow, secondRow].forEach((row) => {
       if (row.length === headers.length) {
         iterateRow(row);
-      } else if (
-        row.length === 5 &&
-        Object.keys(genders).includes(row[1].trim())
-      ) {
+      } else if (row.length === 5 && Object.keys(genders).includes(row[1].trim())) {
         row.splice(1, 0, "");
         row.splice(3, 0, "");
         iterateRow(row);
@@ -298,12 +285,10 @@ console.log(
     (sums, key) => ({
       ...sums,
       [key]: issues[key as keyof typeof issues].size,
-      [`${key}Sample`]: Array.from(
-        issues[key as keyof typeof issues].values()
-      ).slice(0, 5),
+      [`${key}Sample`]: Array.from(issues[key as keyof typeof issues].values()).slice(0, 5),
     }),
-    {}
-  )
+    {},
+  ),
 );
 
 const csv = [

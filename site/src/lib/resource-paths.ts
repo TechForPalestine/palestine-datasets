@@ -9,7 +9,7 @@ export const useResourcePaths = (resource: ApiResource) => {
   const files = manifest[resource];
   if (!files) {
     throw new Error(
-      `Missing manifest entry for resource: ${resource}, cannot render JSONFileLinks`
+      `Missing manifest entry for resource: ${resource}, cannot render JSONFileLinks`,
     );
   }
 

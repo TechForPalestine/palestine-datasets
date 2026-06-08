@@ -13,14 +13,14 @@ const run = async () => {
       headers: {
         Authorization: `Bearer ${key}`,
       },
-    }
+    },
   );
 
   if (!response.ok || response.status !== 200) {
     console.log(
       response.ok
         ? `response not ok (${response.status})`
-        : `unexpected response status ${response.status}`
+        : `unexpected response status ${response.status}`,
     );
     process.exit(1);
   }

@@ -98,10 +98,7 @@ export const Cell = ({
       .map((val, idx) => (
         <span
           key={idx}
-          className={clsx(
-            indices.includes(idx) && styles.cellNameSearchHit,
-            styles.cellName
-          )}
+          className={clsx(indices.includes(idx) && styles.cellNameSearchHit, styles.cellName)}
         >
           {val}
         </span>
@@ -109,9 +106,7 @@ export const Cell = ({
   }
 
   const sortDebug =
-    debugSearchSort && enNameCol && searchMatches?.[2]
-      ? ` (${searchMatches[2]})`
-      : "";
+    debugSearchSort && enNameCol && searchMatches?.[2] ? ` (${searchMatches[2]})` : "";
 
   return (
     <div

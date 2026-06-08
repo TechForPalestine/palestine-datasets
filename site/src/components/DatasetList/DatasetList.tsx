@@ -1,7 +1,4 @@
-import {
-  useCurrentSidebarCategory,
-  filterDocCardListItems,
-} from "@docusaurus/theme-common";
+import { useCurrentSidebarCategory, filterDocCardListItems } from "@docusaurus/theme-common";
 import { useDocById } from "@docusaurus/theme-common/internal";
 import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
@@ -19,9 +16,7 @@ type DatasetProps = {
 const Dataset = ({ docId, label, href }: DatasetProps) => {
   try {
     const doc = useDocById(docId);
-    const [description, applications] = doc.description.split(
-      "Useful applications include"
-    );
+    const [description, applications] = doc.description.split("Useful applications include");
     const tags: string[] = applications
       ? applications.split(",").map((tag) => tag.trim().replace(/\.$/, ""))
       : [];
@@ -41,8 +36,7 @@ const CategoryDataset = ({ label, href }: any) => {
   return <Dataset {...{ label, href, docId }} />;
 };
 
-const cardItem = (item: any): item is DatasetProps =>
-  !!item.label && !!item.docId && !!item.href;
+const cardItem = (item: any): item is DatasetProps => !!item.label && !!item.docId && !!item.href;
 
 const filterByQuery = (items: ReturnType<typeof filterDocCardListItems>) => {
   if (typeof window !== "object" || !window.location) {
@@ -57,24 +51,20 @@ const filterByQuery = (items: ReturnType<typeof filterDocCardListItems>) => {
 
   return {
     filtered: true,
-    items: items.filter(
-      (item) => item.type === "link" && item.docId?.includes("daily")
-    ),
+    items: items.filter((item) => item.type === "link" && item.docId?.includes("daily")),
   };
 };
 
 export const DatasetList = () => {
   const category = useCurrentSidebarCategory();
-  const { items, filtered } = filterByQuery(
-    filterDocCardListItems(category.items)
-  );
+  const { items, filtered } = filterByQuery(filterDocCardListItems(category.items));
 
   return (
     <div>
       {filtered && (
         <div style={{ marginBottom: 20 }}>
-          <b>Filter applied:</b> Only showing datasets associated with the home
-          page chart. <a href="/docs/datasets">View all datasets</a>
+          <b>Filter applied:</b> Only showing datasets associated with the home page chart.{" "}
+          <a href="/docs/datasets">View all datasets</a>
         </div>
       )}
       {items.map((item, i) =>
@@ -82,7 +72,7 @@ export const DatasetList = () => {
           <Dataset key={item.docId} {...item} />
         ) : (
           <CategoryDataset key={`cat-${i}`} {...item} />
-        )
+        ),
       )}
     </div>
   );
@@ -105,11 +95,7 @@ function CardLayout({
         <div>
           <CardIcon tags={tags} />
         </div>
-        <Heading
-          as="h2"
-          className={clsx("text--truncate", styles.cardTitle)}
-          title={title}
-        >
+        <Heading as="h2" className={clsx("text--truncate", styles.cardTitle)} title={title}>
           {title}
         </Heading>
       </div>
@@ -189,18 +175,9 @@ function CardIcon({ tags }: { tags: string[] }) {
   return null;
 }
 
-function CardContainer({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}): JSX.Element {
+function CardContainer({ href, children }: { href: string; children: ReactNode }): JSX.Element {
   return (
-    <Link
-      href={href}
-      className={clsx("card padding--md", styles.cardContainer)}
-    >
+    <Link href={href} className={clsx("card padding--md", styles.cardContainer)}>
       {children}
     </Link>
   );

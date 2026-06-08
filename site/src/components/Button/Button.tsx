@@ -63,14 +63,7 @@ const Link = ({
   return <div {...{ onClick, style }}>{children}</div>;
 };
 
-export const Button = ({
-  to,
-  onClick,
-  inline,
-  type,
-  newTab,
-  children,
-}: Props) => {
+export const Button = ({ to, onClick, inline, type, newTab, children }: Props) => {
   return (
     <Link
       {...{ to, onClick }}

@@ -10,7 +10,7 @@ export const PressKilledListCountLabel = () => {
         { message: "press-killed-in-gaza-names-count" },
         {
           count: format(previewData.known_press_killed_in_gaza.records),
-        }
+        },
       )}
     </div>
   );

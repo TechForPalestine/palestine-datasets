@@ -39,9 +39,7 @@ const config: Config = {
                     switch (req.path) {
                       case "/api/v3/killed-in-gaza.min.json": {
                         res.header("Content-Type", "application/json");
-                        fs.createReadStream(
-                          "../killed-in-gaza-v3.min.json",
-                        ).pipe(res);
+                        fs.createReadStream("../killed-in-gaza-v3.min.json").pipe(res);
                         return;
                       }
                     }

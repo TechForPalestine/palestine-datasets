@@ -77,10 +77,10 @@ export const ExampleUsageGrid = (props: Props) => {
     if (!showFilters || activeTags.size === 0) return props.examples;
 
     const activeDatasetTags = Object.keys(tagGroups.dataset.tags).filter((t) =>
-      activeTags.has(t as DatasetTag)
+      activeTags.has(t as DatasetTag),
     );
     const activeTypeTags = Object.keys(tagGroups.type.tags).filter((t) =>
-      activeTags.has(t as TypeTag)
+      activeTags.has(t as TypeTag),
     );
 
     return props.examples.filter((example) => {
@@ -96,15 +96,18 @@ export const ExampleUsageGrid = (props: Props) => {
   }, [props.examples, activeTags, showFilters]);
 
   const rows = useMemo(() => {
-    return filteredExamples.reduce((acc, example) => {
-      const newRow = Number.isInteger(acc.length / numberPerRow);
-      if (newRow) {
-        acc.push([example]);
-      } else {
-        acc[acc.length - 1].push(example);
-      }
-      return acc;
-    }, [] as Array<Example[]>);
+    return filteredExamples.reduce(
+      (acc, example) => {
+        const newRow = Number.isInteger(acc.length / numberPerRow);
+        if (newRow) {
+          acc.push([example]);
+        } else {
+          acc[acc.length - 1].push(example);
+        }
+        return acc;
+      },
+      [] as Array<Example[]>,
+    );
   }, [filteredExamples]);
 
   return (
@@ -120,7 +123,7 @@ export const ExampleUsageGrid = (props: Props) => {
                     key={tag}
                     className={clsx(
                       styles.filterButton,
-                      activeTags.has(tag as TagKey) && styles.filterButtonActive
+                      activeTags.has(tag as TagKey) && styles.filterButtonActive,
                     )}
                     onClick={() => toggleTag(tag as TagKey)}
                   >
@@ -138,9 +141,7 @@ export const ExampleUsageGrid = (props: Props) => {
         </div>
       )}
       {filteredExamples.length === 0 && (
-        <div className={styles.noResults}>
-          No examples match the selected filters.
-        </div>
+        <div className={styles.noResults}>No examples match the selected filters.</div>
       )}
       {rows.map((row) => (
         <div className="row">

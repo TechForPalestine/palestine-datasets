@@ -33,11 +33,7 @@ const addGradientDefinition = (svg: D3NodeSvg, id: IDScoper) => () => {
 };
 
 const addMovableDotLine =
-  (
-    svg: D3NodeSvg,
-    id: IDScoper,
-    { width, height, eventDotRadius }: ChartConstants
-  ) =>
+  (svg: D3NodeSvg, id: IDScoper, { width, height, eventDotRadius }: ChartConstants) =>
   () => {
     svg
       .append("path")
@@ -111,26 +107,21 @@ const addKilledCountLabelOverlay =
       .text("killed");
   };
 
-const addEventDotShadowFilter =
-  (svg: D3NodeSvg, id: IDScoper, _: ChartConstants) => () => {
-    svg
-      .append("filter")
-      .attr("id", id("dotShadow"))
-      .attr("filterUnits", "userSpaceOnUse")
-      .attr("color-interpolation-filters", "sRGB")
-      .append("feDropShadow")
-      .attr("dx", 2)
-      .attr("dy", 2)
-      .attr("stdDeviation", 2)
-      .attr("floodOpacity", 0.2);
-  };
+const addEventDotShadowFilter = (svg: D3NodeSvg, id: IDScoper, _: ChartConstants) => () => {
+  svg
+    .append("filter")
+    .attr("id", id("dotShadow"))
+    .attr("filterUnits", "userSpaceOnUse")
+    .attr("color-interpolation-filters", "sRGB")
+    .append("feDropShadow")
+    .attr("dx", 2)
+    .attr("dy", 2)
+    .attr("stdDeviation", 2)
+    .attr("floodOpacity", 0.2);
+};
 
 const addEventPoint =
-  (
-    svg: D3NodeSvg,
-    id: IDScoper,
-    { eventDotRadius, height, mobile }: ChartConstants
-  ) =>
+  (svg: D3NodeSvg, id: IDScoper, { eventDotRadius, height, mobile }: ChartConstants) =>
   ({
     eventLabel,
     eventPoint,
@@ -162,12 +153,8 @@ const addEventPoint =
       .attr(
         "d",
         `M${dotX} ${dotY + dotOffset} v${
-          height -
-          dotY -
-          dotOffset -
-          eventLineLabelOffset -
-          eventLabelBottomOffset
-        }`
+          height - dotY - dotOffset - eventLineLabelOffset - eventLabelBottomOffset
+        }`,
       )
       .attr("stroke", "#AAA")
       .attr("stroke-width", "2")
@@ -185,11 +172,7 @@ const addEventPoint =
       .text(eventLabel);
   };
 
-export const bindHelpers = (
-  svg: D3NodeSvg,
-  id: IDScoper,
-  c: ChartConstants
-) => ({
+export const bindHelpers = (svg: D3NodeSvg, id: IDScoper, c: ChartConstants) => ({
   addEventPoint: addEventPoint(svg, id, c),
   addAxisTickLabel: addAxisTickLabel(svg, id, c),
   addMovableDotLine: addMovableDotLine(svg, id, c),

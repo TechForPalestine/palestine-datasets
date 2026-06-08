@@ -4,10 +4,7 @@ export const sexIsValid = (sex: string): sex is "m" | "f" => {
   return ["f", "m"].includes(sex as any);
 };
 
-export const iconTypeForPerson = (
-  age: number,
-  sex: "m" | "f"
-): PersonIconType => {
+export const iconTypeForPerson = (age: number, sex: "m" | "f"): PersonIconType => {
   if (age >= 65) {
     return sex === "f" ? "elderly-woman" : "elderly-man";
   }

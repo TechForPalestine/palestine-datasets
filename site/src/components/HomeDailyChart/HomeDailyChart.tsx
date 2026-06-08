@@ -10,30 +10,23 @@ import { HalfRadialProgress, radialProgressCircum } from "./HalfRadialProgress";
 import previewData from "@site/src/generated/summary.json";
 
 const childrenRatePct = Math.round(
-  ((previewData.known_killed_in_gaza.female.child +
-    previewData.known_killed_in_gaza.male.child) /
+  ((previewData.known_killed_in_gaza.female.child + previewData.known_killed_in_gaza.male.child) /
     previewData.known_killed_in_gaza.records) *
-    100
+    100,
 );
-const childrenStrokeOffset =
-  ((100 - childrenRatePct / 2) / 100) * radialProgressCircum;
+const childrenStrokeOffset = ((100 - childrenRatePct / 2) / 100) * radialProgressCircum;
 
 const womenRatePct = Math.round(
-  (previewData.known_killed_in_gaza.female.adult /
-    previewData.known_killed_in_gaza.records) *
-    100
+  (previewData.known_killed_in_gaza.female.adult / previewData.known_killed_in_gaza.records) * 100,
 );
-const womenStrokeOffset =
-  ((100 - womenRatePct / 2) / 100) * radialProgressCircum;
+const womenStrokeOffset = ((100 - womenRatePct / 2) / 100) * radialProgressCircum;
 
 const elderlyRatePct = Math.round(
-  ((previewData.known_killed_in_gaza.female.senior +
-    previewData.known_killed_in_gaza.male.senior) /
+  ((previewData.known_killed_in_gaza.female.senior + previewData.known_killed_in_gaza.male.senior) /
     previewData.known_killed_in_gaza.records) *
-    100
+    100,
 );
-const elderlyStrokeOffset =
-  ((100 - elderlyRatePct / 2) / 100) * radialProgressCircum;
+const elderlyStrokeOffset = ((100 - elderlyRatePct / 2) / 100) * radialProgressCircum;
 
 const numFmt = new Intl.NumberFormat();
 
@@ -101,7 +94,7 @@ const moveLine = (day: number) => {
 };
 
 const sliderLabels = chartData.data.map(
-  (dayData, i) => `${format(parseISO(dayData.date), "MMMM do")} (Day ${i + 1})`
+  (dayData, i) => `${format(parseISO(dayData.date), "MMMM do")} (Day ${i + 1})`,
 );
 
 export const HomeDailyChart = () => {
@@ -124,9 +117,7 @@ export const HomeDailyChart = () => {
       <div className={styles.chartTitle}>
         The Human Toll <span>Daily Casualties Datasets</span>
       </div>
-      <div className={styles.chartSubtitle}>
-        Since October 7, 2023 for Gaza and the West Bank
-      </div>
+      <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza and the West Bank</div>
       <div className={styles.chartWarning}>
         <a href="/updates/gaza-ministry-casualty-context/">
           <svg
@@ -148,8 +139,7 @@ export const HomeDailyChart = () => {
         <div className={styles.chartBreakdownTagsTopRow}>
           {!!dayData.seekingAid && (
             <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.seekingAid)} <span>attacked</span> seeking
-              aid
+              {numFmt.format(dayData.seekingAid)} <span>attacked</span> seeking aid
             </div>
           )}
           <div className={styles.chartBreakdownTag}>
@@ -161,11 +151,7 @@ export const HomeDailyChart = () => {
             </div>
           )}
           {!!dayData.starved && (
-            <div
-              className={[styles.chartBreakdownTag, styles.chartTagMax920].join(
-                " "
-              )}
-            >
+            <div className={[styles.chartBreakdownTag, styles.chartTagMax920].join(" ")}>
               {numFmt.format(dayData.starved)} <span>starved to death</span>
             </div>
           )}
@@ -177,18 +163,15 @@ export const HomeDailyChart = () => {
             </div>
           )}
           <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.medical)} medical personnel{" "}
-            <span>killed</span>
+            {numFmt.format(dayData.medical)} medical personnel <span>killed</span>
           </div>
           <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.press)}{" "}
-            {dayData.press === 1 ? "journalist" : "journalists"}{" "}
+            {numFmt.format(dayData.press)} {dayData.press === 1 ? "journalist" : "journalists"}{" "}
             <span>killed</span>
           </div>
           {!!dayData.civdef && (
             <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.civdef)} first responders{" "}
-              <span>killed</span>
+              {numFmt.format(dayData.civdef)} first responders <span>killed</span>
             </div>
           )}
           {!!dayData.settlerActs && (
@@ -202,9 +185,7 @@ export const HomeDailyChart = () => {
         <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />
       </div>
       <div className={styles.homeChartMobile}>
-        <HomepageCasualtyChartMobile
-          style={{ width: "100%", height: "auto" }}
-        />
+        <HomepageCasualtyChartMobile style={{ width: "100%", height: "auto" }} />
       </div>
       <div className={styles.chartSlider}>
         <div style={{ position: "relative", height: 30 }}>
@@ -222,9 +203,7 @@ export const HomeDailyChart = () => {
           value={day}
           list="days"
         />
-        <div className={styles.chartSliderHint}>
-          Use the slider to change the date
-        </div>
+        <div className={styles.chartSliderHint}>Use the slider to change the date</div>
       </div>
       <div className={styles.chartRadialsContainer}>
         <div className={styles.chartRadials}>

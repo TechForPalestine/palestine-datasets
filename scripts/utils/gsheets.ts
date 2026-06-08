@@ -2,7 +2,7 @@ export enum SheetTab {
   CasualtiesDaily = "casualties_daily",
   Journalists = "journalists",
   WestBankDaily = "westbank",
-  InfrastructureDamaged = "infrastructure"
+  InfrastructureDamaged = "infrastructure",
 }
 
 type GSheetsResponse = {
@@ -15,7 +15,7 @@ export const fetchGoogleSheet = async (sheetTab: SheetTab) => {
   const sheetUrl = `https://tfp.fediship.workers.dev/?tab=${sheetTab}`;
   if (!token) {
     throw new Error(
-      "fetchGoogleSheet requires TFP_SHEET_KEY to be defined (which it should be in CI)"
+      "fetchGoogleSheet requires TFP_SHEET_KEY to be defined (which it should be in CI)",
     );
   }
   const response = await fetch(sheetUrl, {
@@ -23,9 +23,7 @@ export const fetchGoogleSheet = async (sheetTab: SheetTab) => {
   });
 
   if (!response.ok || response.status !== 200) {
-    throw new Error(
-      `Failed to fetch worksheet "${sheetTab}", received ${response.status}`
-    );
+    throw new Error(`Failed to fetch worksheet "${sheetTab}", received ${response.status}`);
   }
 
   return response.json() as Promise<GSheetsResponse>;
