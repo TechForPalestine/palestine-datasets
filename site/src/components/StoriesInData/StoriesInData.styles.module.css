@@ -50,24 +50,40 @@
 }
 
 .head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
+  display: block;
   max-width: var(--story-maxw);
   margin: 0 auto 18px;
   padding-inline: var(--ifm-spacing-horizontal, 1rem);
 }
+.eyebrow {
+  display: block;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--story-red);
+}
+.mastRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.mastLine {
+  flex: 1;
+  min-width: 16px;
+  height: 1px;
+  background: var(--story-ink);
+  opacity: 0.22;
+}
 .headTitle {
   margin: 0;
-  font-size: 1.7rem;
-  letter-spacing: -0.5px;
+  flex: none;
+  white-space: nowrap;
+  font-size: 1.85rem;
+  letter-spacing: -0.4px;
+  line-height: 1.05;
   color: var(--story-ink);
-}
-.headSub {
-  margin: 5px 0 0;
-  color: var(--story-muted);
-  font-size: 0.95rem;
 }
 .tools {
   display: flex;
@@ -115,8 +131,8 @@
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   /* room for the lifted-card shadow, pulled back so layout doesn't shift */
-  padding-block: 14px;
-  margin-block: -14px;
+  padding-block: 40px;
+  margin-block: -40px;
 }
 .viewport::-webkit-scrollbar {
   display: none;

@@ -22,20 +22,18 @@ export function StoriesInData() {
   return (
     <section className={styles.section} aria-label="Stories in the data">
       <div className={styles.head}>
-        <div>
+        <span className={styles.eyebrow}>Explore the data</span>
+        <div className={styles.mastRow}>
           <h2 className={styles.headTitle}>Stories in the data</h2>
-          <p className={styles.headSub}>
-            {STORIES.length} ways to read the datasets — tap any view to explore the story behind
-            it.
-          </p>
-        </div>
-        <div className={styles.tools}>
-          <button className={styles.arrow} aria-label="Scroll left" onClick={() => scrollBy(-1)}>
-            ‹
-          </button>
-          <button className={styles.arrow} aria-label="Scroll right" onClick={() => scrollBy(1)}>
-            ›
-          </button>
+          <span className={styles.mastLine} aria-hidden="true" />
+          <div className={styles.tools}>
+            <button className={styles.arrow} aria-label="Scroll left" onClick={() => scrollBy(-1)}>
+              ‹
+            </button>
+            <button className={styles.arrow} aria-label="Scroll right" onClick={() => scrollBy(1)}>
+              ›
+            </button>
+          </div>
         </div>
       </div>
 
