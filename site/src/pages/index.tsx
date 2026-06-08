@@ -8,6 +8,7 @@ import Translate from "@docusaurus/Translate";
 import { Button, KilledHeaderMarquee } from "../components";
 import { HomeDailyChart } from "../components/HomeDailyChart";
 import { KilledName } from "../components/KilledName";
+import { StoriesInData } from "../components/StoriesInData";
 
 const headerTextShadow = { textShadow: "2px 2px 1px rgba(10,10,10,0.3)" };
 
@@ -41,6 +42,7 @@ export default function Home(): JSX.Element {
     <Layout title="" description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
+        <StoriesInData />
         <HomeDailyChart />
         <KilledName />
         <div style={{ height: 40 }} />
