@@ -55,6 +55,7 @@
   max-width: 1140px;
   margin: 0 auto;
   padding: 40px var(--ifm-spacing-horizontal, 1rem);
+  padding-bottom: 0;
 }
 
 /* ---- section masthead ---- */
@@ -248,7 +249,6 @@
 }
 
 .chartFooterButtonsContainer {
-  background-color: var(--tfp-chart-cta-box-fill);
   padding: 20px;
   padding-bottom: 20px;
   border-bottom-left-radius: 6px;
@@ -257,7 +257,7 @@
 
 .chartFooterButtons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .chartFooterJsonMessage {

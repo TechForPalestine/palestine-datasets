@@ -44,9 +44,8 @@ function HomepageHeader() {
 
         <p className={styles.lede}>
           <Translate>
-            We build and maintain open datasets on the human toll of the ongoing genocide in
-            Palestine — so that journalists, researchers, artists, and developers can tell the
-            story.
+            We maintain open datasets documenting the human toll of the genocide in Palestine — so
+            that journalists, researchers, artists, and advocates can tell the story.
           </Translate>
         </p>
 
