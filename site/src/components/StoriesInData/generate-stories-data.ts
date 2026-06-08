@@ -19,7 +19,9 @@ import type { CasualtyDailyReportV2 } from "../../../../types/casualties-daily.t
 import type { WestBankDailyReportV2 } from "../../../../types/west-bank-daily.types";
 import type { PreviewDataV3 } from "../../../../types/summary.types";
 
+// @ts-expect-error .dir is specific to the bun runtime which this script is invoked with
 const ROOT = join(import.meta.dir, "../../../..");
+// @ts-expect-error .dir is specific to the bun runtime which this script is invoked with
 const OUT = join(import.meta.dir, "stories-data.json");
 
 /** Number of points to sample across the window (keeps the JSON small). */
