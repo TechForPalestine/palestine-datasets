@@ -24,7 +24,13 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
 
   return (
     <div className={styles.backdrop} onClick={onClose} role="presentation">
-      <div className={styles.modal} role="dialog" aria-modal="true" aria-label={story.title} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-label={story.title}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className={styles.close} aria-label="Close" onClick={onClose}>
           ×
         </button>
@@ -33,13 +39,20 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
         <p className={styles.modalInsight}>{story.insight}</p>
 
         <div className={`${styles.modalChart} ${isPie ? styles.modalChartPie : ""}`}>
-          <StoryChart story={story} variant="modal" activeSlice={activeSlice} onActiveSlice={setActiveSlice} />
+          <StoryChart
+            story={story}
+            variant="modal"
+            activeSlice={activeSlice}
+            onActiveSlice={setActiveSlice}
+          />
         </div>
 
         <div className={styles.legend}>
           {breakdown
             ? breakdown.slices.map((s, i) => {
-                const pct = ((s.value / breakdown.total) * 100).toFixed(s.value / breakdown.total < 0.02 ? 1 : 0);
+                const pct = ((s.value / breakdown.total) * 100).toFixed(
+                  s.value / breakdown.total < 0.02 ? 1 : 0,
+                );
                 return (
                   <span
                     key={i}

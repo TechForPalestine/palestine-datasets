@@ -1,11 +1,5 @@
 import storiesData from "./stories-data.json";
-import type {
-  Story,
-  StorySchema,
-  ChartSeries,
-  BreakdownSlice,
-  TimeField,
-} from "./types";
+import type { Story, StorySchema, ChartSeries, BreakdownSlice, TimeField } from "./types";
 
 /**
  * Reads the typed schema (stories.ts) against the generated data
@@ -73,13 +67,20 @@ export function getBreakdown(schema: StorySchema): { slices: BreakdownSlice[]; t
   const named = k.children + k.women + k.medical + k.press + k.civil_defence;
   const value = (key: string): number => {
     switch (key) {
-      case "gaza.killed.children": return k.children;
-      case "gaza.killed.women": return k.women;
-      case "gaza.killed.medical": return k.medical;
-      case "gaza.killed.press": return k.press;
-      case "gaza.killed.civil_defence": return k.civil_defence;
-      case "gaza.killed.men_other": return Math.max(0, k.total - named);
-      default: throw new Error(`Unknown breakdown key ${key}`);
+      case "gaza.killed.children":
+        return k.children;
+      case "gaza.killed.women":
+        return k.women;
+      case "gaza.killed.medical":
+        return k.medical;
+      case "gaza.killed.press":
+        return k.press;
+      case "gaza.killed.civil_defence":
+        return k.civil_defence;
+      case "gaza.killed.men_other":
+        return Math.max(0, k.total - named);
+      default:
+        throw new Error(`Unknown breakdown key ${key}`);
     }
   };
   const slices = schema.parts.map((p) => ({ label: p.label, color: p.color, value: value(p.key) }));
@@ -109,5 +110,10 @@ export function fmtShort(n: number): string {
 
 export function formatDate(iso: string): string {
   const d = new Date(iso + "T00:00:00Z");
-  return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+  return d.toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 }

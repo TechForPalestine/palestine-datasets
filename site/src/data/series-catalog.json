@@ -305,9 +305,7 @@
     "compatibilityKey": "civic-damaged",
     "alternates": [],
     "sourceField": null,
-    "caveats": [
-      "Nested optional field — sparser than destroyed counts."
-    ],
+    "caveats": ["Nested optional field — sparser than destroyed counts."],
     "docPath": "/docs/infrastructure-damaged",
     "derived": false
   },
@@ -464,9 +462,7 @@
     "compatibilityKey": "kig-named-male",
     "alternates": [],
     "sourceField": null,
-    "caveats": [
-      "Placeholder entry — see gaza.kig.cumulative."
-    ],
+    "caveats": ["Placeholder entry — see gaza.kig.cumulative."],
     "docPath": "/docs/killed-in-gaza",
     "derived": true
   },
@@ -487,9 +483,7 @@
     "compatibilityKey": "kig-named-female",
     "alternates": [],
     "sourceField": null,
-    "caveats": [
-      "Placeholder entry — see gaza.kig.cumulative."
-    ],
+    "caveats": ["Placeholder entry — see gaza.kig.cumulative."],
     "docPath": "/docs/killed-in-gaza",
     "derived": true
   },
@@ -534,9 +528,7 @@
     "compatibilityKey": "kig-named-adults",
     "alternates": [],
     "sourceField": null,
-    "caveats": [
-      "Placeholder entry — see gaza.kig.cumulative."
-    ],
+    "caveats": ["Placeholder entry — see gaza.kig.cumulative."],
     "docPath": "/docs/killed-in-gaza",
     "derived": true
   },
@@ -557,9 +549,7 @@
     "compatibilityKey": "kig-named-elders",
     "alternates": [],
     "sourceField": null,
-    "caveats": [
-      "Placeholder entry — see gaza.kig.cumulative."
-    ],
+    "caveats": ["Placeholder entry — see gaza.kig.cumulative."],
     "docPath": "/docs/killed-in-gaza",
     "derived": true
   }

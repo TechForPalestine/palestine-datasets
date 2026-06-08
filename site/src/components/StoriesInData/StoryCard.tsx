@@ -38,7 +38,16 @@ export function StoryChart({
 
   const series = getSeries(s);
   if (s.type === "stacked-area") {
-    return <StackedAreaChart series={series} width={W} height={H} pad={pad} grid={grid} interactive={isModal} />;
+    return (
+      <StackedAreaChart
+        series={series}
+        width={W}
+        height={H}
+        pad={pad}
+        grid={grid}
+        interactive={isModal}
+      />
+    );
   }
   return (
     <LineAreaChart

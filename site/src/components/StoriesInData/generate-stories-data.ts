@@ -25,7 +25,7 @@ const OUT = join(import.meta.dir, "stories-data.json");
 /** Number of points to sample across the window (keeps the JSON small). */
 const POINTS = 140;
 
-const readJson = <T,>(name: string): T => JSON.parse(readFileSync(join(ROOT, name), "utf8"));
+const readJson = <T>(name: string): T => JSON.parse(readFileSync(join(ROOT, name), "utf8"));
 
 /** Columns we need from each daily dataset (must exist in the typed schema). */
 const CASUALTY_KEYS: (keyof CasualtyDailyReportV2)[] = [
@@ -77,14 +77,17 @@ function main() {
   const idx = sampleIndices(dates.length, POINTS);
   const pick = (arr: number[]) => idx.map((i) => arr[i]);
 
-  const casCols = Object.fromEntries(
-    CASUALTY_KEYS.map((k) => [k, pick(cumColumn(casualties, k))])
-  );
+  const casCols = Object.fromEntries(CASUALTY_KEYS.map((k) => [k, pick(cumColumn(casualties, k))]));
   const wbCols = Object.fromEntries(
     WEST_BANK_KEYS.map((k) => [
       k,
-      pick(cumColumn(wbAligned.map((r) => r ?? ({} as WestBankDailyReportV2)), k)),
-    ])
+      pick(
+        cumColumn(
+          wbAligned.map((r) => r ?? ({} as WestBankDailyReportV2)),
+          k,
+        ),
+      ),
+    ]),
   );
 
   const g = summary.gaza.killed;
@@ -113,7 +116,9 @@ function main() {
   };
 
   writeFileSync(OUT, JSON.stringify(out));
-  console.log(`stories-data.json written — ${out.dates.length} points, lastUpdate ${out.meta.lastUpdate}`);
+  console.log(
+    `stories-data.json written — ${out.dates.length} points, lastUpdate ${out.meta.lastUpdate}`,
+  );
 }
 
 main();

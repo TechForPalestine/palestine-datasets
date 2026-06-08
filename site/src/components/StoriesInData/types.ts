@@ -63,11 +63,7 @@ export type DerivedKey =
   /** gaza.killed.total − (children + women + medical + press + civil_defence) */
   | "gaza.killed.men_other";
 
-export type FieldKey =
-  | CasualtyDailyKey
-  | WestBankDailyKey
-  | SummaryKey
-  | DerivedKey;
+export type FieldKey = CasualtyDailyKey | WestBankDailyKey | SummaryKey | DerivedKey;
 
 /* ----------------------------------------------------------------------------
  * Field descriptors
@@ -97,11 +93,7 @@ export interface BreakdownPart {
  * Schemas — discriminated by `type`, which mirrors the card's chart
  * ------------------------------------------------------------------------- */
 
-export type SchemaType =
-  | "timeseries-multi"
-  | "timeseries-area"
-  | "stacked-area"
-  | "breakdown";
+export type SchemaType = "timeseries-multi" | "timeseries-area" | "stacked-area" | "breakdown";
 
 /** Two or more cumulative lines sharing an x axis. */
 export interface TimeseriesMultiSchema {

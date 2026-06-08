@@ -95,20 +95,20 @@ The authoritative list of chartable series in the project lives at
 `site/src/data/series-catalog.json`. It is hand-authored JSON. Each entry
 describes one series with metadata sufficient to drive a future explorer UI:
 
-| Field                                     | Purpose                                                                                                                                 |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                                      | Stable, dotted form (e.g. `gaza.casualties.killed.children`). Intended as the URL token in phase 2.                                     |
-| `datasetFile` + `valuePath` + `dateField` | Where to read the values. `valuePath` is a top-level key for flat rows or a dot-path for nested (e.g. `civic_buildings.ext_destroyed`). |
-| `granularity`                             | `daily`, `weekly`, or `per-update`. Drives chart-primitive choice in phase 2.                                                           |
-| `kind`                                    | `cumulative`, `delta`, or `stock`.                                                                                                      |
+| Field                                     | Purpose                                                                                                                                                                                                                          |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                                      | Stable, dotted form (e.g. `gaza.casualties.killed.children`). Intended as the URL token in phase 2.                                                                                                                              |
+| `datasetFile` + `valuePath` + `dateField` | Where to read the values. `valuePath` is a top-level key for flat rows or a dot-path for nested (e.g. `civic_buildings.ext_destroyed`).                                                                                          |
+| `granularity`                             | `daily`, `weekly`, or `per-update`. Drives chart-primitive choice in phase 2.                                                                                                                                                    |
+| `kind`                                    | `cumulative`, `delta`, or `stock`.                                                                                                                                                                                               |
 | `originDate`                              | For cumulative series, the implicit zero — the date from which the running total is measured. Two cumulative series are only safe to combine when they share an `originDate`. `null` for non-cumulative entries or placeholders. |
-| `parentSeries` / `subSeries`              | Subset relationships. `children` is a `subSeries` of `killed`; a phase 2 chart stacks sub-series into the parent honestly.              |
-| `compatibilityKey`                        | Series with the same key are _additive peers_ (e.g. Gaza killed + West Bank killed). For cumulative series, peer compatibility also requires matching `originDate`. |
-| `alternates`                              | Series that represent the _same value via a different reporting source_. Phase 2 disables combining alternates.                         |
-| `sourceField`                             | Per-record provenance column, surfaced in tooltips when phase 2 lands.                                                                  |
-| `caveats`                                 | Short strings phase 2 surfaces inline (sparseness, source switches, methodology notes).                                                 |
-| `docPath`                                 | The MDX doc for "about this series".                                                                                                    |
-| `derived`                                 | `true` when computed from columns rather than read directly.                                                                            |
+| `parentSeries` / `subSeries`              | Subset relationships. `children` is a `subSeries` of `killed`; a phase 2 chart stacks sub-series into the parent honestly.                                                                                                       |
+| `compatibilityKey`                        | Series with the same key are _additive peers_ (e.g. Gaza killed + West Bank killed). For cumulative series, peer compatibility also requires matching `originDate`.                                                              |
+| `alternates`                              | Series that represent the _same value via a different reporting source_. Phase 2 disables combining alternates.                                                                                                                  |
+| `sourceField`                             | Per-record provenance column, surfaced in tooltips when phase 2 lands.                                                                                                                                                           |
+| `caveats`                                 | Short strings phase 2 surfaces inline (sparseness, source switches, methodology notes).                                                                                                                                          |
+| `docPath`                                 | The MDX doc for "about this series".                                                                                                                                                                                             |
+| `derived`                                 | `true` when computed from columns rather than read directly.                                                                                                                                                                     |
 
 StoriesInData **does not currently read from the catalog** — story schemas
 reference dataset columns directly via `TimeField`/`BreakdownPart`. The catalog

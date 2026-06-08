@@ -86,7 +86,9 @@ export function LineAreaChart({
         {grid > 0 &&
           Array.from({ length: grid }, (_, i) => {
             const y = pad.t + ((i + 1) / (grid + 1)) * (height - pad.t - pad.b);
-            return <line key={i} className={styles.grid} x1={pad.l} x2={width - pad.r} y1={y} y2={y} />;
+            return (
+              <line key={i} className={styles.grid} x1={pad.l} x2={width - pad.r} y1={y} y2={y} />
+            );
           })}
         {area &&
           plotted.map((s, si) => {
@@ -95,13 +97,35 @@ export function LineAreaChart({
             return <path key={`a${si}`} d={d} fill={s.color} fillOpacity={0.14} stroke="none" />;
           })}
         {plotted.map((s, si) => (
-          <path key={si} d={linePath(s.pts)} fill="none" stroke={s.color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+          <path
+            key={si}
+            d={linePath(s.pts)}
+            fill="none"
+            stroke={s.color}
+            strokeWidth={2}
+            strokeLinejoin="round"
+            strokeLinecap="round"
+          />
         ))}
         {interactive && idx != null && (
           <>
-            <line className={styles.cross} x1={plotted[0].pts[idx].x} x2={plotted[0].pts[idx].x} y1={pad.t} y2={height - pad.b} />
+            <line
+              className={styles.cross}
+              x1={plotted[0].pts[idx].x}
+              x2={plotted[0].pts[idx].x}
+              y1={pad.t}
+              y2={height - pad.b}
+            />
             {plotted.map((s, si) => (
-              <circle key={si} cx={s.pts[idx].x} cy={s.pts[idx].y} r={3.2} fill={s.color} stroke="var(--story-surface)" strokeWidth={1.5} />
+              <circle
+                key={si}
+                cx={s.pts[idx].x}
+                cy={s.pts[idx].y}
+                r={3.2}
+                fill={s.color}
+                stroke="var(--story-surface)"
+                strokeWidth={1.5}
+              />
             ))}
           </>
         )}
@@ -151,8 +175,10 @@ export function StackedAreaChart({
       const upper = tops[si];
       const lower = si === 0 ? null : tops[si - 1];
       let d = "";
-      for (let i = 0; i < n; i++) d += `${i ? "L" : "M"}${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(upper[i], totalMax, height, pad).toFixed(1)} `;
-      for (let i = n - 1; i >= 0; i--) d += `L${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(lower ? lower[i] : 0, totalMax, height, pad).toFixed(1)} `;
+      for (let i = 0; i < n; i++)
+        d += `${i ? "L" : "M"}${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(upper[i], totalMax, height, pad).toFixed(1)} `;
+      for (let i = n - 1; i >= 0; i--)
+        d += `L${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(lower ? lower[i] : 0, totalMax, height, pad).toFixed(1)} `;
       return { color: s.color, d: d + "Z" };
     });
     return { bands, totalMax, totals };
@@ -172,13 +198,29 @@ export function StackedAreaChart({
         {grid > 0 &&
           Array.from({ length: grid }, (_, i) => {
             const y = pad.t + ((i + 1) / (grid + 1)) * (height - pad.t - pad.b);
-            return <line key={i} className={styles.grid} x1={pad.l} x2={width - pad.r} y1={y} y2={y} />;
+            return (
+              <line key={i} className={styles.grid} x1={pad.l} x2={width - pad.r} y1={y} y2={y} />
+            );
           })}
         {bands.map((b, i) => (
-          <path key={i} d={b.d} fill={b.color} fillOpacity={0.92} stroke="var(--story-surface)" strokeWidth={0.7} strokeLinejoin="round" />
+          <path
+            key={i}
+            d={b.d}
+            fill={b.color}
+            fillOpacity={0.92}
+            stroke="var(--story-surface)"
+            strokeWidth={0.7}
+            strokeLinejoin="round"
+          />
         ))}
         {interactive && idx != null && (
-          <line className={styles.cross} x1={scaleX(idx, n, width, pad)} x2={scaleX(idx, n, width, pad)} y1={pad.t} y2={height - pad.b} />
+          <line
+            className={styles.cross}
+            x1={scaleX(idx, n, width, pad)}
+            x2={scaleX(idx, n, width, pad)}
+            y1={pad.t}
+            y2={height - pad.b}
+          />
         )}
       </svg>
       {interactive && (
@@ -192,7 +234,12 @@ export function StackedAreaChart({
               label: s.label,
               value: idx != null ? s.points[idx].value : s.points[s.points.length - 1].value,
             })),
-            { color: "var(--story-ink)", label: "Total", value: idx != null ? totals[idx] : totals[n - 1], strong: true },
+            {
+              color: "var(--story-ink)",
+              label: "Total",
+              value: idx != null ? totals[idx] : totals[n - 1],
+              strong: true,
+            },
           ]}
         />
       )}
@@ -247,7 +294,12 @@ export function DonutChart({
   const shown = active != null ? slices[active] : null;
 
   return (
-    <svg className={styles.pie} viewBox={`0 0 ${size} ${size}`} role="img" onPointerLeave={() => onActive?.(null)}>
+    <svg
+      className={styles.pie}
+      viewBox={`0 0 ${size} ${size}`}
+      role="img"
+      onPointerLeave={() => onActive?.(null)}
+    >
       {arcs.map((a, i) => (
         <path
           key={i}
@@ -256,14 +308,29 @@ export function DonutChart({
           stroke="var(--story-surface)"
           strokeWidth={2}
           className={styles.slice}
-          style={{ opacity: active == null || active === i ? 1 : 0.32, transform: active === i ? "scale(1.045)" : undefined }}
+          style={{
+            opacity: active == null || active === i ? 1 : 0.32,
+            transform: active === i ? "scale(1.045)" : undefined,
+          }}
           onPointerEnter={() => onActive?.(i)}
         />
       ))}
-      <text className={styles.pieNum} x={r} y={r - 2} textAnchor="middle" dominantBaseline="central">
+      <text
+        className={styles.pieNum}
+        x={r}
+        y={r - 2}
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
         {shown ? fmtShort(shown.value) : fmtShort(total)}
       </text>
-      <text className={styles.pieLabel} x={r} y={r + size * 0.085} textAnchor="middle" dominantBaseline="central">
+      <text
+        className={styles.pieLabel}
+        x={r}
+        y={r + size * 0.085}
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
         {shown ? shown.label : centerLabel}
       </text>
     </svg>
@@ -279,9 +346,23 @@ interface TooltipRow {
   strong?: boolean;
 }
 
-function Tooltip({ show, xFrac, date, rows }: { show: boolean; xFrac: number; date: string; rows: TooltipRow[] }) {
+function Tooltip({
+  show,
+  xFrac,
+  date,
+  rows,
+}: {
+  show: boolean;
+  xFrac: number;
+  date: string;
+  rows: TooltipRow[];
+}) {
   return (
-    <div className={styles.tip} style={{ opacity: show ? 1 : 0, left: `${xFrac * 100}%` }} aria-hidden={!show}>
+    <div
+      className={styles.tip}
+      style={{ opacity: show ? 1 : 0, left: `${xFrac * 100}%` }}
+      aria-hidden={!show}
+    >
       {date && <span className={styles.tipDate}>{formatDate(date)}</span>}
       {rows.map((row, i) => (
         <span key={i} className={styles.tipRow}>

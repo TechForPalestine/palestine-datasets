@@ -84,7 +84,9 @@
   font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  transition: border-color 0.12s, color 0.12s;
+  transition:
+    border-color 0.12s,
+    color 0.12s;
 }
 .arrow:hover {
   border-color: var(--story-red);
@@ -106,7 +108,10 @@
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: max(var(--ifm-spacing-horizontal, 1rem), calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem)));
+  scroll-padding-inline: max(
+    var(--ifm-spacing-horizontal, 1rem),
+    calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
+  );
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   /* room for the lifted-card shadow, pulled back so layout doesn't shift */
@@ -120,7 +125,10 @@
   display: flex;
   gap: 16px;
   padding-bottom: 2px;
-  padding-inline: max(var(--ifm-spacing-horizontal, 1rem), calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem)));
+  padding-inline: max(
+    var(--ifm-spacing-horizontal, 1rem),
+    calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
+  );
 }
 
 .card {
@@ -129,10 +137,15 @@
   background: var(--story-surface);
   border: 1px solid var(--story-line);
   border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(20, 30, 25, 0.06), 0 10px 26px rgba(20, 30, 25, 0.05);
+  box-shadow:
+    0 1px 3px rgba(20, 30, 25, 0.06),
+    0 10px 26px rgba(20, 30, 25, 0.05);
   padding: 14px;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    border-color 0.15s;
 }
 .card:hover {
   transform: translateY(-3px);
@@ -196,7 +209,9 @@
   max-width: 100%;
 }
 .slice {
-  transition: opacity 0.14s ease, transform 0.14s ease;
+  transition:
+    opacity 0.14s ease,
+    transform 0.14s ease;
   transform-box: fill-box;
   transform-origin: center;
   cursor: pointer;

@@ -15,7 +15,8 @@ export function StoriesInData() {
   const [openId, setOpenId] = useState<string | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollBy = (dir: number) => viewportRef.current?.scrollBy({ left: dir * 340, behavior: "smooth" });
+  const scrollBy = (dir: number) =>
+    viewportRef.current?.scrollBy({ left: dir * 340, behavior: "smooth" });
   const openStory = STORIES.find((s) => s.id === openId) ?? null;
 
   return (
@@ -24,7 +25,8 @@ export function StoriesInData() {
         <div>
           <h2 className={styles.headTitle}>Stories in the data</h2>
           <p className={styles.headSub}>
-            {STORIES.length} ways to read the datasets — tap any view to explore the story behind it.
+            {STORIES.length} ways to read the datasets — tap any view to explore the story behind
+            it.
           </p>
         </div>
         <div className={styles.tools}>
