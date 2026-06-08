@@ -29,11 +29,7 @@ export const StatusRow = React.memo(
           {csvDataFileHint && csvDataFileName && csvDataObjectURL && (
             <>
               •{" "}
-              <a
-                href={csvDataObjectURL}
-                download={csvDataFileName}
-                title={csvDataFileHint}
-              >
+              <a href={csvDataObjectURL} download={csvDataFileName} title={csvDataFileHint}>
                 CSV
               </a>
             </>
@@ -62,5 +58,5 @@ export const StatusRow = React.memo(
         )}
       </div>
     );
-  }
+  },
 );

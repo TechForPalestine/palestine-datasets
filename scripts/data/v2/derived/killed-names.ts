@@ -23,7 +23,7 @@ const getPersonGroup = (person: KilledInGaza) => {
 };
 
 const gatherUniqueFirstNames = (
-  killedPersons: KilledInGaza[]
+  killedPersons: KilledInGaza[],
 ): {
   lists: KilledFirstNameCounts;
   totalUniques: Record<string, number>;
@@ -70,7 +70,7 @@ const gatherUniqueFirstNames = (
         .sort((a, b) => b[1] - a[1])
         .slice(0, topRankListLimit),
     }),
-    {} as Record<keyof typeof counts, [string, number][]>
+    {} as Record<keyof typeof counts, [string, number][]>,
   );
 
   return { lists, totalUniques, totalPeople };

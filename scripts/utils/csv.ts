@@ -19,26 +19,24 @@ export const readCsv = (repoPath: string) => {
  */
 export const readCsvToDict = (
   repoPath: string,
-  options: { assertKey?: string; invert?: boolean } = {}
+  options: { assertKey?: string; invert?: boolean } = {},
 ): Record<string, string> => {
   const result = readCsv(repoPath).reduce(
     (dict, row) => ({
       ...dict,
       [row[options.invert ? 1 : 0]]: row[options.invert ? 0 : 1],
     }),
-    {} as Record<string, string>
+    {} as Record<string, string>,
   );
 
   if (options.assertKey && !options.invert && !result[options.assertKey]) {
-    console.log(
-      `could not find assertKey ${options.assertKey} in resulting dict, inverting`
-    );
+    console.log(`could not find assertKey ${options.assertKey} in resulting dict, inverting`);
     return readCsvToDict(repoPath, { ...options, invert: true });
   }
 
   if (options.assertKey && options.invert && !result[options.assertKey]) {
     throw new Error(
-      `Expected dict to include key '${options.assertKey}' but it did not exist in the initial or inverted dict`
+      `Expected dict to include key '${options.assertKey}' but it did not exist in the initial or inverted dict`,
     );
   }
 

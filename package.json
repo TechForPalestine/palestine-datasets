@@ -33,11 +33,14 @@
     "sort-list-csvs": "bun run scripts/data/common/killed-in-gaza/sort-csv.ts",
     "download-killed-derived": "bun run scripts/build/download-killed-derived.ts",
     "patch-deps": "./patches/docusaurus-utils.sh",
-    "postinstall": "bun run patch-deps"
+    "postinstall": "bun run patch-deps",
+    "fmt": "oxfmt \"scripts\" \"types\" \"site/src\" \"site/docusaurus.config.ts\" \"site/sidebars.ts\" \"site/babel.config.js\"",
+    "fmt:check": "oxfmt --check \"scripts\" \"types\" \"site/src\" \"site/docusaurus.config.ts\" \"site/sidebars.ts\" \"site/babel.config.js\""
   },
   "devDependencies": {
     "@types/bun": "^1.3.12",
-    "@types/node": "^20.11.0"
+    "@types/node": "^20.11.0",
+    "oxfmt": "^0.53.0"
   },
   "dependencies": {
     "@svgr/core": "^8.1.0",

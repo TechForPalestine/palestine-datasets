@@ -39,9 +39,7 @@ const config: Config = {
                     switch (req.path) {
                       case "/api/v3/killed-in-gaza.min.json": {
                         res.header("Content-Type", "application/json");
-                        fs.createReadStream(
-                          "../killed-in-gaza-v3.min.json"
-                        ).pipe(res);
+                        fs.createReadStream("../killed-in-gaza-v3.min.json").pipe(res);
                         return;
                       }
                     }
@@ -124,9 +122,10 @@ const config: Config = {
       logo: {
         alt: "Tech For Palestine Logo",
         src: "img/logo.svg",
+        srcDark: "img/logo-dark.svg",
         href: "https://techforpalestine.org",
-        width: 80,
-        height: 65,
+        width: 640 / 2,
+        height: 360 / 2,
       },
       copyright: `An open source initiative of the Tech For Palestine collective`,
     },

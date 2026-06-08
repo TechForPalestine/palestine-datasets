@@ -1,9 +1,6 @@
 import shuffle from "lodash/shuffle";
 import type { PersonIconType } from "./PersonIcon";
-import type {
-  KilledInGaza,
-  MarqueePerson,
-} from "../../../../types/killed-in-gaza.types";
+import type { KilledInGaza, MarqueePerson } from "../../../../types/killed-in-gaza.types";
 import { iconTypeForPerson } from "../../lib/age-icon";
 
 export type MarqueeRow = {
@@ -20,7 +17,7 @@ export type SplitNameRows = { even: MarqueeRow[]; odd: MarqueeRow[] };
 const rows = 10;
 const getNameRows = (
   englishNames: MarqueePerson[],
-  arabicNames: MarqueePerson[]
+  arabicNames: MarqueePerson[],
 ): SplitNameRows => {
   if (englishNames.length !== arabicNames.length) {
     throw new Error("getNameRows expects two lists of equal length");
@@ -29,8 +26,7 @@ const getNameRows = (
   const splitRows = Array.from(new Array(rows)).reduce(
     (acc: SplitNameRows, _, i): SplitNameRows => {
       const side = i % 2 ? "even" : "odd";
-      const offset =
-        side === "even" ? (i - 1) * peoplePerRow : i * peoplePerRow;
+      const offset = side === "even" ? (i - 1) * peoplePerRow : i * peoplePerRow;
       const page = side === "even" ? arabicNames : englishNames;
       const rtl = side === "even" ? true : false;
       const rowPeople = page.slice(offset, peoplePerRow + offset);
@@ -48,7 +44,7 @@ const getNameRows = (
         }),
       };
     },
-    { even: [], odd: [] } as SplitNameRows
+    { even: [], odd: [] } as SplitNameRows,
   );
   return splitRows;
 };
@@ -70,7 +66,7 @@ const formatAge = (person: MarqueePerson, rtl: boolean) => {
 
 export const getMarqueeRowsFromPage = (personPage: KilledInGaza[]) => {
   const filteredPeople = shuffle(
-    personPage.filter((person) => person.en_name.includes("?") === false)
+    personPage.filter((person) => person.en_name.includes("?") === false),
   );
   const englishNames = filteredPeople.map(({ id, en_name, age, sex }) => ({
     id,

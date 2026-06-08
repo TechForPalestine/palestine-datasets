@@ -10,14 +10,9 @@ import { Button } from "..";
 
 let boyList = shuffle(names.lists.boy);
 let girlList = shuffle(names.lists.girl);
-const latestChildrenKilledTotal =
-  summary.gaza.killed.children + summary.west_bank.killed.children;
-const latestDailyUpdate = format(
-  parseISO(summary.gaza.last_update),
-  "MMMM do, yyyy"
-);
-const childrenInKilledNamesList =
-  names.totalPeople.boy + names.totalPeople.girl;
+const latestChildrenKilledTotal = summary.gaza.killed.children + summary.west_bank.killed.children;
+const latestDailyUpdate = format(parseISO(summary.gaza.last_update), "MMMM do, yyyy");
+const childrenInKilledNamesList = names.totalPeople.boy + names.totalPeople.girl;
 
 // our list of names is a significant percentage of the reported number of those killed
 // in terms of sample size, so we can size-up the count for a given name to approximate
@@ -61,11 +56,7 @@ const KilledNameCard = ({
 }) => {
   const [sharing, setSharing] = useState(false);
 
-  const shareCardImage = async (
-    id: string,
-    name: string,
-    tryShare: boolean
-  ) => {
+  const shareCardImage = async (id: string, name: string, tryShare: boolean) => {
     if (sharing) {
       return;
     }
@@ -136,12 +127,7 @@ const KilledNameCard = ({
             {formatter.format(count)}
           </text>
         </svg>
-        <div
-          className={[
-            styles.label,
-            name.length > 9 ? styles.labelSmall : "",
-          ].join(" ")}
-        >
+        <div className={[styles.label, name.length > 9 ? styles.labelSmall : ""].join(" ")}>
           <span>children</span> named {name} have been <span>killed</span>.
         </div>
         <div className={styles.footnotes}>data.techforpalestine.org</div>
@@ -157,8 +143,7 @@ export const KilledName = () => {
   });
   useEffect(() => {
     const shareable =
-      typeof navigator.canShare === "function" &&
-      typeof navigator.share === "function";
+      typeof navigator.canShare === "function" && typeof navigator.share === "function";
     const saveable = true;
     setShareState({ shareable, saveable });
   }, []);
@@ -189,23 +174,11 @@ export const KilledName = () => {
         Names Behind Numbers <span>Killed in Gaza Dataset</span>
       </div>
       <div className={styles.cardRow}>
-        <KilledNameCard
-          id="leftNameCard"
-          {...cards[0]}
-          shareState={shareState}
-        />
-        <KilledNameCard
-          id="rightNameCard"
-          {...cards[1]}
-          shareState={shareState}
-        />
+        <KilledNameCard id="leftNameCard" {...cards[0]} shareState={shareState} />
+        <KilledNameCard id="rightNameCard" {...cards[1]} shareState={shareState} />
       </div>
       <div className={styles.buttonRow}>
-        <Button
-          inline
-          type="secondary"
-          to="/docs/summary/#killed-children-by-name-usage"
-        >
+        <Button inline type="secondary" to="/docs/summary/#killed-children-by-name-usage">
           Learn more about this dataset
         </Button>
         <div style={{ width: 10, height: 10 }} />
@@ -214,17 +187,11 @@ export const KilledName = () => {
         </Button>
       </div>
       <div className={styles.explanation}>
-        Source: Our{" "}
-        <a href="/docs/killed-in-gaza/#child-name-counts">
-          Killed in Gaza dataset
-        </a>{" "}
-        as an under 18 population sample to arrive at first name weights, with
-        name counts derived (using the name weighting) from the latest number of
-        children killed from our{" "}
-        <a href="/docs/summary/#killed-children-by-name-usage">
-          Summary dataset
-        </a>{" "}
-        as of {latestDailyUpdate}.
+        Source: Our <a href="/docs/killed-in-gaza/#child-name-counts">Killed in Gaza dataset</a> as
+        an under 18 population sample to arrive at first name weights, with name counts derived
+        (using the name weighting) from the latest number of children killed from our{" "}
+        <a href="/docs/summary/#killed-children-by-name-usage">Summary dataset</a> as of{" "}
+        {latestDailyUpdate}.
       </div>
     </div>
   );

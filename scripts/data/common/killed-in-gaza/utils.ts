@@ -19,7 +19,7 @@ export const readCsv = <T>(file: string) => {
         ...acc,
         [header]: dequote(values[index]),
       }),
-      {} as T
+      {} as T,
     );
   });
 };
@@ -51,10 +51,7 @@ export const readCsvToMap = <T>(file: string, mapKey: keyof T) => {
  * @param dob date of birth in reported data (after our date normalization)
  * @returns
  */
-export const differenceBetweenAgeBasedDobAndReportedDob = (
-  age: number,
-  dob: string
-) => {
+export const differenceBetweenAgeBasedDobAndReportedDob = (age: number, dob: string) => {
   const dobDate = dob ? new Date(dob) : null;
   if (!dobDate || !age) {
     return;
@@ -63,8 +60,6 @@ export const differenceBetweenAgeBasedDobAndReportedDob = (
     return "invalid date";
   }
   const approxDobFromAge = subYears(new Date(), age);
-  const dobDiff = Math.abs(
-    Math.round(differenceInMonths(approxDobFromAge, dobDate) / 12)
-  );
+  const dobDiff = Math.abs(Math.round(differenceInMonths(approxDobFromAge, dobDate) / 12));
   return dobDiff;
 };

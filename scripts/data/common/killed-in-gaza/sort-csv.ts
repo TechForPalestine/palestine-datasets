@@ -25,7 +25,7 @@ const rowTransformerForDictResultType = {
     const arRow = [arKey, normalizedValue].join(",");
     if (arKey === arToArAssertKey && arRow.endsWith(arToArAssertKey)) {
       throw new Error(
-        `sort-csv expected arKey '${arKey}' in RTL but resulting row was inverted: ${arRow}`
+        `sort-csv expected arKey '${arKey}' in RTL but resulting row was inverted: ${arRow}`,
       );
     }
     return arRow;
@@ -71,7 +71,7 @@ const sortForType = (resultType: "ar" | "en", list: string[]) => {
 const sortCsv = (repoFilePath: string, resultType: "ar" | "en") => {
   const csvDict = readCsvToDict(
     repoFilePath,
-    resultType === "ar" ? { assertKey: arToArAssertKey } : {}
+    resultType === "ar" ? { assertKey: arToArAssertKey } : {},
   );
 
   const cleanedRows = Object.entries(csvDict)
@@ -98,12 +98,10 @@ const dictResultType = filePath.includes("ar_ar.csv") ? "ar" : "en";
 sortCsv(filePath, dictResultType);
 
 console.log(
-  `${filePath} sorted alphabetically by arabic name column (${uniqueArParts.size} names)`
+  `${filePath} sorted alphabetically by arabic name column (${uniqueArParts.size} names)`,
 );
 if (duplicates.size) {
   console.log(
-    `${duplicates.size} duplicate arabic names found:\n${Array.from(
-      duplicates
-    ).join("\n")}`
+    `${duplicates.size} duplicate arabic names found:\n${Array.from(duplicates).join("\n")}`,
   );
 }

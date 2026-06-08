@@ -15,7 +15,7 @@ const [lastWestBankReport] = westBankDailies.slice().reverse();
 const kigPageSize = 100;
 
 const genderAge = (
-  record: KilledInGaza
+  record: KilledInGaza,
 ): [Exclude<typeof gender, undefined>, Exclude<typeof ageGroup, undefined>] => {
   let gender: "male" | "female" | undefined;
   let ageGroup: "no_age" | "senior" | "adult" | "child" | undefined;
@@ -57,10 +57,7 @@ const known_killed_in_gaza = (killedPersons as KilledInGaza[]).reduce(
       },
     };
   },
-  {} as Omit<
-    PreviewDataV3["known_killed_in_gaza"],
-    "last_update" | "includes_until"
-  >
+  {} as Omit<PreviewDataV3["known_killed_in_gaza"], "last_update" | "includes_until">,
 );
 
 const lastKigUpdate = updateDates[updateDates.length - 1];
@@ -95,17 +92,12 @@ const previewData: PreviewDataV3 = {
     last_update: lastWestBankReport.report_date,
     settler_attacks: lastWestBankReport.settler_attacks_cum,
     killed: {
-      total:
-        lastWestBankReport.verified?.killed_cum ??
-        lastWestBankReport.killed_cum,
+      total: lastWestBankReport.verified?.killed_cum ?? lastWestBankReport.killed_cum,
       children:
-        lastWestBankReport.verified?.killed_children_cum ??
-        lastWestBankReport.killed_children_cum,
+        lastWestBankReport.verified?.killed_children_cum ?? lastWestBankReport.killed_children_cum,
     },
     injured: {
-      total:
-        lastWestBankReport.verified?.injured_cum ??
-        lastWestBankReport.injured_cum,
+      total: lastWestBankReport.verified?.injured_cum ?? lastWestBankReport.injured_cum,
       children:
         lastWestBankReport.verified?.injured_children_cum ??
         lastWestBankReport.injured_children_cum,
@@ -121,8 +113,4 @@ const previewData: PreviewDataV3 = {
   },
 };
 
-writeJson(
-  ApiResource.SummaryV3,
-  "site/src/generated/summary.json",
-  previewData
-);
+writeJson(ApiResource.SummaryV3, "site/src/generated/summary.json", previewData);

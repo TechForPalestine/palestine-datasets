@@ -13,8 +13,7 @@ const escapeHtml = (value: unknown) => {
     .replace(/'/g, "&#39;");
 };
 
-const formatAge = (age: unknown) =>
-  typeof age === "number" && age >= 0 ? String(age) : "—";
+const formatAge = (age: unknown) => (typeof age === "number" && age >= 0 ? String(age) : "—");
 
 const formatSex = (sex: unknown) => {
   if (sex === "m") return "M";
@@ -22,8 +21,7 @@ const formatSex = (sex: unknown) => {
   return "—";
 };
 
-const formatDob = (dob: unknown) =>
-  typeof dob === "string" && dob ? dob : "—";
+const formatDob = (dob: unknown) => (typeof dob === "string" && dob ? dob : "—");
 
 const buildCompactBody = ({
   records,
@@ -126,8 +124,8 @@ export const buildPrintDocument = ({
     ? `Names ${startNumber.toLocaleString()}–${endNumber.toLocaleString()} of ${totalInSet.toLocaleString()}` +
       (filtered ? ` (subset of ${totalLoaded.toLocaleString()})` : "")
     : filtered
-    ? `${records.length.toLocaleString()} names (subset of ${totalLoaded.toLocaleString()})`
-    : `${records.length.toLocaleString()} names`;
+      ? `${records.length.toLocaleString()} names (subset of ${totalLoaded.toLocaleString()})`
+      : `${records.length.toLocaleString()} names`;
 
   const layoutCss = detailed
     ? `

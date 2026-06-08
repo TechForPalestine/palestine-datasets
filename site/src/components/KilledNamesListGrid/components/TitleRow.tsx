@@ -12,8 +12,6 @@ export const TitleRow = React.memo(() => {
   const untilDate = format(labelDt, "LLLL yyyy");
 
   return (
-    <div className={styles.titleRow}>
-      Palestinians Killed in Gaza - October 2023 to {untilDate}
-    </div>
+    <div className={styles.titleRow}>Palestinians Killed in Gaza - October 2023 to {untilDate}</div>
   );
 });

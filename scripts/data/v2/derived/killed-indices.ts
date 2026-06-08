@@ -3,11 +3,7 @@ import { KilledInGaza } from "../../../../types/killed-in-gaza.types";
 import { writeOffManifestJson } from "../../../utils/fs";
 import { addFolderToManifest } from "../../../utils/manifest";
 import { ApiResource } from "../../../../types/api.types";
-import {
-  calcChecksum,
-  createArtifact,
-  getChecksum,
-} from "../../../utils/artifacts";
+import { calcChecksum, createArtifact, getChecksum } from "../../../utils/artifacts";
 
 const sourceFileForDerived = "killed-in-gaza.min.json";
 const pagedResourceLimit = 100;
@@ -83,15 +79,11 @@ const generate = () => {
       ...acc,
       english: {
         ...acc.english,
-        [enIdxName]: existingEn
-          ? `${existingEn},${recordPageId}`
-          : recordPageId,
+        [enIdxName]: existingEn ? `${existingEn},${recordPageId}` : recordPageId,
       },
       arabic: {
         ...acc.arabic,
-        [arIdxName]: existingAr
-          ? `${existingAr},${recordPageId}`
-          : recordPageId,
+        [arIdxName]: existingAr ? `${existingAr},${recordPageId}` : recordPageId,
       },
       families: {
         ...acc.families,
@@ -116,10 +108,7 @@ const generate = () => {
     names: indices.english,
   });
 
-  writeOffManifestJson(
-    `${writePath}/families-list.json`,
-    Object.values(indices.families)
-  );
+  writeOffManifestJson(`${writePath}/families-list.json`, Object.values(indices.families));
 
   addFolderToManifest(ApiResource.KilledInGazaDerivedV2, writePath);
 };

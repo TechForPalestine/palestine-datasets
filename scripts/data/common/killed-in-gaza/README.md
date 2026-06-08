@@ -64,7 +64,7 @@ Thanks and lets pray to be on the right side of the history and in the hereafter
 
 This process is pretty intensive and manual. It's only happened once and it's dependent on the format we receive from the ministry. In the last case, we received a large PDF, so the steps were:
 
-- parse the PDF (we found Adobe's extract API to be the most accurate, but it still adds some artifacts to names, etc.) - an example of this is in `extract-pdfs.ts` and requires API credentials (not committed), and it requires splitting the PDF into manageable parts to avoid a request timeout (roughly batches of no more than 10 pages)
+- parse the PDF (we found Adobe's GUI extract web service to be the most accurate)
 - merge all the separate page export CSVs into one and do some cleaning (`merge-csv.ts`)
 - reconcile duplicates and merge them into our main `data/raw.csv` input file (`reconcile_lists.ts`)
 

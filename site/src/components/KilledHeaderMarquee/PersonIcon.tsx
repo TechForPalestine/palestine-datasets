@@ -54,10 +54,7 @@ export const PersonIcon = ({
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M14 7H10C8.9 7 8 7.9 8 9V15H10V22H14V15H16V9C16 7.9 15.1 7 14 7Z"
-            fill="black"
-          />
+          <path d="M14 7H10C8.9 7 8 7.9 8 9V15H10V22H14V15H16V9C16 7.9 15.1 7 14 7Z" fill="black" />
           <path
             d="M12 6C13.1046 6 14 5.10457 14 4C14 2.89543 13.1046 2 12 2C10.8954 2 10 2.89543 10 4C10 5.10457 10.8954 6 12 6Z"
             fill="black"

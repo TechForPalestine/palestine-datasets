@@ -59,9 +59,7 @@ export const GenderAgeFilters = ({
             title={personHints[btn.type]}
             className={clsx(
               styles.filterButton,
-              !agesActive &&
-                selectedFilters.includes(btn.type) &&
-                styles.filterButtonActive
+              !agesActive && selectedFilters.includes(btn.type) && styles.filterButtonActive,
             )}
           >
             <PersonIcon size={30} {...btn} />
@@ -70,10 +68,7 @@ export const GenderAgeFilters = ({
         <div
           onClick={onPressAgeRange}
           title="Filter by custom age range"
-          className={clsx(
-            styles.filterButton,
-            agesActive && styles.filterButtonActive
-          )}
+          className={clsx(styles.filterButton, agesActive && styles.filterButtonActive)}
         >
           <AgeRangeIcon size={30} />
         </div>

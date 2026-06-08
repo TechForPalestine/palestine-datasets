@@ -33,6 +33,10 @@ footer.footer {
   color: #111;
 }
 
+footer.footer img {
+  cursor: pointer;
+}
+
 footer.footer a {
   color: var(--ifm-color-primary-darkest);
   font-weight: 600;
@@ -62,4 +66,5 @@ footer.footer a {
 
 html[data-theme="dark"] footer {
   background-color: var(--ifm-footer-bg-color);
+  color: #f4f4f4;
 }

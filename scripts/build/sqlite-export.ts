@@ -28,7 +28,7 @@ function buildTable(
   db: Database,
   tableName: string,
   rows: Record<string, unknown>[],
-  primaryKey?: string
+  primaryKey?: string,
 ) {
   const keys = collectKeys(rows);
 
@@ -53,7 +53,7 @@ function buildTable(
   const insert = db.prepare(
     `INSERT OR REPLACE INTO "${tableName}" (${keys
       .map((k) => `"${k}"`)
-      .join(", ")}) VALUES (${placeholders})`
+      .join(", ")}) VALUES (${placeholders})`,
   );
 
   db.transaction((items: Record<string, unknown>[]) => {
@@ -66,23 +66,17 @@ function buildTable(
 }
 
 async function loadPressKilled(db: Database) {
-  const rows: Record<string, unknown>[] = await Bun.file(
-    "press_killed_in_gaza.json"
-  ).json();
+  const rows: Record<string, unknown>[] = await Bun.file("press_killed_in_gaza.json").json();
   buildTable(db, "press_killed_in_gaza", rows);
 }
 
 async function loadCasualtiesDaily(db: Database) {
-  const rows: Record<string, unknown>[] = await Bun.file(
-    "casualties_daily.json"
-  ).json();
+  const rows: Record<string, unknown>[] = await Bun.file("casualties_daily.json").json();
   buildTable(db, "casualties_daily", rows, "report_date");
 }
 
 async function loadWestBankDaily(db: Database) {
-  const raw: Record<string, unknown>[] = await Bun.file(
-    "west_bank_daily.json"
-  ).json();
+  const raw: Record<string, unknown>[] = await Bun.file("west_bank_daily.json").json();
 
   // flatten nested "verified" object → verified_* prefix
   const rows = raw.map((row) => {
@@ -121,9 +115,7 @@ async function loadKilledInGaza(db: Database) {
 }
 
 async function loadInfrastructureDamaged(db: Database) {
-  const raw: Record<string, unknown>[] = await Bun.file(
-    "infrastructure-damaged.json"
-  ).json();
+  const raw: Record<string, unknown>[] = await Bun.file("infrastructure-damaged.json").json();
 
   // flatten nested category objects → category_field prefix
   const rows = raw.map((row) => {
@@ -150,10 +142,7 @@ function writeMetadata(db: Database) {
   const insert = db.prepare(`INSERT INTO _meta (key, value) VALUES (?, ?)`);
   db.transaction(() => {
     insert.run("built_at", new Date().toISOString());
-    insert.run(
-      "source",
-      "https://github.com/TechForPalestine/palestine-datasets"
-    );
+    insert.run("source", "https://github.com/TechForPalestine/palestine-datasets");
     insert.run("script_version", "1.0.0");
   })();
 

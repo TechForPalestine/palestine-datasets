@@ -19,8 +19,7 @@ export const ExternalLinkButton = ({
         className={`button button--${buttonType ?? "primary"} button--lg`}
         style={{ marginBottom: 10 }}
       >
-        <span className={styles.buttonText}>{children}</span>{" "}
-        <ExternalWindowIcon />
+        <span className={styles.buttonText}>{children}</span> <ExternalWindowIcon />
       </span>
     </a>
   );

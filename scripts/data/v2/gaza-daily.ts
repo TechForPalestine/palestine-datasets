@@ -1,10 +1,7 @@
 import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
 import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
-import {
-  formatDailiesJson,
-  validateDailiesJson,
-} from "../common/casualties-daily";
+import { formatDailiesJson, validateDailiesJson } from "../common/casualties-daily";
 
 const jsonFileName = "casualties_daily.json";
 
@@ -41,11 +38,9 @@ const generateJsonFromGSheet = async () => {
   const filteredRows = rows.filter((row) => row[completedIdx] === "TRUE");
   // filter out the "completed" column from headers and rows
   const filteredHeaderKeys = headerKeys.filter((_, i) => i !== completedIdx);
-  const filteredDataRows = filteredRows.map((row) =>
-    row.filter((_, i) => i !== completedIdx)
-  );
+  const filteredDataRows = filteredRows.map((row) => row.filter((_, i) => i !== completedIdx));
   const renamedKeys = filteredHeaderKeys.map(
-    (key) => fieldKeyRemap[key as keyof typeof fieldKeyRemap] ?? key
+    (key) => fieldKeyRemap[key as keyof typeof fieldKeyRemap] ?? key,
   );
   const jsonArray = formatDailiesJson(renamedKeys, filteredDataRows);
   validateDailiesJson(jsonArray);

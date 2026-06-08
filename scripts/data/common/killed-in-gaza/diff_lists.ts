@@ -1,11 +1,7 @@
 import { ExistingRecord, NewRecord, sourceMapping } from "./constants";
 import { Demographics } from "./diff_lists.types";
 import { generateBlogUpdate } from "./update_generator";
-import {
-  differenceBetweenAgeBasedDobAndReportedDob,
-  readCsv,
-  readCsvToMap,
-} from "./utils";
+import { differenceBetweenAgeBasedDobAndReportedDob, readCsv, readCsvToMap } from "./utils";
 
 const demographicsInit: Demographics = {
   "elderly-woman": 0,
@@ -51,7 +47,7 @@ const sourceCount = { h: 0, j: 0, c: 0, u: 0 };
 
 export const personGroup = (
   ageUnparsed: string,
-  sex: "m" | "f"
+  sex: "m" | "f",
 ): keyof (typeof stats)["demographics"] => {
   if (ageUnparsed === "-1" || !ageUnparsed) {
     return sex === "f" ? "woman" : "man";
@@ -82,10 +78,7 @@ export const personGroup = (
   return sex === "f" ? "woman" : "man";
 };
 
-const diffRecord = (
-  existing: ExistingRecord | undefined,
-  newRecord: NewRecord
-) => {
+const diffRecord = (existing: ExistingRecord | undefined, newRecord: NewRecord) => {
   genderValues.add(newRecord.sex);
   sourceValues.add(newRecord.source);
   const newSrc = newRecord.source as keyof typeof sourceCount;
@@ -113,8 +106,7 @@ const diffRecord = (
 
   let incomingSource = newRecord.source;
   if (incomingSource.length > 1) {
-    incomingSource =
-      sourceMapping[incomingSource as keyof typeof sourceMapping];
+    incomingSource = sourceMapping[incomingSource as keyof typeof sourceMapping];
     if (!incomingSource) {
       throw new Error(`Source missing in mapping: ${newRecord.source}`);
     }
@@ -178,7 +170,7 @@ const diffRecord = (
   if (recordDobChanged && newRecord.dob.trim() && newRecord.age.trim()) {
     const diffYears = differenceBetweenAgeBasedDobAndReportedDob(
       +newRecord.age.trim(),
-      newRecord.dob.trim()
+      newRecord.dob.trim(),
     );
     if (typeof diffYears === "number" && !Number.isNaN(diffYears)) {
       dobDiffs[diffYears] = (dobDiffs[diffYears] ?? 0) + 1;
@@ -227,7 +219,7 @@ if (!newCsvFilename) {
 // NOTE: remember to make sure the new CSV file has no empty lines at the end
 diffCSVs(
   "scripts/data/common/killed-in-gaza/data/raw.csv",
-  `scripts/data/common/killed-in-gaza/output/${newCsvFilename}`
+  `scripts/data/common/killed-in-gaza/output/${newCsvFilename}`,
 );
 
 const leftPad = (value: string, length: number) => {
@@ -262,7 +254,7 @@ console.log(
   changeCounts
     .sort((a, b) => b[0] - a[0])
     .map((row) => `${leftPad(row[0].toString(), 5)} (${row[2]}) : ${row[1]}`)
-    .join("\n")
+    .join("\n"),
 );
 console.log(JSON.stringify(statsWithoutUpdatedRecords, null, 2));
 
@@ -281,26 +273,23 @@ console.log(
       return acc;
     }, {}),
     null,
-    2
-  )
+    2,
+  ),
 );
 
-console.log(
-  "dob change differences (years diff):",
-  JSON.stringify(dobDiffs, null, 2)
-);
+console.log("dob change differences (years diff):", JSON.stringify(dobDiffs, null, 2));
 
 console.log(
   "records with previously unavailable ages (-1)",
   ageDefinedPreviouslyNeg1.size,
   "sample:",
-  Array.from(ageDefinedPreviouslyNeg1).slice(0, 5)
+  Array.from(ageDefinedPreviouslyNeg1).slice(0, 5),
 );
 console.log(
   "invalid ages (above 150, isNaN or negative):",
   invalidAges.size,
   "sample:",
-  Array.from(invalidAges).slice(0, 5)
+  Array.from(invalidAges).slice(0, 5),
 );
 console.log("unique gender values:", Array.from(genderValues).join(", "));
 console.log("unique source values:", Array.from(sourceValues).join(", "));
@@ -314,15 +303,13 @@ console.log(
       (acc, key) => ({
         ...acc,
         [key]:
-          (stats.demographics[key as keyof (typeof stats)["demographics"]] /
-            stats.total) *
-          100,
+          (stats.demographics[key as keyof (typeof stats)["demographics"]] / stats.total) * 100,
       }),
-      {}
+      {},
     ),
     null,
-    2
-  )
+    2,
+  ),
 );
 console.log("");
 

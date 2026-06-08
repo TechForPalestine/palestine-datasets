@@ -36,23 +36,22 @@ const eventsToSkipOnMobile = [
   "GHF Start",
 ];
 
-const lastWestBankReport =
-  westBankDailyTimeSeries[westBankDailyTimeSeries.length - 1];
+const lastWestBankReport = westBankDailyTimeSeries[westBankDailyTimeSeries.length - 1];
 const westBankLookup = westBankDailyTimeSeries.reduce(
   (acc, report) => ({
     ...acc,
     [report.report_date]: report,
   }),
-  {} as Record<string, typeof lastWestBankReport>
+  {} as Record<string, typeof lastWestBankReport>,
 );
 
 const getWestBankValue = (
   reportDate: string,
   initialKey: [
     keyof typeof lastWestBankReport,
-    keyof (typeof lastWestBankReport)["verified"] | undefined
+    keyof (typeof lastWestBankReport)["verified"] | undefined,
   ],
-  fallbackKey?: keyof typeof lastWestBankReport
+  fallbackKey?: keyof typeof lastWestBankReport,
 ) => {
   const report = westBankLookup[reportDate] ?? lastWestBankReport;
   const [key, subKey] = initialKey;
@@ -89,20 +88,15 @@ const data = gazaDailyTimeSeries.reduce(
       ext_med_killed_cum,
       ext_press_killed_cum,
     },
-    day: number
+    day: number,
   ) => {
     let children =
       ext_killed_children_cum +
-      getWestBankValue(
-        report_date,
-        ["verified", "killed_children_cum"],
-        "killed_children_cum"
-      );
+      getWestBankValue(report_date, ["verified", "killed_children_cum"], "killed_children_cum");
     let women = ext_killed_women_cum;
 
     let killed =
-      ext_killed_cum +
-      getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
+      ext_killed_cum + getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
 
     if (killed_children_cum) {
       lastChildrenKilledReportPct =
@@ -110,7 +104,7 @@ const data = gazaDailyTimeSeries.reduce(
           getWestBankValue(
             report_date,
             ["verified", "killed_children_cum"],
-            "killed_children_cum"
+            "killed_children_cum",
           )) /
         killed;
     }
@@ -133,10 +127,7 @@ const data = gazaDailyTimeSeries.reduce(
     }
 
     let seekingAid = lastSeekingAidReport;
-    if (
-      typeof aid_seeker_killed_cum === "number" &&
-      typeof aid_seeker_injured_cum === "number"
-    ) {
+    if (typeof aid_seeker_killed_cum === "number" && typeof aid_seeker_injured_cum === "number") {
       lastSeekingAidReport = aid_seeker_killed_cum + aid_seeker_injured_cum;
       seekingAid = lastSeekingAidReport;
     }
@@ -149,11 +140,7 @@ const data = gazaDailyTimeSeries.reduce(
         civdef: ext_civdef_killed_cum,
         injured:
           ext_injured_cum +
-          getWestBankValue(
-            report_date,
-            ["verified", "injured_cum"],
-            "injured_cum"
-          ),
+          getWestBankValue(report_date, ["verified", "injured_cum"], "injured_cum"),
         children,
         killed,
         women,
@@ -166,19 +153,14 @@ const data = gazaDailyTimeSeries.reduce(
       chart: acc.chart.concat({
         date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
         value:
-          ext_killed_cum +
-          getWestBankValue(
-            report_date,
-            ["verified", "killed_cum"],
-            "killed_cum"
-          ),
+          ext_killed_cum + getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum"),
       }),
     };
   },
   {
     chart: [],
     slimData: [],
-  } as MappedData
+  } as MappedData,
 );
 
 const json: {
@@ -241,7 +223,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     .domain(
       d3.extent(data.chart, function (d: any) {
         return d.date;
-      })
+      }),
     )
     .range([0, width]);
 
@@ -319,20 +301,23 @@ const render = async ({ mobile } = { mobile: false }) => {
   ]);
 
   const axisStepMinDistance = width * 0.1;
-  const xAxisPoints = xAxisSteps.reduce((points, stepValue) => {
-    const idx = Math.min(stepValue - 1, data.chart.length - 1);
-    const point: [number, number] = [
-      x(data.chart[idx].date) as number,
-      y(data.chart[idx].value) as number,
-    ];
-    const lastPointX = points[points.length - 1]?.[0] ?? -Infinity;
-    // don't allow axis ticks too close together, particularly
-    // near the right-side end where TODAY takes up more space
-    if (point[0] < lastPointX + axisStepMinDistance) {
-      return points;
-    }
-    return points.concat([point]);
-  }, [] as [number, number][]);
+  const xAxisPoints = xAxisSteps.reduce(
+    (points, stepValue) => {
+      const idx = Math.min(stepValue - 1, data.chart.length - 1);
+      const point: [number, number] = [
+        x(data.chart[idx].date) as number,
+        y(data.chart[idx].value) as number,
+      ];
+      const lastPointX = points[points.length - 1]?.[0] ?? -Infinity;
+      // don't allow axis ticks too close together, particularly
+      // near the right-side end where TODAY takes up more space
+      if (point[0] < lastPointX + axisStepMinDistance) {
+        return points;
+      }
+      return points.concat([point]);
+    },
+    [] as [number, number][],
+  );
 
   const dotOffset = eventDotRadius * 2;
   const eventLabelBottomOffset = 20;
@@ -343,9 +328,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       return;
     }
 
-    const eventIndex = data.slimData.findIndex(
-      ({ date }) => date === chartEvent.date
-    );
+    const eventIndex = data.slimData.findIndex(({ date }) => date === chartEvent.date);
     const eventPoint: [number, number] = [
       x(data.chart[eventIndex].date) as number,
       y(data.chart[eventIndex].value) as number,
@@ -363,7 +346,7 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   // main count label
   const latestKilledValue = new Intl.NumberFormat().format(
-    data.slimData[data.slimData.length - 1].killed
+    data.slimData[data.slimData.length - 1].killed,
   );
   helpers.addKilledCountLabelOverlay(latestKilledValue);
 
@@ -384,9 +367,7 @@ const render = async ({ mobile } = { mobile: false }) => {
 
   const svgStr = d3n.svgString();
 
-  const componentFilePath = `site/src/generated/daily-chart${
-    mobile ? "-mobile" : ""
-  }.tsx`;
+  const componentFilePath = `site/src/generated/daily-chart${mobile ? "-mobile" : ""}.tsx`;
   const componentJs = await transform(
     svgStr,
     {
@@ -397,12 +378,12 @@ const render = async ({ mobile } = { mobile: false }) => {
     {
       componentName: `HomepageCasualtyChart${mobile ? "Mobile" : ""}`,
       filePath: componentFilePath,
-    }
+    },
   );
 
   fs.writeFileSync(
     componentFilePath,
-    componentJs.replace("<style>", "{props.children}\n\t\t<style>")
+    componentJs.replace("<style>", "{props.children}\n\t\t<style>"),
   );
 
   if (mobile) {
@@ -413,10 +394,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       eventDotRadius,
     };
     // mobile is the last one to render so it renders the data json which backs both
-    fs.writeFileSync(
-      `site/src/generated/daily-chart.json`,
-      JSON.stringify(json)
-    );
+    fs.writeFileSync(`site/src/generated/daily-chart.json`, JSON.stringify(json));
   } else {
     json.width = width;
     json.height = height;

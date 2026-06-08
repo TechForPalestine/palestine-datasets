@@ -87,11 +87,9 @@ export const KilledHeaderMarquee = () => {
       if (firstPage && secondPage) {
         Promise.all([fetchPage(firstPage), fetchPage(secondPage)]).then(
           ([firstResult, secondResult]) => {
-            const merged = getMarqueeRowsFromPage(
-              firstResult.concat(secondResult)
-            );
+            const merged = getMarqueeRowsFromPage(firstResult.concat(secondResult));
             transitionMarquee(() => setRows(merged));
-          }
+          },
         );
       }
     }, newPageDownloadInterval);
@@ -101,24 +99,21 @@ export const KilledHeaderMarquee = () => {
 
   const mapRows =
     (sideIdx: number) =>
-    ({ people }: MarqueeRow, sideRowIdx: number) =>
-      (
-        <span key={`${sideIdx}-${sideRowIdx}-row`} className={styles.namesRow}>
-          {people.map((person) => (
-            <span
-              key={`${person.rtl ? "ar" : "en"}-${sideIdx}-${sideRowIdx}-${
-                person.id
-              }`}
-              className={styles.name}
-              dir={person.rtl ? "rtl" : undefined}
-            >
-              <PersonIcon type={person.icon} />
-              {person.name}
-              {person.age}
-            </span>
-          ))}
-        </span>
-      );
+    ({ people }: MarqueeRow, sideRowIdx: number) => (
+      <span key={`${sideIdx}-${sideRowIdx}-row`} className={styles.namesRow}>
+        {people.map((person) => (
+          <span
+            key={`${person.rtl ? "ar" : "en"}-${sideIdx}-${sideRowIdx}-${person.id}`}
+            className={styles.name}
+            dir={person.rtl ? "rtl" : undefined}
+          >
+            <PersonIcon type={person.icon} />
+            {person.name}
+            {person.age}
+          </span>
+        ))}
+      </span>
+    );
 
   return (
     <div id="marquee" className={`marqueeContainer ${styles.container}`}>

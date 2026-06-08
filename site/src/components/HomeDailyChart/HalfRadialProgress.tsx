@@ -49,9 +49,7 @@ export const HalfRadialProgress = ({ rate, label, strokeOffset }) => {
           />
         </svg>
       </div>
-      <div className={styles.chartRadialRateText}>
-        {rate ? `${rate}%` : "-"}
-      </div>
+      <div className={styles.chartRadialRateText}>{rate ? `${rate}%` : "-"}</div>
       <div className={styles.chartRadialRateLabel}>
         <span>{label}</span>
       </div>

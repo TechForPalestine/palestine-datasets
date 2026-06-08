@@ -25,10 +25,7 @@ export const listSort = (a: SearchPerson, b: SearchPerson) => {
  * @param json search index json response
  * @returns list of people with string name, count of matching records and a string key (comma-delimited record IDs)
  */
-const buildNameList = (json: {
-  index: string[];
-  names: Record<string, string>;
-}) => {
+const buildNameList = (json: { index: string[]; names: Record<string, string> }) => {
   return Object.entries(json.names)
     .reduce((acc, [indexedName, ids]) => {
       const name = indexedName
@@ -48,9 +45,7 @@ const buildNameList = (json: {
 export type LangOption = "ar" | "en";
 
 export const fetchIndex = async (lang: LangOption) => {
-  const response = await fetch(
-    `/api/v2/killed-in-gaza/name-index-${lang}.json`
-  );
+  const response = await fetch(`/api/v2/killed-in-gaza/name-index-${lang}.json`);
   if (response.ok) {
     const json = await response.json();
     return buildNameList(json);

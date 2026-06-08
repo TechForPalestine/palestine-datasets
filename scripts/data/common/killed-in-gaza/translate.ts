@@ -6,8 +6,7 @@ const pwd = "scripts/data/common/killed-in-gaza";
 const arRawNameColumnLabel = "name_ar_raw";
 const arEnNameColumnLabel = "name_en";
 
-export const normalizeArabic = (arabic: string) =>
-  new ArabicClass(arabic).normalize();
+export const normalizeArabic = (arabic: string) => new ArabicClass(arabic).normalize();
 
 export const getArToArMap = () =>
   readCsvToDict(`${pwd}/data/dict_ar_ar.csv`, {
@@ -37,10 +36,7 @@ const properCase = (segment: string | undefined, firstSegment = false) => {
  * @param dict lookup used to swap each name segment
  * @returns full name string with replaced segments
  */
-export const replaceWholeNameSegments = (
-  name: string,
-  dict: Record<string, string>
-) => {
+export const replaceWholeNameSegments = (name: string, dict: Record<string, string>) => {
   const segments = name.trim().split(/\s+/);
 
   const unmappedSequence: string[] = [];
@@ -58,7 +54,7 @@ export const replaceWholeNameSegments = (
   if (unmappedSequence.length && dict[unmappedSequence.join(" ")]) {
     return mapped.replace(
       unmappedSequence.join(" "),
-      properCase(dict[unmappedSequence.join(" ")], false) ?? ""
+      properCase(dict[unmappedSequence.join(" ")], false) ?? "",
     );
   }
 
@@ -73,8 +69,7 @@ export const replaceWholeNameSegments = (
  */
 const standaloneAllahRegex = /\ballah\b/i;
 
-export const hasStandaloneAllah = (name: string): boolean =>
-  standaloneAllahRegex.test(name);
+export const hasStandaloneAllah = (name: string): boolean => standaloneAllahRegex.test(name);
 
 export const fixStandaloneAllah = (name: string): string => {
   const segments = name.split(/\s+/);
@@ -94,10 +89,7 @@ export const fixStandaloneAllah = (name: string): string => {
   return fixed.join(" ");
 };
 
-export const replaceBySubstring = (
-  name: string,
-  dict: Record<string, string>
-) => {
+export const replaceBySubstring = (name: string, dict: Record<string, string>) => {
   return Object.keys(dict).reduce((prior, key) => {
     return prior.replaceAll(key, dict[key]);
   }, name);

@@ -4,9 +4,7 @@ import listViewerScreenshot from "../../static/img/list-viewer.png";
 export const ListViewerImgButton = () => {
   return (
     <a href="/list" title="View names list in web viewer">
-      <div
-        style={{ position: "relative", borderRadius: 12, overflow: "hidden" }}
-      >
+      <div style={{ position: "relative", borderRadius: 12, overflow: "hidden" }}>
         <img
           src={listViewerScreenshot}
           style={{
