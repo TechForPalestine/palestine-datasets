@@ -1,5 +1,8 @@
 on: workflow_dispatch
 
+permissions:
+  contents: read
+
 jobs:
   datasets_gen_daily:
     runs-on: ubuntu-latest

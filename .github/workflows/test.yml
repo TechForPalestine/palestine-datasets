@@ -10,6 +10,9 @@ on:
       - "**.lockb"
       - ".github/workflows/test.yml"
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
