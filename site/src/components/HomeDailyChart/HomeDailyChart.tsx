@@ -114,8 +114,10 @@ export const HomeDailyChart = () => {
 
   return (
     <div className={styles.chartContainer}>
-      <div className={styles.chartTitle}>
-        The Human Toll <span>Daily Casualties Datasets</span>
+      <span className={styles.eyebrow}>Daily Casualties Datasets</span>
+      <div className={styles.mastRow}>
+        <h2 className={styles.chartTitle}>The Human Toll</h2>
+        <span className={styles.mastLine} aria-hidden="true" />
       </div>
       <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza and the West Bank</div>
       <div className={styles.chartWarning}>

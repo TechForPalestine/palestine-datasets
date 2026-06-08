@@ -14,7 +14,7 @@ export type MarqueeRow = {
 };
 export type SplitNameRows = { even: MarqueeRow[]; odd: MarqueeRow[] };
 
-const rows = 10;
+const rows = 12;
 const getNameRows = (
   englishNames: MarqueePerson[],
   arabicNames: MarqueePerson[],
