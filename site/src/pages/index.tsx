@@ -83,7 +83,7 @@ export default function Home(): JSX.Element {
     <Layout title="" description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
-        <StoriesInData />
+        {BuildFlags.exploreStories && <StoriesInData />}
         <HomeDailyChart />
         <KilledName />
         <div style={{ height: 40 }} />
