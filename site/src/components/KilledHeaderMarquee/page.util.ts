@@ -22,11 +22,11 @@ const getNameRows = (
   if (englishNames.length !== arabicNames.length) {
     throw new Error("getNameRows expects two lists of equal length");
   }
-  const peoplePerRow = Math.floor(englishNames.length / rows);
+  const peoplePerRow = Math.floor(englishNames.length / (rows / 2));
   const splitRows = Array.from(new Array(rows)).reduce(
     (acc: SplitNameRows, _, i): SplitNameRows => {
       const side = i % 2 ? "even" : "odd";
-      const offset = side === "even" ? (i - 1) * peoplePerRow : i * peoplePerRow;
+      const offset = Math.floor(i / 2) * peoplePerRow;
       const page = side === "even" ? arabicNames : englishNames;
       const rtl = side === "even" ? true : false;
       const rowPeople = page.slice(offset, peoplePerRow + offset);

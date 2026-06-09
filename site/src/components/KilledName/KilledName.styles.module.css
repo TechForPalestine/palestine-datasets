@@ -14,7 +14,7 @@
 
 .eyebrow {
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
   font-family: var(--ifm-font-family-base);
   font-size: 0.72rem;
   font-weight: 800;

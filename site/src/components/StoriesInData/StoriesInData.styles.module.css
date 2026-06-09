@@ -63,6 +63,7 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--story-red);
+  margin-bottom: 5px;
 }
 .mastRow {
   display: flex;
