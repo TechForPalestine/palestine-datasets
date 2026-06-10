@@ -52,30 +52,53 @@
 
 .chartContainer {
   position: relative;
-  max-width: 1000px;
+  max-width: 1140px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 40px var(--ifm-spacing-horizontal, 1rem);
+  padding-bottom: 0;
+}
+
+/* ---- section masthead ---- */
+.eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--story-red, #c0392f);
+}
+
+.mastRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.mastLine {
+  flex: 1;
+  min-width: 16px;
+  height: 1px;
+  background: var(--story-ink, var(--tfp-chart-title));
+  opacity: 0.22;
 }
 
 .chartTitle {
-  font-size: 2em;
+  margin: 0;
+  flex: none;
+  white-space: nowrap;
+  font-size: 1.85rem;
   font-weight: bold;
+  line-height: 1.05;
+  letter-spacing: -0.4px;
   font-family: var(--ifm-heading-font-family);
   color: var(--tfp-chart-title);
 }
 
-.chartTitle span {
-  color: var(--tfp-chart-accent);
-  font-weight: normal;
-  border-left: 1px solid var(--tfp-chart-accent-border);
-  margin-left: 14px;
-  padding-left: 14px;
-}
-
 .chartSubtitle {
   color: var(--tfp-chart-subtitle);
-  padding-left: 4px;
-  padding-top: 4px;
+  padding-top: 6px;
   padding-right: 20px;
   margin-bottom: 20px;
   line-height: 1.3em;
@@ -226,7 +249,6 @@
 }
 
 .chartFooterButtonsContainer {
-  background-color: var(--tfp-chart-cta-box-fill);
   padding: 20px;
   padding-bottom: 20px;
   border-bottom-left-radius: 6px;
@@ -235,7 +257,7 @@
 
 .chartFooterButtons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .chartFooterJsonMessage {
@@ -293,6 +315,12 @@
   }
 }
 
+@media screen and (max-width: 680px) {
+  .chartTitle {
+    font-size: 1.45rem;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .homeChartDesktop {
     padding-top: 150px;
@@ -300,17 +328,6 @@
 }
 
 @media screen and (max-width: 500px) {
-  .chartTitle span {
-    border-left: 0px;
-    margin-left: 0px;
-    padding-left: 0px;
-    display: block;
-    line-height: 1.1em;
-    font-size: 0.8em;
-    margin-left: 1px;
-    margin-bottom: 5px;
-  }
-
   .chartSubtitle {
     padding-left: 2px;
   }
