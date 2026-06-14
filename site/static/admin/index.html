@@ -7,7 +7,10 @@
     <title>Tech For Palestine — Data Entry</title>
   </head>
   <body>
-    <!-- Decap CMS: git-based, commits straight to the repo (no backend/database). -->
-    <script src="https://unpkg.com/decap-cms@^3.6.0/dist/decap-cms.js"></script>
+    <!-- Decap CMS: git-based, commits straight to the repo (no backend/database).
+         Bundle is self-hosted from our own deploy (not a third-party CDN). The
+         version is pinned via the `decap-cms` devDependency and vendored into
+         this folder at build time by `bun run vendor-decap`. -->
+    <script src="/admin/decap-cms.js"></script>
   </body>
 </html>

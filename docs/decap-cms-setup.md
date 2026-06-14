@@ -91,6 +91,17 @@ entries can be removed as history is reconciled.
 The `Editorial notes` field is kept for documenting decisions and is internal —
 it is **not** published in the dataset JSON.
 
+## Self-hosted CMS bundle
+
+The Decap CMS JavaScript is **served from our own deploy**, not a third-party CDN
+(unpkg), so we own the code and the version. The version is pinned via the
+`decap-cms` devDependency in `site/package.json`, and `bun run vendor-decap`
+copies that exact bundle to `site/static/admin/decap-cms.js` (served at
+`/admin/decap-cms.js`). This runs automatically in `scripts/build/pre-build.sh`;
+the copied file is gitignored (generated at build time). To bump the version,
+change the pin and re-run the vendor step. For local admin testing run
+`bun run vendor-decap` once after `bun install`.
+
 ## One-time setup
 
 ### 1. GitHub OAuth App
