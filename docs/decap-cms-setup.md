@@ -16,10 +16,31 @@ Contributor → /admin (static Decap UI served by the Docusaurus site)
             → "Login with GitHub" → Cloudflare Worker OAuth proxy → GitHub
             → edits/creates one markdown file per report date under source_data/
             → editorial workflow opens a Pull Request
-PR CI       → regenerates casualties_daily.json / west_bank_daily.json from source_data
-            → runs typechecks + formatting → maintainer reviews & merges
-main        → existing SQLite export runs unchanged
+PR CI       → validates the changed report dates (casualties-pr-check.yml):
+              reported-vs-cumulative consistency + the source data builds
+main CI      → on merge, regenerates casualties_daily.json / west_bank_daily.json
+              from source_data and commits them (casualties-build.yml),
+              then triggers the SQLite export
 ```
+
+## Continuous integration
+
+Two workflows drive the source-data pipeline:
+
+- **`.github/workflows/casualties-pr-check.yml`** (on `pull_request`) — read-only
+  gate. It runs `validate-daily` scoped to the report dates the PR changed and
+  regenerates the datasets to confirm the source data is well-formed. It does not
+  modify the PR branch, so it never interferes with Decap's editorial-workflow
+  branches. A failure blocks the merge.
+- **`.github/workflows/casualties-build.yml`** (on `push` to `main`) — the
+  authoritative regeneration. It rebuilds the Gaza & West Bank JSON from
+  `source_data` and commits any changes, then dispatches the SQLite export. This
+  is also the safety net for source data that reaches main any other way (direct
+  edits, fork PRs).
+
+Neither needs `TFP_SHEET_KEY`: Gaza and West Bank are now built entirely from
+committed `source_data`. The Google Sheet (and `gen-daily.yml`) still drives the
+other datasets (infrastructure, press-killed).
 
 ## Content model
 
