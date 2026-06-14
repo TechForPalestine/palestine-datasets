@@ -78,6 +78,11 @@ prior-day context). The check is **not bypassable**: editorial remarks document
 would let inconsistent data through, which we never want. Ideally this same check
 also runs in the CMS at entry time; that is more involved and tracked separately.
 
+25 pre-policy historical days are **grandfathered** via an allowlist in
+`config.ts` (`gazaDiscrepancyAllowlist`): the gate accepts those exact rows but
+fails on any new discrepancy. Don't add to the allowlist — fix new data instead;
+entries can be removed as history is reconciled.
+
 The `Editorial notes` field is kept for documenting decisions and is internal —
 it is **not** published in the dataset JSON.
 

@@ -38,6 +38,41 @@ export const gazaDiscrepancyPairs: DeltaRule[] = [
   { daily: "injured", cum: "injured_cum" },
 ];
 
+/**
+ * Pre-policy historical days where the reported daily does not match the
+ * cumulative delta. These predate the consistency rule and are grandfathered:
+ * the validator accepts them but fails on any NEW discrepancy. Keyed by
+ * `report_date:field`. Do not add to this list — fix new data instead; entries
+ * may be removed as history is reconciled.
+ */
+export const gazaDiscrepancyAllowlist: string[] = [
+  "2023-10-11:injured",
+  "2023-10-15:injured",
+  "2023-10-16:injured",
+  "2023-10-21:injured",
+  "2023-12-02:injured",
+  "2023-12-04:injured",
+  "2023-12-05:killed",
+  "2023-12-07:killed",
+  "2023-12-07:injured",
+  "2023-12-08:killed",
+  "2023-12-08:injured",
+  "2023-12-09:killed",
+  "2023-12-12:injured",
+  "2023-12-13:injured",
+  "2023-12-18:killed",
+  "2023-12-18:injured",
+  "2023-12-24:injured",
+  "2024-01-12:killed",
+  "2024-01-12:injured",
+  "2024-01-16:killed",
+  "2024-01-22:injured",
+  "2024-08-27:killed",
+  "2024-08-27:injured",
+  "2024-08-28:killed",
+  "2024-08-28:injured",
+];
+
 // West Bank has no extended series; figures are entered as reported.
 export const westBankCarryForward: CarryForwardRule[] = [];
 export const westBankExtDeltas: DeltaRule[] = [];
@@ -45,3 +80,4 @@ export const westBankExtDeltas: DeltaRule[] = [];
 // West Bank verified reporting is sparse/gapped, so daily-vs-cumulative
 // consistency is not gated here yet (would need gap-aware comparison).
 export const westBankDiscrepancyPairs: DeltaRule[] = [];
+export const westBankDiscrepancyAllowlist: string[] = [];
