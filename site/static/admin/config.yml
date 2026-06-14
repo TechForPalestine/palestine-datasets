@@ -9,8 +9,9 @@ backend:
   repo: TechForPalestine/palestine-datasets
   branch: main
   # Stateless Cloudflare Worker OAuth proxy. Replace with the deployed Worker URL.
-  base_url: https://REPLACE-WITH-OAUTH-WORKER.workers.dev
+  base_url: https://decap.swj.io
   auth_endpoint: /auth
+  squash_merges: true
 
 # Contributions open pull requests for maintainer review before they reach main.
 publish_mode: editorial_workflow
