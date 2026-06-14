@@ -10,6 +10,8 @@
     "gen-daily-v2": "bun run scripts/data/v2/gaza-daily.ts",
     "gen-daily": "bun run gen-daily-v2 && bun run gen-wbdaily && bun run gen-infrastructure",
     "gen-wbdaily": "bun run scripts/data/v2/west-bank-daily.ts",
+    "validate-daily": "bun run scripts/data/common/casualties-daily/validate.ts",
+    "vendor-decap": "bun run scripts/build/vendor-decap.ts",
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
     "gen-killed-v3": "bun run scripts/data/v3/killed-in-gaza.ts",
     "gen-killed-press": "bun run scripts/data/v2/press-killed-in-gaza.ts",

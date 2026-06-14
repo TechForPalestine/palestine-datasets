@@ -1,0 +1,132 @@
+# Decap CMS configuration for the Gaza & West Bank daily casualties datasets.
+#
+# Git-based: every edit is committed to the repository, so the dataset stays the
+# single source of truth and there is no backend or database to host. The only
+# externally hosted piece is a stateless GitHub OAuth proxy (a Cloudflare Worker)
+# referenced by `base_url` below — see docs/decap-cms-setup.md.
+backend:
+  name: github
+  repo: TechForPalestine/palestine-datasets
+  branch: main
+  # Stateless Cloudflare Worker OAuth proxy. Replace with the deployed Worker URL.
+  base_url: https://decap.swj.io
+  auth_endpoint: /auth
+  squash_merges: true
+
+# Contributions open pull requests for maintainer review before they reach main.
+publish_mode: editorial_workflow
+
+# Source material pasted into report bodies is committed as part of the dataset.
+media_folder: site/static/img/data-sources
+public_folder: /img/data-sources
+
+collections:
+  - name: gaza-daily
+    label: "Gaza — daily casualties"
+    label_singular: "Gaza daily report"
+    description: >
+      One report per date. Enter the figures as reported by the source. The
+      extended (ext_) continuous series is calculated automatically by the
+      build — leave those fields blank. When a reported daily figure conflicts
+      with its cumulative, the cumulative is treated as authoritative; record the
+      decision in Editorial notes. Paste the original source material in the body.
+    folder: source_data/gaza-daily
+    identifier_field: report_date
+    slug: "{{fields.report_date}}"
+    create: true
+    sortable_fields: [report_date]
+    summary: "{{fields.report_date}} — killed cum {{fields.killed_cum}} ({{fields.report_source}})"
+    fields:
+      - { label: "Report date", name: report_date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - label: "Report source"
+        name: report_source
+        widget: select
+        options:
+          - { label: "MoH Telegram (mohtel)", value: mohtel }
+          - { label: "Gov Media Office Telegram (gmotel)", value: gmotel }
+          - { label: "UN OCHA (unocha)", value: unocha }
+          - { label: "Missing / not reported (missing)", value: missing }
+      - { label: "Report period (hours)", name: report_period, widget: number, value_type: int, default: 24 }
+
+      # --- Reported figures (manual input) ---
+      - { label: "Killed (daily, reported)", name: killed, widget: number, value_type: int, required: false, hint: "As reported. If it conflicts with the cumulative, reconcile it and note the decision below." }
+      - { label: "Killed cumulative (reported)", name: killed_cum, widget: number, value_type: int, hint: "Authoritative cumulative total as reported by the source." }
+      - { label: "Injured (daily, reported)", name: injured, widget: number, value_type: int, required: false }
+      - { label: "Injured cumulative (reported)", name: injured_cum, widget: number, value_type: int, required: false }
+      - { label: "Killed children cumulative (reported)", name: killed_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Killed women cumulative (reported)", name: killed_women_cum, widget: number, value_type: int, required: false }
+      - { label: "Massacres cumulative (reported)", name: massacres_cum, widget: number, value_type: int, required: false }
+      - { label: "Civil defense killed cumulative (reported)", name: civdef_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Medical personnel killed cumulative (reported)", name: med_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Press killed cumulative (reported)", name: press_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Killed recovered", name: killed_recovered, widget: number, value_type: int, required: false }
+      - { label: "Killed succumbed to wounds", name: killed_succumbed, widget: number, value_type: int, required: false }
+      - { label: "Killed truce (newly identified)", name: killed_truce_new, widget: number, value_type: int, required: false }
+      - { label: "Killed by committee review", name: killed_committee, widget: number, value_type: int, required: false }
+      - { label: "Famine deaths cumulative", name: famine_cum, widget: number, value_type: int, required: false }
+      - { label: "Child famine deaths cumulative", name: child_famine_cum, widget: number, value_type: int, required: false }
+      - { label: "Aid seekers killed cumulative", name: aid_seeker_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Aid seekers injured cumulative", name: aid_seeker_injured_cum, widget: number, value_type: int, required: false }
+
+      - { label: "Editorial notes", name: editorial_notes, widget: text, required: false, hint: "Document any editorial decision (e.g. reconciling a daily figure to the cumulative). Not published in the dataset." }
+
+      # --- Extended (ext_) series: auto-calculated. Leave blank. ---
+      # Kept here so the CMS preserves backfilled historical values on edit; do
+      # not enter values for new reports — the build computes them.
+      - { label: "ext_killed (auto)", name: ext_killed, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_killed_cum (auto)", name: ext_killed_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_injured (auto)", name: ext_injured, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_injured_cum (auto)", name: ext_injured_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_killed_children_cum (auto)", name: ext_killed_children_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_killed_women_cum (auto)", name: ext_killed_women_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_massacres_cum (auto)", name: ext_massacres_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_civdef_killed_cum (auto)", name: ext_civdef_killed_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_med_killed_cum (auto)", name: ext_med_killed_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+      - { label: "ext_press_killed_cum (auto)", name: ext_press_killed_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
+
+      - { label: "Source material", name: body, widget: markdown, required: false, hint: "Paste the original bulletin text, links, or a reference to a source screenshot." }
+
+  - name: west-bank-daily
+    label: "West Bank — daily casualties"
+    label_singular: "West Bank daily report"
+    description: >
+      West Bank is not reported daily — create a report ONLY for dates with newly
+      reported values. The build fills the days in between by carrying figures
+      forward through the latest Gaza report date, so you never enter "fill" days.
+      Enter the flash-reported cumulative figures (omit any you don't have — they
+      carry forward), and/or add the verified figures when available. Paste the
+      original source material in the body.
+    folder: source_data/west-bank-daily
+    identifier_field: report_date
+    slug: "{{fields.report_date}}"
+    create: true
+    sortable_fields: [report_date]
+    summary: "{{fields.report_date}} — killed cum {{fields.killed_cum}} ({{fields.flash_source}})"
+    fields:
+      - { label: "Report date", name: report_date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - { label: "Flash source", name: flash_source, widget: string, required: false, hint: "e.g. un. Omit if not a flash report; carries forward." }
+      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false, hint: "Omit if unchanged/not reported — it carries forward." }
+      - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int, required: false }
+
+      - label: "Verified figures (optional)"
+        name: verified
+        widget: object
+        required: false
+        collapsed: true
+        summary: "killed cum {{fields.killed_cum}}"
+        fields:
+          - { label: "Killed (daily)", name: killed, widget: number, value_type: int, required: false }
+          - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false }
+          - { label: "Injured (daily)", name: injured, widget: number, value_type: int, required: false }
+          - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int, required: false }
+          - { label: "Killed children (daily)", name: killed_children, widget: number, value_type: int, required: false }
+          - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
+          - { label: "Injured children (daily)", name: injured_children, widget: number, value_type: int, required: false }
+          - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
+
+      - { label: "Editorial notes", name: editorial_notes, widget: text, required: false, hint: "Document any editorial decision. Not published in the dataset." }
+
+      - { label: "Source material", name: body, widget: markdown, required: false, hint: "Paste the original bulletin text, links, or a reference to a source screenshot." }
