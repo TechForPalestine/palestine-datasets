@@ -1,0 +1,57 @@
+name: Daily casualties — build on main
+
+# When source data lands on main (e.g. a merged Decap CMS PR), regenerate the
+# Gaza & West Bank JSON datasets from it and commit them. No Google Sheet / no
+# TFP_SHEET_KEY is needed — these two datasets are now driven entirely by the
+# committed source_data files.
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "source_data/**"
+      - "scripts/data/v2/gaza-daily.ts"
+      - "scripts/data/v2/west-bank-daily.ts"
+      - "scripts/data/common/casualties-daily/**"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      - name: install dependencies
+        run: bun install
+
+      - name: regenerate datasets from source data
+        run: |
+          bun run gen-daily-v2
+          bun run gen-wbdaily
+
+      - name: commit regenerated JSON
+        id: commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: |
+            casualties_daily.json
+            casualties_daily.min.json
+            west_bank_daily.json
+            west_bank_daily.min.json
+          message: "data: regenerate Gaza & West Bank datasets from source_data"
+
+      - name: trigger SQLite export
+        # the JSON commit above uses GITHUB_TOKEN, which does not re-trigger the
+        # push-based sqlite-export, so dispatch it explicitly when JSON changed
+        if: steps.commit.outputs.committed == 'true'
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          event-type: sqlite-export

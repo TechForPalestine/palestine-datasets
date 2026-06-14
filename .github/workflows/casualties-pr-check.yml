@@ -1,0 +1,60 @@
+name: Daily casualties — PR check
+
+# Validates Gaza/West Bank source-data PRs (e.g. from the Decap CMS editorial
+# workflow). Read-only: it gates the merge but does not modify the PR branch.
+# The authoritative JSON regeneration happens on main (casualties-build.yml).
+
+on:
+  pull_request:
+    paths:
+      - "source_data/**"
+      - "scripts/data/v2/gaza-daily.ts"
+      - "scripts/data/v2/west-bank-daily.ts"
+      - "scripts/data/common/casualties-daily/**"
+      - ".github/workflows/casualties-pr-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      - name: install dependencies
+        run: bun install
+
+      - name: identify changed report files
+        id: changed
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          files=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- 'source_data/**/*.md' | tr '\n' ' ')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+          echo "Changed report files: ${files:-<none>}"
+
+      - name: validate reported vs cumulative consistency
+        # scoped to changed report dates (full series used for prior-day context);
+        # falls back to a full check when only build scripts changed
+        run: |
+          if [ -n "${{ steps.changed.outputs.files }}" ]; then
+            bun run validate-daily ${{ steps.changed.outputs.files }}
+          else
+            bun run validate-daily
+          fi
+
+      - name: regenerate datasets from source data
+        # gen scripts run validateDailiesJson, so this fails on malformed data
+        run: |
+          bun run gen-daily-v2
+          bun run gen-wbdaily
+
+      - name: show resulting dataset changes (informational)
+        run: git --no-pager diff --stat -- casualties_daily.json west_bank_daily.json || true
