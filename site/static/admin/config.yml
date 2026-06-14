@@ -89,8 +89,12 @@ collections:
     label: "West Bank — daily casualties"
     label_singular: "West Bank daily report"
     description: >
-      One report per date. Enter the flash-reported cumulative figures; add the
-      verified figures when available. Paste the original source material in the body.
+      West Bank is not reported daily — create a report ONLY for dates with newly
+      reported values. The build fills the days in between by carrying figures
+      forward through the latest Gaza report date, so you never enter "fill" days.
+      Enter the flash-reported cumulative figures (omit any you don't have — they
+      carry forward), and/or add the verified figures when available. Paste the
+      original source material in the body.
     folder: source_data/west-bank-daily
     identifier_field: report_date
     slug: "{{fields.report_date}}"
@@ -99,12 +103,12 @@ collections:
     summary: "{{fields.report_date}} — killed cum {{fields.killed_cum}} ({{fields.flash_source}})"
     fields:
       - { label: "Report date", name: report_date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
-      - { label: "Flash source", name: flash_source, widget: string, hint: "e.g. un" }
-      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int }
-      - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int }
-      - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int }
-      - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int }
-      - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int }
+      - { label: "Flash source", name: flash_source, widget: string, required: false, hint: "e.g. un. Omit if not a flash report; carries forward." }
+      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false, hint: "Omit if unchanged/not reported — it carries forward." }
+      - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int, required: false }
 
       - label: "Verified figures (optional)"
         name: verified

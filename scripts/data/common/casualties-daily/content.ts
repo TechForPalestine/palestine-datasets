@@ -252,3 +252,85 @@ export const writeReportFile = (
   writeFileSync(file, serializeReport(data, body));
   return true;
 };
+
+/** Latest report date (YYYY-MM-DD) among the content files in a directory. */
+export const latestReportDate = (dir: string): string => {
+  const dates = readdirSync(dir)
+    .filter((file) => dailyFilePattern.test(file))
+    .map((file) => file.slice(0, 10))
+    .sort();
+  const latest = dates.at(-1);
+  if (!latest) {
+    throw new Error(`no report files found in ${dir}`);
+  }
+  return latest;
+};
+
+const dayMs = 86_400_000;
+
+/** Inclusive list of YYYY-MM-DD dates from start to end (UTC, daily step). */
+export const enumerateDates = (start: string, end: string): string[] => {
+  const dates: string[] = [];
+  let time = Date.parse(`${start}T00:00:00Z`);
+  const endTime = Date.parse(`${end}T00:00:00Z`);
+  while (time <= endTime) {
+    dates.push(new Date(time).toISOString().slice(0, 10));
+    time += dayMs;
+  }
+  return dates;
+};
+
+export type CarryForwardTimelineConfig = {
+  /** fields carried forward day-to-day, in output key order */
+  carryFields: string[];
+  /** field present only on its own report dates (e.g. "verified"); never carried */
+  sparseField?: string;
+  /** carry forward through this date (e.g. the latest Gaza report date) */
+  endDate: string;
+};
+
+/**
+ * Expands sparse report records into a daily time series. Reports only exist for
+ * dates with newly reported values; "fill" days are generated here by carrying
+ * the last reported value of each carryField forward to every date through
+ * endDate, keeping the series in sync with the Gaza daily series. A sparseField
+ * (verified figures) is emitted only on the dates a report actually provided it.
+ */
+export const buildCarryForwardTimeline = (
+  reports: DailyRecord[],
+  { carryFields, sparseField, endDate }: CarryForwardTimelineConfig,
+): DailyRecord[] => {
+  if (reports.length === 0) {
+    return [];
+  }
+  const byDate = new Map(reports.map((report) => [String(report.report_date), report]));
+  const startDate = String(reports[0].report_date);
+  const lastReportDate = String(reports[reports.length - 1].report_date);
+  // never drop a report that falls after endDate
+  const finalDate = endDate >= lastReportDate ? endDate : lastReportDate;
+
+  const last: Record<string, number | string> = {};
+  const series: DailyRecord[] = [];
+  for (const date of enumerateDates(startDate, finalDate)) {
+    const report = byDate.get(date);
+    if (report) {
+      for (const field of carryFields) {
+        const value = report[field];
+        if (!isBlank(value)) {
+          last[field] = value;
+        }
+      }
+    }
+    const row: DailyRecord = { report_date: date };
+    if (sparseField && report && !isBlank(report[sparseField])) {
+      row[sparseField] = report[sparseField];
+    }
+    for (const field of carryFields) {
+      if (!isBlank(last[field])) {
+        row[field] = last[field];
+      }
+    }
+    series.push(row);
+  }
+  return series;
+};

@@ -73,9 +73,17 @@ export const gazaDiscrepancyAllowlist: string[] = [
   "2024-08-28:injured",
 ];
 
-// West Bank has no extended series; figures are entered as reported.
-export const westBankCarryForward: CarryForwardRule[] = [];
-export const westBankExtDeltas: DeltaRule[] = [];
+// West Bank is not reported daily: source files exist only for actual report
+// dates, and these flash cumulative fields are carried forward to fill every
+// day through the latest Gaza report date (keeping the two series in sync).
+export const westBankCarryFields = [
+  "killed_cum",
+  "killed_children_cum",
+  "injured_cum",
+  "injured_children_cum",
+  "settler_attacks_cum",
+  "flash_source",
+];
 
 // West Bank verified reporting is sparse/gapped, so daily-vs-cumulative
 // consistency is not gated here yet (would need gap-aware comparison).

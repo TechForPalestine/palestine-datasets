@@ -23,13 +23,18 @@ main        → existing SQLite export runs unchanged
 
 ## Content model
 
-Each report date is one markdown file:
+A report date is one markdown file. Numeric figures live in YAML **front
+matter**; the markdown **body** holds the original source material (bulletin
+text, links, screenshot references).
 
-- `source_data/gaza-daily/YYYY-MM-DD.md`
-- `source_data/west-bank-daily/YYYY-MM-DD.md`
-
-Numeric figures live in YAML **front matter**; the markdown **body** holds the
-original source material (bulletin text, links, screenshot references).
+- `source_data/gaza-daily/YYYY-MM-DD.md` — Gaza is reported daily, so there is
+  one file per day.
+- `source_data/west-bank-daily/YYYY-MM-DD.md` — West Bank is **not** reported
+  daily, so files exist **only for dates with newly reported values**. The build
+  generates the "fill" days by carrying the last reported flash figures forward
+  to **every day through the latest Gaza report date**, keeping the two daily
+  series in sync. Verified figures are emitted only on the dates a report
+  actually provided them (they are never carried forward).
 
 The build (`scripts/data/v2/gaza-daily.ts`, `scripts/data/v2/west-bank-daily.ts`)
 reads these files and produces the exact same JSON the Google Sheet pipeline did.
