@@ -8,8 +8,9 @@
   ],
   "scripts": {
     "gen-daily-v2": "bun run scripts/data/v2/gaza-daily.ts",
-    "gen-daily": "bun run gen-daily-v2 && bun run gen-wbdaily && bun run gen-infrastructure",
+    "gen-daily": "bun run gen-daily-v2 && bun run gen-wbdaily && bun run gen-lbdaily && bun run gen-infrastructure",
     "gen-wbdaily": "bun run scripts/data/v2/west-bank-daily.ts",
+    "gen-lbdaily": "bun run scripts/data/v2/lebanon-daily.ts",
     "validate-daily": "bun run scripts/data/common/casualties-daily/validate.ts",
     "vendor-decap": "bun run scripts/build/vendor-decap.ts",
     "gen-killed": "bun run scripts/data/v2/killed-in-gaza.ts",
