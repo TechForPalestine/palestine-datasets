@@ -1,0 +1,121 @@
+# Decap CMS configuration for the Gaza & West Bank daily casualties datasets.
+#
+# Git-based: every edit is committed to the repository, so the dataset stays the
+# single source of truth and there is no backend or database to host. The only
+# externally hosted piece is a stateless GitHub OAuth proxy (a Cloudflare Worker)
+# referenced by `base_url` below — see docs/decap-cms-setup.md.
+backend:
+  name: github
+  repo: TechForPalestine/palestine-datasets
+  branch: main
+  # Stateless Cloudflare Worker OAuth proxy. Replace with the deployed Worker URL.
+  base_url: https://REPLACE-WITH-OAUTH-WORKER.workers.dev
+  auth_endpoint: /auth
+
+# Contributions open pull requests for maintainer review before they reach main.
+publish_mode: editorial_workflow
+
+# Source material pasted into report bodies is committed as part of the dataset.
+media_folder: site/static/img/data-sources
+public_folder: /img/data-sources
+
+collections:
+  - name: gaza-daily
+    label: "Gaza — daily casualties"
+    label_singular: "Gaza daily report"
+    description: >
+      One report per date. Enter the minimum reported figures; cumulative totals
+      that can be inferred (ext_killed_cum, ext_injured_cum) are filled in
+      automatically by the build. Paste the original source material in the body.
+    folder: content/gaza-daily
+    identifier_field: report_date
+    slug: "{{fields.report_date}}"
+    create: true
+    sortable_fields: [report_date]
+    summary: "{{fields.report_date}} — {{fields.ext_killed}} killed / {{fields.ext_injured}} injured (daily)"
+    fields:
+      - { label: "Report date", name: report_date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - label: "Report source"
+        name: report_source
+        widget: select
+        options:
+          - { label: "MoH Telegram (mohtel)", value: mohtel }
+          - { label: "Gov Media Office Telegram (gmotel)", value: gmotel }
+          - { label: "UN OCHA (unocha)", value: unocha }
+          - { label: "Missing / not reported (missing)", value: missing }
+      - { label: "Report period (hours)", name: report_period, widget: number, value_type: int, default: 24 }
+
+      # --- Official (ext_) series: required every day ---
+      - { label: "Killed (daily, ext)", name: ext_killed, widget: number, value_type: int, hint: "Daily killed for the official continuous series. ext_killed_cum is derived from this." }
+      - { label: "Injured (daily, ext)", name: ext_injured, widget: number, value_type: int, hint: "Daily injured for the official continuous series. ext_injured_cum is derived from this." }
+      - { label: "Killed children cumulative (ext)", name: ext_killed_children_cum, widget: number, value_type: int }
+      - { label: "Killed women cumulative (ext)", name: ext_killed_women_cum, widget: number, value_type: int }
+      - { label: "Massacres cumulative (ext)", name: ext_massacres_cum, widget: number, value_type: int }
+      - { label: "Civil defense killed cumulative (ext)", name: ext_civdef_killed_cum, widget: number, value_type: int }
+      - { label: "Medical personnel killed cumulative (ext)", name: ext_med_killed_cum, widget: number, value_type: int }
+      - { label: "Press killed cumulative (ext)", name: ext_press_killed_cum, widget: number, value_type: int }
+
+      # --- Auto-derived: leave blank for new entries ---
+      - { label: "Killed cumulative (ext) — auto", name: ext_killed_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated from ext_killed. Leave blank unless correcting history." }
+      - { label: "Injured cumulative (ext) — auto", name: ext_injured_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated from ext_injured. Leave blank unless correcting history." }
+
+      # --- As-reported figures: optional, only when a source publishes them ---
+      - { label: "Killed (daily, as reported)", name: killed, widget: number, value_type: int, required: false }
+      - { label: "Killed cumulative (as reported)", name: killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Killed children cumulative (as reported)", name: killed_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Killed women cumulative (as reported)", name: killed_women_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured (daily, as reported)", name: injured, widget: number, value_type: int, required: false }
+      - { label: "Injured cumulative (as reported)", name: injured_cum, widget: number, value_type: int, required: false }
+      - { label: "Massacres cumulative (as reported)", name: massacres_cum, widget: number, value_type: int, required: false }
+      - { label: "Civil defense killed cumulative (as reported)", name: civdef_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Medical personnel killed cumulative (as reported)", name: med_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Press killed cumulative (as reported)", name: press_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Killed recovered", name: killed_recovered, widget: number, value_type: int, required: false }
+      - { label: "Killed succumbed to wounds", name: killed_succumbed, widget: number, value_type: int, required: false }
+      - { label: "Killed truce (newly identified)", name: killed_truce_new, widget: number, value_type: int, required: false }
+      - { label: "Killed by committee review", name: killed_committee, widget: number, value_type: int, required: false }
+      - { label: "Famine deaths cumulative", name: famine_cum, widget: number, value_type: int, required: false }
+      - { label: "Child famine deaths cumulative", name: child_famine_cum, widget: number, value_type: int, required: false }
+      - { label: "Aid seekers killed cumulative", name: aid_seeker_killed_cum, widget: number, value_type: int, required: false }
+      - { label: "Aid seekers injured cumulative", name: aid_seeker_injured_cum, widget: number, value_type: int, required: false }
+
+      - { label: "Source material", name: body, widget: markdown, required: false, hint: "Paste the original bulletin text, links, or a reference to a source screenshot." }
+
+  - name: west-bank-daily
+    label: "West Bank — daily casualties"
+    label_singular: "West Bank daily report"
+    description: >
+      One report per date. Enter the flash-reported cumulative figures; add the
+      verified figures when available. Paste the original source material in the body.
+    folder: content/west-bank-daily
+    identifier_field: report_date
+    slug: "{{fields.report_date}}"
+    create: true
+    sortable_fields: [report_date]
+    summary: "{{fields.report_date}} — killed cum {{fields.killed_cum}} ({{fields.flash_source}})"
+    fields:
+      - { label: "Report date", name: report_date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
+      - { label: "Flash source", name: flash_source, widget: string, hint: "e.g. un" }
+      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int }
+      - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int }
+      - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int }
+      - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int }
+      - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int }
+
+      - label: "Verified figures (optional)"
+        name: verified
+        widget: object
+        required: false
+        collapsed: true
+        summary: "killed cum {{fields.killed_cum}}"
+        fields:
+          - { label: "Killed (daily)", name: killed, widget: number, value_type: int, required: false }
+          - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false }
+          - { label: "Injured (daily)", name: injured, widget: number, value_type: int, required: false }
+          - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int, required: false }
+          - { label: "Killed children (daily)", name: killed_children, widget: number, value_type: int, required: false }
+          - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
+          - { label: "Injured children (daily)", name: injured_children, widget: number, value_type: int, required: false }
+          - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
+
+      - { label: "Source material", name: body, widget: markdown, required: false, hint: "Paste the original bulletin text, links, or a reference to a source screenshot." }
