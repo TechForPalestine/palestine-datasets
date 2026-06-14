@@ -111,6 +111,18 @@ export const readDailyReports = (dir: string): DailyRecord[] => {
   return records;
 };
 
+// front matter keys that are editorial metadata, not part of the published dataset
+export const metadataFields = ["editorial_notes"];
+
+export const stripMetadata = (records: DailyRecord[]): DailyRecord[] =>
+  records.map((record) => {
+    const copy = { ...record };
+    for (const field of metadataFields) {
+      delete copy[field];
+    }
+    return copy;
+  });
+
 const getPath = (obj: DailyRecord, path: string) => {
   if (!path.includes(".")) {
     return obj[path];
@@ -128,32 +140,104 @@ const setPath = (obj: DailyRecord, path: string, value: number) => {
   obj[parent] = { ...(obj[parent] ?? {}), [child]: value };
 };
 
+const isNumber = (value: unknown): value is number => typeof value === "number";
+const isBlank = (value: unknown) => value === undefined || value === null;
+
+export type CarryForwardRule = { ext: string; reported: string };
+export type DeltaRule = { daily: string; cum: string };
+
 /**
- * Fills derivable cumulative fields so contributors don't have to enter them.
- * For each [daily, cum] pair, when the cumulative is absent we compute it from
- * the previous day's cumulative plus the entered daily value. When a value is
- * present (all of backfilled history, or a manual correction) it is respected
- * as-is, which keeps regenerated history byte-identical.
+ * Computes the extended (ext_) continuous series that downstream consumers rely
+ * on, from the manually entered as-reported figures. Contributors enter the
+ * reported numbers; the ext_ series is derived here so it never has to be typed:
+ *
+ *  - carry-forward: each ext_*_cum follows its reported *_cum, carried forward
+ *    across days with no fresh report.
+ *  - delta: each ext_ daily (ext_killed, ext_injured) is the day-over-day
+ *    difference of its ext_*_cum.
+ *
+ * A value that is already present (all of backfilled history, which embeds prior
+ * editorial gap-filling decisions, or a manual override) is always respected
+ * as-is. Only blanks are filled, so regenerating history stays byte-identical
+ * while new entries get their ext_ series for free.
  */
-export const deriveCumulatives = (
+export const deriveExtendedSeries = (
   records: DailyRecord[],
-  pairs: [string, string][],
+  carryForward: CarryForwardRule[],
+  deltas: DeltaRule[],
 ): DailyRecord[] => {
-  const prevCum: Record<string, number> = {};
+  const prevExtCum: Record<string, number> = {};
+  const prevDeltaCum: Record<string, number> = {};
   for (const record of records) {
-    for (const [dailyKey, cumKey] of pairs) {
-      const cumValue = getPath(record, cumKey);
-      const dailyValue = getPath(record, dailyKey);
-      if ((cumValue === undefined || cumValue === null) && typeof dailyValue === "number") {
-        setPath(record, cumKey, (prevCum[cumKey] ?? 0) + dailyValue);
+    for (const { ext, reported } of carryForward) {
+      if (isBlank(getPath(record, ext))) {
+        const reportedValue = getPath(record, reported);
+        const filled = isBlank(reportedValue) ? prevExtCum[ext] : reportedValue;
+        if (!isBlank(filled)) {
+          setPath(record, ext, filled);
+        }
       }
-      const resolved = getPath(record, cumKey);
-      if (typeof resolved === "number") {
-        prevCum[cumKey] = resolved;
+      const resolved = getPath(record, ext);
+      if (isNumber(resolved)) {
+        prevExtCum[ext] = resolved;
+      }
+    }
+    for (const { daily, cum } of deltas) {
+      const cumValue = getPath(record, cum);
+      if (isBlank(getPath(record, daily)) && isNumber(cumValue)) {
+        setPath(record, daily, cumValue - (prevDeltaCum[cum] ?? 0));
+      }
+      if (isNumber(cumValue)) {
+        prevDeltaCum[cum] = cumValue;
       }
     }
   }
   return records;
+};
+
+export type ReportingDiscrepancy = {
+  report_date: string;
+  field: string;
+  reported: number;
+  expectedFromCum: number;
+  hasNote: boolean;
+};
+
+/**
+ * Flags days where a reported daily figure disagrees with the day-over-day
+ * change in its reported cumulative — the editorial cases where, per project
+ * policy, the cumulative is trusted and the daily is reconciled to match. These
+ * are surfaced (not blocked) so a reviewer can confirm the decision; recording
+ * an `editorial_notes` value marks the discrepancy as acknowledged.
+ */
+export const findReportingDiscrepancies = (
+  records: DailyRecord[],
+  pairs: DeltaRule[],
+): ReportingDiscrepancy[] => {
+  const discrepancies: ReportingDiscrepancy[] = [];
+  const prevCum: Record<string, number> = {};
+  for (const record of records) {
+    for (const { daily, cum } of pairs) {
+      const dailyValue = getPath(record, daily);
+      const cumValue = getPath(record, cum);
+      if (isNumber(dailyValue) && isNumber(cumValue) && prevCum[cum] !== undefined) {
+        const expectedFromCum = cumValue - prevCum[cum];
+        if (expectedFromCum !== dailyValue) {
+          discrepancies.push({
+            report_date: String(record.report_date),
+            field: daily,
+            reported: dailyValue,
+            expectedFromCum,
+            hasNote: !isBlank(record.editorial_notes),
+          });
+        }
+      }
+      if (isNumber(cumValue)) {
+        prevCum[cum] = cumValue;
+      }
+    }
+  }
+  return discrepancies;
 };
 
 export const writeReportFile = (

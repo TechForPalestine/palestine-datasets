@@ -35,22 +35,36 @@ The build (`scripts/data/v2/gaza-daily.ts`, `scripts/data/v2/west-bank-daily.ts`
 reads these files and produces the exact same JSON the Google Sheet pipeline did.
 Regenerating from the backfilled content is byte-identical to the committed JSON.
 
-### Minimum input + derived cumulatives
+### Manual input vs the auto-calculated `ext_` series
 
-Contributors enter the minimum reported figures. Cumulative totals that are a
-clean running sum of a daily figure are filled in automatically:
+Contributors enter the figures **as reported by the source** (`killed`,
+`killed_cum`, `injured`, `injured_cum`, and the various reported `*_cum`
+totals). The extended (`ext_`) continuous series is **calculated by the build**,
+so contributors leave those fields blank:
 
-| Dataset | Entered (daily) | Auto-derived (cumulative) |
+| Reported (entered) | Extended (auto-calculated) | Rule |
 | --- | --- | --- |
-| Gaza | `ext_killed` | `ext_killed_cum` |
-| Gaza | `ext_injured` | `ext_injured_cum` |
+| `killed_cum` | `ext_killed_cum` | reported cumulative, carried forward over gaps |
+| `ext_killed_cum` | `ext_killed` | day-over-day delta of the extended cumulative |
+| `injured_cum` | `ext_injured_cum` | carried forward |
+| `ext_injured_cum` | `ext_injured` | delta |
+| `killed_children_cum`, `killed_women_cum`, `massacres_cum`, `civdef_killed_cum`, `med_killed_cum`, `press_killed_cum` | corresponding `ext_*_cum` | carried forward |
 
-Other cumulative fields (the source-reported totals for children, women,
-massacres, medical, press, and all West Bank figures) carry corrections,
-recoveries, and reporting-gap anomalies, so they cannot be inferred safely and
-are entered directly. If a cumulative field is provided it is always respected
-as-is (used for historical accuracy and manual corrections); it is only computed
-when left blank. See `scripts/data/common/casualties-daily/config.ts`.
+Any value that is already present is respected as-is: backfilled history keeps
+its exact `ext_` values (which embed prior editorial gap-filling), and an editor
+can override a calculated value when needed. Only blank fields are filled, so
+regenerating history is byte-identical. See
+`scripts/data/common/casualties-daily/config.ts`.
+
+### Reporting discrepancies
+
+Per project policy the **reported cumulative is authoritative**; when a reported
+daily figure does not equal the change in its cumulative, the daily is reconciled
+to match. The build flags these days (reported `killed`/`injured` vs the
+`killed_cum`/`injured_cum` delta) so a reviewer can confirm the decision.
+Recording an `Editorial notes` value for that day acknowledges the discrepancy
+and silences the warning. `editorial_notes` is internal — it is **not** published
+in the dataset JSON.
 
 ## One-time setup
 
