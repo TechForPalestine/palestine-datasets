@@ -4,11 +4,14 @@
  * markdown file: numeric figures live in YAML front matter and the markdown
  * body holds original source material for historical reference.
  *
- * Bun ships a YAML parser (Bun.YAML), so no extra dependency is required. We
- * write the front matter ourselves to keep full control over key ordering,
- * which lets the generated JSON stay byte-identical to the previous pipeline.
+ * Front matter is parsed with js-yaml (portable across Bun versions). We use the
+ * JSON schema so scalars resolve like JSON — notably, an unquoted report_date
+ * such as 2023-10-07 stays a string instead of being coerced to a Date. We write
+ * the front matter ourselves to keep full control over key ordering, which lets
+ * the generated JSON stay byte-identical to the previous pipeline.
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "fs";
+import { JSON_SCHEMA, load as loadYaml } from "js-yaml";
 import { join } from "path";
 
 export type DailyRecord = Record<string, any>;
@@ -18,7 +21,7 @@ const dailyFilePattern = /^\d{4}-\d{2}-\d{2}\.md$/;
 const frontmatterDelim = "---";
 
 const yamlParse = (yaml: string): DailyRecord =>
-  yaml.trim() ? ((globalThis as any).Bun.YAML.parse(yaml) as DailyRecord) : {};
+  yaml.trim() ? ((loadYaml(yaml, { schema: JSON_SCHEMA }) ?? {}) as DailyRecord) : {};
 
 export const parseFrontmatter = (raw: string): { data: DailyRecord; body: string } => {
   const lines = raw.split(/\r?\n/);
