@@ -14,9 +14,9 @@ the GitHub login handshake — it stores nothing.
 ```
 Contributor → /admin (static Decap UI served by the Docusaurus site)
             → "Login with GitHub" → Cloudflare Worker OAuth proxy → GitHub
-            → edits/creates one markdown file per report date under content/
+            → edits/creates one markdown file per report date under source_data/
             → editorial workflow opens a Pull Request
-PR CI       → regenerates casualties_daily.json / west_bank_daily.json from content
+PR CI       → regenerates casualties_daily.json / west_bank_daily.json from source_data
             → runs typechecks + formatting → maintainer reviews & merges
 main        → existing SQLite export runs unchanged
 ```
@@ -25,15 +25,15 @@ main        → existing SQLite export runs unchanged
 
 Each report date is one markdown file:
 
-- `content/gaza-daily/YYYY-MM-DD.md`
-- `content/west-bank-daily/YYYY-MM-DD.md`
+- `source_data/gaza-daily/YYYY-MM-DD.md`
+- `source_data/west-bank-daily/YYYY-MM-DD.md`
 
 Numeric figures live in YAML **front matter**; the markdown **body** holds the
 original source material (bulletin text, links, screenshot references).
 
 The build (`scripts/data/v2/gaza-daily.ts`, `scripts/data/v2/west-bank-daily.ts`)
 reads these files and produces the exact same JSON the Google Sheet pipeline did.
-Regenerating from the backfilled content is byte-identical to the committed JSON.
+Regenerating from the backfilled source data is byte-identical to the committed JSON.
 
 ### Manual input vs the auto-calculated `ext_` series
 
@@ -56,15 +56,30 @@ can override a calculated value when needed. Only blank fields are filled, so
 regenerating history is byte-identical. See
 `scripts/data/common/casualties-daily/config.ts`.
 
-### Reporting discrepancies
+### Reporting discrepancies (consistency gate)
 
-Per project policy the **reported cumulative is authoritative**; when a reported
-daily figure does not equal the change in its cumulative, the daily is reconciled
-to match. The build flags these days (reported `killed`/`injured` vs the
-`killed_cum`/`injured_cum` delta) so a reviewer can confirm the decision.
-Recording an `Editorial notes` value for that day acknowledges the discrepancy
-and silences the warning. `editorial_notes` is internal — it is **not** published
-in the dataset JSON.
+Per project policy the **reported cumulative is authoritative**, so a reported
+daily figure must equal the day-over-day change in its cumulative
+(`killed` vs the `killed_cum` delta, `injured` vs the `injured_cum` delta). A
+mismatch is **inconsistent data that must be fixed** — reconcile the daily to the
+cumulative — never waved through.
+
+`bun run validate-daily` checks this and exits non-zero on any discrepancy, so it
+gates a merge:
+
+```bash
+bun run validate-daily                          # whole dataset
+bun run validate-daily source_data/gaza-daily/2026-06-14.md   # only given dates
+```
+
+In CI this runs against the report dates a PR changed (using the full series for
+prior-day context). The check is **not bypassable**: editorial remarks document
+*why* a figure was reconciled, they do not suppress the gate — allowing a bypass
+would let inconsistent data through, which we never want. Ideally this same check
+also runs in the CMS at entry time; that is more involved and tracked separately.
+
+The `Editorial notes` field is kept for documenting decisions and is internal —
+it is **not** published in the dataset JSON.
 
 ## One-time setup
 
@@ -109,10 +124,10 @@ a Pull Request that a maintainer reviews and merges. CI regenerates the JSON.
 ## Local development
 
 ```bash
-# regenerate datasets from content
+# regenerate datasets from source data
 bun run gen-daily-v2   # Gaza
 bun run gen-wbdaily    # West Bank
 
-# one-time migration from existing JSON into content/ (already run)
+# one-time migration from existing JSON into source_data/ (already run)
 bun run scripts/data/common/casualties-daily/backfill.ts
 ```

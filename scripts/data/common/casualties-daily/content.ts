@@ -200,15 +200,14 @@ export type ReportingDiscrepancy = {
   field: string;
   reported: number;
   expectedFromCum: number;
-  hasNote: boolean;
 };
 
 /**
- * Flags days where a reported daily figure disagrees with the day-over-day
- * change in its reported cumulative — the editorial cases where, per project
- * policy, the cumulative is trusted and the daily is reconciled to match. These
- * are surfaced (not blocked) so a reviewer can confirm the decision; recording
- * an `editorial_notes` value marks the discrepancy as acknowledged.
+ * Finds days where a reported daily figure disagrees with the day-over-day
+ * change in its reported cumulative. Per project policy the cumulative is
+ * authoritative, so any such mismatch is inconsistent data that must be fixed
+ * (reconcile the daily to the cumulative) before merge — it cannot be waved
+ * through. Editorial remarks document the fix; they never suppress the check.
  */
 export const findReportingDiscrepancies = (
   records: DailyRecord[],
@@ -228,7 +227,6 @@ export const findReportingDiscrepancies = (
             field: daily,
             reported: dailyValue,
             expectedFromCum,
-            hasNote: !isBlank(record.editorial_notes),
           });
         }
       }

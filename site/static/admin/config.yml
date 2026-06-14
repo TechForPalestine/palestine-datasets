@@ -29,7 +29,7 @@ collections:
       build — leave those fields blank. When a reported daily figure conflicts
       with its cumulative, the cumulative is treated as authoritative; record the
       decision in Editorial notes. Paste the original source material in the body.
-    folder: content/gaza-daily
+    folder: source_data/gaza-daily
     identifier_field: report_date
     slug: "{{fields.report_date}}"
     create: true
@@ -91,7 +91,7 @@ collections:
     description: >
       One report per date. Enter the flash-reported cumulative figures; add the
       verified figures when available. Paste the original source material in the body.
-    folder: content/west-bank-daily
+    folder: source_data/west-bank-daily
     identifier_field: report_date
     slug: "{{fields.report_date}}"
     create: true

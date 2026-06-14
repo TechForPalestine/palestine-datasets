@@ -14,8 +14,8 @@
  */
 import type { CarryForwardRule, DeltaRule } from "./content";
 
-export const gazaContentDir = "content/gaza-daily";
-export const westBankContentDir = "content/west-bank-daily";
+export const gazaContentDir = "source_data/gaza-daily";
+export const westBankContentDir = "source_data/west-bank-daily";
 
 export const gazaCarryForward: CarryForwardRule[] = [
   { ext: "ext_killed_cum", reported: "killed_cum" },
@@ -41,3 +41,7 @@ export const gazaDiscrepancyPairs: DeltaRule[] = [
 // West Bank has no extended series; figures are entered as reported.
 export const westBankCarryForward: CarryForwardRule[] = [];
 export const westBankExtDeltas: DeltaRule[] = [];
+
+// West Bank verified reporting is sparse/gapped, so daily-vs-cumulative
+// consistency is not gated here yet (would need gap-aware comparison).
+export const westBankDiscrepancyPairs: DeltaRule[] = [];
