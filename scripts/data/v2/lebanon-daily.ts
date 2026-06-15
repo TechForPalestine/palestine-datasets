@@ -10,10 +10,10 @@ import {
 } from "../common/casualties-daily/config";
 import {
   deriveExtendedSeries,
+  findReportingDiscrepancies,
   readDailyReports,
   stripMetadata,
 } from "../common/casualties-daily/content";
-import { findReportingDiscrepancies } from "../common/casualties-daily/content";
 
 const jsonFileName = "lebanon_casualties_daily.json";
 

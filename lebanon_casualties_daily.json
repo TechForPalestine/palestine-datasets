@@ -2,7 +2,7 @@
   {
     "report_date": "2026-03-05",
     "report_source": "moph_lb",
-    "report_period": 24,
+    "report_period": 96,
     "killed": 123,
     "killed_cum": 123,
     "injured": 683,
@@ -28,7 +28,7 @@
   {
     "report_date": "2026-03-11",
     "report_source": "moph_lb",
-    "report_period": 24,
+    "report_period": 120,
     "killed": 417,
     "killed_cum": 634,
     "injured": 788,
@@ -145,7 +145,7 @@
   {
     "report_date": "2026-03-21",
     "report_source": "moph_lb",
-    "report_period": 24,
+    "report_period": 48,
     "killed": 23,
     "killed_cum": 1024,
     "injured": 156,
@@ -379,7 +379,7 @@
   {
     "report_date": "2026-04-10",
     "report_source": "moph_lb",
-    "report_period": 24,
+    "report_period": 72,
     "killed": 423,
     "killed_cum": 1953,
     "injured": 1491,
@@ -483,7 +483,7 @@
   {
     "report_date": "2026-04-24",
     "report_source": "moph_lb",
-    "report_period": 24,
+    "report_period": 168,
     "killed": 197,
     "killed_cum": 2491,
     "injured": 175,
@@ -717,7 +717,7 @@
   {
     "report_date": "2026-05-13",
     "report_source": "moph_lb",
-    "report_period": 24,
+    "report_period": 48,
     "killed": 27,
     "killed_cum": 2896,
     "injured": 94,

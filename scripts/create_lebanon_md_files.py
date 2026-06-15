@@ -5,10 +5,14 @@ Uses the scraped cumulative data to produce per-date files with daily deltas.
 """
 
 import os
-import sys
+from datetime import date
 
 OUTPUT_DIR = "source_data/lebanon-daily"
 BASE_URL = "https://moph.gov.lb/en/Media/view"
+
+# Conflict began March 2, 2026; use the day before as the "previous date" for
+# the first report so report_period correctly covers March 2–5 (4 days = 96h).
+CONFLICT_PREV_DATE = date(2026, 3, 1)
 
 # Final dataset: (date, page_id, killed_cum, injured_cum, title)
 # Computed from moph.gov.lb scraping. Skips dates with no usable HTML data.
@@ -108,14 +112,14 @@ REPORTS = [
     ("2026-06-11", 85540, 3711, 11483, "Updated Total Toll of the Aggression: 3711 Martyrs and 11483 Wounded"),
 ]
 
-def create_md_file(date, page_id, killed_cum, injured_cum, title, killed, injured):
+def create_md_file(report_date, page_id, killed_cum, injured_cum, title, killed, injured, report_period):
     slug = title.lower().replace(' ', '-').replace(',', '').replace(':', '').replace("'", '')[:60]
     url = f"{BASE_URL}/{page_id}/{slug}"
     body = f"Source: [{title}]({url})\n"
     frontmatter = (
-        f'report_date: "{date}"\n'
+        f'report_date: "{report_date}"\n'
         f'report_source: "moph_lb"\n'
-        f'report_period: 24\n'
+        f'report_period: {report_period}\n'
         f'killed: {killed}\n'
         f'killed_cum: {killed_cum}\n'
         f'injured: {injured}\n'
@@ -127,21 +131,26 @@ def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     prev_killed_cum = 0
     prev_injured_cum = 0
+    prev_date = CONFLICT_PREV_DATE
     created = 0
 
-    for date, page_id, killed_cum, injured_cum, title in REPORTS:
+    for date_str, page_id, killed_cum, injured_cum, title in REPORTS:
         killed = killed_cum - prev_killed_cum
         injured = injured_cum - prev_injured_cum
 
-        content = create_md_file(date, page_id, killed_cum, injured_cum, title, killed, injured)
-        filepath = os.path.join(OUTPUT_DIR, f"{date}.md")
+        cur_date = date.fromisoformat(date_str)
+        report_period = (cur_date - prev_date).days * 24
+
+        content = create_md_file(date_str, page_id, killed_cum, injured_cum, title, killed, injured, report_period)
+        filepath = os.path.join(OUTPUT_DIR, f"{date_str}.md")
 
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(content)
 
-        print(f"Created {date}.md: killed={killed}, killed_cum={killed_cum}, injured={injured}, injured_cum={injured_cum}")
+        print(f"Created {date_str}.md: killed={killed}, killed_cum={killed_cum}, injured={injured}, injured_cum={injured_cum}, period={report_period}h")
         prev_killed_cum = killed_cum
         prev_injured_cum = injured_cum
+        prev_date = cur_date
         created += 1
 
     print(f"\nCreated {created} files in {OUTPUT_DIR}/")
