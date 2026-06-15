@@ -3,47 +3,179 @@
  * and scoped locally.
  */
 
+:root {
+  --hero-band: #211d19; /* Record — charcoal band */
+  --hero-band-ink: #f7f3ec;
+  --hero-red: #c0392f;
+  --hero-muted: rgba(247, 243, 236, 0.58);
+}
+
+[data-theme="dark"] {
+  --hero-band: #141311; /* Stone — near-black band */
+  --hero-band-ink: #ffffff;
+  --hero-red: #e0655b;
+  --hero-muted: rgba(255, 255, 255, 0.56);
+}
+
 .heroBanner {
-  padding: 4rem 0;
-  padding-bottom: 3rem;
-  text-align: center;
   position: relative;
   overflow: hidden;
+  padding: 4rem 0;
+  text-align: left;
+  background-color: var(--hero-band);
+  color: var(--hero-band-ink);
+  isolation: isolate;
 }
 
-/* Refresh: de-green the hero. Light = "Record" charcoal; was Infima green. */
-header.heroBanner {
-  background-color: #211d19;
-  color: #f7f3ec;
+/* Left scrim keeps the copy legible over the moving names. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    var(--hero-band) 0%,
+    color-mix(in srgb, var(--hero-band) 86%, transparent) 42%,
+    transparent 78%
+  );
 }
 
-.heroSubtitle {
-  padding-top: 0.4em;
+.heroInner {
+  position: relative;
+  z-index: 3;
+  text-align: left;
 }
 
-[data-theme="dark"] .heroBanner {
-  color: white;
-  background-color: #141311;
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hero-red);
+}
+.eyebrow::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background: var(--hero-red);
+  display: inline-block;
+}
+
+.heroTitle {
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 700;
+  font-size: 3.4rem;
+  line-height: 1.04;
+  letter-spacing: -0.6px;
+  max-width: 15ch;
+  margin: 0.5rem 0 0;
+  text-wrap: balance;
+}
+
+.lede {
+  font-family: var(--ifm-font-family-base);
+  font-size: 1.18rem;
+  line-height: 1.55;
+  max-width: 46ch;
+  margin: 1.1rem 0 0;
+  text-wrap: pretty;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 1.6rem;
+}
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.metaNum {
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: -0.4px;
+  font-variant-numeric: tabular-nums;
+}
+.metaNumAccent {
+  color: var(--hero-red);
+}
+.metaLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hero-muted);
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1.7rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ifm-font-family-base);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 11px 18px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 0.12s,
+    box-shadow 0.12s,
+    border-color 0.12s;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.btnPrimary {
+  background: var(--hero-red);
+  color: #fff;
+}
+.btnPrimary:hover {
+  color: #fff;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--hero-red) 38%, transparent);
+}
+.btnGhost {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--hero-band-ink) 28%, transparent);
+  color: var(--hero-band-ink);
+}
+.btnGhost:hover {
+  color: var(--hero-band-ink);
+  border-color: var(--hero-band-ink);
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2.5rem;
-    padding-bottom: 2rem;
+    padding: 2.5rem 0;
   }
-
   .heroTitle {
     font-size: 2.5rem;
   }
-
-  .heroSubtitle {
-    font-size: 1.4rem;
-    padding-top: 0.7em;
+  .lede {
+    font-size: 1.05rem;
   }
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
 }
