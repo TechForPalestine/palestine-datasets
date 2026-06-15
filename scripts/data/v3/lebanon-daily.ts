@@ -34,7 +34,7 @@ const generateJsonFromContent = () => {
   }
   const dataset = stripMetadata(records);
   validateDailiesJson(dataset);
-  writeJson(ApiResource.LebanonDailyV2, jsonFileName, dataset);
+  writeJson(ApiResource.LebanonDailyV3, jsonFileName, dataset);
   console.log(`generated JSON file: ${jsonFileName} from ${records.length} daily reports`);
 };
 
