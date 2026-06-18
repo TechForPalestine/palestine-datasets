@@ -198,6 +198,38 @@ export const deriveExtendedSeries = (
   return records;
 };
 
+export type IncrementalRule = { incremental: string; cum: string };
+
+/**
+ * Resolves a reported cumulative from an incremental figure when the
+ * cumulative itself is left blank: cum = prior resolved cumulative +
+ * incremental. Reports run oldest-first, so "prior" means the nearest earlier
+ * report that resolved a cumulative for this field (sparse reports only —
+ * this runs before the carry-forward timeline expansion). A cumulative that
+ * is already present is always respected as-is.
+ */
+export const applyIncrementalToCumulative = (
+  records: DailyRecord[],
+  rules: IncrementalRule[],
+): DailyRecord[] => {
+  const prevCum: Record<string, number> = {};
+  for (const record of records) {
+    for (const { incremental, cum } of rules) {
+      if (isBlank(getPath(record, cum))) {
+        const incrementalValue = getPath(record, incremental);
+        if (isNumber(incrementalValue) && isNumber(prevCum[cum])) {
+          setPath(record, cum, prevCum[cum] + incrementalValue);
+        }
+      }
+      const resolved = getPath(record, cum);
+      if (isNumber(resolved)) {
+        prevCum[cum] = resolved;
+      }
+    }
+  }
+  return records;
+};
+
 export type ReportingDiscrepancy = {
   report_date: string;
   field: string;
