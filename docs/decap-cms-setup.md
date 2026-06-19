@@ -76,6 +76,14 @@ so contributors leave those fields blank:
 | `ext_injured_cum` | `ext_injured` | delta |
 | `killed_children_cum`, `killed_women_cum`, `massacres_cum`, `civdef_killed_cum`, `med_killed_cum`, `press_killed_cum` | corresponding `ext_*_cum` | carried forward |
 
+West Bank flash reports sometimes give an incremental figure (since the prior
+report) instead of a fresh cumulative. Contributors can enter either; when a
+cumulative is left blank, it's resolved as the prior reported cumulative plus
+the incremental (`killed`, `killed_children`, `injured`, `injured_children`,
+`settler_attacks` → their `*_cum` counterparts) before the carry-forward
+timeline is built. See `westBankIncrementalRules` and
+`applyIncrementalToCumulative` in `scripts/data/common/casualties-daily/`.
+
 Any value that is already present is respected as-is: backfilled history keeps
 its exact `ext_` values (which embed prior editorial gap-filling), and an editor
 can override a calculated value when needed. Only blank fields are filled, so
