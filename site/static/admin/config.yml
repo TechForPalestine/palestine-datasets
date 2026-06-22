@@ -7,14 +7,18 @@
 backend:
   name: github
   repo: TechForPalestine/palestine-datasets
-  branch: main
+  # Edits land on the `staging` branch, never directly on main. A promotion
+  # workflow (.github/workflows/promote-staging.yml) validates each change and
+  # merges it onto main only when the data checks pass, so malformed data is
+  # parked on staging instead of reaching the published datasets. The
+  # sync-staging workflow keeps this branch current with main.
+  branch: staging
   # Stateless Cloudflare Worker OAuth proxy. Replace with the deployed Worker URL.
   base_url: https://decap.swj.io
   auth_endpoint: /auth
-  squash_merges: true
 
-# Contributions open pull requests for maintainer review before they reach main.
-publish_mode: editorial_workflow
+# Simple mode: each save commits straight to the staging branch above (no
+# per-entry review PR). The merge gate to main lives in the promotion workflow.
 
 # Source material pasted into report bodies is committed as part of the dataset.
 media_folder: site/static/img/data-sources
