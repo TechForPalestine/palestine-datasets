@@ -110,6 +110,16 @@ REPORTS = [
     ("2026-06-09", 85495, 3666, 11321, "Updated Total Toll of the Aggression: 3666 Martyrs and 11321 Wounded"),
     ("2026-06-10", 85520, 3696, 11413, "Updated Total Toll of the Aggression: 3696 Martyrs and 11413 Wounded"),
     ("2026-06-11", 85540, 3711, 11483, "Updated Total Toll of the Aggression: 3711 Martyrs and 11483 Wounded"),
+    # June 12: no standard daily report found
+    ("2026-06-13", 85571, 3756, 11632, "Updated Total Toll of the Aggression: 3756 Martyrs and 11632 Wounded"),
+    ("2026-06-14", 85581, 3783, 11699, "Updated Total Toll of the Aggression: 3783 Martyrs and 11699 Wounded"),
+    ("2026-06-15", 85611, 3798, 11781, "Updated Total Toll of the Aggression: 3798 Martyrs and 11781 Wounded"),
+    ("2026-06-16", 85616, 3826, 11851, "Updated Total Toll of the Aggression: 3826 Martyrs and 11851 Wounded"),
+    ("2026-06-17", 85641, 3884, 11856, "Updated Total Toll of the Aggression: 3884 Martyrs and 11856 Wounded"),
+    ("2026-06-18", 85666, 3912, 11873, "Updated Total Toll of the Aggression: 3912 Martyrs and 11873 Wounded"),
+    ("2026-06-19", 85716, 3980, 12001, "Updated Total Toll of the Aggression: 3980 Martyrs and 12001 Wounded"),
+    ("2026-06-20", 85731, 4057, 12121, "Updated Total Toll of the Aggression: 4057 Martyrs and 12121 Wounded"),
+    ("2026-06-21", 85751, 4106, 12153, "Updated Total Toll of the Aggression: 4106 Martyrs and 12153 Wounded"),
 ]
 
 def create_md_file(report_date, page_id, killed_cum, injured_cum, title, killed, injured, report_period):
