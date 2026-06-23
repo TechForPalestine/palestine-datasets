@@ -76,7 +76,11 @@ const KilledNameCard = ({
       const shareData = { files: [file] };
       const canShare = await navigator.canShare(shareData);
       if (canShare) {
-        await navigator.share(shareData);
+        try {
+          await navigator.share(shareData);
+        } catch (e) {
+          // no-op on cancel, etc.
+        }
         setSharing(false);
         return;
       }
@@ -97,7 +101,9 @@ const KilledNameCard = ({
   return (
     <div id={id} className={styles.card}>
       <div className={styles.cardOpacity} />
-      <div style={{ position: "relative" }}>
+      <div
+        style={{ position: "relative", display: "flex", flexDirection: "column", height: "100%" }}
+      >
         <div className={styles.question}>
           Do you know {name[0] === "A" ? "an" : "a"} {name}?
         </div>
@@ -109,26 +115,32 @@ const KilledNameCard = ({
             Share <ShareIcon />
           </div>
         )}
-        <svg
-          width="100%"
-          height="140"
-          viewBox="0 0 500 75"
-          className="count"
-          preserveAspectRatio="xMinYMid meet"
+        <div
+          style={{ flexGrow: 1, display: "flex", alignItems: "flex-end", paddingBottom: "35px" }}
         >
-          <text
-            x="50%"
-            y={count > 999 ? 105 : 120}
-            textAnchor="middle"
-            fontSize={count > 999 ? 170 : 200}
-            fontWeight="bold"
-            fill="#ca3a32"
+          <svg
+            width="100%"
+            height="170"
+            viewBox="0 0 500 80"
+            className="count"
+            preserveAspectRatio="xMinYMid meet"
           >
-            {formatter.format(count)}
-          </text>
-        </svg>
+            <text
+              x="50%"
+              y={count > 999 ? 105 : 120}
+              textAnchor="middle"
+              fontSize={count > 999 ? 170 : 200}
+              fontWeight="bold"
+              fill="#ca3a32"
+            >
+              {formatter.format(count)}
+            </text>
+          </svg>
+        </div>
         <div className={[styles.label, name.length > 9 ? styles.labelSmall : ""].join(" ")}>
-          <span>children</span> named {name} have been <span>killed</span>.
+          <span>children</span> named {name}
+          <br />
+          have been <span>killed</span>.
         </div>
         <div className={styles.footnotes}>data.techforpalestine.org</div>
       </div>
@@ -169,9 +181,13 @@ export const KilledName = () => {
   };
 
   return (
-    <div>
-      <div className={styles.title}>
-        Names Behind Numbers <span>Killed in Gaza Dataset</span>
+    <div className={styles.section}>
+      {/* Masthead — mirrors the "Stories in the data" head: eyebrow → headline
+          with a rule running to the section edge. */}
+      <span className={styles.eyebrow}>Killed in Gaza Dataset</span>
+      <div className={styles.mastRow}>
+        <h2 className={styles.title}>Names Behind Numbers</h2>
+        <span className={styles.mastLine} aria-hidden="true" />
       </div>
       <div className={styles.cardRow}>
         <KilledNameCard id="leftNameCard" {...cards[0]} shareState={shareState} />

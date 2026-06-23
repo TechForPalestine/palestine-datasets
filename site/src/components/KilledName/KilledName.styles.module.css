@@ -6,36 +6,60 @@
   --tfp-card-explanation: #aaa;
 }
 
-.title {
-  font-size: 2em;
-  font-weight: bold;
-  font-family: var(--ifm-heading-font-family);
-  color: var(--tfp-chart-title);
-  text-align: center;
-  margin-top: 10px;
-  padding-bottom: 25px;
-  padding-left: 20px;
-  padding-right: 20px;
-  line-height: 1.2em;
+.section {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 40px var(--ifm-spacing-horizontal, 1rem);
 }
 
-.title span {
-  color: var(--tfp-chart-accent);
-  font-weight: normal;
-  border-left: 1px solid var(--tfp-chart-accent-border);
-  margin-left: 14px;
-  padding-left: 14px;
+.eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--story-red, #c0392f);
+}
+
+.mastRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.mastLine {
+  flex: 1;
+  min-width: 16px;
+  height: 1px;
+  background: var(--story-ink, var(--tfp-chart-title));
+  opacity: 0.22;
+}
+
+.title {
+  margin: 0;
+  flex: none;
+  white-space: nowrap;
+  font-size: 1.85rem;
+  font-weight: bold;
+  line-height: 1.05;
+  letter-spacing: -0.4px;
+  font-family: var(--ifm-heading-font-family);
+  color: var(--tfp-chart-title);
 }
 
 .cardRow {
-  max-width: 850px;
-  margin: 0 auto;
+  width: 100%;
   display: flex;
 }
 
 .card {
   position: relative;
   flex-grow: 1;
+  flex-basis: 0;
+  aspect-ratio: 5/4;
   border-radius: 8px;
   background-color: #222;
   padding: 20px 25px;
@@ -69,7 +93,7 @@
   font-weight: bold;
   font-family: var(--ifm-heading-font-family);
   color: #eee;
-  max-width: 60%;
+  max-width: 70%;
   line-height: 1.2em;
 }
 
@@ -114,33 +138,27 @@
 .explanation {
   color: var(--tfp-card-explanation);
   font-size: 0.8em;
-  text-align: center;
-  max-width: 800px;
-  padding: 0 40px;
-  margin: 25px auto;
+  line-height: 1.5;
+  max-width: 70ch;
+  margin: 25px 0 0;
+  text-wrap: pretty;
 }
 
 .buttonRow {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: flex-start;
+  margin-top: 24px;
+}
+
+@media screen and (max-width: 680px) {
+  .title {
+    font-size: 1.45rem;
+  }
 }
 
 @media screen and (max-width: 850px) {
-  .title span {
-    border-left: 0px;
-    margin-left: 0px;
-    padding-left: 0px;
-    display: block;
-    line-height: 1.1em;
-    font-size: 0.8em;
-    margin-left: 1px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-  }
-
   .question {
-    max-width: 70%;
+    max-width: 65%;
   }
 
   .cardRow {
@@ -154,8 +172,11 @@
   }
 
   .card {
+    width: 100%;
     max-width: 400px;
+    flex-basis: auto;
     margin: 10px !important;
+    aspect-ratio: unset;
   }
 
   .card[class*="capturing"] {
@@ -165,12 +186,11 @@
 
 @media screen and (max-width: 500px) {
   .buttonRow {
-    padding: 0 40px;
+    padding: 0 10px;
     flex-direction: column-reverse;
   }
 
   .explanation {
     max-width: none;
-    padding: 0 20px;
   }
 }

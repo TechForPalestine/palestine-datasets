@@ -7,14 +7,18 @@
 backend:
   name: github
   repo: TechForPalestine/palestine-datasets
-  branch: main
+  # Edits land on the `staging` branch, never directly on main. A promotion
+  # workflow (.github/workflows/promote-staging.yml) validates each change and
+  # merges it onto main only when the data checks pass, so malformed data is
+  # parked on staging instead of reaching the published datasets. The
+  # sync-staging workflow keeps this branch current with main.
+  branch: staging
   # Stateless Cloudflare Worker OAuth proxy. Replace with the deployed Worker URL.
   base_url: https://decap.swj.io
   auth_endpoint: /auth
-  squash_merges: true
 
-# Contributions open pull requests for maintainer review before they reach main.
-publish_mode: editorial_workflow
+# Simple mode: each save commits straight to the staging branch above (no
+# per-entry review PR). The merge gate to main lives in the promotion workflow.
 
 # Source material pasted into report bodies is committed as part of the dataset.
 media_folder: site/static/img/data-sources
@@ -93,9 +97,12 @@ collections:
       West Bank is not reported daily — create a report ONLY for dates with newly
       reported values. The build fills the days in between by carrying figures
       forward through the latest Gaza report date, so you never enter "fill" days.
-      Enter the flash-reported cumulative figures (omit any you don't have — they
-      carry forward), and/or add the verified figures when available. Paste the
-      original source material in the body.
+      Enter the flash-reported cumulative figures if you have them, or the
+      incremental (since the prior report) figures if that's what the source
+      gives — the build adds an incremental to the prior cumulative when the
+      cumulative is left blank. Omit anything not reported; it carries forward.
+      Add the verified figures when available, and paste the original source
+      material in the body.
     folder: source_data/west-bank-daily
     identifier_field: report_date
     slug: "{{fields.report_date}}"
@@ -105,10 +112,15 @@ collections:
     fields:
       - { label: "Report date", name: report_date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
       - { label: "Flash source", name: flash_source, widget: string, required: false, hint: "e.g. un. Omit if not a flash report; carries forward." }
-      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false, hint: "Omit if unchanged/not reported — it carries forward." }
+      - { label: "Killed (incremental, since prior report)", name: killed, widget: number, value_type: int, required: false, hint: "Used to compute the cumulative below when it's left blank." }
+      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false, hint: "Omit if unchanged/not reported — it carries forward. Leave blank to compute from the incremental above." }
+      - { label: "Killed children (incremental)", name: killed_children, widget: number, value_type: int, required: false }
       - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured (incremental)", name: injured, widget: number, value_type: int, required: false }
       - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured children (incremental)", name: injured_children, widget: number, value_type: int, required: false }
       - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Settler attacks (incremental)", name: settler_attacks, widget: number, value_type: int, required: false }
       - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int, required: false }
 
       - label: "Verified figures (optional)"

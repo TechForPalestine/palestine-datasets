@@ -1,0 +1,91 @@
+name: Promote staging → main
+
+# The Decap CMS commits daily-report edits to the `staging` branch (simple mode,
+# see site/static/admin/config.yml). This workflow is the merge gate: it runs the
+# same validation as the PR check and, only when the data is sound, merges staging
+# into main, regenerates the JSON datasets, and pushes. Malformed data fails here
+# and stays parked on staging — it never reaches main.
+#
+# main is then resynced onto staging via a fast-forward so the two branches stay
+# in lockstep (sync-staging.yml handles the reverse direction for dev changes).
+
+on:
+  push:
+    branches:
+      - "staging"
+    paths:
+      - "source_data/**"
+      - "scripts/data/v2/gaza-daily.ts"
+      - "scripts/data/v2/west-bank-daily.ts"
+      - "scripts/data/common/casualties-daily/**"
+
+permissions:
+  contents: write
+
+# Never run two promotions at once; queue them so each merge sees the last.
+concurrency:
+  group: promote-staging
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: staging
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      - name: install dependencies
+        run: bun install
+
+      # --- gate: identical validation to casualties-pr-check.yml ---
+      - name: identify changed report files
+        id: changed
+        run: |
+          git fetch origin main --depth=1
+          files=$(git diff --name-only origin/main...HEAD -- 'source_data/**/*.md' | tr '\n' ' ')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
+          echo "Changed report files: ${files:-<none>}"
+
+      - name: validate reported vs cumulative consistency
+        run: |
+          if [ -n "${{ steps.changed.outputs.files }}" ]; then
+            bun run validate-daily ${{ steps.changed.outputs.files }}
+          else
+            bun run validate-daily
+          fi
+
+      # --- promote: merge into main, regenerate JSON, push, resync staging ---
+      - name: merge staging into main and regenerate datasets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout -B main origin/main
+          # bring staging's source-data edits onto main (clean unless a dev change
+          # and a CMS edit touched the same report — then this fails to surface it)
+          git merge --no-ff staging -m "promote: merge staging data into main"
+          # regenerate from the merged source; gen scripts run validateDailiesJson
+          bun run gen-daily-v2
+          bun run gen-wbdaily
+          git add casualties_daily.json casualties_daily.min.json west_bank_daily.json west_bank_daily.min.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: regenerate Gaza & West Bank datasets from source_data"
+          fi
+          git push origin main
+          # fast-forward staging up to main so the branches stay identical; if a new
+          # CMS edit raced in, staging is ahead and the next promotion will resync
+          git push origin HEAD:staging || echo "staging advanced during run; next promotion will resync"
+
+      - name: trigger SQLite export
+        # main was pushed with GITHUB_TOKEN, which does not re-trigger the push-based
+        # casualties-build / sqlite-export, so dispatch the export explicitly
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          event-type: sqlite-export

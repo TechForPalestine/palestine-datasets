@@ -12,7 +12,7 @@
  * project policy the reported cumulative is authoritative and the daily is
  * reconciled to it, so mismatches are flagged for editorial review.
  */
-import type { CarryForwardRule, DeltaRule } from "./content";
+import type { CarryForwardRule, DeltaRule, IncrementalRule } from "./content";
 
 export const gazaContentDir = "source_data/gaza-daily";
 export const westBankContentDir = "source_data/west-bank-daily";
@@ -107,3 +107,15 @@ export const westBankCarryFields = [
 // consistency is not gated here yet (would need gap-aware comparison).
 export const westBankDiscrepancyPairs: DeltaRule[] = [];
 export const westBankDiscrepancyAllowlist: string[] = [];
+
+// Some flash reports give an incremental figure (since the prior report)
+// rather than a fresh cumulative. When a cumulative is left blank, it is
+// resolved as the prior reported cumulative plus the incremental, before the
+// carry-forward timeline is built — see applyIncrementalToCumulative.
+export const westBankIncrementalRules: IncrementalRule[] = [
+  { incremental: "killed", cum: "killed_cum" },
+  { incremental: "killed_children", cum: "killed_children_cum" },
+  { incremental: "injured", cum: "injured_cum" },
+  { incremental: "injured_children", cum: "injured_children_cum" },
+  { incremental: "settler_attacks", cum: "settler_attacks_cum" },
+];

@@ -2,16 +2,19 @@
 .leftRows,
 .rightRows {
   position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  white-space: nowrap;
+  inset: 0;
   overflow: hidden;
   z-index: 1;
   user-select: none;
+}
+
+.container {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
+}
+
+.container.fading {
+  opacity: 0.2;
 }
 
 .leftRows {
@@ -21,32 +24,38 @@
   text-align: left;
 }
 
-.leftRows .namesRow {
-  animation: marquee-left 120s linear infinite;
-}
-
 .rightRows {
   top: 1em;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   text-align: right;
-}
-
-.rightRows .namesRow {
-  line-height: 3.97em;
-  animation: marquee-right 200s linear infinite;
 }
 
 .namesRow {
   position: relative;
   top: 0.2em;
-  display: block;
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  width: max-content;
   color: rgba(245, 242, 235, 0.13);
   font-weight: bold;
   font-size: 0.9em;
   line-height: 4em;
-  width: 5000px;
+}
+
+.track {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.leftRows .namesRow {
+  animation: marquee-left 120s linear infinite;
+}
+
+.rightRows .namesRow {
+  line-height: 3.97em;
+  animation: marquee-right 200s linear infinite;
 }
 
 .namesRow svg {
@@ -67,19 +76,19 @@
 }
 
 @keyframes marquee-left {
-  0% {
-    transform: translateX(0%);
+  from {
+    transform: translateX(0);
   }
-  100% {
-    transform: translateX(-100%);
+  to {
+    transform: translateX(-50%);
   }
 }
 
 @keyframes marquee-right {
-  0% {
-    transform: translateX(0%);
+  from {
+    transform: translateX(-50%);
   }
-  100% {
-    transform: translateX(100%);
+  to {
+    transform: translateX(0);
   }
 }

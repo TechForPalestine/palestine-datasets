@@ -8,6 +8,7 @@ import styles from "./HomeDailyChart.styles.module.css";
 import { Button } from "../Button";
 import { HalfRadialProgress, radialProgressCircum } from "./HalfRadialProgress";
 import previewData from "@site/src/generated/summary.json";
+import { BuildFlags } from "@site/src/lib/build-flags";
 
 const childrenRatePct = Math.round(
   ((previewData.known_killed_in_gaza.female.child + previewData.known_killed_in_gaza.male.child) /
@@ -114,8 +115,10 @@ export const HomeDailyChart = () => {
 
   return (
     <div className={styles.chartContainer}>
-      <div className={styles.chartTitle}>
-        The Human Toll <span>Daily Casualties Datasets</span>
+      <span className={styles.eyebrow}>Daily Casualties Datasets</span>
+      <div className={styles.mastRow}>
+        <h2 className={styles.chartTitle}>The Human Toll</h2>
+        <span className={styles.mastLine} aria-hidden="true" />
       </div>
       <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza and the West Bank</div>
       <div className={styles.chartWarning}>
@@ -205,59 +208,70 @@ export const HomeDailyChart = () => {
         />
         <div className={styles.chartSliderHint}>Use the slider to change the date</div>
       </div>
-      <div className={styles.chartRadialsContainer}>
-        <div className={styles.chartRadials}>
-          <div>Of those killed:</div>
-          <div>
-            <HalfRadialProgress
-              {...{
-                rate: childrenRatePct,
-                strokeOffset: childrenStrokeOffset,
-                label: "were children",
-              }}
-            />
-            <HalfRadialProgress
-              {...{
-                rate: womenRatePct,
-                strokeOffset: womenStrokeOffset,
-                label: "were women",
-              }}
-            />
-            {!isMobile() && (
-              <HalfRadialProgress
-                {...{
-                  rate: elderlyRatePct,
-                  strokeOffset: elderlyStrokeOffset,
-                  label: "were elderly",
-                }}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-      <div
-        style={{
-          backgroundColor: "var(--tfp-chart-cta-box-fill)",
-          fontSize: "1.5em",
-          fontWeight: "bold",
-          textAlign: "center",
-          color: "var(--tfp-radial-section-title)",
-          paddingTop: "30px",
-        }}
-      >
-        Start telling their story:
-      </div>
       <div className={styles.chartFooterButtonsContainer}>
         <div className={styles.chartFooterButtons}>
-          <Button to="/docs/datasets?chartdata=1" type="primary">
-            Get the daily numbers
-          </Button>
-          <div style={{ width: 10, height: 10 }} />
-          <Button to="/docs/killed-in-gaza" type="primary">
-            Get the list of those killed
+          <Button to="/docs/datasets?chartdata=1" type="secondary">
+            Learn more about this dataset
           </Button>
         </div>
       </div>
+      {BuildFlags.legacyModules && (
+        <>
+          <div className={styles.chartRadialsContainer}>
+            <div className={styles.chartRadials}>
+              <div>Of those killed:</div>
+              <div>
+                <HalfRadialProgress
+                  {...{
+                    rate: childrenRatePct,
+                    strokeOffset: childrenStrokeOffset,
+                    label: "were children",
+                  }}
+                />
+                <HalfRadialProgress
+                  {...{
+                    rate: womenRatePct,
+                    strokeOffset: womenStrokeOffset,
+                    label: "were women",
+                  }}
+                />
+                {!isMobile() && (
+                  <HalfRadialProgress
+                    {...{
+                      rate: elderlyRatePct,
+                      strokeOffset: elderlyStrokeOffset,
+                      label: "were elderly",
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              backgroundColor: "var(--tfp-chart-cta-box-fill)",
+              fontSize: "1.5em",
+              fontWeight: "bold",
+              textAlign: "center",
+              color: "var(--tfp-radial-section-title)",
+              paddingTop: "30px",
+            }}
+          >
+            Start telling their story:
+          </div>
+          <div className={styles.chartFooterButtonsContainer}>
+            <div className={styles.chartFooterButtons}>
+              <Button to="/docs/datasets?chartdata=1" type="primary">
+                Get the daily numbers
+              </Button>
+              <div style={{ width: 10, height: 10 }} />
+              <Button to="/docs/killed-in-gaza" type="primary">
+                Get the list of those killed
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,0 +1,42 @@
+name: Sync main → staging
+
+# Keeps the CMS working branch current with the trunk. Normal development still
+# happens via PRs into main; whenever main advances (a merged PR), this merges
+# those changes down into staging so Decap editors — and the promotion workflow's
+# build scripts — always run against the latest main.
+#
+# Promotion pushes to main with GITHUB_TOKEN, which does not trigger this workflow,
+# so this only fires for human pushes to main and cannot loop with promote-staging.
+
+on:
+  push:
+    branches:
+      - "main"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-staging
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: staging
+          fetch-depth: 0
+
+      - name: merge main into staging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          if git merge --no-ff origin/main -m "sync: merge main into staging"; then
+            git push origin staging
+          else
+            echo "::error::merge conflict syncing main into staging — a dev change and a CMS edit likely touched the same file; resolve manually"
+            exit 1
+          fi
