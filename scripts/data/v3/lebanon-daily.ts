@@ -2,14 +2,11 @@ import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
 import { validateDailiesJson } from "../common/casualties-daily";
 import {
-  lebanonCarryForward,
   lebanonContentDir,
   lebanonDiscrepancyAllowlist,
   lebanonDiscrepancyPairs,
-  lebanonExtDeltas,
 } from "../common/casualties-daily/config";
 import {
-  deriveExtendedSeries,
   findReportingDiscrepancies,
   readDailyReports,
   stripMetadata,
@@ -19,7 +16,6 @@ const jsonFileName = "lebanon_casualties_daily.json";
 
 const generateJsonFromContent = () => {
   const records = readDailyReports(lebanonContentDir);
-  deriveExtendedSeries(records, lebanonCarryForward, lebanonExtDeltas);
   const discrepancies = findReportingDiscrepancies(records, lebanonDiscrepancyPairs).filter(
     ({ report_date, field }) => !lebanonDiscrepancyAllowlist.includes(`${report_date}:${field}`),
   );

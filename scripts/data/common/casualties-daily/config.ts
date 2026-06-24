@@ -74,16 +74,6 @@ export const gazaDiscrepancyAllowlist: string[] = [
   "2024-08-28:injured",
 ];
 
-export const lebanonCarryForward: CarryForwardRule[] = [
-  { ext: "ext_killed_cum", reported: "killed_cum" },
-  { ext: "ext_injured_cum", reported: "injured_cum" },
-];
-
-export const lebanonExtDeltas: DeltaRule[] = [
-  { daily: "ext_killed", cum: "ext_killed_cum" },
-  { daily: "ext_injured", cum: "ext_injured_cum" },
-];
-
 export const lebanonDiscrepancyPairs: DeltaRule[] = [
   { daily: "killed", cum: "killed_cum" },
   { daily: "injured", cum: "injured_cum" },

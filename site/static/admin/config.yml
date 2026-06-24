@@ -96,10 +96,8 @@ collections:
     description: >
       One report per date, sourced from the Lebanese Ministry of Public Health
       (moph_lb). Enter the cumulative figures as reported by the source; the
-      daily (killed / injured) values are the change since the prior report. The
-      extended (ext_) continuous series is calculated automatically by the build
-      — leave those fields blank. Paste the original source material (title and
-      link) in the body.
+      daily (killed / injured) values are the change since the prior report.
+      Paste the original source material (title and link) in the body.
     folder: source_data/lebanon-daily
     identifier_field: report_date
     slug: "{{fields.report_date}}"
@@ -121,14 +119,6 @@ collections:
       - { label: "Killed cumulative (reported)", name: killed_cum, widget: number, value_type: int, hint: "Authoritative cumulative total as reported by the source." }
       - { label: "Injured (daily, reported)", name: injured, widget: number, value_type: int, required: false, hint: "Change since the prior report." }
       - { label: "Injured cumulative (reported)", name: injured_cum, widget: number, value_type: int, required: false, hint: "Authoritative cumulative total as reported by the source." }
-
-      # --- Extended (ext_) series: auto-calculated. Leave blank. ---
-      # Kept here so the CMS preserves backfilled historical values on edit; do
-      # not enter values for new reports — the build computes them.
-      - { label: "ext_killed (auto)", name: ext_killed, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
-      - { label: "ext_killed_cum (auto)", name: ext_killed_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
-      - { label: "ext_injured (auto)", name: ext_injured, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
-      - { label: "ext_injured_cum (auto)", name: ext_injured_cum, widget: number, value_type: int, required: false, hint: "Auto-calculated. Leave blank." }
 
       - { label: "Source material", name: body, widget: markdown, required: false, hint: "Paste the original bulletin title and link, or a reference to a source screenshot." }
 
