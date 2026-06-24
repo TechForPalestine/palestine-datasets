@@ -18,6 +18,9 @@ import {
   gazaContentDir,
   gazaDiscrepancyAllowlist,
   gazaDiscrepancyPairs,
+  lebanonContentDir,
+  lebanonDiscrepancyAllowlist,
+  lebanonDiscrepancyPairs,
   westBankContentDir,
   westBankDiscrepancyAllowlist,
   westBankDiscrepancyPairs,
@@ -38,6 +41,12 @@ const datasets: DatasetSpec[] = [
     dir: westBankContentDir,
     pairs: westBankDiscrepancyPairs,
     allowlist: westBankDiscrepancyAllowlist,
+  },
+  {
+    name: "Lebanon",
+    dir: lebanonContentDir,
+    pairs: lebanonDiscrepancyPairs,
+    allowlist: lebanonDiscrepancyAllowlist,
   },
 ];
 

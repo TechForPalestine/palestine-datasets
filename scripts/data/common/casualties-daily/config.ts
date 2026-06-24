@@ -16,6 +16,7 @@ import type { CarryForwardRule, DeltaRule, IncrementalRule } from "./content";
 
 export const gazaContentDir = "source_data/gaza-daily";
 export const westBankContentDir = "source_data/west-bank-daily";
+export const lebanonContentDir = "source_data/lebanon-daily";
 
 export const gazaCarryForward: CarryForwardRule[] = [
   { ext: "ext_killed_cum", reported: "killed_cum" },
@@ -72,6 +73,13 @@ export const gazaDiscrepancyAllowlist: string[] = [
   "2024-08-28:killed",
   "2024-08-28:injured",
 ];
+
+export const lebanonDiscrepancyPairs: DeltaRule[] = [
+  { daily: "killed", cum: "killed_cum" },
+  { daily: "injured", cum: "injured_cum" },
+];
+
+export const lebanonDiscrepancyAllowlist: string[] = [];
 
 // West Bank is not reported daily: source files exist only for actual report
 // dates, and these flash cumulative fields are carried forward to fill every

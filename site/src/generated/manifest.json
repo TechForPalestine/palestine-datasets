@@ -137,5 +137,17 @@
       "name": "killed-in-gaza.csv",
       "apiPath": "api/v3"
     }
+  },
+  "LebanonDaily_V3": {
+    "minified": {
+      "file": "lebanon_casualties_daily.min.json",
+      "name": "lebanon_casualties_daily.min.json",
+      "apiPath": "api/v3"
+    },
+    "unminified": {
+      "file": "lebanon_casualties_daily.json",
+      "name": "lebanon_casualties_daily.json",
+      "apiPath": "api/v3"
+    }
   }
 }
