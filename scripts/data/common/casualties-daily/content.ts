@@ -341,7 +341,13 @@ export type CarryForwardTimelineConfig = {
  */
 export const buildCarryForwardTimeline = (
   reports: DailyRecord[],
-  { carryFields, sparseField, sourceField, fillValue = "fill", endDate }: CarryForwardTimelineConfig,
+  {
+    carryFields,
+    sparseField,
+    sourceField,
+    fillValue = "fill",
+    endDate,
+  }: CarryForwardTimelineConfig,
 ): DailyRecord[] => {
   if (reports.length === 0) {
     return [];
