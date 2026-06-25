@@ -12835,7 +12835,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-17",
@@ -12844,7 +12844,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-18",
@@ -12853,7 +12853,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-19",
@@ -12862,7 +12862,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-20",
@@ -12871,7 +12871,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-21",
@@ -12880,7 +12880,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-22",
@@ -12889,7 +12889,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-23",
@@ -12898,7 +12898,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-24",
@@ -12907,7 +12907,7 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   },
   {
     "report_date": "2026-06-25",
@@ -12916,6 +12916,6 @@
     "injured_cum": 11200,
     "injured_children_cum": 1883,
     "settler_attacks_cum": 30,
-    "flash_source": "un"
+    "flash_source": "fill"
   }
 ]

@@ -26,6 +26,7 @@ const generateJsonFromContent = () => {
   const series = buildCarryForwardTimeline(reports, {
     carryFields: westBankCarryFields,
     sparseField: "verified",
+    sourceField: "flash_source",
     endDate,
   });
   validateDailiesJson(series);

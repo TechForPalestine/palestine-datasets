@@ -320,6 +320,14 @@ export type CarryForwardTimelineConfig = {
   carryFields: string[];
   /** field present only on its own report dates (e.g. "verified"); never carried */
   sparseField?: string;
+  /**
+   * carryField holding the report source (e.g. "flash_source"). Its value is
+   * only ever taken from an actual report; days with no report of their own
+   * fall back to fillValue rather than carrying the prior report's source.
+   */
+  sourceField?: string;
+  /** value used for sourceField on days with no report of their own */
+  fillValue?: string;
   /** carry forward through this date (e.g. the latest Gaza report date) */
   endDate: string;
 };
@@ -333,7 +341,7 @@ export type CarryForwardTimelineConfig = {
  */
 export const buildCarryForwardTimeline = (
   reports: DailyRecord[],
-  { carryFields, sparseField, endDate }: CarryForwardTimelineConfig,
+  { carryFields, sparseField, sourceField, fillValue = "fill", endDate }: CarryForwardTimelineConfig,
 ): DailyRecord[] => {
   if (reports.length === 0) {
     return [];
@@ -361,7 +369,9 @@ export const buildCarryForwardTimeline = (
       row[sparseField] = report[sparseField];
     }
     for (const field of carryFields) {
-      if (!isBlank(last[field])) {
+      if (field === sourceField) {
+        row[field] = report && !isBlank(last[field]) ? last[field] : fillValue;
+      } else if (!isBlank(last[field])) {
         row[field] = last[field];
       }
     }
