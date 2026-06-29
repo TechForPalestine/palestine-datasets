@@ -844,5 +844,26 @@
     "killed_cum": 4106,
     "injured": 32,
     "injured_cum": 12153
+  },
+  {
+    "report_date": "2026-06-22",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4175,
+    "injured_cum": 12164
+  },
+  {
+    "report_date": "2026-06-23",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4192,
+    "injured_cum": 12171
+  },
+  {
+    "report_date": "2026-06-24",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4211,
+    "injured_cum": 12173
   }
 ]

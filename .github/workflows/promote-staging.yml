@@ -17,6 +17,7 @@ on:
       - "source_data/**"
       - "scripts/data/v2/gaza-daily.ts"
       - "scripts/data/v2/west-bank-daily.ts"
+      - "scripts/data/v3/lebanon-daily.ts"
       - "scripts/data/common/casualties-daily/**"
 
 permissions:
@@ -74,9 +75,10 @@ jobs:
           # regenerate from the merged source; gen scripts run validateDailiesJson
           bun run gen-daily-v2
           bun run gen-wbdaily
-          git add casualties_daily.json casualties_daily.min.json west_bank_daily.json west_bank_daily.min.json
+          bun run gen-lbdaily
+          git add casualties_daily.json casualties_daily.min.json west_bank_daily.json west_bank_daily.min.json lebanon_casualties_daily.json lebanon_casualties_daily.min.json
           if ! git diff --cached --quiet; then
-            git commit -m "data: regenerate Gaza & West Bank datasets from source_data"
+            git commit -m "data: regenerate daily datasets from source_data"
           fi
           git push origin main
           # fast-forward staging up to main so the branches stay identical; if a new

@@ -5,11 +5,14 @@ import {
   gazaContentDir,
   westBankCarryFields,
   westBankContentDir,
+  westBankFillFlashSource,
+  westBankFlashSourceField,
   westBankIncrementalRules,
 } from "../common/casualties-daily/config";
 import {
   applyIncrementalToCumulative,
   buildCarryForwardTimeline,
+  findCarriedFlashSources,
   latestReportDate,
   readDailyReports,
 } from "../common/casualties-daily/content";
@@ -26,8 +29,39 @@ const generateJsonFromContent = () => {
   const series = buildCarryForwardTimeline(reports, {
     carryFields: westBankCarryFields,
     sparseField: "verified",
+    // flash_source is stamped from each report (e.g. "un") or "fill" otherwise —
+    // never carried forward onto a generated day. See findCarriedFlashSources.
+    fillMarkerField: westBankFlashSourceField,
+    fillMarker: westBankFillFlashSource,
     endDate,
   });
+
+  // guard: a real flash source must only appear on the date its source file set
+  // it — never carried forward onto a generated fill day
+  const flashSourceByDate = new Map(
+    reports
+      .filter((report) => report[westBankFlashSourceField])
+      .map((report) => [String(report.report_date), report[westBankFlashSourceField]]),
+  );
+  const leaks = findCarriedFlashSources(
+    series,
+    flashSourceByDate,
+    westBankFlashSourceField,
+    westBankFillFlashSource,
+  );
+  if (leaks.length > 0) {
+    console.error(
+      `\n✗ West Bank: ${leaks.length} flash_source value(s) carried onto generated days` +
+        ` (must be "${westBankFillFlashSource}"):`,
+    );
+    for (const leak of leaks) {
+      console.error(
+        `  ${leak.report_date}: flash_source "${leak.value}" — no source file for that date set it.`,
+      );
+    }
+    process.exit(1);
+  }
+
   validateDailiesJson(series);
   writeJson(ApiResource.WestBankDailyV2, jsonFileName, series);
   console.log(
