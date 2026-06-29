@@ -33,7 +33,7 @@
     "@docusaurus/module-type-aliases": "3.1.0",
     "@docusaurus/tsconfig": "3.1.0",
     "@docusaurus/types": "3.1.0",
-    "decap-cms": "3.8.4",
+    "decap-cms": "3.14.0",
     "typescript": "~5.9.2"
   },
   "browserslist": {
