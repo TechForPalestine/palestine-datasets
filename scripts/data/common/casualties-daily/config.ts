@@ -39,6 +39,25 @@ export const gazaDiscrepancyPairs: DeltaRule[] = [
   { daily: "injured", cum: "injured_cum" },
 ];
 
+// Reported cumulative fields that must never decrease report-over-report. Derived
+// from the carry-forward rules so the two stay in lockstep (every ext_*_cum we
+// carry forward follows one of these reported cumulatives).
+export const gazaCumulativeFields: string[] = gazaCarryForward.map((rule) => rule.reported);
+
+/**
+ * Pre-policy historical days where a reported cumulative is genuinely lower than
+ * an earlier report — early-war MoH downward revisions of the women's toll. The
+ * derived ext_ series already smooths these (editorial backfill), so the
+ * published delta never went negative; only the raw reported figure regresses.
+ * Grandfathered like the discrepancy allowlist: accepted here, but any NEW
+ * regression fails. Keyed by `report_date:field`. Do not add to this list — fix
+ * new data instead.
+ */
+export const gazaCumulativeRegressionAllowlist: string[] = [
+  "2023-10-19:killed_women_cum",
+  "2023-10-21:killed_women_cum",
+];
+
 /**
  * Pre-policy historical days where the reported daily does not match the
  * cumulative delta. These predate the consistency rule and are grandfathered:
@@ -81,17 +100,38 @@ export const lebanonDiscrepancyPairs: DeltaRule[] = [
 
 export const lebanonDiscrepancyAllowlist: string[] = [];
 
+export const lebanonCumulativeFields: string[] = lebanonDiscrepancyPairs.map((pair) => pair.cum);
+
+export const lebanonCumulativeRegressionAllowlist: string[] = [];
+
 // West Bank is not reported daily: source files exist only for actual report
 // dates, and these flash cumulative fields are carried forward to fill every
 // day through the latest Gaza report date (keeping the two series in sync).
+// flash_source is deliberately NOT carried forward — see westBankFlashSource*.
 export const westBankCarryFields = [
   "killed_cum",
   "killed_children_cum",
   "injured_cum",
   "injured_children_cum",
   "settler_attacks_cum",
-  "flash_source",
 ];
+
+export const westBankCumulativeFields: string[] = westBankCarryFields.filter((field) =>
+  field.endsWith("_cum"),
+);
+
+export const westBankCumulativeRegressionAllowlist: string[] = [];
+
+// flash_source records where a day's flash figures came from. A real source
+// (e.g. "un") belongs only to the date whose source file declares it; every
+// generated/carried-forward day reads as "fill". It is never carried forward.
+export const westBankFlashSourceField = "flash_source";
+export const westBankFillFlashSource = "fill";
+
+// Gaza is reported (nearly) daily; any calendar gap is backfilled with a
+// generated row that carries cumulatives forward and zeroes the daily deltas, so
+// the series is continuous. Generated rows carry this report_source marker.
+export const gazaFillSource = "missing";
 
 // West Bank verified reporting is sparse/gapped, so daily-vs-cumulative
 // consistency is not gated here yet (would need gap-aware comparison).

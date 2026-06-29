@@ -1,8 +1,9 @@
 name: Daily casualties — PR check
 
-# Validates Gaza/West Bank source-data PRs (e.g. from the Decap CMS editorial
-# workflow). Read-only: it gates the merge but does not modify the PR branch.
-# The authoritative JSON regeneration happens on main (casualties-build.yml).
+# Validates Gaza/West Bank/Lebanon source-data PRs (e.g. from the Decap CMS
+# editorial workflow). Read-only: it gates the merge but does not modify the PR
+# branch. The authoritative JSON regeneration happens on main
+# (casualties-build.yml).
 
 on:
   pull_request:
@@ -10,6 +11,7 @@ on:
       - "source_data/**"
       - "scripts/data/v2/gaza-daily.ts"
       - "scripts/data/v2/west-bank-daily.ts"
+      - "scripts/data/v3/lebanon-daily.ts"
       - "scripts/data/common/casualties-daily/**"
       - ".github/workflows/casualties-pr-check.yml"
 
@@ -55,6 +57,7 @@ jobs:
         run: |
           bun run gen-daily-v2
           bun run gen-wbdaily
+          bun run gen-lbdaily
 
       - name: show resulting dataset changes (informational)
-        run: git --no-pager diff --stat -- casualties_daily.json west_bank_daily.json || true
+        run: git --no-pager diff --stat -- casualties_daily.json west_bank_daily.json lebanon_casualties_daily.json || true

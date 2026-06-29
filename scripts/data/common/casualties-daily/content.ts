@@ -273,6 +273,75 @@ export const findReportingDiscrepancies = (
   return discrepancies;
 };
 
+export type CumulativeRegression = {
+  report_date: string;
+  field: string;
+  value: number;
+  previous: number;
+  previousDate: string;
+};
+
+/**
+ * Finds days where a reported cumulative is lower than the most recent prior
+ * reported value of the same field. Cumulative totals only ever rise, so a drop
+ * means corrupted data — most often a placeholder report (e.g. a "missing" stub
+ * that left killed_cum at 0). A regression makes the derived day-over-day delta
+ * go negative, so it must be fixed before merge.
+ */
+export const findCumulativeRegressions = (
+  records: DailyRecord[],
+  fields: string[],
+): CumulativeRegression[] => {
+  const regressions: CumulativeRegression[] = [];
+  const prev: Record<string, { value: number; date: string }> = {};
+  for (const record of records) {
+    const date = String(record.report_date);
+    for (const field of fields) {
+      const value = getPath(record, field);
+      if (!isNumber(value)) {
+        continue;
+      }
+      const last = prev[field];
+      if (last && value < last.value) {
+        regressions.push({
+          report_date: date,
+          field,
+          value,
+          previous: last.value,
+          previousDate: last.date,
+        });
+      }
+      prev[field] = { value, date };
+    }
+  }
+  return regressions;
+};
+
+export type FilenameDateMismatch = { file: string; reportDate: string };
+
+/**
+ * Finds content files whose name (YYYY-MM-DD.md) disagrees with the report_date
+ * in their front matter. Decap derives a file's name from its slug, so an edited
+ * report_date can drift away from the filename. Because reports are loaded and
+ * sorted by their front-matter report_date, a drifted file silently lands on the
+ * wrong day — reordering the series or shadowing another date. Names and dates
+ * must agree.
+ */
+export const findFilenameDateMismatches = (dir: string): FilenameDateMismatch[] => {
+  if (!existsSync(dir)) {
+    return [];
+  }
+  const mismatches: FilenameDateMismatch[] = [];
+  for (const file of readdirSync(dir).filter((name) => dailyFilePattern.test(name))) {
+    const { data } = parseFrontmatter(readFileSync(join(dir, file), "utf8"));
+    const reportDate = isBlank(data.report_date) ? "" : String(data.report_date);
+    if (file.slice(0, 10) !== reportDate) {
+      mismatches.push({ file, reportDate });
+    }
+  }
+  return mismatches;
+};
+
 export const writeReportFile = (
   dir: string,
   data: DailyRecord,
@@ -320,6 +389,14 @@ export type CarryForwardTimelineConfig = {
   carryFields: string[];
   /** field present only on its own report dates (e.g. "verified"); never carried */
   sparseField?: string;
+  /**
+   * field (e.g. "flash_source") taken verbatim from a report when that report
+   * sets it, and otherwise stamped with `fillMarker` — never carried forward. A
+   * generated fill day, or a report that did not set the field itself, must
+   * therefore read as a fill, never inherit the prior report's value.
+   */
+  fillMarkerField?: string;
+  fillMarker?: string;
   /** carry forward through this date (e.g. the latest Gaza report date) */
   endDate: string;
 };
@@ -330,10 +407,12 @@ export type CarryForwardTimelineConfig = {
  * the last reported value of each carryField forward to every date through
  * endDate, keeping the series in sync with the Gaza daily series. A sparseField
  * (verified figures) is emitted only on the dates a report actually provided it.
+ * A fillMarkerField (e.g. flash_source) is never carried forward: it reflects the
+ * report's own value, or `fillMarker` on any day the report did not set it.
  */
 export const buildCarryForwardTimeline = (
   reports: DailyRecord[],
-  { carryFields, sparseField, endDate }: CarryForwardTimelineConfig,
+  { carryFields, sparseField, fillMarkerField, fillMarker, endDate }: CarryForwardTimelineConfig,
 ): DailyRecord[] => {
   if (reports.length === 0) {
     return [];
@@ -364,6 +443,97 @@ export const buildCarryForwardTimeline = (
       if (!isBlank(last[field])) {
         row[field] = last[field];
       }
+    }
+    if (fillMarkerField) {
+      const reported = report?.[fillMarkerField];
+      row[fillMarkerField] = isBlank(reported) ? fillMarker : reported;
+    }
+    series.push(row);
+  }
+  return series;
+};
+
+/**
+ * A non-fill flash source (e.g. "un") that landed on a day whose own source file
+ * did not set it — i.e. a value carried forward onto a generated fill day. Days
+ * without their own source file must always read as fills.
+ */
+export type FlashSourceLeak = { report_date: string; value: string };
+
+/**
+ * Guards the rule that a real flash source is only ever stamped on the date whose
+ * source file declares it. Any other value of `field` (other than `fillValue`)
+ * on a date not present in `sourceByDate` with that exact value is a leak —
+ * almost always a value carried forward onto a generated day.
+ */
+export const findCarriedFlashSources = (
+  series: DailyRecord[],
+  sourceByDate: Map<string, unknown>,
+  field: string,
+  fillValue: string,
+): FlashSourceLeak[] => {
+  const leaks: FlashSourceLeak[] = [];
+  for (const row of series) {
+    const value = row[field];
+    if (isBlank(value) || value === fillValue) {
+      continue;
+    }
+    if (sourceByDate.get(String(row.report_date)) !== value) {
+      leaks.push({ report_date: String(row.report_date), value: String(value) });
+    }
+  }
+  return leaks;
+};
+
+export type GapFillConfig = {
+  /** cumulative fields carried forward onto generated days, in output key order */
+  cumulativeFields: string[];
+  /** daily-delta fields set to 0 on generated days (no report = nothing new) */
+  dailyFields: string[];
+  /** marker written to report_source on generated days so they read as fills */
+  fillSource: string;
+};
+
+/**
+ * Fills calendar gaps in a day-per-report series so the dataset is continuous
+ * (no missing dates). Real report rows pass through untouched; each missing date
+ * gets a generated row that carries every cumulative forward from the last report
+ * and sets daily deltas to 0 — no report means no newly attributed casualties
+ * that day. Generated rows are marked via report_source so consumers can tell
+ * them from real reports. Reports must be sorted oldest-first.
+ */
+export const fillDailyGaps = (
+  records: DailyRecord[],
+  { cumulativeFields, dailyFields, fillSource }: GapFillConfig,
+): DailyRecord[] => {
+  if (records.length === 0) {
+    return records;
+  }
+  const byDate = new Map(records.map((record) => [String(record.report_date), record]));
+  const startDate = String(records[0].report_date);
+  const endDate = String(records[records.length - 1].report_date);
+  const lastCum: Record<string, number> = {};
+  const series: DailyRecord[] = [];
+  for (const date of enumerateDates(startDate, endDate)) {
+    const report = byDate.get(date);
+    if (report) {
+      for (const field of cumulativeFields) {
+        const value = getPath(report, field);
+        if (isNumber(value)) {
+          lastCum[field] = value;
+        }
+      }
+      series.push(report);
+      continue;
+    }
+    const row: DailyRecord = { report_date: date, report_source: fillSource };
+    for (const field of cumulativeFields) {
+      if (isNumber(lastCum[field])) {
+        row[field] = lastCum[field];
+      }
+    }
+    for (const field of dailyFields) {
+      row[field] = 0;
     }
     series.push(row);
   }

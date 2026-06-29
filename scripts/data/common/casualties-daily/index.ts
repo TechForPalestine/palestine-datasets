@@ -53,7 +53,11 @@ const yyyymmddFormat = /^202[3-9]-[0-1][0-9]-[0-3][0-9]$/;
 
 /**
  * our docs claim fields prefixed with ext_ are non-optional, so we should assert that
- * we should also assert standard date format
+ * we should also assert standard date format. Every numeric field is a count
+ * (casualties, a cumulative, or a reporting period) so none can be negative — a
+ * negative value means an upstream regression produced a bad derived delta (e.g.
+ * a cumulative that dropped). This is the last line of defense on the derived
+ * dataset, after the source-data gates in validate.ts.
  */
 export const validateDailiesJson = (json: Array<Record<string, number | string>>) => {
   const uniqueFieldNames = new Set<string>();
@@ -63,6 +67,13 @@ export const validateDailiesJson = (json: Array<Record<string, number | string>>
     if (!dateValid) {
       throw new Error(`Report date '${record.report_date}' is invalid, expected YYYY-MM-DD`);
     }
+
+    // no count in these datasets can be negative
+    Object.entries(record).forEach(([key, value]) => {
+      if (typeof value === "number" && value < 0) {
+        throw new Error(`Record for ${record.report_date} has negative ${key}: ${value}`);
+      }
+    });
 
     // track all of the field names we use in the dataset
     Object.keys(record).forEach((key) => uniqueFieldNames.add(key));

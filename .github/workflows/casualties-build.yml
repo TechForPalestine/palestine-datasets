@@ -1,9 +1,9 @@
 name: Daily casualties — build on main
 
 # When source data lands on main (e.g. a merged Decap CMS PR), regenerate the
-# Gaza & West Bank JSON datasets from it and commit them. No Google Sheet / no
-# TFP_SHEET_KEY is needed — these two datasets are now driven entirely by the
-# committed source_data files.
+# Gaza, West Bank & Lebanon JSON datasets from it and commit them. No Google
+# Sheet / no TFP_SHEET_KEY is needed — these datasets are now driven entirely by
+# the committed source_data files.
 
 on:
   push:
@@ -13,6 +13,7 @@ on:
       - "source_data/**"
       - "scripts/data/v2/gaza-daily.ts"
       - "scripts/data/v2/west-bank-daily.ts"
+      - "scripts/data/v3/lebanon-daily.ts"
       - "scripts/data/common/casualties-daily/**"
 
 permissions:
@@ -36,6 +37,7 @@ jobs:
         run: |
           bun run gen-daily-v2
           bun run gen-wbdaily
+          bun run gen-lbdaily
 
       - name: commit regenerated JSON
         id: commit
@@ -46,7 +48,9 @@ jobs:
             casualties_daily.min.json
             west_bank_daily.json
             west_bank_daily.min.json
-          message: "data: regenerate Gaza & West Bank datasets from source_data"
+            lebanon_casualties_daily.json
+            lebanon_casualties_daily.min.json
+          message: "data: regenerate Gaza, West Bank & Lebanon datasets from source_data"
 
       - name: trigger SQLite export
         # the JSON commit above uses GITHUB_TOKEN, which does not re-trigger the
