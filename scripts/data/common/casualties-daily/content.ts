@@ -500,7 +500,9 @@ export type GapFillConfig = {
  * gets a generated row that carries every cumulative forward from the last report
  * and sets daily deltas to 0 — no report means no newly attributed casualties
  * that day. Generated rows are marked via report_source so consumers can tell
- * them from real reports. Reports must be sorted oldest-first.
+ * them from real reports, and get report_period: 0 since they have no reporting
+ * period of their own (any casualties are covered by a subsequent date's report).
+ * Reports must be sorted oldest-first.
  */
 export const fillDailyGaps = (
   records: DailyRecord[],
@@ -526,7 +528,7 @@ export const fillDailyGaps = (
       series.push(report);
       continue;
     }
-    const row: DailyRecord = { report_date: date, report_source: fillSource };
+    const row: DailyRecord = { report_date: date, report_source: fillSource, report_period: 0 };
     for (const field of cumulativeFields) {
       if (isNumber(lastCum[field])) {
         row[field] = lastCum[field];

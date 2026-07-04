@@ -21544,6 +21544,7 @@
   {
     "report_date": "2026-06-19",
     "report_source": "missing",
+    "report_period": 0,
     "ext_killed_cum": 73018,
     "ext_injured_cum": 173273,
     "ext_killed_children_cum": 20179,
@@ -21680,6 +21681,7 @@
   {
     "report_date": "2026-06-26",
     "report_source": "missing",
+    "report_period": 0,
     "ext_killed_cum": 73043,
     "ext_injured_cum": 173417,
     "ext_killed_children_cum": 20179,
@@ -21817,6 +21819,7 @@
   {
     "report_date": "2026-07-03",
     "report_source": "missing",
+    "report_period": 0,
     "ext_killed_cum": 73074,
     "ext_injured_cum": 173537,
     "ext_killed_children_cum": 20179,
