@@ -12947,56 +12947,74 @@
   },
   {
     "report_date": "2026-06-29",
-    "killed_cum": 1090,
-    "killed_children_cum": 230,
-    "injured_cum": 11221,
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
     "injured_children_cum": 1885,
-    "settler_attacks_cum": 4170,
-    "flash_source": "fill"
+    "settler_attacks_cum": 4207,
+    "flash_source": "un"
   },
   {
     "report_date": "2026-06-30",
-    "killed_cum": 1090,
-    "killed_children_cum": 230,
-    "injured_cum": 11221,
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
     "injured_children_cum": 1885,
-    "settler_attacks_cum": 4170,
+    "settler_attacks_cum": 4207,
     "flash_source": "fill"
   },
   {
     "report_date": "2026-07-01",
-    "killed_cum": 1090,
-    "killed_children_cum": 230,
-    "injured_cum": 11221,
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
     "injured_children_cum": 1885,
-    "settler_attacks_cum": 4170,
+    "settler_attacks_cum": 4207,
     "flash_source": "fill"
   },
   {
     "report_date": "2026-07-02",
-    "killed_cum": 1090,
-    "killed_children_cum": 230,
-    "injured_cum": 11221,
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
     "injured_children_cum": 1885,
-    "settler_attacks_cum": 4170,
+    "settler_attacks_cum": 4207,
     "flash_source": "fill"
   },
   {
     "report_date": "2026-07-03",
-    "killed_cum": 1090,
-    "killed_children_cum": 230,
-    "injured_cum": 11221,
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
     "injured_children_cum": 1885,
-    "settler_attacks_cum": 4170,
+    "settler_attacks_cum": 4207,
     "flash_source": "fill"
   },
   {
     "report_date": "2026-07-04",
-    "killed_cum": 1090,
-    "killed_children_cum": 230,
-    "injured_cum": 11221,
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
     "injured_children_cum": 1885,
-    "settler_attacks_cum": 4170,
+    "settler_attacks_cum": 4207,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-07-05",
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
+    "injured_children_cum": 1885,
+    "settler_attacks_cum": 4207,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-07-06",
+    "killed_cum": 1094,
+    "killed_children_cum": 231,
+    "injured_cum": 11241,
+    "injured_children_cum": 1885,
+    "settler_attacks_cum": 4207,
     "flash_source": "fill"
   }
 ]
