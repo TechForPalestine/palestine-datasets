@@ -49,7 +49,12 @@ jobs:
       - name: identify changed report files
         id: changed
         run: |
-          git fetch origin main --depth=1
+          # no --depth here: checkout already did fetch-depth:0 (full history for
+          # all branches), and a shallow fetch on top of that re-shallows origin/main
+          # for graph-walking purposes, which can make the later merge step unable to
+          # find a common ancestor if a main commit hasn't reached staging yet
+          # (sync-staging.yml race) -> "fatal: refusing to merge unrelated histories"
+          git fetch origin main
           files=$(git diff --name-only origin/main...HEAD -- 'source_data/**/*.md' | tr '\n' ' ')
           echo "files=$files" >> "$GITHUB_OUTPUT"
           echo "Changed report files: ${files:-<none>}"
