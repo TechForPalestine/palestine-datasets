@@ -886,5 +886,54 @@
     "report_period": 24,
     "killed_cum": 4246,
     "injured_cum": 12190
+  },
+  {
+    "report_date": "2026-06-28",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4247,
+    "injured_cum": 12195
+  },
+  {
+    "report_date": "2026-06-29",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4257,
+    "injured_cum": 12196
+  },
+  {
+    "report_date": "2026-06-30",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4278,
+    "injured_cum": 12196
+  },
+  {
+    "report_date": "2026-07-01",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4297,
+    "injured_cum": 12196
+  },
+  {
+    "report_date": "2026-07-02",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4298,
+    "injured_cum": 12196
+  },
+  {
+    "report_date": "2026-07-03",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4301,
+    "injured_cum": 12199
+  },
+  {
+    "report_date": "2026-07-04",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4303,
+    "injured_cum": 12202
   }
 ]
