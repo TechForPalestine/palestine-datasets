@@ -942,5 +942,33 @@
     "report_period": 24,
     "killed_cum": 4304,
     "injured_cum": 12203
+  },
+  {
+    "report_date": "2026-07-06",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4319,
+    "injured_cum": 12203
+  },
+  {
+    "report_date": "2026-07-07",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4320,
+    "injured_cum": 12203
+  },
+  {
+    "report_date": "2026-07-08",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4321,
+    "injured_cum": 12203
+  },
+  {
+    "report_date": "2026-07-09",
+    "report_source": "moph_lb",
+    "report_period": 24,
+    "killed_cum": 4321,
+    "injured_cum": 12204
   }
 ]
