@@ -68,13 +68,19 @@ def strip_trailing_newline(path):
         f.write(text.rstrip("\r\n"))
 
 
+def case_word(w):
+    if w.startswith("al-") and len(w) > 3:
+        return "Al-" + w[3].upper() + w[4:]
+    return w[0].upper() + w[1:] if len(w) > 1 else w.upper()
+
+
 def case_seg(seg):
-    """IBC style: capitalise the word, and the noun after an 'al-' article."""
-    if not seg:
-        return seg
-    if seg.startswith("al-") and len(seg) > 3:
-        return "Al-" + seg[3].upper() + seg[4:]
-    return seg[0].upper() + seg[1:] if len(seg) > 1 else seg
+    """IBC style: capitalise the word, and the noun after an 'al-' article.
+
+    A dictionary value may be several English words (compounds such as
+    ابوزنيد -> "abu zneid"), so each word is cased independently.
+    """
+    return " ".join(case_word(w) for w in seg.split())
 
 
 def main():

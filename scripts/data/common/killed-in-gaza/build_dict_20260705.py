@@ -115,15 +115,23 @@ def main():
     def lookup(seg):
         return unigram.get(seg) or fallback.get(norm_ar(seg))
 
-    # --- net-new names and their unknown segments ------------------------
-    known_ids = {r["id"] for r in raw}
-    net_new = [r for r in new if r["id"] not in known_ids]
+    # --- names we will actually translate, and their unknown segments ----
+    # Every record we generate English for: net-new, plus existing records whose
+    # Arabic changed enough that IBC's old transliteration no longer describes
+    # it. Scoping this to net-new only would leave segments that appear solely
+    # in changed records unsplit and unlisted.
+    by_id = {r["id"]: r for r in raw}
+    retranslated = [
+        r for r in new
+        if r["id"] not in by_id
+        or norm_ar(by_id[r["id"]]["name_ar_raw"]) != norm_ar(r["name_ar_raw"])
+    ]
     missing = collections.Counter()
-    for r in net_new:
+    for r in retranslated:
         for seg in r["name_ar_raw"].split():
             if not lookup(seg):
                 missing[seg] += 1
-    print(f"net-new names {len(net_new)}   unknown segments {len(missing)} "
+    print(f"names to translate {len(retranslated)}   unknown segments {len(missing)} "
           f"({sum(missing.values())} tokens)")
 
     # --- resolve compounds by splitting against known segments -----------
@@ -144,10 +152,11 @@ def main():
           f"({sum(still.values())} tokens)")
 
     covered = sum(
-        all(lookup(s) or s in splits for s in r["name_ar_raw"].split()) for r in net_new
+        all(lookup(s) or s in splits for s in r["name_ar_raw"].split())
+        for r in retranslated
     )
-    print(f"net-new names fully covered: {covered}/{len(net_new)} "
-          f"({100 * covered / len(net_new):.2f}%)")
+    print(f"names fully covered: {covered}/{len(retranslated)} "
+          f"({100 * covered / len(retranslated):.2f}%)")
 
     # --- merge into dict_ar_en.csv ---------------------------------------
     prev_rows = [r for r in csv.reader(open(DICT_AR_EN, encoding="utf-8")) if len(r) >= 2]
@@ -181,14 +190,6 @@ def main():
     # Worklist: segments with no IBC evidence at all, plus segments only the
     # older hand-built dictionary can resolve (its romanisation scheme differs
     # and some entries are poor -- ابولبن -> "abolbn"), so both get eyes on them.
-    # Every record we will actually translate: net-new, plus existing records
-    # whose Arabic changed enough that the old English no longer describes it.
-    by_id = {r["id"]: r for r in raw}
-    retranslated = [
-        r for r in new
-        if r["id"] not in by_id
-        or norm_ar(by_id[r["id"]]["name_ar_raw"]) != norm_ar(r["name_ar_raw"])
-    ]
     legacy_used = {}
     mined_norm = {norm_ar(a) for a in unigram}
     for r in retranslated:
@@ -204,9 +205,23 @@ def main():
                 if a not in legacy_used]
     worklist += [(a, missing.get(a, 0), e, "legacy-unreviewed")
                  for a, e in sorted(legacy_used.items())]
+
+    # Never discard hand-filled transliterations when regenerating the worklist.
+    filled = {}
+    if os.path.exists(UNKNOWN):
+        with open(UNKNOWN, encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if row.get("en", "").strip():
+                    filled[row["ar"]] = (row.get("basis", "").strip(),
+                                         row["en"].strip())
+    orphaned = sorted(set(filled) - {a for a, _, _, _ in worklist})
+    if orphaned:
+        print(f"  note: {len(orphaned)} filled segments no longer needed: "
+              + ", ".join(orphaned[:8]))
     with open(UNKNOWN, "w", encoding="utf-8", newline="") as f:
-        f.write(CRLF.join(["ar,count,current_en,note,en"] +
-                          [f"{a},{n},{e},{note}," for a, n, e, note in worklist]))
+        f.write(CRLF.join(["ar,count,current_en,note,basis,en"] +
+                          [f"{a},{n},{e},{note}," + ",".join(filled.get(a, ("", "")))
+                           for a, n, e, note in worklist]))
     print(f"unknown_segments_20260705.csv: {len(worklist)} segments to fill in "
           f"({len(legacy_used)} legacy-unreviewed)")
 
