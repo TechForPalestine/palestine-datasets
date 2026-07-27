@@ -65,6 +65,18 @@ def norm_ar(s):
     return s
 
 
+def fallback_rank(key):
+    """Order keys that share a normalized form, deterministically.
+
+    Mining order follows raw.csv row order, which changes every update, so the
+    old first-wins fallback could hand a different English to the same name from
+    one run to the next. Prefer the NFC-composed spelling (the source PDF writes
+    hamza both ways; the composed form is what IBC's own rows use), then the key
+    itself. See the matching helper in translate_20260705.py.
+    """
+    return (unicodedata.normalize("NFC", key) != key, key)
+
+
 def read_rows(path):
     with open(path, encoding="utf-8") as f:
         return list(csv.DictReader(f))
@@ -106,8 +118,8 @@ def main():
     unigram, bigram, counts, aligned = mine(raw)
 
     fallback = {}
-    for a, e in unigram.items():
-        fallback.setdefault(norm_ar(a), e)
+    for a in sorted(unigram, key=fallback_rank):
+        fallback.setdefault(norm_ar(a), unigram[a])
 
     print(f"raw.csv rows {len(raw)}   word-count aligned {aligned}")
     print(f"mined unigrams {len(unigram)}   context bigrams {len(bigram)}")

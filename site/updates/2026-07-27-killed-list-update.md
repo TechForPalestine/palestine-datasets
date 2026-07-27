@@ -9,11 +9,11 @@ On July 5th, 2026, Iraq Body Count released an updated list of those killed in G
 
 The list format was very similar to recent updates we received. You can <a href="https://zenodo.org/records/21208910" target="_blank">download the source PDF file from Zenodo</a> where it was uploaded by Iraq Body Count. This PDF was used as the source for our update and was sourced by Gaza Ministry of Health officials. You can <a href="https://x.com/iraqbodycount/status/2073840192511738217?s=20" target="_blank">view IBC's Twitter announcement here</a>.
 
-Where age was provided in months, we've defaulted to age of 0.
-
 ## Methodology
 
 In our last update, we took the IBC transliteration of english names from the source arabic names verbatim. Since IBC is working on the english transliteration separately for this update, we decided to update our own transliteration lookup based on the last update. Our goal is to keep as closely as possible to the prior list update for existing names (unless an actual arabic name correction was made for example). This transliteration style leans more towards Levantine community norms than to any strict standard. Contributions, feedback, and corrections are always welcome.
+
+Where age was provided in months, we've defaulted to age of 0. **Note** that list updates do not maintain stable ordering or indices. Where you need to lookup record changes, reference the ID field not the array index or API page position.
 
 ## Change Summary
 

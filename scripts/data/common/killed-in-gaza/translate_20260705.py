@@ -68,6 +68,22 @@ def strip_trailing_newline(path):
         f.write(text.rstrip("\r\n"))
 
 
+def fallback_rank(key):
+    """Order dictionary keys that share a normalized form, deterministically.
+
+    Several Arabic spellings collapse to one normalized key (179 of them here),
+    and the source PDF sometimes writes hamza decomposed (ا + U+0654) where the
+    dictionary only has it composed (U+0623), so those names resolve through the
+    fallback. Picking the first row in file order is not stable: CI's
+    sort-list-csvs rewrites dict_ar_en.csv on every push, and reordering it
+    silently flipped إيهم Ayham->Aihm and أسيد Aseed->Asaid -- in both cases to a
+    legacy hand-dictionary entry with no IBC evidence behind it, while the
+    composed key carried IBC's own value. So prefer the NFC-composed spelling,
+    then the key itself, and never let file order decide.
+    """
+    return (unicodedata.normalize("NFC", key) != key, key)
+
+
 def case_word(w):
     if w.startswith("al-") and len(w) > 3:
         return "Al-" + w[3].upper() + w[4:]
@@ -84,7 +100,19 @@ def case_seg(seg):
 
 
 def main():
-    ar_en = {a: e for a, e in read_pairs(DICT_AR_EN, skip=1) if a not in ("", "ar")}
+    ar_en_pairs = [(a, e) for a, e in read_pairs(DICT_AR_EN, skip=1)
+                   if a not in ("", "ar")]
+    ar_en = dict(ar_en_pairs)
+    # A repeated key with two different values means whichever row lands last
+    # decides -- that is file order again, so say so rather than pick silently.
+    seen = collections.defaultdict(set)
+    for a, e in ar_en_pairs:
+        seen[a].add(e)
+    ambiguous = {a: v for a, v in seen.items() if len(v) > 1}
+    if ambiguous:
+        print(f"WARNING: {len(ambiguous)} duplicate keys with conflicting values "
+              f"in dict_ar_en.csv: " + ", ".join(f"{a}={sorted(v)}"
+                                                 for a, v in list(ambiguous.items())[:5]))
     ar_ar = dict(read_pairs(DICT_AR_AR, skip=1))
     bigram = {tuple(k.split()): v for k, v in read_pairs(DICT_BIGRAM, skip=1)
               if len(k.split()) == 2}
@@ -100,8 +128,8 @@ def main():
           f"bigrams {len(bigram)}   manual {len(manual)}")
 
     fallback = {}
-    for a, e in ar_en.items():
-        fallback.setdefault(norm_ar(a), e)
+    for a in sorted(ar_en, key=fallback_rank):
+        fallback.setdefault(norm_ar(a), ar_en[a])
 
     def lookup(seg):
         return manual.get(seg) or ar_en.get(seg) or fallback.get(norm_ar(seg))
