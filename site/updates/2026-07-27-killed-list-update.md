@@ -1,5 +1,5 @@
 ---
-title: Killed in Gaza May 7th, 2026 Update
+title: Killed in Gaza May 2026 Update
 description: We've received an update from the Ministry of Health and merged those changes with our existing list.
 slug: killed-in-gaza-update-2026-07-27
 tags: [killed-in-gaza, gaza]
@@ -49,3 +49,11 @@ Of the children in this list (29.7% of the total), the following is the breakdow
 | Baby Girl       | 512    | 2.4  |
 | Baby Boy        | 560    | 2.6  |
 | Total Children  | 21,637 | 100% |
+
+For the 59,957 people identified by their government ID that were in this release and the last, the following age differentials were observed:
+
+- 35 reduced by 2
+- 339 reduced by 1
+- 59,313 were unchanged
+- 142 increased by 1
+- 5 increased by 2
