@@ -21,6 +21,11 @@ export const canonicalUpdateCommits = [
   "b936c35ff3556d31df0833815456b9820b4882c8", // 7: June/July 2025 (IBC)
   "4e95d05d79fffe232d7e551a89e3913199addf46", // 8: July 2025 (IBC)
   "68a207a49227514b0822f8816add4415718ec172", // 9: August 2025 (IBC)
+  // TODO(10): fill in with this update's squashed commit on main once merged.
+  // It has to be a commit reachable on main -- killed-in-gaza.ts fetches
+  // killed-in-gaza.json at each of these to work out which update first
+  // introduced a given id. Until it is added, this update's 12,878 new records
+  // resolve to `update: -1` in the v3 API.
 ];
 
 export const updateDates = [
@@ -33,6 +38,7 @@ export const updateDates = [
   { number: 7, on: "2025-07-06", includesUntil: "2025-06-15" },
   { number: 8, on: "2025-07-21", includesUntil: "2025-07-15" },
   { number: 9, on: "2025-08-17", includesUntil: "2025-07-31" },
+  { number: 10, on: "2026-07-27", includesUntil: "2026-05-07" },
 ];
 
 export const updateLinks = [
@@ -45,6 +51,7 @@ export const updateLinks = [
   "https://data.techforpalestine.org/updates/killed-in-gaza-update-2025-06-15/",
   "https://data.techforpalestine.org/updates/killed-in-gaza-update-2025-07-15/",
   "https://data.techforpalestine.org/updates/killed-in-gaza-update-2025-08-17/",
+  "https://data.techforpalestine.org/updates/killed-in-gaza-update-2026-07-27/",
 ];
 
 export type ExistingRecord = {
