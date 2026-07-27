@@ -1,8 +1,13 @@
 # killed-in-gaza
 
+See [METHODOLOGY.md](./METHODOLOGY.md) for why these steps are what they are, how
+Arabic-only releases are handled, and the traps worth knowing before you start.
+
 ## New steps
 
-So long as we have the xlsx from IBC available we'll follow these simplified steps:
+So long as we have the xlsx from IBC available we'll follow these simplified steps.
+If the release has **no English transliterations** (as in 2026-07-05), this runbook
+does not apply — see METHODOLOGY.md.
 
 - download latest IBC release via the MoH with existing english name translations
   - example: https://www.iraqbodycount.org/pal/moh_2025-07-31.xlsx
@@ -11,13 +16,12 @@ So long as we have the xlsx from IBC available we'll follow these simplified ste
   - original: `Index,Name,الاسم,Age,Born,Sex,ID`
   - normalized: `index,name_en,name_ar_raw,age,dob,sex,id`
 - verify column format and order is the same
-- run python script:
+- save it to `raw/<date>_ibc.csv` (the `raw/` subfolder is gitignored)
+- run the extract script, which normalizes the age column, adds the `source` column,
+  and strips the trailing newline that would otherwise crash the diff script:
   - `cd scripts/data/common/killed-in-gaza`
   - `source ./venv/bin/activate`
-  - copy latest script to new date, EXAMPLE: `cp extract_20250715.py extract_20250731.py`
-  - update input & output filename in script
-  - run it: `python3 extract_20250731.py`
-  - remove any trailing newline (empty row) from the outputted CSV
+  - `python3 extract.py 2025-07-31`
 - run the diff script to understand the changes by referencing the output filename you specified in the python script
   - open new terminal / exit python venv and cd to the repo root
   - `bun run scripts/data/common/killed-in-gaza/diff_lists.ts 2025-07-31.csv`
@@ -25,6 +29,16 @@ So long as we have the xlsx from IBC available we'll follow these simplified ste
   - `cp scripts/data/common/killed-in-gaza/output/2025-07-31.csv scripts/data/common/killed-in-gaza/data/raw.csv`
 
 The diff script provides a markdown-formatted update you can add to the "blog" and update as needed.
+
+### After the PR merges
+
+Two steps that can only happen once the merge commit exists on main:
+
+- add the squashed merge commit to `canonicalUpdateCommits` in `constants.ts`, plus
+  matching entries in `updateDates` and `updateLinks`
+- `gen-killed-in-gaza-v3.yml` then regenerates `killed-in-gaza-v3.json` (what the
+  `/names` viewer and the SQLite export read) and fails the run if any record is
+  left unattributed at `update: -1`
 
 ## Old steps
 
@@ -61,6 +75,10 @@ NOTES:
 Thanks and lets pray to be on the right side of the history and in the hereafter.
 
 ## Pulling in official list updates
+
+Historical, kept for the workflow habits rather than the specifics — `reconcile_lists.ts`
+no longer exists, and the 2026-07-05 PDF release was handled quite differently
+(see METHODOLOGY.md).
 
 This process is pretty intensive and manual. It's only happened once and it's dependent on the format we receive from the ministry. In the last case, we received a large PDF, so the steps were:
 

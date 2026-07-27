@@ -37,16 +37,15 @@ ar,en
 أبرار,abrar
 أبراهيم,ibrahim
 أبو,abu
-أبوحمادة,abohamadah
+أبوحمادة,abu hamada
 أبودان,abudan
-أبودقة,abodqh
-أبوزناد,abozinad
-أبوسريه,abosriah
-أبوسلطان,abosultan
-أبوشماله,aboshmalah
+أبودقة,abu daqqa
+أبوزناد,abu zinad
+أبوسريه,abu siriya
+أبوسلطان,abu sultan
+أبوشماله,abu shamala
 أبوعيشة,aisha
-أبولبن,abolbn
-أبومحيسن,abomuhaisan
+أبومحيسن,abu muhaisin
 أبووردة,warda
 أبي,obi
 أثار,athar
@@ -64,6 +63,7 @@ ar,en
 أديب,adeeb
 أرام,aram
 أربعه,arbaa
+أردوغان,erdogan
 أرسلان,arslan
 أركان,arkan
 أروى,aroa
@@ -94,6 +94,7 @@ ar,en
 أسيد,aseed
 أسيل,asail
 أسيل,aseel
+أسينه,asina
 أشرف,ashraf
 أشرف,ashraf
 أغا,agha
@@ -177,6 +178,7 @@ ar,en
 أيلول,eylul
 أيمن,ayman
 أيمن,ayman
+أينورا,ainoura
 أيه,aya
 أيه,ayah
 أيهاب,ihab
@@ -264,498 +266,489 @@ ar,en
 ابطيحان,abtihan
 ابليحه,ableiha
 ابمن,ayman
-ابن-الهام,son of elham
+ابن-الهام,ibn ilham
 ابن,ibn
-ابن/اسراء,son of israa
-ابن/انوار,son of anwar
-ابن/رحيمة,son of rahima
-ابن/نبيلة,son of nabila
-ابناسراء,son of israa
-ابنالاء,son of alaa
-ابنانوار,son of anwar
-ابنة-دينا,daughter of dina
-ابنه,daughter of
+ابن/اسراء,ibn israa
+ابن/انوار,ibn anwar
+ابن/نبيلة,ibn nabila
+ابناسراء,ibn israa
+ابنالاء,ibn alaa
+ابنانوار,ibn anwar
 ابهار,ibhar
 ابو,abu
-ابوارتيمه,abuartima
-ابواسحاق,abuishaq
-ابواسحق,abuishaq
-ابواسد,abuassad
-ابواسماعيل,abwasamaail
-ابوالاعور,abual-awar
-ابوالجبين,abual-jabain
-ابوالجديان,abual-jidyan
+ابوارتيمه,abu artima
+ابواسحاق,abu ishaq
+ابواسحق,abu ishaq
+ابواسد,abu assad
+ابواسماعيل,abu ismail
+ابوالاعور,abu al-awar
+ابوالجبين,abu al-jbeen
+ابوالجديان,abu al-jedian
 ابوالجليل,abu-aljalil
 ابوالحصين,abu-alhusayn
-ابوالحصيني,abual-husseini
+ابوالحصيني,abu al-huseini
 ابوالخير,abu-alkhair
-ابوالروس,abual-rous
-ابوالريش,abual-rish
-ابوالسبح,abual-sabah
-ابوالسعود,abwalsaaod
+ابوالروس,abu al-rous
+ابوالريش,abu al-rish
+ابوالسبح,abu al-subh
+ابوالسعود,abu al-saud
 ابوالشعر,abu-shaar
-ابوالطيور,abul-toyor
-ابوالعجين,abual-ajen
-ابوالعضم,abwaladhm
-ابوالعطا,abwalaata
+ابوالطيور,abu al-tyour
+ابوالعجين,abu al-ajin
+ابوالعضم,abu al-adhm
+ابوالعطا,abu al-ata
 ابوالعلا,abu-al-ala
-ابوالعمرين,abwalamarin
-ابوالعنزين,abual-anzain
-ابوالعنين,abual-enein
-ابوالعوف,abual-aouf
-ابوالعون,abual-aoun
-ابوالعيش,abual-eish
-ابوالفحم,abual-fahm
-ابوالفيته,abual-fiteh
-ابوالقرايا,abual-qaraya
-ابوالقمصان,abual-qumsan
-ابوالكاس,abual-kass
-ابواللبن,abual-laban
-ابوالليالي,abual-layali
-ابوالليل,abual-layl
-ابوالنجا,abual-naja
-ابوالنور,abul-nour
-ابوالنيل,abul-niel
-ابوالهوى,abual-hawa
+ابوالعمرين,abu al-omreen
+ابوالعنزين,abu al-anzin
+ابوالعنين,abu al-enein
+ابوالعوف,abu al-awf
+ابوالعون,abu al-aoun
+ابوالعيش,abu al-aish
+ابوالفحم,abu al-fahm
+ابوالفيته,abu al-fita
+ابوالقرايا,abu al-qaraya
+ابوالقمصان,abu al-qumsan
+ابوالكاس,abu al-kas
+ابواللبن,abu al-laban
+ابوالليالي,abu al-layali
+ابوالليل,abu al-leil
+ابوالنجا,abu al-naja
+ابوالنور,abu al-nour
+ابوالنيل,abu al-nil
+ابوالهوى,abu al-hawa
 ابوبركة,abu-baraka
-ابوبركه,abubaraka
+ابوبركه,abu baraka
 ابوبرهوم,abu-barhoum
-ابوبريك,abobrik
+ابوبريك,abu breik
 ابوبريكه,abu-breika
 ابوبشير,abu-basheer
-ابوبطنين,abobtanin
-ابوبطيحان,abubutihan
-ابوبكر,abobkar
-ابوبكره,abobkarah
-ابوبليمه,aboblaiamuah
-ابوبيض,abubayd
-ابوتوها,abutoha
-ابوتوهه,abotohah
+ابوبطنين,abu batnein
+ابوبطيحان,abu butaihan
+ابوبكر,abu bakr
+ابوبكره,abu bakra
+ابوبليمه,abu bleima
+ابوبيض,abu beid
+ابوتوها,abu tuha
+ابوتوهه,abu taha
 ابوتيم,abu-taym
-ابوثريا,abuthuraya
-ابوجادالله,abujadallah
+ابوثريا,abu thuraya
+ابوجادالله,abu jadallah
 ابوجاسر,abu-jaser
-ابوجامع,abwjamua
-ابوجاموس,abwjamos
-ابوجبارة,abwjabarah
+ابوجامع,abu jamea
+ابوجاموس,abu jamous
 ابوجباره,abu-jebara
-ابوجبر,abwjabr
+ابوجبر,abu jabr
 ابوجبل,jabal
-ابوجحجوح,abujahjouh
-ابوجخيدب,abujakhaidib
+ابوجحجوح,abu jahjoh
+ابوجخيدب,abu jkheidib
 ابوجديان,abu-jidyan
-ابوجراد,abujarad
+ابوجراد,abu jarad
 ابوجراده,abu-jaradh
 ابوجري,abu-jari
 ابوجريبان,abu-jriban
-ابوجزر,abujazar
-ابوجلال,abujalal
+ابوجزر,abu jazar
+ابوجلال,abu jalal
 ابوجلالة,abu-jalalah
-ابوجلاله,abujalala
-ابوجلد,abujald
-ابوجلهوم,abujalhoum
+ابوجلاله,abu jalala
+ابوجلد,abu jild
+ابوجلهوم,abu jalhom
 ابوجليله,abu-jaleelah
 ابوجميزة,abu-jumaiza
 ابوجميزه,abu-jumaiza
-ابوجوده,abujoudeh
+ابوجوده,abu jouda
 ابوجياب,abu-jiab
 ابوحامد,abu-hamed
 ابوحامدة,abu-hamdah
 ابوحامده,abu-hamdah
 ابوحبل,abu-habl
-ابوحبيب,abuhabib
+ابوحبيب,abu habib
 ابوحبيس,abu-habis
-ابوحجاج,abuhajjaj
-ابوحجر,abuhajar
-ابوحجير,abuhujair
-ابوحدايد,abuhaddayd
-ابوحرب,abuharb
-ابوحزين,abohuzain
+ابوحجاج,abu hajjaj
+ابوحجر,abu hajar
+ابوحجير,abu hjair
+ابوحدايد,abu hadayed
+ابوحرب,abu harb
+ابوحزين,abu hazeen
 ابوحسان,abu-hassan
-ابوحسنين,abuhassanein
+ابوحسنين,abu hassanein
 ابوحسون,abu-hassoun
-ابوحسين,abuhussein
-ابوحشيش,abuhashish
-ابوحصيره,abohsirah
+ابوحسين,abu hussein
+ابوحشيش,abu hashish
+ابوحصيره,abu hasira
 ابوحطب,abu-hatab
 ابوحلاوه,abu-halawa
 ابوحلحول,abu-halhoul
 ابوحلو,abu-helw
 ابوحليب,abu-haleeb
-ابوحليمه,abuhalima
-ابوحماد,abuhammad
-ابوحماده,abuhamada
-ابوحمد,abohamd
+ابوحليمه,abu halima
+ابوحماد,abu hammad
+ابوحماده,abu hamada
+ابوحمد,abu hamad
 ابوحمده,abu-hamdah
 ابوحموده,abu-hamoudeh
-ابوحميد,abuhamid
-ابوحميدان,abuhumaidan
-ابوحميده,abuhamida
+ابوحميد,abu hamid
+ابوحميدان,abu hmeidan
+ابوحميده,abu humaida
 ابوحية,abu-hayyya
-ابوحيه,abuhayya
-ابوخاطر,abukhater
+ابوحيه,abu hayya
+ابوخاطر,abu khater
 ابوخالد,abu-khaled
 ابوخبيزة,abu-khybaiza
-ابوخبيزه,abukhubaiza
+ابوخبيزه,abu khubeiza
 ابوختلة,abu-khatla
-ابوختله,abukhatla
+ابوختله,abu khatla
 ابوخريس,abu-khrys
-ابوخضر,abokhidhuir
-ابوخضير,abokhdhir
+ابوخضر,abu khader
+ابوخضير,abu khudeir
 ابوخطاب,abu-khattab
 ابوخلفالله,abu-khalafallah
-ابوخليفه,abukhalifa
+ابوخليفه,abu khalifa
 ابوخوصه,abu-khousa
 ابودان,abudan
 ابوداود,daoud
-ابودباغ,abudabbagh
+ابودباغ,abu dabbagh
 ابودحروج,dahrouj
 ابودرابي,abu-darabi
 ابودراز,abu-draz
-ابودريقه,abudraika
-ابودغيم,abodghiam
-ابودف,abudaf
-ابودقة,abodqah
-ابودقن,abudaqan
-ابودقه,abodqah
+ابودريقه,abu dariqa
+ابودغيم,abu dgheim
+ابودف,abu duf
+ابودقة,abu daqqa
+ابودقن,abu daqn
+ابودقه,abu daqqa
 ابودلال,abu-dalal
 ابودهن,abu-dahan
 ابوديب,deeb
-ابوديد,abudeid
-ابوديه,abudayeh
-ابوراس,aburas
-ابوراشد,aburashid
-ابوربيع,aburabie
-ابورجال,aburijal
-ابورجيله,aburajila
+ابوديد,abu daid
+ابوديه,abu diya
+ابوراس,abu ras
+ابوراشد,abu rashed
+ابوربيع,abu rabie
+ابورجال,abu rijal
+ابورجيله,abu rjeila
 ابورحمة,abu-rahma
-ابورحمه,aboarahamuah
+ابورحمه,abu rahma
 ابورخيه,abu-rakhiya
-ابورزق,aburizq
+ابورزق,abu rizq
 ابورصاص,abu-rasas
 ابورضوان,abu-radwan
-ابورقعه,aburaqa
+ابورقعه,abu ruqa
 ابوركاب,abu-rekab
 ابوركبه,abu-rokba
 ابورمضان,abu-ramadan
 ابوروس,abu-ross
-ابوروك,aburok
-ابورويضه,aburawida
-ابورياش,aboaraiish
+ابوروك,abu rouk
+ابورويضه,abu rwaida
+ابورياش,abu riyash
 ابوريالة,abu-ryalah
 ابورياله,abu-ryalah
-ابوريان,aburayyan
-ابوريده,aburida
-ابوزايد,abuzayed
+ابوريان,abu rayan
+ابوريده,abu rida
+ابوزايد,abu zayed
 ابوزايده,abu-zayeda
-ابوزبيدة,abozbidah
-ابوزر,abozr
+ابوزبيدة,abu zbeida
+ابوزر,abu zir
 ابوزرقة,abu-zarqa
-ابوزرقه,abuzarqa
+ابوزرقه,abu zarqa
 ابوزريعان,abu-zaran
 ابوزريق,abu-zureik
 ابوزرينه,abu-zarish
 ابوزعيتر,abu-zuaiter
 ابوزناد,abu-zanad
-ابوزهري,abozuhri
-ابوزهير,abozuhir
-ابوزور,abuzour
-ابوزيادة,aboziadah
-ابوزياده,abuziyada
-ابوزيد,abozaid
-ابوسبت,abusabt
+ابوزنيد,abu zneid
+ابوزهري,abu zuhri
+ابوزهير,abu zuhair
+ابوزور,abu zour
+ابوزيادة,abu ziyada
+ابوزياده,abu ziyada
+ابوزيد,abu zaid
+ابوسبت,abu sibt
 ابوسبله,abu-sabla
-ابوسته,abusitta
+ابوسته,abu sitta
 ابوسحلوب,abu-sahloub
 ابوسحلول,abu-sahloul
-ابوسخيلة,aboskhilah
-ابوسخيله,abusakhila
+ابوسخيلة,abu skheila
+ابوسخيله,abu skheila
 ابوسرحان,abu-sarhan
-ابوسردانه,abusardanah
+ابوسردانه,abu sirdana
 ابوسريه,abu-siri
 ابوسعادة,abu-saadeh
 ابوسعاده,abu-saada
-ابوسعد,abosaad
-ابوسعدة,abosaadah
-ابوسعده,abosaadah
+ابوسعد,abu saad
+ابوسعدة,abu saada
+ابوسعده,abu saada
 ابوسعود,abu-saoud
-ابوسعيد,abusaeed
+ابوسعيد,abu said
 ابوسعيفان,abu-saifan
-ابوسكران,abusakran
-ابوسلامه,abusalama
+ابوسكران,abu sukran
+ابوسلامه,abu salama
 ابوسلطان,sultan
-ابوسلمية,abosalamaiah
-ابوسلميه,abusalmiya
+ابوسلمية,abu salmiya
+ابوسلميه,abu salmiya
 ابوسلوت,abu-salwat
-ابوسليسل,abuseleisel
+ابوسليسل,abu sleisel
 ابوسليم,abu-sleem
-ابوسليمان,abusuleiman
-ابوسليمة,abusalima
-ابوسليمه,abusalima
-ابوسمرة,abosamarah
+ابوسليمان,abu suleiman
+ابوسليمة,abu suleima
+ابوسليمه,abu suleima
+ابوسمرة,abu samra
 ابوسمره,abu-samra
 ابوسمعان,abu-samaan
 ابوسنان,abu-sinan
-ابوسنجر,abosanajar
+ابوسنجر,abu sanjar
 ابوسويلم,abu-swailem
 ابوسيدو,abu-sido
 ابوسيف,saif
-ابوشاب,aboshab
-ابوشاربين,abusharbin
-ابوشاويش,aboshaoish
-ابوشباب,aboshbab
+ابوشاب,abu shab
+ابوشاربين,abu sharbin
+ابوشاويش,abu shawish
+ابوشباب,abu shabab
 ابوشحادة,abu-shehadeh
-ابوشحاده,abushehadeh
+ابوشحاده,abu shahada
 ابوشحمه,abu-shahmah
-ابوشرخ,aboshrkh
+ابوشرخ,abu sharkh
 ابوشريتح,abu-shreit
 ابوشريعه,abu-sharia
-ابوشريفه,abusharifa
-ابوشعبان,aboshaban
+ابوشريفه,abu sharifa
+ابوشعبان,abu shaaban
 ابوشعر,abu-shaar
 ابوشعيب,abu-shuaib
 ابوشعيره,abu-shaira
 ابوشقرة,abu-shakra
-ابوشقره,abushakra
+ابوشقره,abu shaqra
 ابوشقفة,abu-shaqfa
-ابوشقفه,abushaqfa
-ابوشقير,abushuqair
-ابوشكيان,abushakyan
-ابوشلوف,abushalouf
+ابوشقفه,abu shaqfa
+ابوشقير,abu shqeir
+ابوشكيان,abu shakyan
+ابوشلوف,abu shlof
 ابوشلوله,abu-shalla
-ابوشماس,aboshmas
+ابوشماس,abu shamas
 ابوشمالة,abu-shamala
-ابوشماله,abushamala
-ابوشمله,aboshmlah
+ابوشماله,abu shamala
+ابوشمله,abu shamla
 ابوشميس,abu-shmeis
-ابوشنار,abushinar
+ابوشنار,abu shanar
 ابوشنب,abu-shanab
 ابوشهله,abu-shahleh
 ابوشوارب,abu-shawarb
-ابوشوقه,abushawqa
+ابوشوقه,abu shouqa
 ابوشيخة,abu-sheikha
-ابوصافي,abosafii
+ابوصافي,abu safi
 ابوصالح,abu saleh
 ابوصفر,abu-safar
-ابوصفره,abusafra
+ابوصفره,abu safra
 ابوصفيه,abu-safeya
-ابوصقر,abosqur
-ابوصلاح,abusalah
-ابوصهيبان,abusuhaiban
+ابوصقر,abu saqr
+ابوصلاح,abu salah
+ابوصهيبان,abu suhaiban
 ابوصواوين,abu-sawwin
 ابوصوصين,abu-soussin
-ابوصويص,abusuwais
+ابوصويص,abu sweis
 ابوصويوين,abu-sawyain
-ابوصيام,abosiam
-ابوضاهر,abodhahir
-ابوضباع,abodhbaa
-ابوطاحون,abutahoun
-ابوطاقيه,abutaqiya
-ابوطبق,abutabak
+ابوصيام,abu siyam
+ابوضاهر,abu daher
+ابوضباع,abu dbaa
+ابوطاحون,abu tahoun
+ابوطاقيه,abu taqia
+ابوطبق,abu tabaq
 ابوطبيخ,abu-tabakh
-ابوطربوش,abotrabosh
-ابوطعيمه,abotaiamuah
+ابوطعيمه,abu tuaima
 ابوطقية,taqiya
 ابوطماعة,abu-tuma
-ابوطه,abotah
-ابوطواحينه,abotwahainuah
-ابوطويله,abotoilah
-ابوطيبة,abo teba
-ابوطير,abuteer
+ابوطه,abu taha
+ابوطواحينه,abu tawahina
+ابوطويله,abu tweila
+ابوطير,abu tair
 ابوطيور,abu-bour
-ابوظاهر,abozahir
+ابوظاهر,abu zaher
 ابوظريفة,abu-zarifa
-ابوظريفه,abuzarifa
+ابوظريفه,abu zarifa
 ابوعابد,abu-abed
+ابوعادى,abu adi
 ابوعاذرة,abu-aarra
-ابوعاذره,abuadra
+ابوعاذره,abu athira
 ابوعاصى,abu-assi
-ابوعاصي,aboaasi
-ابوعامر,aboaamar
-ابوعبدة,abo abda
+ابوعاصي,abu asi
+ابوعامر,abu amer
 ابوعبدو,abdo
-ابوعبيد,abuobaid
-ابوعجمي,abuajami
-ابوعجوه,abuajwa
-ابوعدوان,aboadwan
-ابوعرار,abuarar
+ابوعبيد,abu obeid
+ابوعجمي,abu ajami
+ابوعجوه,abu ajwa
+ابوعدوان,abu udwan
+ابوعرار,abu arar
 ابوعرام,abu-aram
-ابوعرب,aboarab
+ابوعرب,abu arab
 ابوعرفات,abu-arafat
-ابوعرمانه,abuarmanah
-ابوعريبان,abuoreiban
+ابوعرمانه,abu armana
+ابوعريبان,abu ariban
 ابوعزال,abu-east
-ابوعزوم,abuazoum
+ابوعزوم,abu azzoum
 ابوعسفة,abu-asefa
 ابوعسفه,abu-asfa
 ابوعسقول,abu-asell
-ابوعشيبه,abuashayba
+ابوعشيبه,abu asheiba
 ابوعصر,abu-asr
 ابوعصفور,abu-asfour
-ابوعطوان,aboatwan
-ابوعطيوى,aboaataioa
-ابوعطيوي,aboaataioi
+ابوعطوان,abu atwan
+ابوعطيوي,abu atiwi
 ابوعقل,abu-aqel
-ابوعقلين,aboaqlain
+ابوعقلين,abu aqleen
 ابوعكر,abu-akar
 ابوعلوان,abu-alwan
-ابوعلي,aboalai
-ابوعليان,abualyan
+ابوعلي,abu ali
+ابوعليان,abu alyan
 ابوعليه,abu-upon him
 ابوعمر,abu-omar
-ابوعمرة,aboamarah
-ابوعمره,abuomra
+ابوعمرة,abu amra
+ابوعمره,abu amra
 ابوعمشة,abu-amsha
-ابوعمشه,abuamsha
+ابوعمشه,abu amsha
 ابوعنزه,abu-anza
 ابوعواد,awad
-ابوعوده,abuodeh
+ابوعوده,abu ouda
 ابوعوض,abu-awad
-ابوعون,aboaon
+ابوعون,abu aoun
 ابوعويضه,abu-awaida
-ابوعويمر,aboaoiamar
+ابوعويمر,abu oweimer
 ابوعيادة,ayada
-ابوعياده,aboaiadah
-ابوعيد,aboaid
+ابوعياده,abu ayada
+ابوعيد,abu eid
 ابوعيدة,abu-aida
-ابوعيده,abueida
-ابوعيسى,abuissa
+ابوعيده,abu eida
+ابوعيسى,abu issa
 ابوعيش,abu-aish
 ابوعيشة,abu-eisha
-ابوعيشه,aboaishaah
-ابوعيطه,aboaitah
+ابوعيشه,abu aisha
+ابوعيطه,abu aita
 ابوغازي,abu-ghazi
-ابوغالي,abughali
-ابوغبن,aboghbn
+ابوغالي,abu ghali
+ابوغبن,abu ghaben
 ابوغراب,abu-ghorab
 ابوغرارة,abu-sarra
 ابوغرقود,abu-ghroufh
 ابوغزال,ghazal
 ابوغزاله,abu-ghazala
 ابوغزة,abu-gaza
-ابوغلوه,abughalwa
-ابوغليون,aboghlaion
-ابوغنيمه,abughanima
+ابوغلوه,abu ghalwa
+ابوغليون,abu ghalyoun
+ابوغنيمه,abu ghnema
 ابوغوري,abu-ghori
 ابوغوله,abu-ghoul
 ابوغياض,abu-ghayad
-ابوفخر,abufakhr
-ابوفسيفس,medal
+ابوفخر,abu fakhr
+ابوفريه,abu furaiya
+ابوفسيفس,abu fsaifes
 ابوفطاير,abu-fatayer
-ابوفول,abufoul
+ابوفول,abu foul
 ابوفياض,abu-fayyad
-ابوقشلان,abuqashlan
+ابوقشلان,abu qashlan
 ابوقفه,abu-qafra
 ابوقمر,abu-qamar
 ابوقمصان,abu-qumsan
 ابوقوطة,abu-qatta
-ابوقوطه,abuqutah
+ابوقوطه,abu qouta
 ابوقينص,abu-qinas
 ابوكاشف,abu-kashif
 ابوكتيفة,abu-ketifa
-ابوكتيفه,abukatifah
-ابوكرش,abokarsh
-ابوكلوب,abukloub
-ابوكميل,abukamil
+ابوكرش,abu karsh
+ابوكلوب,abu kulub
+ابوكميل,abu kmeil
 ابوكويك,abu-kwik
-ابولاشين,abolashin
+ابولاشين,abu lashin
 ابولافي,abu-lafi
-ابولبدة,abolbadah
-ابولبده,abulebdeh
-ابولبن,abolbn
+ابولبدة,abu lubda
+ابولبده,abu lubda
+ابولبن,abu laban
 ابولحية,abu-li'a
-ابولحيه,abulehia
-ابولطيفة,aboltaifah
-ابولطيفه,abulatifa
-ابولوز,abuloz
-ابولولي,abululi
-ابوليله,abulaila
+ابولحيه,abu lahiya
+ابولطيفة,abu latifa
+ابولطيفه,abu latifa
+ابولوز,abu louz
+ابولولي,abu louli
+ابوليله,abu layla
 ابوماشي,abu-mashi
-ابوماضي,abumadi
-ابومحارب,abomaharab
-ابومحسن,abomuhasan
+ابوماضي,abu madi
+ابومحارب,abu muharib
+ابومحسن,abu mohsen
 ابومحيسن,abu-muhaisen
 ابومخده,abu-makhda
-ابومخيمر,abumukhaimer
-ابومدين,abumadin
-ابومذكور,abumathkur
-ابومراحيل,abumarahil
-ابومراد,abumurad
-ابومرزوق,abumarzouk
-ابومرق,abomarq
-ابومريم,abomariam
-ابومزيد,abumazid
-ابومساعد,abumusaed
-ابومسامح,abomsamuh
+ابومخيمر,abu mukhaymar
+ابومدين,abu madin
+ابومذكور,abu mathkur
+ابومراحيل,abu marahil
+ابومراد,abu murad
+ابومرزوق,abu marzouk
+ابومريم,abu mariam
+ابومزيد,abu mazid
+ابومساعد,abu mousaed
+ابومسامح,abu mousameh
 ابومسعود,masoud
-ابومسلم,abomsalam
-ابومشايخ,abumashayikh
-ابومصطف,abomustafa
-ابومصطفى,abumustafa
+ابومسلم,abu muslim
+ابومشايخ,abu mashayekh
+ابومصطفى,abu mustafa
 ابومصطفي,abu-mustafa
-ابومطر,abumatar
-ابومطرود,abomtrod
-ابومطلق,abumutlaq
-ابومعروف,abumaarouf
+ابومطر,abu matar
+ابومطرود,abu matroud
+ابومطلق,abu mutlaq
+ابومعروف,abu marouf
 ابومعمر,muammar
 ابومعنيه,abu-maanah
-ابومعيلق,abumaeliq
+ابومعيلق,abu mailaq
 ابومغصيب,abu-mugheib
-ابومغيصيب,abumughaysib
-ابومكتومة,abomaktomah
+ابومغيصيب,abu mughaisib
 ابومكتومه,abu-makta
 ابومليح,abu-malih
-ابومنديل,abomunadil
-ابومنسي,abumansi
-ابومنصور,abumansour
-ابومهادي,abumahadi
+ابومنديل,abu mandil
+ابومنسي,abu mansi
+ابومنصور,abu mansour
+ابومهادي,abu mahadi
 ابومور,abu-moore
 ابوموسى,abu-mousa
 ابوناجع,abu-nassa
-ابوناجي,abunaji
-ابونادي,abonadi
-ابونار,abunar
-ابوناصر,abunasser
+ابوناجي,abu naji
+ابونادي,abu nadi
+ابونار,abu nar
+ابوناصر,abu naser
 ابوناموس,abu-namous
-ابونبهان,abonabhan
-ابونجا,abunaja
-ابوندا,abunada
+ابونبهان,abu nabhan
+ابونجا,abu naja
+ابوندا,abu nada
 ابوندى,abu-nada
 ابونصار,abu-nassar
-ابونصر,abonasar
+ابونصر,abu nasr
 ابونصير,abu-naseer
 ابونصيرة,abu-nasira
 ابونصيره,abu-nuseira
 ابونعمة,abu-nima
-ابونعمه,abuni'mah
-ابونعيم,abonaiam
+ابونعمه,abu nima
+ابونعيم,abu naim
 ابونقيره,abu-naqarah
 ابونمر,abu-nimr
-ابونوفل,abunofal
+ابونوفل,abu nawfal
 ابونويجع,abu-nuwaja
-ابوهاشم,abuhashem
-ابوهانى,abohana
+ابوهاشم,abu hashim
 ابوهاني,abu-hani
-ابوهجرس,abohjrs
-ابوهداف,abuhaddaf
-ابوهدروس,abohadaros
-ابوهده,abuhadda
-ابوهربيد,abohrobeid
-ابوهلال,abuhilal
+ابوهجرس,abu hajras
+ابوهداف,abu haddaf
+ابوهدروس,abu hadrous
+ابوهده,abu hidda
+ابوهربيد,abu harbid
+ابوهلال,abu hilal
 ابوهميسه,abu-hamisah
-ابوهندي,abohnadi
+ابوهندي,abu hindi
 ابوهولي,abu-holly
-ابوهويدي,abuhuwaidi
+ابوهويدي,abu huwaidi
 ابوهويشل,abu-hwaishel
-ابووادي,abuwadi
+ابووادي,abu wadi
 ابووردة,warda
-ابوورده,abooardah
+ابوورده,abu warda
 ابووزنة,abu-wazzanah
 ابووزنه,abu-wazzanah
-ابويوسف,aboiousf
-ابويونس,aboionis
+ابويوسف,abu yousef
+ابويونس,abu younis
 ابي,obi
 اثار,athar
+اجبيل,ijbail
 اجديع,ajdei
 اجلال,ijlal
 اجميعان,ijmian
@@ -776,7 +769,10 @@ ar,en
 احميد,ahmeid
 احميدان,ihmeidan
 احميده,hmaida
+احيوات,ahaiwat
+احيوي,ahiwi
 اخروات,ikhrewat
+اخريس,ikhrais
 اخزيق,ikhzaiq
 اخضير,ikhdir
 اخلاص,ikhlas
@@ -786,6 +782,7 @@ ar,en
 ادريس,idris
 ادريسي,idrisi
 ادعيس,adais
+ادغيش,idghaish
 ادم,adam
 ادهم,adham
 ادويدار,idweidar
@@ -798,18 +795,21 @@ ar,en
 ارتحاب,irtihab
 ارتواء,artiwa
 ارتيمه,artima
+ارجليات,arjilat
 ارجيلات,arjilat
 ارجيله,arjila
 ارحيل,irhail
 ارحيم,irhim
 ارديسي,ardisi
 ارسلان,arslan
+ارسين,arsin
 ارشي,irshi
 ارقيق,irqeiq
 ارقيه,ruqaya
 اركان,arkan
 ارميح,irmeih
 ارميلات,ermilat
+ارنستن,ernesten
 اروه,arwa
 اروى,arwa
 ارويشد,irwished
@@ -830,6 +830,7 @@ ar,en
 استبرق,istabraq
 استقلال,istiqlal
 استيتان,astitan
+استيتيه,isteitiya
 اسحاق,ishaq
 اسحق,ishaq
 اسد,assad
@@ -857,6 +858,7 @@ ar,en
 اسير,asir
 اسيل,aseel
 اشبير,ishbeir
+اشتيان,ishtayan
 اشتيوى,ishteiwi
 اشتيوي,ishteiwi
 اشجان,ashjan
@@ -865,6 +867,7 @@ ar,en
 اشرقت,ashraqat
 اشريتح,ishreitah
 اشرير,ishreir
+اشريقي,ishriqi
 اشريم,ishreim
 اشقير,ishqair
 اشكنتنا,ishkintna
@@ -872,6 +875,7 @@ ar,en
 اشلاء,ishlaa
 اشنينو,ishnino
 اشنيوره,ishniora
+اشهب,ashhab
 اشواق,ashwaq
 اصبيح,isabeih
 اصبيحى,asbiha
@@ -886,6 +890,7 @@ ar,en
 اطحيمر,athaimer
 اطراد,itrad
 اظهير,izhair
+اعبي,iabi
 اعبيان,ibian
 اعبيد,obaid
 اعتدال,atidal
@@ -900,10 +905,13 @@ ar,en
 اعلاو,alaw
 اعلاوي,alawi
 اعليان,elyan
+اعمر,amer
+اعمير,imair
 اعويص,awis
 اغا,agha
 اغاني,aghani
 اغبيط,aghbeet
+اغديان,ighdayan
 اغريب,ighrayyib
 اغنيم,ighneim
 افتخار,iftikhar
@@ -920,6 +928,7 @@ ar,en
 اقصيعة,iqseya
 اقصيعه,iqseya
 اقطيفان,iqtifan
+اقليم,iqlim
 اكتمال,iktimal
 اكتيع,iktia
 اكرام,ikram
@@ -952,6 +961,7 @@ ar,en
 الأنصاري,al-ansari
 الأنقح,al-anqah
 الأي,al-ay
+الأيهم,al-ayham
 الإسلام,al-islam
 الإفرنجي,al-ifranji
 الإيمان,al-iman
@@ -997,6 +1007,7 @@ ar,en
 الافنيش,al-afnish
 الاقرع,al-aqra
 الالك,alalk
+الاله,ilah
 الامام,al-imam
 الامير,al-amir
 الاميرة,alameirah
@@ -1032,11 +1043,13 @@ ar,en
 البحطيطي,al-bahteiti
 البحيري,al-buhairi
 البحيصي,al-bheisi
+البدر,al-badr
 البدرساوي,al-badrsawi
 البدري,al-badri
 البدوي,al-badawi
 البدى,al-badi
 البدي,al-badi
+البديع,badi
 البر,al-barr
 البراء,al-baraa
 البرادعي,al-baradei
@@ -1078,6 +1091,7 @@ ar,en
 البطه,al-batta
 البطيخ,al-batikh
 البع,al-baa
+البعاوي,al-baawi
 البغدادي,al-baghdadi
 البقري,al-baqri
 البكري,al-bakri
@@ -1092,6 +1106,7 @@ ar,en
 البهبهاني,al-bahbahani
 البهتيمي,al-bahteimi
 البهتيني,al-bahtini
+البهداري,al-bahdari
 البهلول,al-bahloul
 البهنساوي,al-bahnsawi
 البهو,al-baho
@@ -1100,6 +1115,7 @@ ar,en
 البوبو,al-bobo
 البوجي,al-bouji
 البورنو,al-borno
+البياتي,al-bayati
 البياري,al-biari
 البياع,al-bayaa
 البيبه,al-biba
@@ -1111,6 +1127,7 @@ ar,en
 البيك,al-beik
 البيوك,al-bayouk
 البيومي,al-bayoumi
+التايه,al-taya
 التتر,al-tatar
 التتري,al-tatari
 التح,al-tah
@@ -1129,15 +1146,19 @@ ar,en
 التلولي,al-talouli
 التلي,al-talli
 التوم,al-tom
+التيان,al-tayyan
 التيتي,al-teyti
 الثائر,al-thaer
+الثاري,al-thari
 الثلاثيني,al-thalathini
 الثوابته,al-thawabta
+الثوم,al-toum
 الجابر,jaber
 الجاجة,al-jaja
 الجاجه,al-jaja
 الجاروشة,al-jarosha
 الجاروشه,al-jarosha
+الجاعوني,al-jaouni
 الجالوس,al-jalous
 الجايح,al-jayih
 الجبار,jabbar
@@ -1148,6 +1169,7 @@ ar,en
 الجبيري,al-jubairi
 الجبين,al-jbeen
 الجحش,al-jahsh
+الجحيش,al-jaheesh
 الجخبير,al-jakhbir
 الجخلب,al-jakhlub
 الجد,al-jad
@@ -1174,6 +1196,7 @@ ar,en
 الجعل,al-jaal
 الجعيدي,al-jaidi
 الجلاد,al-jallad
+الجلاوي,al-jalawi
 الجلب,al-jalb
 الجليس,al-jalees
 الجليل,jalil
@@ -1182,6 +1205,7 @@ ar,en
 الجمالي,al-jamali
 الجمل,al-jamal
 الجملة,al-jumla
+الجميلي,al-jamili
 الجنان,al-jinan
 الجندي,al-jundi
 الجوابره,al-jawabra
@@ -1237,9 +1261,9 @@ ar,en
 الحصين,al-hussein
 الحصيني,al-huseini
 الحطاب,al-hattab
-الحفظ,alhfz
 الحفناوي,al-hafnawi
 الحفني,al-hafni
+الحفيط,variant spelling
 الحفيظ,hafiz
 الحق,al-haq
 الحكيم,hakim
@@ -1257,6 +1281,7 @@ ar,en
 الحمامي,al-hammami
 الحمايدة,al-hamayda
 الحمايده,al-hamayda
+الحمايل,al-hamayel
 الحمران,al-hamran
 الحمري,al-hamri
 الحمضيات,al-hamdiyat
@@ -1291,11 +1316,11 @@ ar,en
 الخباز,al-khabbaz
 الختام,al-khitam
 الخراز,al-kharraz
+الخربيش,al-khurbaish
 الخربيشي,al-khurbaishi
 الخرطي,al-khurti
 الخروبي,al-khroubi
 الخريبي,al-khuraibi
-الخزار,alkhzar
 الخزندار,al-khazindar
 الخضري,al-khudari
 الخطيب,al-khatib
@@ -1316,6 +1341,7 @@ ar,en
 الخيسي,al-khaisi
 الداعور,al-daour
 الدالي,al-dali
+الداموني,al-damouni
 الداهودي,al-dahoudi
 الداهوك,al-dahouk
 الداية,al-daya
@@ -1331,6 +1357,7 @@ ar,en
 الدبجي,al-dabji
 الدبس,al-dibs
 الدبش,al-dabash
+الدبل,al-dabl
 الدبور,al-dabour
 الدجاني,al-dajani
 الدجني,al-dajani
@@ -1362,6 +1389,7 @@ ar,en
 الدعالسه,al-daalsa
 الدعبله,al-dabla
 الدعدور,al-dadour
+الدعس,al-daas
 الدعليس,al-dalis
 الدعمة,al-daama
 الدعيج,al-duaij
@@ -1388,6 +1416,7 @@ ar,en
 الدواوسه,al-dawawsa
 الدوس,al-dous
 الدوش,al-doush
+الدوي,al-dawi
 الدويك,al-duwaik
 الديب,al-deeb
 الديراوي,al-dirawi
@@ -1400,10 +1429,12 @@ ar,en
 الرازق,razzaq
 الراس,al-ras
 الراعي,al-rai
+الرافع,rafe
 الرباعي,al-rubai
 الربايعة,al-rabaya
 الربايعه,al-rabaya
 الربعي,al-rubaie
+الربيعي,al-rubaie
 الرجوب,al-rajoub
 الرجودي,al-rajudi
 الرحال,al-rahhal
@@ -1411,7 +1442,6 @@ ar,en
 الرحمن,rahman
 الرحيم,rahim
 الرحيمد,rahimed
-الرخاوى,alrkhaoa
 الرخاوي,al-rakhawi
 الرديسي,al-rdaisi
 الرز,al-ruz
@@ -1423,6 +1453,7 @@ ar,en
 الرش,al-rash
 الرشيدى,al-rashidi
 الرشيدي,al-rashidi
+الرضاوين,al-radawin
 الرضيع,al-radei
 الرفاتي,al-rifati
 الرفاعي,al-rifai
@@ -1449,6 +1480,7 @@ ar,en
 الريش,al-rish
 الريفي,al-rifi
 الز,alz
+الزاغه,al-zagha
 الزاملي,al-zamli
 الزاهراء,al-zahraa
 الزايغ,al-zayegh
@@ -1476,6 +1508,7 @@ ar,en
 الزق,al-zaq
 الزقزوق,al-zaqzouq
 الزقوت,al-zaqqut
+الزكاكته,al-zakakta
 الزماره,al-zammara
 الزمان,al-zaman
 الزمر,al-zamar
@@ -1483,6 +1516,7 @@ ar,en
 الزناتي,al-zanati
 الزنتيت,al-zantit
 الزنط,al-zanat
+الزنه,al-zinna
 الزهار,al-zahhar
 الزهارنه,al-zaharna
 الزهراء,al-zahraa
@@ -1524,6 +1558,7 @@ ar,en
 السحلوب,al-sahloub
 السحو,al-saho
 السحوه,al-sahwa
+السخل,al-sakhl
 السخله,al-sakhla
 السدودي,al-sudoudi
 السر,al-sir
@@ -1550,9 +1585,12 @@ ar,en
 السكافى,al-sakafi
 السكافي,al-sakafi
 السكحفي,al-sakhafi
+السكران,al-sukran
 السكسك,al-saksak
 السكني,al-sakani
 السلاخي,al-selakhi
+السلاق,al-sallaq
+السلال,al-sallal
 السلام,salam
 السلامين,al-salameen
 السلاوي,al-salawi
@@ -1566,11 +1604,13 @@ ar,en
 السلوت,al-salout
 السلول,al-saloul
 السلي,al-sali
+السماري,al-samari
 السماعنه,al-samana
 السماك,al-sammak
 السمان,al-samman
 السمري,al-samri
 السمك,al-samak
+السملوسي,al-samlousi
 السمنه,al-samna
 السمهوري,al-samhouri
 السموني,al-samouni
@@ -1578,6 +1618,7 @@ ar,en
 السميع,sami
 السناوي,al-sinawi
 السنداوي,al-sindawi
+السندي,al-sindi
 السنكري,al-sankari
 السنوار,al-sinwar
 السهلي,al-sahli
@@ -1607,9 +1648,10 @@ ar,en
 الشبراوي,al-shabrawi
 الشبلي,al-shibli
 الشجيع,al-shajee
+الشحاد,al-shahad
+الشحتوت,al-shahtout
 الشحري,al-shahri
 الشخريت,al-shakhrit
-الشراتحة,alshrathah
 الشراتحه,al-sharatha
 الشرافي,al-shrafi
 الشرباصي,al-sharbasi
@@ -1624,6 +1666,7 @@ ar,en
 الشعراوي,al-sharawi
 الشغنوبي,al-shaghnoubi
 الشقاقي,al-shaqaqi
+الشقرا,al-shaqra
 الشقره,al-shaqra
 الشكري,al-shukri
 الشكور,shakur
@@ -1631,6 +1674,7 @@ ar,en
 الشلبي,al-shalabi
 الشلتاوي,al-shaltawi
 الشلح,al-shalah
+الشلحه,al-shalha
 الشلف,al-shalaf
 الشلفوح,al-shalfouh
 الشمالي,al-shamali
@@ -1638,13 +1682,13 @@ ar,en
 الشن,al-shan
 الشنا,al-shanna
 الشناط,al-shanat
+الشناوي,al-shinnawi
 الشنب,al-shanab
 الشنباري,al-shanbari
 الشنتف,al-shantaf
 الشندغلي,al-shandaghli
 الشندي,al-shindi
 الشنشير,al-shanshir
-الشنشيري,alshnashiri
 الشنطي,al-shanti
 الشوا,al-shawa
 الشواف,al-shawwaf
@@ -1669,9 +1713,11 @@ ar,en
 الصايغ,al-sayegh
 الصباح,al-sabah
 الصباغ,al-sabbagh
+الصبور,sabour
 الصبيحي,al-subaihi
 الصديق,al-siddiq
 الصردى,al-sardi
+الصرفندي,al-sarafandi
 الصرفيطي,al-sarfiti
 الصعيدي,al-saidi
 الصفدي,al-safadi
@@ -1695,6 +1741,7 @@ ar,en
 الضاش,al-dash
 الضاني,al-dani
 الضبه,al-dabba
+الضحيك,al-dahik
 الضعيفي,al-daifi
 الطاهر,al-taher
 الطباطيبى,al-tabatibi
@@ -1725,6 +1772,7 @@ ar,en
 الطيبي,al-taybi
 الطير,al-tair
 الطيف,al-tayyif
+الطيماوي,al-taimawi
 الطيور,al-tyour
 الظاظا,al-zaza
 العابد,al-abed
@@ -1766,7 +1814,9 @@ ar,en
 العجيلي,al-ajeili
 العجين,al-ajin
 العداسي,al-adasi
+العدسي,al-adasi
 العدلوني,al-adluni
+العدوي,al-adawi
 العديسي,al-addaisi
 العديني,al-edeini
 العر,al-arr
@@ -1786,6 +1836,7 @@ ar,en
 العرعير,al-arair
 العرقان,al-irqan
 العرمي,al-arami
+العرور,al-arour
 العروق,al-orouk
 العروقي,al-orouqi
 العريان,al-aryan
@@ -1813,6 +1864,7 @@ ar,en
 العطاونه,al-atawna
 العطعوط,al-atout
 العطل,al-atal
+العطله,al-atla
 العطوي,al-atwi
 العطيم,alaataiam
 العظيم,azim
@@ -1877,6 +1929,7 @@ ar,en
 العيله,al-aila
 العين,al-ein
 العيوطي,al-ayouti
+العيون,al-oyoun
 الغازي,al-ghazi
 الغالي,al-ghali
 الغرابلي,al-ghurabli
@@ -1891,7 +1944,6 @@ ar,en
 الغزالي,al-ghazali
 الغزاوي,al-ghazawi
 الغصين,al-ghusein
-الغظيم,alghziam
 الغف,al-ghuf
 الغفار,ghaffar
 الغفاري,al-ghaffari
@@ -1901,7 +1953,6 @@ ar,en
 الغفير,al-ghafir
 الغلاييني,al-ghalayini
 الغلبان,al-ghalban
-الغليض,alghlaidh
 الغليظ,al-ghaliz
 الغليظي,al-ghalizi
 الغماري,al-ghumari
@@ -1909,6 +1960,8 @@ ar,en
 الغنام,al-ghannam
 الغندور,al-ghandour
 الغني,ghani
+الغواش,al-ghawash
+الغوش,al-ghosh
 الغوطي,al-ghoti
 الغول,al-ghoul
 الغولة,al-ghula
@@ -1967,16 +2020,20 @@ ar,en
 القايض,al-qayed
 القباني,al-qabbani
 القبط,al-qubt
+القبطي,al-qibti
+القبلان,al-qublan
 القتيل,al-qatil
 القدرة,al-qudra
 القدره,al-qudra
 القدس,al-quds
 القدوة,al-qudwa
 القدوس,qaddous
+القديرات,al-qudairat
 القديري,al-qudairi
 القديم,al-qadim
 القرا,al-qara
 القرايا,al-qaraya
+القرشلي,al-qarshali
 القرع,al-qara
 القرعان,al-quraan
 القرعاوي,al-qarawi
@@ -1999,6 +2056,7 @@ ar,en
 القطروس,al-qatarous
 القطروي,aliqtroi
 القطري,al-qatari
+القطش,al-qatash
 القطشان,al-qatshan
 القططي,al-qatati
 القطناني,al-qatnani
@@ -2018,6 +2076,7 @@ ar,en
 القواسمي,al-qawasmi
 القوقا,al-qouqa
 القولق,al-qulaq
+القوي,qawi
 القيسي,al-qaisi
 القيشاوي,al-qishawi
 القيق,al-qiq
@@ -2044,6 +2103,7 @@ ar,en
 الكسيحه,al-ksiha
 الكفارنة,al-kafarna
 الكفارنه,al-kafarna
+الكفراوي,al-kafrawi
 الكلزاني,al-kalzani
 الكملات,al-kamalat
 الكموني,al-kamouni
@@ -2053,6 +2113,7 @@ ar,en
 الكيال,al-kayyal
 الكيالي,al-kayali
 الكيلاني,al-kilani
+اللبابده,al-lababda
 اللبابيدي,al-lababidi
 اللباد,al-labbad
 اللبان,al-laban
@@ -2081,6 +2142,7 @@ ar,en
 المؤمن,mumin
 المؤيد,al-muayad
 الما,alma
+الماجد,majid
 الماشى,al-mashi
 الماشي,al-mashi
 الماظة,al-maza
@@ -2088,6 +2150,7 @@ ar,en
 المباشر,al-mubasher
 المبحوح,al-mabhouh
 المبيض,al-mubayyid
+المبييض,al-mubayyid
 المتبولي,al-matbouli
 المتربيعي,al-mutarbaie
 المتولى,al-metwalli
@@ -2106,6 +2169,7 @@ ar,en
 المحلاوي,al-mahlawi
 المختار,al-mukhtar
 المدفع,al-madfaa
+المدقه,al-madaqqa
 المدلل,al-mudallal
 المدللة,al-mdallala
 المدني,al-madani
@@ -2116,7 +2180,9 @@ ar,en
 المزنر,al-miznar
 المزين,al-muzayyen
 المزيني,al-muzaini
+المسارعه,al-msaraa
 المسارعي,al-msarai
+المسالمه,al-masalma
 المسحال,al-mishal
 المسلاتي,alamsalati
 المسلمي,al-maslami
@@ -2138,6 +2204,7 @@ ar,en
 المعاتقه,al-maatqa
 المعتز,al-mutaz
 المعتصم,al-mutasim
+المعز,muiz
 المعزه,al-maza
 المعشر,al-mashar
 المعصوابي,al-masoabi
@@ -2156,6 +2223,8 @@ ar,en
 المفتي,al-mufti
 المقادمة,alamuqadamah
 المقادمه,al-maqadma
+المقاطعه,al-maqataa
+المقرع,al-maqra
 المقصود,maqsoud
 المقطران,alamuqtran
 المقطرن,al-muqatran
@@ -2181,6 +2250,7 @@ ar,en
 المنايعه,al-manaya
 المنتصر,al-muntasir
 المنسي,al-mansi
+المنشاوي,al-minshawi
 المنشد,al-munshid
 المنعم,moneim
 المنكوش,al-mankoush
@@ -2197,6 +2267,7 @@ ar,en
 المولى,mawla
 المى,alma
 الميدنه,al-meidna
+المينا,al-mina
 الميناوي,al-minawi
 النابلسيه,al-nabulsia
 الناجي,al-naji
@@ -2222,7 +2293,6 @@ ar,en
 النحال,al-nahhal
 النحوي,al-nahwi
 النخال,al-nakhal
-النخالة,alnkhalah
 النخاله,al-nakhala
 الندر,al-nadr
 الندى,al-nada
@@ -2233,6 +2303,7 @@ ar,en
 النسر,al-nasr
 النشار,al-nashar
 النشاش,al-nashash
+النشوي,al-nashwi
 النصاصره,al-nasasra
 النصر,al-nasr
 النضر,al-nadr
@@ -2251,6 +2322,8 @@ ar,en
 النملة,al-namla
 النمله,al-namla
 النمنم,al-namnam
+النميلات,al-nmeilat
+النميلي,al-nmeili
 النواتي,al-nawati
 النواجحة,al-nawajha
 النواجحه,al-nawajha
@@ -2264,6 +2337,7 @@ ar,en
 النويري,al-nuweiri
 النيرب,al-nayrab
 النيل,al-nil
+الهابط,al-habet
 الهادى,hadi
 الهادي,hadi
 الهالول,al-haloul
@@ -2299,6 +2373,7 @@ ar,en
 الواحد,wahed
 الوادية,al-wadia
 الواديه,al-wadia
+الوالى,al-wali
 الواوي,al-wawi
 الوحيدي,al-whaidi
 الوخيري,al-wakhairi
@@ -2372,8 +2447,10 @@ ar,en
 انتسال,intisal
 انتصار,intisar
 انتظار,intizar
+انتظام,intizam
 انتفاضه,intifada
 انتماء,intimaa
+انتيفه,intifa
 انجود,anjoud
 انجوم,anjum
 انجي,inji
@@ -2401,6 +2478,7 @@ ar,en
 انيسه,anisa
 اهديب,ihdeib
 اهل,ahel
+اهلال,ihlal
 اهله,ahla
 اهليل,ihleil
 اوشاح,oshah
@@ -2440,6 +2518,7 @@ ar,en
 بابا,baba
 باجس,bajes
 بادر,bader
+بادي,badi
 بارود,baroud
 باسل,basel
 باسم,basem
@@ -2492,6 +2571,7 @@ ar,en
 براوي,barawi
 برايو,birayu
 بربخ,barbakh
+بربز,barbaz
 برجس,barjas
 بردع,barda
 برزق,barzaq
@@ -2527,13 +2607,16 @@ ar,en
 بسيمه,baseema
 بسينة,busayna
 بسينه,busayna
+بسيوني,basyouni
 بشار,bashar
 بشارة,bishara
 بشاره,bishara
+بشاير,bashayer
 بشبش,bashbash
 بشرى,bushra
 بشناق,bishnaq
 بشير,bashir
+بشيره,bashira
 بصل,basal
 بصله,basala
 بطاح,battah
@@ -2562,6 +2645,7 @@ ar,en
 بلى,bali
 بلي,bali
 بليحه,blaiha
+بليغ,baligh
 بليمه,bleima
 بليمي,blimi
 بن,bin
@@ -2570,10 +2654,6 @@ ar,en
 بنان,banan
 بنت-الهام,daugther of elham
 بنت,bint
-بنت/زينب,daughter of zainab
-بنت/عائشة,daughter of aysha
-بنت\محمد,daughter of mohammad
-بنتزينب,bntzainab
 بنتمحمد,bintemuhammad
 بندر,bindar
 بنر,bnar
@@ -2592,6 +2672,7 @@ ar,en
 بهيه,bahiya
 بواب,bawwab
 بوادي,bawadi
+بوزو,bouzo
 بوزيه,bozaya
 بوسف,yousuf
 بولان,bolan
@@ -2605,12 +2686,14 @@ ar,en
 بيسان,bisan
 بيض,beid
 بيك,beik
+بيلا,bella
 بيلسان,bailasan
 بينار,binar
 بينه,baina
 بيوك,bayouk
 بيومي,bayoumi
 تاج,taj
+تاح,tah
 تاكت,takat
 تالا,tala
 تالة,tala
@@ -2635,6 +2718,7 @@ ar,en
 ترزي,tarzi
 تركي,turki
 تركيه,turkiya
+ترنيم,tarneem
 تساهيل,tasahil
 تسبيح,tasbeeh
 تسنيم,tasneem
@@ -2718,6 +2802,8 @@ ar,en
 جخيدب,jkheidib
 جدع,jadaa
 جدوع,jadou
+جرابعه,jarabaa
+جرابيع,jarabie
 جراد,jarad
 جرادة,jarada
 جراده,jarada
@@ -2735,6 +2821,7 @@ ar,en
 جريس,jeries
 جزاع,jazaa
 جزر,jazar
+جزريه,jazriya
 جعباص,jaabas
 جعران,jaaran
 جعرور,jarour
@@ -2743,6 +2830,7 @@ ar,en
 جعوانه,jaawana
 جعيدي,jaidi
 جفال,jaffal
+جفرا,jafra
 جلاء,jalaa
 جلال,jalal
 جلالة,jalala
@@ -2813,15 +2901,18 @@ ar,en
 جورج,george
 جورى,joara
 جوري,jouri
+جورية,jouria
 جولان,jolan
 جولي,julie
 جوليا,julia
+جوليانا,juliana
 جوليت,juliet
 جولييت,juliette
 جومانه,jumana
 جون,jon
 جونة,juna
 جوهر,jawhar
+جوهرة,jawhara
 جويد,jwaid
 جويعد,jweid
 جويفل,jweifel
@@ -2841,14 +2932,16 @@ ar,en
 حارس,haris
 حازم,hazim
 حافظ,hafez
-حاكم,hakam
+حاكم,hakim
 حاكمة,hakamah
 حاكمه,hakima
 حالوب,halub
 حامد,hamed
 حامده,hamda
 حب,hub
+حبايب,habayeb
 حبر,habr
+حبرون,habroun
 حبشي,habashi
 حبل,habal
 حبوب,huboub
@@ -2890,6 +2983,7 @@ ar,en
 حربيه,harbiyya
 حرز,hirz
 حرزالله,hirzallah
+حريص,harees
 حزين,hazeen
 حسام,hossam
 حسامالدين,hossam-el-din
@@ -2910,6 +3004,7 @@ ar,en
 حسي,hassi
 حسيب,haseeb
 حسين,hussein
+حسيني,husseini
 حشام,hisham
 حشمت,hishmat
 حشمه,hashma
@@ -2926,6 +3021,7 @@ ar,en
 حفيظه,hafiza
 حكم,hakam
 حكمت,hikmat
+حكمه,hikma
 حكيم,hakim
 حلا,hala
 حلاسة,halasa
@@ -2959,6 +3055,7 @@ ar,en
 حمادين,hammadin
 حماس,hamas
 حمام,hammam
+حمايده,hamayda
 حمتو,hamto
 حمد,hamad
 حمدالله,hamdallah
@@ -2985,18 +3082,21 @@ ar,en
 حمود,hamoud
 حمودة,hamouda
 حموده,hamouda
+حمودي,hamoudi
 حميد,hamid
 حميدان,hmeidan
 حميدة,humaida
 حميده,humaida
 حميدو,hamido
 حنا,hanna
+حناجره,hanajra
 حنان,hanan
 حناوي,hinawi
 حنتوش,hantoush
 حندوقه,handouqa
 حنضل,handal
 حنفي,hanafi
+حنوش,hannoush
 حنون,hannoun
 حنونه,hannouna
 حنيدق,hneidiq
@@ -3006,6 +3106,8 @@ ar,en
 حهاد,hhad
 حواجري,hawajri
 حواس,hawas
+حوتي,houti
+حوده,houda
 حور,hour
 حوراء,hawraa
 حورية,houriya
@@ -3034,9 +3136,11 @@ ar,en
 ختله,khatla
 خديجة,khadija
 خديجه,khadija
+خربق,kharbaq
 خرمه,khurma
 خروات,kharwat
 خروب,kharoub
+خروبي,khroubi
 خروف,kharrouf
 خريس,khurais
 خريش,khrish
@@ -3045,6 +3149,7 @@ ar,en
 خزيق,khzaiq
 خشان,khashan
 خشم,khashm
+خصيوان,khasiwan
 خضر,khader
 خضرة,khadra
 خضره,khadra
@@ -3081,6 +3186,7 @@ ar,en
 خوصه,khousa
 خولة,khawla
 خويطر,khweiter
+خويلد,khuwailid
 خيال,khayal
 خير,khair
 خيرت,khairat
@@ -3116,6 +3222,7 @@ ar,en
 دبابش,dababesh
 دباغ,dabbagh
 دبر,dibr
+دبله,dabla
 دبه,dabba
 دبو,dabbo
 دبور,dabour
@@ -3125,6 +3232,7 @@ ar,en
 دحبور,dahbur
 دحروج,dahrouj
 دحلان,dahlan
+دحيل,dahil
 دحيله,dahila
 دخان,dukhan
 دخل,dakhl
@@ -3137,8 +3245,10 @@ ar,en
 دراز,draz
 درازين,darazin
 دراهم,darahem
+دراوشه,darawsha
 درب,darb
 درباس,dirbas
+دربي,darbi
 دربيه,darbiya
 درج,daraj
 دردس,dardas
@@ -3147,14 +3257,17 @@ ar,en
 درغام,dargham
 درويش,darwish
 دريقه,dariqa
+دريملي,dremli
 درين,darin
 دريني,derini
 دريه,darya
 دريوي,driwi
+دسوقي,desouki
 دعاء,duaa
 دعابس,daabis
 دعبس,daabis
 دعيج,duaij
+دغمان,daghman
 دغمش,daghmash
 دغيش,dghaish
 دغيم,dgheim
@@ -3166,10 +3279,10 @@ ar,en
 دلال,dalal
 دلالال,dalalal
 دلدوم,daldum
-دلردونه,dlrdonuah
 دلع,dalaa
 دلو,dalo
 دلول,dalloul
+دلين,daleen
 دمياطي,dumyati
 دنيا,dunia
 دنيال,daniel
@@ -3179,7 +3292,6 @@ ar,en
 دهشان,dahshan
 دهليز,dahleez
 دهمان,dahman
-دهمش,dhmsh
 دهيش,daheesh
 دوابه,dawaba
 دواس,dawas
@@ -3256,6 +3368,7 @@ ar,en
 راجحه,rajha
 راجي,raji
 راس,ras
+راسل,rasil
 راسم,rasim
 راسيل,rasil
 راشد,rashed
@@ -3277,6 +3390,7 @@ ar,en
 رامى,rami
 رامي,rami
 راميه,ramia
+رانا,rana
 رانسي,ransi
 راني,rani
 رانيا,rania
@@ -3322,9 +3436,12 @@ ar,en
 رحيمه,rahima
 رخا,rakha
 رخيه,rakhia
+رداد,raddad
+رديف,radeef
 ردينه,radina
 رزان,razan
 رزق,rizq
+رزينه,razina
 رساله,risala
 رستم,rustom
 رسل,rusul
@@ -3351,11 +3468,13 @@ ar,en
 رضوى,radwa
 رعاب,raab
 رعد,raad
+رعيه,raiya
 رغد,raghad
 رغدا,raghda
 رغداء,raghda
 رغدة,raghda
 رغده,raghda
+رفاء,rifaa
 رفان,rafan
 رفعت,rifat
 رفعه,rifa
@@ -3374,6 +3493,7 @@ ar,en
 ركان,rakan
 ركبة,rukba
 ركبه,rukba
+ركن,rukn
 ركيعي,rikei
 رلا,rula
 رلى,ralli
@@ -3395,6 +3515,7 @@ ar,en
 رهام,riham
 رهان,rahan
 رهف,rahaf
+رهيب,raheeb
 رهيفه,rahifa
 روئ,roa
 روئه,ruaa
@@ -3440,6 +3561,7 @@ ar,en
 رويضه,rwaida
 رويضي,ruwaidi
 رويعي,ruwei
+روينه,rwaina
 ريا,rayya
 رياحي,riyahi
 رياش,riyash
@@ -3458,6 +3580,7 @@ ar,en
 ريدان,ridan
 ريدة,rida
 ريده,rida
+ريس,rees
 ريفال,rifal
 ريفان,revan
 ريفانا,rivana
@@ -3470,6 +3593,9 @@ ar,en
 ريناد,rinad
 ريناس,rinas
 رينال,reinal
+رينيه,renee
+ريه,raya
+ريهاف,rihaf
 ريهام,riham
 ريهان,rihan
 زارع,zare
@@ -3504,13 +3630,16 @@ ar,en
 زعتر,zaatar
 زعرب,zarab
 زعل,zaal
+زعنونه,zanouna
 زعيتر,zaaiter
+زعيزع,zaiza
 زعيم,zaim
 زغبر,zaghbar
 زغره,zaghra
 زغلول,zaghloul
 زقدوح,zaqdouh
 زقزوق,zaqzouq
+زقلام,zaqlam
 زقلان,zaqlan
 زقماط,zaqmat
 زقوت,zaqqut
@@ -3553,6 +3682,7 @@ ar,en
 زوجة,zwjah
 زور,zour
 زوزو,zuzu
+زوزي,zouzi
 زونين,zonin
 زويد,zweid
 زياد,ziyad
@@ -3592,6 +3722,7 @@ ar,en
 ساكب,sakib
 ساكن,saken
 سالم,salem
+سالمان,salman
 سالمة,salma
 سالمم,salamm
 سالمه,salima
@@ -3605,10 +3736,13 @@ ar,en
 سامية,samia
 ساميه,samia
 ساندي,sandy
+ساني,sani
 ساهر,saher
 ساهره,sahira
 سبأ,saba
+سباعنه,sabaana
 سباعي,sibai
+سباق,sibaq
 سبت,sibt
 سبتي,sabti
 سبع,sabe
@@ -3617,6 +3751,7 @@ ar,en
 سبيتة,sbitah
 سبيته,sbeita
 سبيخه,sbaikha
+سبيكه,sbaika
 سبيله,sabila
 ست,sit
 ستة,sitta
@@ -3659,9 +3794,11 @@ ar,en
 سرداح,sirdah
 سردانه,sirdana
 سرور,surour
+سريا,surayya
 سرين,sireen
 سريه,siriya
 سطام,sattam
+سطريه,satriya
 سعاد,suad
 سعادة,saada
 سعاده,saada
@@ -3690,6 +3827,7 @@ ar,en
 سكينة,skinah
 سكينه,sukayna
 سل,sal
+سلا,sala
 سلاح,silah
 سلاف,sulaf
 سلام,salam
@@ -3759,6 +3897,7 @@ ar,en
 سندس,sundus
 سنسبيل,salsabil
 سنية,suniya
+سنيد,snaid
 سنيده,snaida
 سنير,sunair
 سنيمة,sneima
@@ -3779,6 +3918,7 @@ ar,en
 سهيد,suhaid
 سهير,suhair
 سهيل,suhail
+سهيلا,suhaila
 سهيلة,suhaila
 سهيله,suhaila
 سوار,siwar
@@ -3804,6 +3944,7 @@ ar,en
 سيد,sayed
 سيدا,saida
 سيدال,sayed
+سيدة,sayida
 سيدرا,sidra
 سيدو,seido
 سيرين,sirin
@@ -3823,6 +3964,7 @@ ar,en
 شاء,shaa
 شاب,shab
 شابط,shabet
+شاتيلا,shatila
 شادن,shaden
 شادى,shadi
 شادي,shadi
@@ -3844,6 +3986,7 @@ ar,en
 شاهيناز,shahinaz
 شاور,shawar
 شاويش,shawish
+شايقه,shayqa
 شباب,shabab
 شبات,shbat
 شباط,shbat
@@ -3857,6 +4000,7 @@ ar,en
 شبيكه,shbeika
 شتات,shatat
 شتيوي,shetiwy
+شجاع,shujaa
 شحات,shahat
 شحاته,shehata
 شحاد,shahad
@@ -3886,6 +4030,7 @@ ar,en
 شرخ,sharkh
 شرف,sharaf
 شرقيه,sharqia
+شرهان,sharhan
 شروق,shorouq
 شريتح,shreitah
 شرير,shrair
@@ -3955,13 +4100,16 @@ ar,en
 شلهوب,shalhub
 شلوف,shlof
 شلوله,shalola
+شليح,shleih
 شماس,shamas
 شمالة,shamala
 شماله,shamala
 شمالي,shamali
+شمة,shamma
 شمس,shams
 شمعة,shamaa
 شمعه,shamaa
+شمعون,shamoun
 شملة,shamla
 شملخ,shamlakh
 شمله,shamla
@@ -3975,6 +4123,7 @@ ar,en
 شنشير,shanshir
 شنن,shanan
 شنهاز,shahnaz
+شنين,shnain
 شنينو,shanino
 شنيورة,shanyoura
 شنيوره,shanyora
@@ -3992,9 +4141,11 @@ ar,en
 شهير,shahir
 شهيرة,shahira
 شهيره,shahira
+شهيناز,shahinaz
 شوارب,shawarib
 شوبكي,shobaki
 شوحه,shouha
+شوراب,shourab
 شوشة,shousha
 شوشه,shousha
 شوق,shouq
@@ -4008,6 +4159,7 @@ ar,en
 شومر,shomer
 شويخ,shweikh
 شويدح,shweidah
+شويكي,shweiki
 شياح,shiah
 شيبان,shaiban
 شيبوب,shaboub
@@ -4051,6 +4203,7 @@ ar,en
 صبري,sabri
 صبرين,sabreen
 صبريه,sabriya
+صبوح,sabbouh
 صبيح,sabeih
 صبيحه,subaiha
 صخر,sakhr
@@ -4070,8 +4223,10 @@ ar,en
 صفوان,safwan
 صفوت,safwat
 صفية,safiya
+صفيناز,safinaz
 صفيه,safiya
 صقر,saqr
+صقير,sqair
 صلاح,salah
 صلاحالدين,salah-ud-din
 صلوحه,saluha
@@ -4090,10 +4245,13 @@ ar,en
 صواوين,sawawin
 صوصين,sosain
 صويص,sweis
+صويلح,sweileh
 صويوين,sweiween
+صياح,sayyah
 صيام,siyam
 صيداوي,sidawi
 صيدم,saidam
+ضاحي,dahi
 ضاهر,daher
 ضاوي,dawi
 ضباع,dbaa
@@ -4101,6 +4259,7 @@ ar,en
 ضبعان,dabaan
 ضحا,doha
 ضحى,duha
+ضرار,dirar
 ضرغام,dargham
 ضلفة,dalfa
 ضلفه,dalfa
@@ -4130,6 +4289,7 @@ ar,en
 طبازه,tabaza
 طبازي,tabazi
 طباسي,tabasi
+طباشه,tabasha
 طباع,tebaa
 طبش,tabsh
 طبق,tabaq
@@ -4156,7 +4316,6 @@ ar,en
 طعيمه,tuaima
 طفلاخلاص,tflakhalas
 طفلة,tufala
-طفلسلمى,tflsaluma
 طفله,tflah
 طقش,taqsh
 طلال,talal
@@ -4172,8 +4331,10 @@ ar,en
 طنبوره,tanbora
 طنطيش,tantish
 طه,taha
+طواحين,tawahin
 طواحينه,tawahina
 طوطح,toutah
+طوق,touq
 طولان,toulan
 طومان,toman
 طويل,taweel
@@ -4204,6 +4365,7 @@ ar,en
 عاذره,athira
 عارف,aref
 عارفه,arifa
+عاروري,arouri
 عازم,azim
 عاشو,asho
 عاشور,ashour
@@ -4229,6 +4391,7 @@ ar,en
 عايشه,aysha
 عبادة,ubada
 عباده,ubada
+عبادي,abbadi
 عباس,abbas
 عباين,abayyin
 عبد,abdel
@@ -4256,7 +4419,6 @@ ar,en
 عبدالرحمن,abdel
 عبدالرحيم,abdalrahaiam
 عبدالرزاق,abdalrzaq
-عبدالرزق,abdalrzq
 عبدالساتر,abdul-sattar
 عبدالسالم,abdulsalim
 عبدالستار,abdul-sattar
@@ -4328,9 +4490,11 @@ ar,en
 عبير,abeer
 عتاب,itab
 عتيق,atiq
+عتيله,oteila
 عثثمان,othman
 عثمان,othman
 عجاج,ajaj
+عجرم,ajram
 عجلان,ajlan
 عجمي,ajami
 عجوة,ajwa
@@ -4347,7 +4511,6 @@ ar,en
 عدلي,adli
 عدن,aden
 عدنان,adnan
-عدنلن,adnln
 عدوان,udwan
 عدوي,adawi
 عدى,uday
@@ -4360,11 +4523,13 @@ ar,en
 عرار,arar
 عرام,aram
 عرب,arab
+عربس,arbas
 عربي,arabi
 عربيه,arabia
 عرجة,arja
 عرجه,arja
 عرسان,arsan
+عرف,arf
 عرفات,arafat
 عرفان,irfan
 عرفة,arafa
@@ -4400,6 +4565,7 @@ ar,en
 عزو,azzo
 عزوز,azzouz
 عزوم,azzoum
+عزير,uzair
 عزيز,aziz
 عزيزة,aziza
 عزيزه,aziza
@@ -4409,6 +4575,7 @@ ar,en
 عسقول,asqul
 عسكر,askar
 عسل,asal
+عسلان,aslan
 عسلي,asali
 عسلية,asaliya
 عسليه,asaliya
@@ -4420,19 +4587,23 @@ ar,en
 عشيبه,asheiba
 عصام,essam
 عصر,asr
+عصعوص,asous
 عصفور,asfour
 عصفوره,asfoura
 عصمت,esmat
 عطا,ata
+عطاء,ataa
 عطاءالله,atallah
 عطاالله,atallah
 عطابا,ataba
+عطار,attar
 عطاف,ataf
 عطافي,atafi
 عطالله,atallah
 عطاي,atay
 عطايا,ataya
 عطايه,ataya
+عطره,atra
 عطوان,atwan
 عطوة,atwa
 عطوه,atwa
@@ -4449,6 +4620,7 @@ ar,en
 عفش,afash
 عفيف,afif
 عفيفة,afifa
+عفيفي,afifi
 عقاب,oqab
 عقبه,uqba
 عقل,aqel
@@ -4487,6 +4659,7 @@ ar,en
 عليوه,eliwa
 عماد,imad
 عمادالدين,emadal-deen
+عمادة,imada
 عمار,ammar
 عمارة,ammarah
 عماره,emara
@@ -4535,6 +4708,7 @@ ar,en
 عوكل,awkal
 عون,aoun
 عوني,awni
+عويدات,oweidat
 عويص,awis
 عويض,oweid
 عويضة,owaida
@@ -4542,6 +4716,7 @@ ar,en
 عويله,oweila
 عويلي,oweili
 عويمر,oweimer
+عيا,aya
 عياد,ayyad
 عيادة,ayada
 عياده,ayada
@@ -4594,6 +4769,7 @@ ar,en
 غربية,gharbia
 غربيه,gharbia
 غرقود,gharqoud
+غروب,ghuroub
 غريب,ghareeb
 غريز,ghariz
 غزال,ghazal
@@ -4605,6 +4781,7 @@ ar,en
 غزوان,ghazwan
 غسان,ghassan
 غسق,ghasaq
+غصن,ghusn
 غطاس,ghattas
 غفره,ghafra
 غلا,ghala
@@ -4623,16 +4800,19 @@ ar,en
 غنى,ghani
 غنيم,ghunaim
 غنيمه,ghnema
+غواش,same family in one release
 غوري,ghuri
 غوش,ghosh
 غولة,ghula
 غوله,ghula
 غيات,ghiyat
+غياث,ghiyath
 غياز,ghiyaz
 غياض,ghayad
 غيث,ghaith
 غيداء,ghaidaa
 غيضان,ghaidan
+غيظان,ghaidan
 فؤاد,fouad
 فؤاد,fuad
 فائق,faiq
@@ -4645,6 +4825,7 @@ ar,en
 فاديه,fadia
 فارس,faris
 فارسة,farisa
+فاره,fara
 فاروق,farouk
 فازع,fazea
 فاضل,fadel
@@ -4652,10 +4833,12 @@ ar,en
 فاطمةالزهراء,fatima-al-zahra
 فاطمه,fatima
 فاطمهالزهراء,fatima-al-zahra
+فاعور,faour
 فاكر,faker
 فالح,falih
 فالف,valef
 فالوجي,falouji
+فاهر,faher
 فايد,fayed
 فايدة,fayda
 فايده,fayda
@@ -4700,6 +4883,7 @@ ar,en
 فرحه,farha
 فردوس,firdous
 فرسان,fursan
+فرهود,farhoud
 فرهوده,farhouda
 فروانة,farwana
 فروانه,farwana
@@ -4714,6 +4898,7 @@ ar,en
 فريز,fariz
 فريزه,fariza
 فرينه,farina
+فريه,furaiya
 فزاع,fazaa
 فزع,faza
 فزعاط,fazaat
@@ -4776,6 +4961,7 @@ ar,en
 فيروزة,feirouza
 فيزان,faizan
 فيصل,faisal
+فيفي,fifi
 فيفيان,vivian
 فيولا,viola
 قابل,qabel
@@ -4787,6 +4973,7 @@ ar,en
 قاعود,qaoud
 قايدة,qayida
 قبلان,qublan
+قتاده,qatada
 قتيبة,qutaiba
 قحمان,qahman
 قداده,qadada
@@ -4795,6 +4982,7 @@ ar,en
 قدروة,qadruh
 قدري,qadri
 قدس,quds
+قدسي,qudsi
 قدش,qadash
 قدوحه,qaddouha
 قدورة,qaddoura
@@ -4808,12 +4996,15 @@ ar,en
 قرشين,qurshein
 قرضايا,qardaya
 قرطم,qartam
+قرعه,qara
 قرقز,qarqaz
 قرمان,qurman
 قرموط,qarmout
+قرن,qarn
 قروط,qarout
 قريب,quraib
 قريشي,quraishi
+قريق,qraiq
 قريقع,quraiqa
 قريناوي,qurinaoi
 قزاعر,qazaer
@@ -4843,6 +5034,7 @@ ar,en
 قطوش,qattous
 قطوم,qatum
 قطيط,qtait
+قطيعه,qutaia
 قطيفان,qutaifan
 قعدان,qadan
 قعيس,qais
@@ -4924,6 +5116,7 @@ ar,en
 كرم,karam
 كرمعر,karam
 كرمل,karmel
+كرنب,kurnub
 كرنز,karanz
 كروان,karwan
 كرولين,caroline
@@ -4940,6 +5133,7 @@ ar,en
 كسبه,kasba
 كسكين,keskeen
 كسيحه,ksiha
+كشتر,kashtar
 كشكش,kashkash
 كشكو,kashkou
 كعبر,kaabar
@@ -5003,12 +5197,14 @@ ar,en
 لبد,lubbad
 لبدة,lubda
 لبده,lubda
+لبن,laban
 لبنا,lubna
 لبنه,lubna
 لبنى,lubna
 لبيب,labeeb
 لبيبه,labiba
 لجين,lujain
+لحسن,lahsen
 لحية,lahiya
 لحيه,lahiya
 لطف,lutf
@@ -5027,6 +5223,9 @@ ar,en
 لليان,lillian
 لما,lama
 لمار,lamar
+لمضى,lamdi
+لمضي,lamdi
+لمون,lamoun
 لمى,lama
 لمياء,lamia
 لميس,lamees
@@ -5035,6 +5234,7 @@ ar,en
 لندا,linda
 لهلوب,lahlub
 لوا,lawa
+لواء,liwaa
 لواحظ,lawahiz
 لوبين,lubin
 لوتس,lotus
@@ -5042,6 +5242,7 @@ ar,en
 لورين,loreen
 لوز,louz
 لوزان,lozan
+لوقه,luqa
 لولح,lolah
 لولو,lulu
 لولي,louli
@@ -5057,6 +5258,7 @@ ar,en
 ليتين,layteen
 ليث,laith
 ليزا,lisa
+ليل,leil
 ليلاس,lilas
 ليله,layla
 ليلى,laila
@@ -5094,6 +5296,7 @@ ar,en
 مارينوف,marinov
 ماريه,maria
 ماريهان,marihan
+مازري,mazri
 مازن,mazen
 ماسة,massa
 ماسه,massa
@@ -5109,6 +5312,7 @@ ar,en
 مايله,maila
 مبارك,mubarak
 مباركه,mubaraka
+مبتسم,mubtasim
 مبروك,mabrook
 مبروكة,mabrouka
 مبروكه,mabrouka
@@ -5163,10 +5367,12 @@ ar,en
 محيالدين,mohieddin
 محيسن,muhaisin
 محيى,muhyi
+مختار,mukhtar
 مخده,makhda
 مخلص,mukhlis
 مخمد,makhmed
 مخيمر,mukhaymar
+مداح,maddah
 مدثر,mudathir
 مدحت,medhat
 مدفع,mdfa
@@ -5186,6 +5392,7 @@ ar,en
 مرام,maram
 مرتجى,mortaja
 مرتجي,mortaja
+مرثد,marthad
 مرجان,marjan
 مرجونه,marjouna
 مرح,marah
@@ -5201,6 +5408,7 @@ ar,en
 مرشد,murshid
 مرشود,marshoud
 مرضي,mardi
+مرعب,marab
 مرعي,marei
 مرفت,mervat
 مرفق,marfiq
@@ -5252,6 +5460,7 @@ ar,en
 مشمش,mishmish
 مشهور,mashhour
 مشير,mushir
+مشيره,mushira
 مصالحه,msalha
 مصباح,misbah
 مصبح,mosbeh
@@ -5263,13 +5472,17 @@ ar,en
 مصفر,musfir
 مصلح,musleh
 مضاوي,madawi
+مضر,mudar
 مضعان,midaan
 مضيف,mudaif
+مضيه,madiya
 مضيوف,mudayyouf
 مطاوع,mutawa
 مطر,matar
+مطران,matran
 مطرود,matroud
 مطري,matari
+مطريه,matriya
 مطلق,mutlaq
 مطوي,matawi
 مطير,mutair
@@ -5355,6 +5568,7 @@ ar,en
 منال,manal
 منة,menna
 منةالله,munhallah
+منتزه,muntazah
 منتصر,muntasir
 منتفض,muntafid
 منتهى,muntaha
@@ -5362,6 +5576,7 @@ ar,en
 مندو,mando
 منديل,mandil
 منذر,munther
+منزر,munzir
 منزير,munzir
 منسي,mansi
 منصور,mansour
@@ -5369,6 +5584,7 @@ ar,en
 منصوره,mansoura
 منظومه,manzuma
 منعم,moneim
+منقذ,munqith
 منه,menna
 منهالله,menat-allah
 منهل,manhal
@@ -5395,6 +5611,7 @@ ar,en
 مهادي,mahadi
 مهاني,mahani
 مهاوش,mahawish
+مهتاب,mahtab
 مهدى,mahdi
 مهدي,mahdi
 مهدية,muhadiah
@@ -5408,6 +5625,7 @@ ar,en
 مهيب,muheeb
 مهيزع,muhayza
 مهيم,mahim
+مهيمن,muhaimin
 مهيوب,mahyoub
 موج,mawj
 مودة,mawada
@@ -5528,6 +5746,7 @@ ar,en
 نجمه,najma
 نجوان,najwan
 نجود,nujoud
+نجوم,nujoum
 نجوى,najwa
 نجوي,najoi
 نجيب,najeeb
@@ -5567,6 +5786,7 @@ ar,en
 نسمان,nasman
 نسمة,nasma
 نسمه,nasma
+نسيان,nisyan
 نسيبة,nuseiba
 نسيبه,nuseiba
 نسيم,nasim
@@ -5583,6 +5803,7 @@ ar,en
 نصره,nasra
 نصري,nasri
 نصوح,nasouh
+نصوحي,nasouhi
 نصير,nusair
 نصيرات,nuseirat
 نصيره,nasira
@@ -5597,6 +5818,7 @@ ar,en
 نظميه,nazmia
 نظير,nazir
 نظيره,nazira
+نظيف,nazif
 نعامه,naama
 نعمات,neamat
 نعمان,numan
@@ -5606,6 +5828,7 @@ ar,en
 نعناع,nanaa
 نعنع,nanaa
 نعومة,naomah
+نعومه,nauma
 نعيم,naim
 نعيمة,naima
 نعيمه,naima
@@ -5620,8 +5843,10 @@ ar,en
 نمارا,namara
 نمحمد,muhammad
 نمر,nimr
+نميلات,nmeilat
 نها,nuha
 نهاد,nihad
+نهاز,nahhaz
 نهال,nihal
 نهاية,nihaya
 نهايه,nihaya
@@ -5630,6 +5855,7 @@ ar,en
 نهله,nahla
 نهى,nuha
 نهيل,nuhail
+نوادر,nawadir
 نواره,nawara
 نواس,nawas
 نواف,nawaf
@@ -5643,6 +5869,7 @@ ar,en
 نورة,noura
 نورج,nouraj
 نورز,norouz
+نورس,nawras
 نورسين,norsin
 نورما,norma
 نوره,noura
@@ -5654,6 +5881,7 @@ ar,en
 نوفل,nawfal
 نومر,nomer
 نويجع,nweijea
+نويرة,nwaira
 نويري,noiri
 نويلة,nwayla
 نياز,niyaz
@@ -5700,6 +5928,7 @@ ar,en
 هدون,hadoun
 هدى,huda
 هدي,hadi
+هديان,hadyan
 هديب,hudeib
 هدية,hadiya
 هدير,hadeer
@@ -5712,6 +5941,7 @@ ar,en
 هشام,hisham
 هلا,hala
 هلال,hilal
+هلاله,hilala
 هلانا,helena
 هلانة,helena
 هللو,hillo
@@ -5727,6 +5957,7 @@ ar,en
 هنادي,hanadi
 هنايه,hinaya
 هند,hind
+هنداوي,hindawi
 هنده,hinda
 هندومه,hindoma
 هندي,hindi
@@ -5748,9 +5979,12 @@ ar,en
 هيفاء,haifa
 هيكل,heikal
 هيلا,hayla
+هيلانه,helena
 هيلن,helen
+هيله,haila
 هيلين,helen
 هيما,haima
+هيموني,haimouni
 هين,heen
 وئام,waam
 وئام,weam
@@ -5801,12 +6035,14 @@ ar,en
 وطفه,watfa
 وطن,watan
 وعد,waad
+وفا,wafa
 وفاء,wafaa
 وفيق,wafiq
 وفيقة,wafiqa
 وفيقه,wafiqa
 وفيه,wafia
 ولاء,walaa
+ولايده,wlaida
 ولود,waloud
 وليد,walid
 وليدي,walidi
@@ -5837,6 +6073,7 @@ ar,en
 يحيى,yahya
 يحيىيى,yahya
 يحيي,yahya
+يزدان,yazdan
 يزن,yazan
 يزيد,yazid
 يسر,yusr
