@@ -1,0 +1,77 @@
+name: Generate killed-in-gaza v3
+
+# v3 carries an `update` index: which list update first introduced each id. Building
+# it means fetching killed-in-gaza.json from GitHub at every commit in
+# canonicalUpdateCommits, so the newest update's commit has to already be reachable
+# on main. That is why this cannot live in gen-killed-in-gaza.yml, which runs on
+# feature branches ("!main") before the merge commit exists -- v3 is a post-merge step.
+#
+# It went unautomated until July 2026, so killed-in-gaza-v3.json sat at 60,199 records
+# while v2 reached 72,835. That file is what /names loads (worker.ts fetches
+# /api/v3/killed-in-gaza.min.json) and what scripts/build/sqlite-export.ts reads, so
+# both had been serving a stale list for several updates.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "killed-in-gaza.json"
+      - "scripts/data/v3/killed-in-gaza.ts"
+      - "scripts/data/common/killed-in-gaza/constants.ts"
+      - ".github/workflows/gen-killed-in-gaza-v3.yml"
+
+permissions:
+  contents: write
+
+# Two runs would race on the same commit to main; queue them instead.
+concurrency:
+  group: gen-killed-in-gaza-v3
+  cancel-in-progress: false
+
+jobs:
+  datasets_gen_killed_v3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      - name: install dependencies
+        run: bun install
+
+      - name: generate v3 dataset
+        run: bun run gen-killed-v3
+
+      - uses: EndBug/add-and-commit@v9
+        name: commit changes
+        with:
+          message: "killed-in-gaza: v3 json update"
+          add: '["killed-in-gaza-v3.json", "killed-in-gaza-v3.min.json"]'
+          push: true
+
+      - name: trigger SQLite export
+        # sqlite-export.ts reads killed-in-gaza-v3.json, but the push above used
+        # GITHUB_TOKEN, which does not re-trigger push-based workflows
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          event-type: sqlite-export
+
+      # Deliberately after the commit: fresher data beats stale data even when the
+      # attribution is incomplete, but an unmatched id means canonicalUpdateCommits
+      # is missing the update that introduced it, so the run should still go red.
+      - name: check every record is attributed to an update
+        run: |
+          unattributed=$(bun -e '
+            const rows = require("./killed-in-gaza-v3.min.json").slice(1);
+            console.log(rows.filter((r) => r[6] === -1).length);
+          ')
+          echo "records with update: -1 -> $unattributed"
+          if [ "$unattributed" != "0" ]; then
+            echo "::error::$unattributed records have no update attribution -- add the update's merge commit to canonicalUpdateCommits in scripts/data/common/killed-in-gaza/constants.ts, then re-run this workflow"
+            exit 1
+          fi
