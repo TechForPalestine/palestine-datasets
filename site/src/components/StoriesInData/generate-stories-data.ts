@@ -7,10 +7,6 @@
  *
  * Run with bun (mirrors the other gen-* scripts in package.json):
  *   bun run site/src/components/StoriesInData/generate-stories-data.ts
- *
- * Wire it into package.json alongside the other generators, e.g.:
- *   "gen-stories": "bun run site/src/components/StoriesInData/generate-stories-data.ts"
- * and add `&& bun run gen-stories` to "gen-derived".
  */
 import { writeFileSync, readFileSync } from "node:fs";
 import { join } from "node:path";
