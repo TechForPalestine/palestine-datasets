@@ -67,24 +67,32 @@ export const STORIES: Story[] = [
     },
   },
 
-  /* ---- single-series area ---- */
   {
     id: "settler",
     kicker: "West Bank",
-    title: "Settler violence",
-    insight: "Israeli settler attacks in the West Bank, accumulating week after week.",
+    title: "A steady drumbeat, then a surge",
+    insight: "Settler attacks held flat for three years — then spiked in 2026, long after injuries fell.",
     caption:
-      "Cumulative settler attacks recorded in the West Bank daily dataset since October 2023.",
+      "Both lines are a 30-day pace — how many were recorded in the trailing month — rather than a running total, so surges read as spikes instead of a steeper slope. Each line is scaled to its own maximum so both stay legible. Settler attacks averaged about 117 a month across 2023, 2024 and 2025 alike, then rose to about 168 in 2026 with a peak near 396. Injuries ran the opposite way: roughly 1,230 a month during the military raids of late 2023, falling to about 180–260 a month ever since. The two are not linked in the data — the West Bank dataset counts settler attacks as incidents and counts injuries separately, with no attribution of any injury to a cause. Read the lines side by side, but neither explains the other.",
     schema: {
-      type: "timeseries-area",
+      type: "timeseries-multi",
       x: "report_date",
+      dualScale: true,
       sources: ["west_bank_daily"],
       fields: [
         {
-          key: "settler_attacks_cum",
+          key: "settler_attacks_new_30d",
           source: "west_bank_daily",
-          label: "Settler attacks",
+          label: "Settler attacks · per 30 days",
           color: "var(--story-amber)",
+          derived: true,
+        },
+        {
+          key: "injured_new_30d",
+          source: "west_bank_daily",
+          label: "Injured · per 30 days",
+          color: "var(--story-blue)",
+          derived: true,
         },
       ],
     },

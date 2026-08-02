@@ -20,19 +20,27 @@ the published datasets; clicking it opens a modal with a large interactive chart
 
 ## Schema → chart mapping
 
-| `schema.type`      | Chart         | Stories                                                                 |
-| ------------------ | ------------- | ----------------------------------------------------------------------- |
-| `timeseries-multi` | multi-line    | Two front lines · The youngest toll · Reporting under fire (dual-scale) |
-| `timeseries-area`  | filled area   | Killed while seeking aid · Settler violence                             |
-| `stacked-area`     | stacked bands | The toll, by group                                                      |
-| `breakdown`        | donut         | Who has been killed                                                     |
+| `schema.type`      | Chart         | Stories                                                                                   |
+| ------------------ | ------------- | ----------------------------------------------------------------------------------------- |
+| `timeseries-multi` | multi-line    | Two front lines · Reporting under fire · A steady drumbeat, then a surge (all dual-scale) |
+| `timeseries-area`  | filled area   | _(no story currently uses it; the primitive is kept for future stories)_                  |
+| `stacked-area`     | stacked bands | Where the killing is happening                                                            |
+| `breakdown`        | donut         | Who has been killed                                                                       |
 
-Every `key` is a real column — e.g. `ext_killed_cum`, `ext_killed_children_cum`,
-`aid_seeker_killed_cum` (`casualties_daily.json`); `killed_cum`,
-`settler_attacks_cum` (`west_bank_daily.json`); `gaza.killed.*` (`summary.json`).
+Every `key` is a real column — e.g. `ext_killed_cum`, `ext_killed_children_cum`
+(`casualties_daily.json`); `killed_cum`, `injured_cum`, `settler_attacks_cum`
+(`west_bank_daily.json`); `gaza.killed.*` (`summary.json`).
+
 Two values are computed in `data.ts` and flagged `derived: true`:
 `ext_killed_men_other_cum` and `gaza.killed.men_other` (the remainder after the
-named groups).
+named groups). The `*_new_30d` keys are also `derived: true`, but are computed
+earlier — `generate-stories-data.ts` builds them from the matching `*_cum`
+column at **full daily resolution**, before the ~140-point sampling, so the
+window is a real 30 days rather than 30 samples. They express _pace_ rather
+than a running total, which is what makes surges visible as spikes.
+
+`dualScale` scales each line to its own maximum. Use it whenever series of very
+different magnitude share a card; the tooltip still reports true values.
 
 ## Series catalog
 

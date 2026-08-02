@@ -45,6 +45,7 @@ const CASUALTY_KEYS: (keyof CasualtyDailyReportV2)[] = [
 const WEST_BANK_KEYS: (keyof WestBankDailyReportV2)[] = [
   "killed_cum",
   "killed_children_cum",
+  "injured_cum",
   "settler_attacks_cum",
 ];
 const LEBANON_KEYS: (keyof LebanonDailyReportV3)[] = ["killed_cum"];
@@ -66,9 +67,10 @@ function cumColumn<T extends object>(rows: T[], key: keyof T): number[] {
 }
 
 /**
- * Killed in the trailing `days` window, from a cumulative column. Before the
- * window has filled the value is everything counted so far — the series starts
- * at the start of the war, so "so far" *is* the whole window.
+ * How much a cumulative column grew over the trailing `days` window — the
+ * *pace* at each date rather than the running total. Before the window has
+ * filled the value is everything counted so far; the series starts at the
+ * start of the war, so "so far" *is* the whole window.
  */
 function rollingNew(cum: number[], days: number): number[] {
   return cum.map((v, i) => Math.max(0, v - (i >= days ? cum[i - days] : 0)));
@@ -109,6 +111,8 @@ function main() {
   const lbFull = cols(lbAligned, LEBANON_KEYS);
   casFull.ext_killed_new_30d = rollingNew(casFull.ext_killed_cum, ROLLING_DAYS);
   wbFull.killed_new_30d = rollingNew(wbFull.killed_cum, ROLLING_DAYS);
+  wbFull.injured_new_30d = rollingNew(wbFull.injured_cum, ROLLING_DAYS);
+  wbFull.settler_attacks_new_30d = rollingNew(wbFull.settler_attacks_cum, ROLLING_DAYS);
   lbFull.killed_new_30d = rollingNew(lbFull.killed_cum, ROLLING_DAYS);
 
   const sample = (full: Record<string, number[]>) =>

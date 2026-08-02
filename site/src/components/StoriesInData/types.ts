@@ -44,7 +44,9 @@ export type WestBankDailyKey =
   | "injured_cum"
   | "settler_attacks_cum"
   /** rolling window, see {@link RollingKey} */
-  | "killed_new_30d";
+  | "killed_new_30d"
+  | "injured_new_30d"
+  | "settler_attacks_new_30d";
 
 /**
  * Cumulative numeric columns of `lebanon_casualties_daily.json`. This dataset
@@ -60,10 +62,19 @@ export type LebanonDailyKey =
 /**
  * `*_new_30d` columns are not raw dataset columns: generate-stories-data.ts
  * derives them from the matching `*_cum` column at full daily resolution as
- * "killed in the trailing 30 days as of this date". They let a chart compare
- * the *current pace* across datasets instead of their all-time totals.
+ * "how much this count grew in the trailing 30 days as of this date". They let
+ * a chart show the *current pace* — and its spikes — instead of a running
+ * total, whose monotonic climb flattens every surge into the same slope.
+ *
+ * 30 days rather than daily deltas because the underlying datasets report on
+ * an irregular cadence and the JSON is sampled down to ~140 points: a daily
+ * rate would alias, dropping most spikes between samples.
  */
-export type RollingKey = "ext_killed_new_30d" | "killed_new_30d";
+export type RollingKey =
+  | "ext_killed_new_30d"
+  | "killed_new_30d"
+  | "injured_new_30d"
+  | "settler_attacks_new_30d";
 
 /**
  * Paths into `summary.json` (gaza.killed breakdown).

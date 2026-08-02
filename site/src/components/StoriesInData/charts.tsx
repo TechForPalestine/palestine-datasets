@@ -65,8 +65,12 @@ export function LineAreaChart({
 
   const plotted = useMemo(() => {
     return series.map((s) => {
+      // dualScale gives each series its own axis so a small one stays legible
+      // next to a large one. It has to be the series' own *max*, not its last
+      // value: that shortcut holds only for cumulative columns, and a rolling
+      // rate peaks mid-window, so the peak would plot above the chart.
       const max = dualScale
-        ? s.points[s.points.length - 1].value || 1
+        ? Math.max(...s.points.map((p) => p.value)) * 1.08 || 1
         : Math.max(...series.flatMap((q) => q.points.map((p) => p.value))) * 1.08 || 1;
       const pts = s.points.map((p, i) => ({
         x: scaleX(i, n, width, pad),
