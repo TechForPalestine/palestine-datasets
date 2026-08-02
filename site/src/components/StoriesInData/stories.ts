@@ -39,33 +39,6 @@ export const STORIES: Story[] = [
     },
   },
   {
-    id: "children",
-    kicker: "Children",
-    title: "The youngest toll",
-    insight: "Children killed in Gaza and the West Bank, counted day by day.",
-    caption:
-      "Cumulative children killed since October 7, 2023. Gaza’s line dwarfs the West Bank’s, but neither flattens.",
-    schema: {
-      type: "timeseries-multi",
-      x: "report_date",
-      sources: ["casualties_daily", "west_bank_daily"],
-      fields: [
-        {
-          key: "ext_killed_children_cum",
-          source: "casualties_daily",
-          label: "Children · Gaza",
-          color: "var(--story-red)",
-        },
-        {
-          key: "killed_children_cum",
-          source: "west_bank_daily",
-          label: "Children · West Bank",
-          color: "var(--story-blue)",
-        },
-      ],
-    },
-  },
-  {
     id: "press-medics",
     kicker: "Press & medics",
     title: "Reporting under fire",
@@ -96,27 +69,6 @@ export const STORIES: Story[] = [
 
   /* ---- single-series area ---- */
   {
-    id: "aid",
-    kicker: "Aid",
-    title: "Killed while seeking aid",
-    insight: "A category that barely existed before 2024, then climbs sharply.",
-    caption:
-      "Cumulative people killed while seeking aid in Gaza. The curve stays near flat, then accelerates through 2024 and into 2025.",
-    schema: {
-      type: "timeseries-area",
-      x: "report_date",
-      sources: ["casualties_daily"],
-      fields: [
-        {
-          key: "aid_seeker_killed_cum",
-          source: "casualties_daily",
-          label: "Killed seeking aid",
-          color: "var(--story-red)",
-        },
-      ],
-    },
-  },
-  {
     id: "settler",
     kicker: "West Bank",
     title: "Settler violence",
@@ -140,34 +92,37 @@ export const STORIES: Story[] = [
 
   /* ---- stacked area ---- */
   {
-    id: "composition",
-    kicker: "Gaza",
-    title: "The toll, by group",
-    insight: "Children, women, and men & others — stacked into the running total in Gaza.",
+    id: "share",
+    kicker: "Gaza, West Bank & Lebanon",
+    title: "Where the killing is happening",
+    insight: "Gaza was almost the whole toll — until Lebanon became most of it.",
     caption:
-      "Cumulative killed in Gaza, split into children, women, and everyone else, then stacked. ‘Men & others’ is the remainder once children and women are removed from the verified total, so the bands always sum to ext_killed_cum.",
+      "Each band is one territory’s share of everyone killed across the three in the trailing 30 days, so the chart tracks where the current pace sits rather than all-time totals. For two years Gaza is effectively the entire column; once Lebanon’s health ministry begins reporting in March 2026 it takes the majority within weeks. The West Bank stays a thin, unbroken band throughout — never large, never absent.",
     schema: {
       type: "stacked-area",
       x: "report_date",
-      sources: ["casualties_daily"],
+      normalize: "percent",
+      sources: ["casualties_daily", "west_bank_daily", "lebanon_casualties_daily"],
       fields: [
         {
-          key: "ext_killed_children_cum",
+          key: "ext_killed_new_30d",
           source: "casualties_daily",
-          label: "Children",
+          label: "Gaza",
           color: "var(--story-red)",
+          derived: true,
         },
         {
-          key: "ext_killed_women_cum",
-          source: "casualties_daily",
-          label: "Women",
-          color: "var(--story-plum)",
+          key: "killed_new_30d",
+          source: "west_bank_daily",
+          label: "West Bank",
+          color: "var(--story-blue)",
+          derived: true,
         },
         {
-          key: "ext_killed_men_other_cum",
-          source: "casualties_daily",
-          label: "Men & others",
-          color: "var(--story-olive)",
+          key: "killed_new_30d",
+          source: "lebanon_casualties_daily",
+          label: "Lebanon",
+          color: "var(--story-amber)",
           derived: true,
         },
       ],

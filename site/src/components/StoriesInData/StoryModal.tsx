@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Story } from "./types";
-import { getBreakdown, fmt } from "./data";
+import { getBreakdown, getSeries, fmt } from "./data";
 import { StoryChart } from "./StoryCard";
 import styles from "./StoriesInData.styles.module.css";
 
@@ -86,11 +86,23 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
 }
 
 function legendForSeries(story: Story) {
-  if (story.schema.type === "breakdown") return null;
-  return story.schema.fields.map((f, i) => (
+  const schema = story.schema;
+  if (schema.type === "breakdown") return null;
+
+  // A percent-stacked chart's legend is far more useful with the latest share
+  // attached — that's the number the chart is actually about.
+  const shares = schema.type === "stacked-area" && schema.normalize === "percent" ? latest() : null;
+  function latest() {
+    const ends = getSeries(schema).map((s) => s.points[s.points.length - 1].value);
+    const total = ends.reduce((a, b) => a + b, 0);
+    return total > 0 ? ends.map((v) => (v / total) * 100) : null;
+  }
+
+  return schema.fields.map((f, i) => (
     <span key={i} className={styles.lg}>
       <i style={{ background: f.color }} />
       {f.label}
+      {shares && <span className={styles.lgPct}>{shares[i].toFixed(shares[i] < 10 ? 1 : 0)}%</span>}
     </span>
   ));
 }

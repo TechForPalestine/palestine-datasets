@@ -1,5 +1,11 @@
 import storiesData from "./stories-data.json";
-import type { Story, StorySchema, ChartSeries, BreakdownSlice, TimeField } from "./types";
+import type {
+  StorySchema,
+  ChartSeries,
+  BreakdownSlice,
+  TimeField,
+  TimeseriesSource,
+} from "./types";
 
 /**
  * Reads the typed schema (stories.ts) against the generated data
@@ -9,10 +15,17 @@ import type { Story, StorySchema, ChartSeries, BreakdownSlice, TimeField } from 
  * the shape below is the contract between that script and this component.
  */
 interface StoriesData {
-  meta: { lastUpdate: string; startDate: string; days: number; points: number };
+  meta: {
+    lastUpdate: string;
+    startDate: string;
+    days: number;
+    points: number;
+    rollingDays: number;
+  };
   dates: string[];
   casualties_daily: Record<string, number[]>;
   west_bank_daily: Record<string, number[]>;
+  lebanon_casualties_daily: Record<string, number[]>;
   summary: {
     gaza: {
       killed: {
@@ -32,8 +45,8 @@ const numFmt = new Intl.NumberFormat();
 
 export const lastUpdate = DATA.meta.lastUpdate;
 
-/** Cumulative column → array, with the one derived time series computed here. */
-function column(source: "casualties_daily" | "west_bank_daily", key: string): number[] {
+/** Dataset column → array, with the one derived time series computed here. */
+function column(source: TimeseriesSource, key: string): number[] {
   if (key === "ext_killed_men_other_cum") {
     const total = DATA.casualties_daily.ext_killed_cum;
     const child = DATA.casualties_daily.ext_killed_children_cum;
@@ -85,19 +98,6 @@ export function getBreakdown(schema: StorySchema): { slices: BreakdownSlice[]; t
   };
   const slices = schema.parts.map((p) => ({ label: p.label, color: p.color, value: value(p.key) }));
   return { slices, total: k.total };
-}
-
-/** Latest cumulative value of a story's first series (for card chips/labels). */
-export function latestHeadline(story: Story): number {
-  if (story.schema.type === "breakdown") {
-    return getBreakdown(story.schema).total;
-  }
-  const series = getSeries(story.schema);
-  if (story.schema.type === "stacked-area") {
-    return series.reduce((sum, s) => sum + s.points[s.points.length - 1].value, 0);
-  }
-  const first = series[0].points;
-  return first[first.length - 1].value;
 }
 
 export const fmt = (n: number) => numFmt.format(Math.round(n));

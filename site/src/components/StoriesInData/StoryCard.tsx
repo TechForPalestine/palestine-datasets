@@ -41,6 +41,7 @@ export function StoryChart({
     return (
       <StackedAreaChart
         series={series}
+        percent={s.normalize === "percent"}
         width={W}
         height={H}
         pad={pad}

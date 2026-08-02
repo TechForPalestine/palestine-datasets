@@ -13,7 +13,7 @@
  * ------------------------------------------------------------------------- */
 
 /** Datasets that are daily time series (one row per `report_date`). */
-export type TimeseriesSource = "casualties_daily" | "west_bank_daily";
+export type TimeseriesSource = "casualties_daily" | "west_bank_daily" | "lebanon_casualties_daily";
 
 /** All sources a story can read from. */
 export type StorySource = TimeseriesSource | "summary";
@@ -30,7 +30,9 @@ export type CasualtyDailyKey =
   | "ext_press_killed_cum"
   | "ext_civdef_killed_cum"
   | "aid_seeker_killed_cum"
-  | "ext_injured_cum";
+  | "ext_injured_cum"
+  /** rolling window, see {@link RollingKey} */
+  | "ext_killed_new_30d";
 
 /**
  * Cumulative numeric columns of `west_bank_daily.json`.
@@ -40,7 +42,28 @@ export type WestBankDailyKey =
   | "killed_cum"
   | "killed_children_cum"
   | "injured_cum"
-  | "settler_attacks_cum";
+  | "settler_attacks_cum"
+  /** rolling window, see {@link RollingKey} */
+  | "killed_new_30d";
+
+/**
+ * Cumulative numeric columns of `lebanon_casualties_daily.json`. This dataset
+ * only begins partway through the window; before its first report every column
+ * reads 0.
+ * @see LebanonDailyReportV3 in /types/lebanon-daily.types.ts
+ */
+export type LebanonDailyKey =
+  | "killed_cum"
+  /** rolling window, see {@link RollingKey} */
+  | "killed_new_30d";
+
+/**
+ * `*_new_30d` columns are not raw dataset columns: generate-stories-data.ts
+ * derives them from the matching `*_cum` column at full daily resolution as
+ * "killed in the trailing 30 days as of this date". They let a chart compare
+ * the *current pace* across datasets instead of their all-time totals.
+ */
+export type RollingKey = "ext_killed_new_30d" | "killed_new_30d";
 
 /**
  * Paths into `summary.json` (gaza.killed breakdown).
@@ -63,7 +86,12 @@ export type DerivedKey =
   /** gaza.killed.total − (children + women + medical + press + civil_defence) */
   | "gaza.killed.men_other";
 
-export type FieldKey = CasualtyDailyKey | WestBankDailyKey | SummaryKey | DerivedKey;
+export type FieldKey =
+  | CasualtyDailyKey
+  | WestBankDailyKey
+  | LebanonDailyKey
+  | SummaryKey
+  | DerivedKey;
 
 /* ----------------------------------------------------------------------------
  * Field descriptors
@@ -71,7 +99,7 @@ export type FieldKey = CasualtyDailyKey | WestBankDailyKey | SummaryKey | Derive
 
 /** One plotted line / band, bound to a real time-series column. */
 export interface TimeField {
-  key: CasualtyDailyKey | WestBankDailyKey | DerivedKey;
+  key: CasualtyDailyKey | WestBankDailyKey | LebanonDailyKey | DerivedKey;
   source: TimeseriesSource;
   label: string;
   /** CSS color or var(), e.g. "var(--story-red)". */
@@ -113,10 +141,15 @@ export interface TimeseriesAreaSchema {
   fields: [TimeField];
 }
 
-/** Cumulative bands stacked bottom→top to a combined total. */
+/** Bands stacked bottom→top to a combined total. */
 export interface StackedAreaSchema {
   type: "stacked-area";
   x: "report_date";
+  /**
+   * "percent" restacks each column to 100%, so the chart reads as *share* of
+   * the combined total rather than its absolute size. Omit for absolute bands.
+   */
+  normalize?: "percent";
   sources: TimeseriesSource[];
   fields: TimeField[];
 }

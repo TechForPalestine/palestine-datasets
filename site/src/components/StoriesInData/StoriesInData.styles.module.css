@@ -5,7 +5,9 @@
  */
 
 :root {
-  --story-maxw: var(--tfp-home-maxw); /* matches Docusaurus .container width, incl. its xl widening */
+  --story-maxw: var(
+    --tfp-home-maxw
+  ); /* matches Docusaurus .container width, incl. its xl widening */
   --story-surface: #ffffff;
   --story-surface-2: #fafdfb;
   --story-line: #e7e9e8;
@@ -282,6 +284,10 @@
 }
 .tipLbl {
   opacity: 0.85;
+}
+.tipSub {
+  opacity: 0.6;
+  font-size: 11px;
 }
 
 /* --------------------------------------------------------------- modal */
