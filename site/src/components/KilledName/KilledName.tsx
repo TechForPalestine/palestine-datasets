@@ -134,30 +134,10 @@ const KilledNameCard = ({
             Share <ShareIcon />
           </div>
         )}
-        <div
-          style={{ flexGrow: 1, display: "flex", alignItems: "flex-end", paddingBottom: "35px" }}
-        >
-          <svg
-            width="100%"
-            height="170"
-            viewBox="0 0 500 80"
-            className="count"
-            preserveAspectRatio="xMinYMid meet"
-            style={{ overflow: "unset" }}
-          >
-            <text
-              x="50%"
-              y={count > 999 ? 105 : 120}
-              textAnchor="middle"
-              fontSize={count > 999 ? 170 : 200}
-              fontWeight="bold"
-              fill="#ca3a32"
-            >
-              {formatter.format(count)}
-            </text>
-          </svg>
+        <div className={styles.countWrap}>
+          <div className={styles.count}>{formatter.format(count)}</div>
         </div>
-        <div className={[styles.label, name.length > 9 ? styles.labelSmall : ""].join(" ")}>
+        <div className={styles.label}>
           <span>children</span> named {name}
           <br />
           have been <span>killed</span>.

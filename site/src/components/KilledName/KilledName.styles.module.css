@@ -54,7 +54,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 55px;
 }
 
 .card {
@@ -71,6 +71,7 @@
   background-position: center;
   background-repeat: no-repeat;
   overflow: hidden;
+  container-type: inline-size;
 }
 
 .shuffleCol {
@@ -139,6 +140,34 @@
   line-height: 1.75em;
 }
 
+.countWrap {
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+  min-height: 0;
+}
+
+/* Sized off the card's own inline size (container query units) so the number
+   scales in lockstep with the card at every viewport */
+.count {
+  margin: 0;
+  text-align: center;
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 800;
+  line-height: 0.9;
+  color: #ca3a32;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(2.75rem, 16vw, 10rem);
+}
+
+@supports (font-size: 1cqi) {
+  .count {
+    font-size: clamp(2.75rem, 34cqi, 10rem);
+  }
+}
+
 .label {
   font-size: 1.8em;
   font-weight: bold;
@@ -146,10 +175,6 @@
   line-height: 1.2em;
   text-align: center;
   color: #eee;
-}
-
-.labelSmall {
-  font-size: 1.5em;
 }
 
 .label span {
@@ -185,7 +210,7 @@
   }
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 1050px) {
   .question {
     max-width: 65%;
   }
