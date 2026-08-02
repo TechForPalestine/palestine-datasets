@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type PointerEvent } from "react";
+import { useLayoutEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import type { ChartSeries, BreakdownSlice } from "./types";
 import { fmt, fmtShort, formatDate } from "./data";
 import styles from "./StoriesInData.styles.module.css";
@@ -18,7 +18,11 @@ function linePath(pts: { x: number; y: number }[]) {
   return pts.map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
 }
 
-/** Shared hover layer: tracks nearest index from pointer x. */
+/**
+ * Shared hover layer: tracks nearest index from pointer x.
+ * Responds to pointerdown too (not just move) so a tap registers on touch —
+ * touch only emits pointermove while actively dragging, not on a plain tap.
+ */
 function useHoverIndex(n: number) {
   const [idx, setIdx] = useState<number | null>(null);
   const ref = useRef<SVGSVGElement | null>(null);
@@ -80,6 +84,8 @@ export function LineAreaChart({
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="none"
         role="img"
+        style={interactive ? { touchAction: "none" } : undefined}
+        onPointerDown={interactive ? onMove : undefined}
         onPointerMove={interactive ? onMove : undefined}
         onPointerLeave={interactive ? onLeave : undefined}
       >
@@ -192,6 +198,8 @@ export function StackedAreaChart({
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="none"
         role="img"
+        style={interactive ? { touchAction: "none" } : undefined}
+        onPointerDown={interactive ? onMove : undefined}
         onPointerMove={interactive ? onMove : undefined}
         onPointerLeave={interactive ? onLeave : undefined}
       >
@@ -346,6 +354,14 @@ interface TooltipRow {
   strong?: boolean;
 }
 
+/**
+ * Positioned in pixels (clamped to the chart's own bounds) rather than a
+ * plain `left: xFrac%` + translateX(-50%). Near the axis ends that centered
+ * percentage pushes the tooltip's box past the chart edge, where the modal's
+ * scroll container (overflow-y: auto implicitly forces overflow-x: auto too)
+ * clips it. Clamping in pixels keeps the whole box inside the chart, so it
+ * never depends on an ancestor's overflow behavior.
+ */
 function Tooltip({
   show,
   xFrac,
@@ -357,10 +373,29 @@ function Tooltip({
   date: string;
   rows: TooltipRow[];
 }) {
+  const tipRef = useRef<HTMLDivElement | null>(null);
+  const [left, setLeft] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (!show) return;
+    const el = tipRef.current;
+    const container = el?.parentElement;
+    if (!el || !container) return;
+    const containerW = container.clientWidth;
+    const half = el.offsetWidth / 2;
+    const margin = 4;
+    const raw = xFrac * containerW;
+    setLeft(Math.min(Math.max(raw, half + margin), containerW - half - margin));
+  }, [show, xFrac, rows]);
+
   return (
     <div
+      ref={tipRef}
       className={styles.tip}
-      style={{ opacity: show ? 1 : 0, left: `${xFrac * 100}%` }}
+      style={{
+        opacity: show ? 1 : 0,
+        left: left != null ? `${left}px` : `${xFrac * 100}%`,
+      }}
       aria-hidden={!show}
     >
       {date && <span className={styles.tipDate}>{formatDate(date)}</span>}
