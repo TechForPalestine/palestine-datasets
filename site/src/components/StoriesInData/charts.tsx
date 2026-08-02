@@ -156,39 +156,51 @@ export function LineAreaChart({
 
 export function StackedAreaChart({
   series,
+  percent = false,
   width = 320,
   height = 130,
   pad = DEF_PAD,
   interactive = false,
   grid = 0,
-}: Omit<LineProps, "area" | "dualScale">) {
+}: Omit<LineProps, "area" | "dualScale"> & {
+  /** stack to a constant 100% so the bands read as share, not absolute size */
+  percent?: boolean;
+}) {
   const n = series[0]?.points.length ?? 0;
   const { idx, ref, onMove, onLeave } = useHoverIndex(n);
 
-  const { bands, totalMax, totals } = useMemo(() => {
+  const { bands, totals, shares } = useMemo(() => {
+    // `tops` are the running cumulative sums that form each band's upper edge,
+    // in plot units — absolute values, or 0-100 shares when `percent`.
     const tops: number[][] = series.map(() => new Array(n).fill(0));
+    const shares: number[][] = series.map(() => new Array(n).fill(0));
     const totals = new Array(n).fill(0);
     for (let i = 0; i < n; i++) {
+      const total = series.reduce((sum, s) => sum + s.points[i].value, 0);
+      totals[i] = total;
       let acc = 0;
       for (let s = 0; s < series.length; s++) {
-        acc += series[s].points[i].value;
+        const v = series[s].points[i].value;
+        // A zero total (no reports in the window) has no meaningful share;
+        // leave the column empty rather than dividing by zero.
+        shares[s][i] = total > 0 ? (v / total) * 100 : 0;
+        acc += percent ? shares[s][i] : v;
         tops[s][i] = acc;
       }
-      totals[i] = acc;
     }
-    const totalMax = Math.max(...totals) * 1.08 || 1;
+    const max = percent ? 100 : Math.max(...totals) * 1.08 || 1;
     const bands = series.map((s, si) => {
       const upper = tops[si];
       const lower = si === 0 ? null : tops[si - 1];
       let d = "";
       for (let i = 0; i < n; i++)
-        d += `${i ? "L" : "M"}${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(upper[i], totalMax, height, pad).toFixed(1)} `;
+        d += `${i ? "L" : "M"}${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(upper[i], max, height, pad).toFixed(1)} `;
       for (let i = n - 1; i >= 0; i--)
-        d += `L${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(lower ? lower[i] : 0, totalMax, height, pad).toFixed(1)} `;
+        d += `L${scaleX(i, n, width, pad).toFixed(1)} ${scaleY(lower ? lower[i] : 0, max, height, pad).toFixed(1)} `;
       return { color: s.color, d: d + "Z" };
     });
-    return { bands, totalMax, totals };
-  }, [series, width, height, pad, n]);
+    return { bands, totals, shares };
+  }, [series, percent, width, height, pad, n]);
 
   return (
     <div className={styles.chartWrap}>
@@ -237,15 +249,24 @@ export function StackedAreaChart({
           xFrac={idx != null && n > 1 ? idx / (n - 1) : 0}
           date={idx != null ? series[0].points[idx].date : ""}
           rows={[
-            ...series.map((s) => ({
-              color: s.color,
-              label: s.label,
-              value: idx != null ? s.points[idx].value : s.points[s.points.length - 1].value,
-            })),
+            ...series.map((s, si) => {
+              const at = idx ?? n - 1;
+              const value = s.points[at].value;
+              return {
+                color: s.color,
+                label: s.label,
+                value,
+                // In percent mode the share is the point, with the count behind it.
+                text: percent
+                  ? `${shares[si][at].toFixed(shares[si][at] < 10 ? 1 : 0)}%`
+                  : undefined,
+                sub: percent ? fmt(value) : undefined,
+              };
+            }),
             {
               color: "var(--story-ink)",
               label: "Total",
-              value: idx != null ? totals[idx] : totals[n - 1],
+              value: totals[idx ?? n - 1],
               strong: true,
             },
           ]}
@@ -351,6 +372,10 @@ interface TooltipRow {
   color: string;
   label?: string;
   value: number;
+  /** shown in place of the formatted `value` (e.g. "62%") */
+  text?: string;
+  /** dimmed detail after `text` (e.g. the raw count behind a share) */
+  sub?: string;
   strong?: boolean;
 }
 
@@ -403,7 +428,8 @@ function Tooltip({
         <span key={i} className={styles.tipRow}>
           <i style={{ background: row.color }} />
           {row.label && <span className={styles.tipLbl}>{row.label}</span>}
-          <b>{fmt(row.value)}</b>
+          <b>{row.text ?? fmt(row.value)}</b>
+          {row.sub && <span className={styles.tipSub}>{row.sub}</span>}
         </span>
       ))}
     </div>
