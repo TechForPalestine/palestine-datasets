@@ -9,3 +9,4 @@ bun run gen-summaries
 bun run gen-csv
 bun run download-killed-derived
 bun run gen-killed-child-names
+bun run vendor-decap

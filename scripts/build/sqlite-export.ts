@@ -47,7 +47,7 @@ function buildTable(
   const colDefs = keys.map((k) => `"${k}" ${typeMap[k]}`).join(", ");
 
   db.run(`DROP TABLE IF EXISTS "${tableName}"`);
-  db.run(`CREATE TABLE "${tableName}" (${colDefs}${pkClause})`);
+  db.run(`CREATE TABLE "${tableName}" (${colDefs}${pkClause}) STRICT`);
 
   const placeholders = keys.map(() => "?").join(", ");
   const insert = db.prepare(

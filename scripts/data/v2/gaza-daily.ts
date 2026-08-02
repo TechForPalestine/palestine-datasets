@@ -1,51 +1,37 @@
 import { ApiResource } from "../../../types/api.types";
 import { writeJson } from "../../utils/fs";
-import { SheetTab, fetchGoogleSheet } from "../../utils/gsheets";
-import { formatDailiesJson, validateDailiesJson } from "../common/casualties-daily";
+import { validateDailiesJson } from "../common/casualties-daily";
+import {
+  gazaCarryForward,
+  gazaContentDir,
+  gazaExtDeltas,
+  gazaFillSource,
+} from "../common/casualties-daily/config";
+import {
+  deriveExtendedSeries,
+  fillDailyGaps,
+  readDailyReports,
+  stripMetadata,
+} from "../common/casualties-daily/content";
 
 const jsonFileName = "casualties_daily.json";
 
-const fieldKeyRemap = {
-  martyred: "killed",
-  martyred_cum: "killed_cum",
-  killed_recovered: "killed_recovered",
-  killed_succumbed: "killed_succumbed",
-  killed_truce_new: "killed_truce_new",
-  killed_committee: "killed_committee",
-  martyred_children_cum: "killed_children_cum",
-  martyred_women_cum: "killed_women_cum",
-  child_famine_cum: "child_famine_cum",
-  famine_cum: "famine_cum",
-  aid_seeker_killed_cum: "aid_seeker_killed_cum",
-  aid_seeker_injured_cum: "aid_seeker_injured_cum",
-  ext_martyred: "ext_killed",
-  ext_martyred_cum: "ext_killed_cum",
-  ext_martyred_children_cum: "ext_killed_children_cum",
-  ext_martyred_women_cum: "ext_killed_women_cum",
-  civdef_martyred_cum: "civdef_killed_cum",
-  ext_civdef_martyred_cum: "ext_civdef_killed_cum",
-  med_martyred_cum: "med_killed_cum",
-  ext_med_martyred_cum: "ext_med_killed_cum",
-  press_martyred_cum: "press_killed_cum",
-  ext_press_martyred_cum: "ext_press_killed_cum",
-};
-
-const generateJsonFromGSheet = async () => {
-  const sheetJson = await fetchGoogleSheet(SheetTab.CasualtiesDaily);
-  // drop the first two rows which are for sheet admin only
-  const [_, __, headerKeys, ...rows] = sheetJson.values;
-  const completedIdx = headerKeys.findIndex((col) => col === "completed");
-  const filteredRows = rows.filter((row) => row[completedIdx] === "TRUE");
-  // filter out the "completed" column from headers and rows
-  const filteredHeaderKeys = headerKeys.filter((_, i) => i !== completedIdx);
-  const filteredDataRows = filteredRows.map((row) => row.filter((_, i) => i !== completedIdx));
-  const renamedKeys = filteredHeaderKeys.map(
-    (key) => fieldKeyRemap[key as keyof typeof fieldKeyRemap] ?? key,
+const generateJsonFromContent = () => {
+  const records = readDailyReports(gazaContentDir);
+  deriveExtendedSeries(records, gazaCarryForward, gazaExtDeltas);
+  const dataset = stripMetadata(records);
+  // fill any calendar gaps so the published series has a row for every date
+  const series = fillDailyGaps(dataset, {
+    cumulativeFields: gazaCarryForward.map((rule) => rule.ext),
+    dailyFields: gazaExtDeltas.map((delta) => delta.daily),
+    fillSource: gazaFillSource,
+  });
+  validateDailiesJson(series);
+  writeJson(ApiResource.CasualtiesDailyV2, jsonFileName, series);
+  console.log(
+    `generated JSON file: ${jsonFileName} from ${records.length} daily reports` +
+      ` (${series.length} continuous days, ${series.length - records.length} gap-filled)`,
   );
-  const jsonArray = formatDailiesJson(renamedKeys, filteredDataRows);
-  validateDailiesJson(jsonArray);
-  writeJson(ApiResource.CasualtiesDailyV2, jsonFileName, jsonArray);
-  console.log(`generated JSON file: ${jsonFileName}`);
 };
 
-generateJsonFromGSheet();
+generateJsonFromContent();

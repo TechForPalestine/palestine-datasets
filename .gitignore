@@ -13,6 +13,9 @@ site/src/generated/**
 !site/src/generated/manifest.json
 site/static/api
 
+# Decap CMS bundle is vendored from the pinned dependency at build time
+site/static/admin/decap-cms.js
+
 analytics/
 jsoncheck/
 ci-tmp/
