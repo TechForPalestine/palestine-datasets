@@ -7,7 +7,7 @@
 }
 
 .section {
-  max-width: 1140px;
+  max-width: var(--tfp-home-maxw, 1140px);
   margin: 0 auto;
   padding: 40px var(--ifm-spacing-horizontal, 1rem);
 }

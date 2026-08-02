@@ -5,7 +5,7 @@
  */
 
 :root {
-  --story-maxw: 1140px; /* matches Docusaurus .container width */
+  --story-maxw: var(--tfp-home-maxw); /* matches Docusaurus .container width, incl. its xl widening */
   --story-surface: #ffffff;
   --story-surface-2: #fafdfb;
   --story-line: #e7e9e8;
