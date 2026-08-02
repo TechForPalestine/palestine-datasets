@@ -1054,5 +1054,12 @@
     "report_period": 24,
     "killed_cum": 4330,
     "injured_cum": 12236
+  },
+  {
+    "report_date": "2026-07-26",
+    "report_source": "moph_lb",
+    "report_period": 48,
+    "killed_cum": 4332,
+    "injured_cum": 12236
   }
 ]
