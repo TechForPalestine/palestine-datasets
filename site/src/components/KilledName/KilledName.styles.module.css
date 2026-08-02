@@ -9,7 +9,7 @@
 .section {
   max-width: var(--tfp-home-maxw, 1140px);
   margin: 0 auto;
-  padding: 40px var(--ifm-spacing-horizontal, 1rem);
+  padding: 0px var(--ifm-spacing-horizontal, 1rem);
 }
 
 .eyebrow {
@@ -207,6 +207,10 @@
 @media screen and (max-width: 680px) {
   .title {
     font-size: 1.45rem;
+  }
+
+  .section {
+    padding: 20px var(--ifm-spacing-horizontal, 1rem);
   }
 }
 
