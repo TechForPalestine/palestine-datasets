@@ -43,6 +43,25 @@ const ShareIcon = () => {
   );
 };
 
+const ReloadIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 12a9 9 0 1 1 3 6.7" />
+      <path d="M3 21v-6h6" />
+    </svg>
+  );
+};
+
 const KilledNameCard = ({
   id,
   name,
@@ -124,6 +143,7 @@ const KilledNameCard = ({
             viewBox="0 0 500 80"
             className="count"
             preserveAspectRatio="xMinYMid meet"
+            style={{ overflow: "unset" }}
           >
             <text
               x="50%"
@@ -191,15 +211,22 @@ export const KilledName = () => {
       </div>
       <div className={styles.cardRow}>
         <KilledNameCard id="leftNameCard" {...cards[0]} shareState={shareState} />
+        <div className={styles.shuffleCol}>
+          <button
+            type="button"
+            className={styles.shuffleBtn}
+            onClick={loadMore}
+            aria-label="Show more names"
+            title="Show more names"
+          >
+            <ReloadIcon />
+          </button>
+        </div>
         <KilledNameCard id="rightNameCard" {...cards[1]} shareState={shareState} />
       </div>
       <div className={styles.buttonRow}>
         <Button inline type="secondary" to="/docs/summary/#killed-children-by-name-usage">
           Learn more about this dataset
-        </Button>
-        <div style={{ width: 10, height: 10 }} />
-        <Button inline type="primary" onClick={loadMore}>
-          See more names
         </Button>
       </div>
       <div className={styles.explanation}>
