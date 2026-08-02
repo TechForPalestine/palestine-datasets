@@ -15,6 +15,8 @@
   --story-ink-2: #46484a;
   --story-muted: #6b7783;
   --story-soft: #f1f6f2;
+  --story-backdrop: rgba(20, 28, 24, 0.5);
+  --story-modal-shadow: 0 24px 60px rgba(20, 30, 25, 0.3);
 
   /* chart palette */
   --story-red: #c0392f;
@@ -33,6 +35,10 @@
   --story-ink-2: #c9c5bd;
   --story-muted: #9a948a;
   --story-soft: #26241f;
+  /* darker backdrop in dark mode: the surface is close to the page background,
+     so the modal needs a stronger scrim to separate from the content behind */
+  --story-backdrop: rgba(6, 8, 7, 0.78);
+  --story-modal-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
 
   --story-red: #e0655b;
   --story-blue: #6fa6c2;
@@ -296,7 +302,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(20, 28, 24, 0.5);
+  background: var(--story-backdrop);
   backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
@@ -308,7 +314,7 @@
   position: relative;
   background: var(--story-surface);
   border-radius: 20px;
-  box-shadow: 0 24px 60px rgba(20, 30, 25, 0.3);
+  box-shadow: var(--story-modal-shadow);
   width: min(780px, 100%);
   max-height: 92vh;
   overflow-y: auto;
