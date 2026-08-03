@@ -46,12 +46,6 @@ Prerequisites:
 
 To run the site locally use `bun docs-start`
 
-### Discussion / Planning
+### Get Involved
 
-The team uses [Discord](https://techforpalestine.org/get-involved/) to discuss this project in the `palestine-datasets` channel. View the channel description & pinned messages to get started.
-
-**Note**: You may want to use a separate / anonymous Github account for your safety. Assess your personal/work situation accordingly.
-
-### Roadmap
-
-We commit to maintaining this dataset for the duration of Israel's attack on Palestinians in Gaza and the West Bank, and for so long as our sources are reporting those figures / lists. See [github issues](https://github.com/TechForPalestine/palestine-datasets/issues) and our [project board](https://github.com/orgs/TechForPalestine/projects/4) for in-process work or ideas for how you can contribute.
+[Join Tech For Palestine](https://techforpalestine.org/get-involved/)
