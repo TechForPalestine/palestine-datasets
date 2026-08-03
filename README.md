@@ -49,5 +49,3 @@ To run the site locally use `bun docs-start`
 ### Get Involved
 
 [Join Tech For Palestine](https://techforpalestine.org/get-involved/)
-
-**Note**: You may want to use a separate / anonymous Github account for your safety. Assess your personal/work situation accordingly.
