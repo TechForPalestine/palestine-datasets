@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Story } from "./types";
-import { getBreakdown, getSeries, fmt } from "./data";
+import { getBreakdown, getSeries, getCoverageThrough, fmt, formatDate } from "./data";
 import { StoryChart } from "./StoryCard";
 import styles from "./StoriesInData.styles.module.css";
 
@@ -21,6 +21,7 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
 
   const isPie = story.schema.type === "breakdown";
   const breakdown = isPie ? getBreakdown(story.schema) : null;
+  const coverageThrough = getCoverageThrough(story.schema);
 
   return (
     <div className={styles.backdrop} onClick={onClose} role="presentation">
@@ -71,6 +72,11 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
         <p className={styles.caption}>{story.caption}</p>
 
         <div className={styles.foot}>
+          {coverageThrough && (
+            <p className={styles.coverage}>
+              Covers deaths recorded through {formatDate(coverageThrough)}.
+            </p>
+          )}
           <div className={styles.sources}>
             Built from:
             {story.schema.sources.map((src) => (

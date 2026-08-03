@@ -77,15 +77,27 @@ export type RollingKey =
   | "settler_attacks_new_30d";
 
 /**
- * Paths into `summary.json` (gaza.killed breakdown).
+ * Age/sex groups of `summary.json`'s `known_killed_in_gaza` — the individually
+ * identified records, not the ministry's running aggregate. The dataset counts
+ * each record exactly once under a gendered age group, so these keys are
+ * disjoint and sum to `records`.
+ *
+ * There is deliberately no press / medical / civil-defence key here: those
+ * people *are* included in these counts, but the dataset carries no profession
+ * field, so they cannot be separated back out of the age groups. Slicing a
+ * part-to-whole chart by both would double-count.
+ *
  * @see PreviewDataV3 in /types/summary.types.ts
  */
 export type SummaryKey =
-  | "gaza.killed.children"
-  | "gaza.killed.women"
-  | "gaza.killed.medical"
-  | "gaza.killed.press"
-  | "gaza.killed.civil_defence";
+  | "known_killed_in_gaza.male_child"
+  | "known_killed_in_gaza.female_child"
+  | "known_killed_in_gaza.male_adult"
+  | "known_killed_in_gaza.female_adult"
+  /** both sexes: seniors are ~5% of the list, so split they'd be two slivers. */
+  | "known_killed_in_gaza.senior"
+  /** records whose age was not recorded; currently 0, kept so the sum is honest. */
+  | "known_killed_in_gaza.no_age";
 
 /**
  * Values computed in `data.ts` from the columns above — not raw dataset
@@ -93,9 +105,7 @@ export type SummaryKey =
  */
 export type DerivedKey =
   /** ext_killed_cum − ext_killed_children_cum − ext_killed_women_cum */
-  | "ext_killed_men_other_cum"
-  /** gaza.killed.total − (children + women + medical + press + civil_defence) */
-  | "gaza.killed.men_other";
+  "ext_killed_men_other_cum";
 
 export type FieldKey =
   | CasualtyDailyKey
@@ -121,7 +131,7 @@ export interface TimeField {
 
 /** One slice of a categorical breakdown, bound to a summary path. */
 export interface BreakdownPart {
-  key: SummaryKey | DerivedKey;
+  key: SummaryKey;
   source: "summary";
   label: string;
   color: string;

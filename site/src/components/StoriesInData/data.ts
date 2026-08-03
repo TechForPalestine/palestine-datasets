@@ -27,15 +27,15 @@ interface StoriesData {
   west_bank_daily: Record<string, number[]>;
   lebanon_casualties_daily: Record<string, number[]>;
   summary: {
-    gaza: {
-      killed: {
-        total: number;
-        children: number;
-        women: number;
-        medical: number;
-        press: number;
-        civil_defence: number;
-      };
+    known_killed_in_gaza: {
+      records: number;
+      includes_until: string;
+      male_child: number;
+      female_child: number;
+      male_adult: number;
+      female_adult: number;
+      senior: number;
+      no_age: number;
     };
   };
 }
@@ -73,31 +73,39 @@ export function getSeries(schema: StorySchema): ChartSeries[] {
   return schema.fields.map(toSeries);
 }
 
-/** Slices for a breakdown schema, including the derived remainder. */
+/**
+ * Slices for a breakdown schema. The age groups are disjoint and sum to
+ * `records`, so the donut is a true part-to-whole. Empty groups (today:
+ * `no_age`) are dropped rather than drawn as a zero-width arc with a legend
+ * entry — they'd read as a category that exists but is invisible.
+ */
 export function getBreakdown(schema: StorySchema): { slices: BreakdownSlice[]; total: number } {
   if (schema.type !== "breakdown") return { slices: [], total: 0 };
-  const k = DATA.summary.gaza.killed;
-  const named = k.children + k.women + k.medical + k.press + k.civil_defence;
+  const k = DATA.summary.known_killed_in_gaza;
   const value = (key: string): number => {
-    switch (key) {
-      case "gaza.killed.children":
-        return k.children;
-      case "gaza.killed.women":
-        return k.women;
-      case "gaza.killed.medical":
-        return k.medical;
-      case "gaza.killed.press":
-        return k.press;
-      case "gaza.killed.civil_defence":
-        return k.civil_defence;
-      case "gaza.killed.men_other":
-        return Math.max(0, k.total - named);
-      default:
-        throw new Error(`Unknown breakdown key ${key}`);
-    }
+    const group = key.replace("known_killed_in_gaza.", "") as keyof typeof k;
+    const v = k[group];
+    if (typeof v !== "number") throw new Error(`Unknown breakdown key ${key}`);
+    return v;
   };
-  const slices = schema.parts.map((p) => ({ label: p.label, color: p.color, value: value(p.key) }));
-  return { slices, total: k.total };
+  const slices = schema.parts
+    .map((p) => ({ label: p.label, color: p.color, value: value(p.key) }))
+    .filter((s) => s.value > 0);
+  return { slices, total: k.records };
+}
+
+/**
+ * The date a breakdown's data actually runs to, when that needs disclosing —
+ * otherwise null. The identified-records list trails the daily aggregate by
+ * months and the gap moves with every release, so the modal reads the date from
+ * the data rather than the caption naming one that goes stale. Keyed on the
+ * parts' dataset, not on "is this a donut": another breakdown off a
+ * current dataset gets no note.
+ */
+export function getCoverageThrough(schema: StorySchema): string | null {
+  if (schema.type !== "breakdown") return null;
+  const readsKnownKilled = schema.parts.some((p) => p.key.startsWith("known_killed_in_gaza."));
+  return readsKnownKilled ? DATA.summary.known_killed_in_gaza.includes_until : null;
 }
 
 export const fmt = (n: number) => numFmt.format(Math.round(n));

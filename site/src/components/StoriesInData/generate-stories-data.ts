@@ -121,7 +121,17 @@ function main() {
   const wbCols = sample(wbFull);
   const lbCols = sample(lbFull);
 
-  const g = summary.gaza.killed;
+  // The breakdown donut reads the individually identified records, not the
+  // ministry's running aggregate: each record is counted once under a gendered
+  // age group, so the six groups are disjoint and add to `records`. Press /
+  // medical are inside these counts and carry no profession field, so they are
+  // not separable and are not emitted.
+  // Seniors are ~5% of the list, so the two gendered halves would be slivers;
+  // they ship as one `senior` group instead.
+  const kig = summary.known_killed_in_gaza;
+  const both = (k: "child" | "adult" | "senior" | "no_age") =>
+    (kig.male[k] ?? 0) + (kig.female[k] ?? 0);
+
   const out = {
     meta: {
       lastUpdate: dates[dates.length - 1],
@@ -135,15 +145,15 @@ function main() {
     west_bank_daily: wbCols,
     lebanon_casualties_daily: lbCols,
     summary: {
-      gaza: {
-        killed: {
-          total: g.total,
-          children: g.children,
-          women: g.women,
-          medical: g.medical,
-          press: g.press,
-          civil_defence: g.civil_defence,
-        },
+      known_killed_in_gaza: {
+        records: kig.records,
+        includes_until: kig.includes_until,
+        male_child: kig.male.child ?? 0,
+        female_child: kig.female.child ?? 0,
+        male_adult: kig.male.adult ?? 0,
+        female_adult: kig.female.adult ?? 0,
+        senior: both("senior"),
+        no_age: both("no_age"),
       },
     },
   };

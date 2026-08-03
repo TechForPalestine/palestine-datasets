@@ -9,6 +9,60 @@ import type { Story } from "./types";
  * so they adapt to light/dark mode.
  */
 export const STORIES: Story[] = [
+  /* ---- breakdown / donut ---- */
+  {
+    id: "who",
+    kicker: "Gaza",
+    title: "Who has been killed",
+    insight: "Of the dead identified by name, nearly a third were children.",
+    caption:
+      "Everyone here was identified individually — name, age, sex — rather than counted in a daily total, so this is the smaller, slower-moving list: identification lags the ministry’s running aggregate by months, and the date it currently reaches is noted below. Each record sits in exactly one age-and-sex group, so the slices add up to the whole list; elders are shown together rather than split, being under 5% of it. Journalists, medics and civil-defence workers are counted here too, but the records carry no profession, so they can’t be pulled back out of these groups — showing them as separate slices would count those people twice.",
+    schema: {
+      type: "breakdown",
+      x: null,
+      sources: ["summary"],
+      centerLabel: "identified · Gaza",
+      parts: [
+        {
+          key: "known_killed_in_gaza.female_child",
+          source: "summary",
+          label: "Girls",
+          color: "var(--story-plum)",
+        },
+        {
+          key: "known_killed_in_gaza.male_child",
+          source: "summary",
+          label: "Boys",
+          color: "var(--story-red)",
+        },
+        {
+          key: "known_killed_in_gaza.female_adult",
+          source: "summary",
+          label: "Women",
+          color: "var(--story-teal)",
+        },
+        {
+          key: "known_killed_in_gaza.male_adult",
+          source: "summary",
+          label: "Men",
+          color: "var(--story-blue)",
+        },
+        {
+          key: "known_killed_in_gaza.senior",
+          source: "summary",
+          label: "Elders",
+          color: "var(--story-amber)",
+        },
+        {
+          key: "known_killed_in_gaza.no_age",
+          source: "summary",
+          label: "Age unrecorded",
+          color: "var(--story-olive)",
+        },
+      ],
+    },
+  },
+
   /* ---- multi-line ---- */
   {
     id: "fronts",
@@ -71,7 +125,8 @@ export const STORIES: Story[] = [
     id: "settler",
     kicker: "West Bank",
     title: "A steady drumbeat, then a surge",
-    insight: "Settler attacks held flat for three years — then spiked in 2026, long after injuries fell.",
+    insight:
+      "Settler attacks held flat for three years — then spiked in 2026, long after injuries fell.",
     caption:
       "Both lines are a 30-day pace — how many were recorded in the trailing month — rather than a running total, so surges read as spikes instead of a steeper slope. Each line is scaled to its own maximum so both stay legible. Settler attacks averaged about 117 a month across 2023, 2024 and 2025 alike, then rose to about 168 in 2026 with a peak near 396. Injuries ran the opposite way: roughly 1,230 a month during the military raids of late 2023, falling to about 180–260 a month ever since. The two are not linked in the data — the West Bank dataset counts settler attacks as incidents and counts injuries separately, with no attribution of any injury to a cause. Read the lines side by side, but neither explains the other.",
     schema: {
@@ -131,51 +186,6 @@ export const STORIES: Story[] = [
           source: "lebanon_casualties_daily",
           label: "Lebanon",
           color: "var(--story-amber)",
-          derived: true,
-        },
-      ],
-    },
-  },
-
-  /* ---- breakdown / donut ---- */
-  {
-    id: "who",
-    kicker: "Gaza",
-    title: "Who has been killed",
-    insight: "The verified Gaza toll, broken down by group.",
-    caption:
-      "A part-to-whole breakdown of the verified killed in Gaza. ‘Men & others’ is the remainder after the named categories; overlaps (e.g. a medic who was also a parent) are assigned to a single group.",
-    schema: {
-      type: "breakdown",
-      x: null,
-      sources: ["summary"],
-      centerLabel: "killed · Gaza",
-      parts: [
-        {
-          key: "gaza.killed.children",
-          source: "summary",
-          label: "Children",
-          color: "var(--story-red)",
-        },
-        { key: "gaza.killed.women", source: "summary", label: "Women", color: "var(--story-plum)" },
-        {
-          key: "gaza.killed.medical",
-          source: "summary",
-          label: "Medical",
-          color: "var(--story-amber)",
-        },
-        { key: "gaza.killed.press", source: "summary", label: "Press", color: "var(--story-teal)" },
-        {
-          key: "gaza.killed.civil_defence",
-          source: "summary",
-          label: "Civil defence",
-          color: "var(--story-blue)",
-        },
-        {
-          key: "gaza.killed.men_other",
-          source: "summary",
-          label: "Men & others",
-          color: "var(--story-olive)",
           derived: true,
         },
       ],

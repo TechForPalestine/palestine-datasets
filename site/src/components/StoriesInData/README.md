@@ -29,12 +29,37 @@ the published datasets; clicking it opens a modal with a large interactive chart
 
 Every `key` is a real column — e.g. `ext_killed_cum`, `ext_killed_children_cum`
 (`casualties_daily.json`); `killed_cum`, `injured_cum`, `settler_attacks_cum`
-(`west_bank_daily.json`); `gaza.killed.*` (`summary.json`).
+(`west_bank_daily.json`); `known_killed_in_gaza.*` (`summary.json`).
 
-Two values are computed in `data.ts` and flagged `derived: true`:
-`ext_killed_men_other_cum` and `gaza.killed.men_other` (the remainder after the
-named groups). The `*_new_30d` keys are also `derived: true`, but are computed
-earlier — `generate-stories-data.ts` builds them from the matching `*_cum`
+### The breakdown donut reads the identified records, not the aggregate
+
+"Who has been killed" is built from `summary.json`'s `known_killed_in_gaza` —
+the individually identified dead (name, age, sex) — rather than `gaza.killed`,
+the ministry's running daily aggregate. Two consequences the chart has to be
+honest about:
+
+- **It lags.** The identified list only covers deaths through `includes_until`,
+  months behind the daily aggregate, and the gap moves with each release — so
+  the modal renders that date from the data (`getCoverageThrough`, keyed on the
+  parts' dataset rather than on "is this a donut") instead of the caption naming
+  one that goes stale. The two totals are not interchangeable and must never be
+  mixed in one part-to-whole.
+- **Age and sex only.** The dataset counts each record exactly once under a
+  gendered age group, which the generator emits as the disjoint `male_child` /
+  `female_child` / `male_adult` / `female_adult` / `senior` / `no_age` keys
+  that add to `records` (seniors are combined across sexes — under 5% of the
+  list, so split they'd be two slivers). Press, medical and civil-defence dead
+  are inside those counts, but the records carry no profession field, so they
+  cannot be pulled back out — giving them their own slices would count those
+  people twice. That is why the donut has no profession slices, even though
+  `gaza.killed` does.
+
+`data.ts` drops zero-value slices, so `no_age` (currently 0) doesn't render as
+an invisible arc with a legend entry.
+
+One value is computed in `data.ts` and flagged `derived: true`:
+`ext_killed_men_other_cum`. The `*_new_30d` keys are also `derived: true`, but
+are computed earlier — `generate-stories-data.ts` builds them from the matching `*_cum`
 column at **full daily resolution**, before the ~140-point sampling, so the
 window is a real 30 days rather than 30 samples. They express _pace_ rather
 than a running total, which is what makes surges visible as spikes.

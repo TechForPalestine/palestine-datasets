@@ -421,6 +421,11 @@
   padding-top: 16px;
   border-top: 1px solid var(--story-line);
 }
+.coverage {
+  margin: 0 0 10px;
+  color: var(--story-muted);
+  font-size: 0.8rem;
+}
 .sources {
   display: flex;
   align-items: center;
