@@ -154,12 +154,9 @@ collections:
       - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
       - { label: "Settler attacks (incremental)", name: settler_attacks, widget: number, value_type: int, required: false }
       - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int, required: false }
-      - { label: "Displaced households (as reported this period)", name: displaced_households, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only. Leave the cumulative below blank — it's computed as a running total across our own reports, not a source-reported cumulative." }
-      - { label: "Displaced households cumulative (computed)", name: displaced_households_cum, widget: number, value_type: int, required: false, hint: "Leave blank unless bootstrapping the very first report that captures this field." }
-      - { label: "Displaced persons (as reported this period)", name: displaced_persons, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only. Leave the cumulative below blank." }
-      - { label: "Displaced persons cumulative (computed)", name: displaced_persons_cum, widget: number, value_type: int, required: false, hint: "Leave blank unless bootstrapping the very first report that captures this field." }
-      - { label: "Displaced children (as reported this period)", name: displaced_children, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only. Leave the cumulative below blank." }
-      - { label: "Displaced children cumulative (computed)", name: displaced_children_cum, widget: number, value_type: int, required: false, hint: "Leave blank unless bootstrapping the very first report that captures this field." }
+      - { label: "Displaced households (as reported this period)", name: displaced_households, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only." }
+      - { label: "Displaced persons (as reported this period)", name: displaced_persons, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only." }
+      - { label: "Displaced children (as reported this period)", name: displaced_children, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only." }
 
       - label: "Verified figures (optional)"
         name: verified
