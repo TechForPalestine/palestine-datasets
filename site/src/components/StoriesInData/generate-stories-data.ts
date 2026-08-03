@@ -45,7 +45,7 @@ const CASUALTY_KEYS: (keyof CasualtyDailyReportV2)[] = [
 const WEST_BANK_KEYS: (keyof WestBankDailyReportV2)[] = [
   "killed_cum",
   "killed_children_cum",
-  "injured_cum",
+  "displaced_persons_cum",
   "settler_attacks_cum",
 ];
 const LEBANON_KEYS: (keyof LebanonDailyReportV3)[] = ["killed_cum"];
@@ -111,8 +111,6 @@ function main() {
   const lbFull = cols(lbAligned, LEBANON_KEYS);
   casFull.ext_killed_new_30d = rollingNew(casFull.ext_killed_cum, ROLLING_DAYS);
   wbFull.killed_new_30d = rollingNew(wbFull.killed_cum, ROLLING_DAYS);
-  wbFull.injured_new_30d = rollingNew(wbFull.injured_cum, ROLLING_DAYS);
-  wbFull.settler_attacks_new_30d = rollingNew(wbFull.settler_attacks_cum, ROLLING_DAYS);
   lbFull.killed_new_30d = rollingNew(lbFull.killed_cum, ROLLING_DAYS);
 
   const sample = (full: Record<string, number[]>) =>

@@ -41,12 +41,10 @@ export type CasualtyDailyKey =
 export type WestBankDailyKey =
   | "killed_cum"
   | "killed_children_cum"
-  | "injured_cum"
+  | "displaced_persons_cum"
   | "settler_attacks_cum"
   /** rolling window, see {@link RollingKey} */
-  | "killed_new_30d"
-  | "injured_new_30d"
-  | "settler_attacks_new_30d";
+  | "killed_new_30d";
 
 /**
  * Cumulative numeric columns of `lebanon_casualties_daily.json`. This dataset
@@ -70,11 +68,7 @@ export type LebanonDailyKey =
  * an irregular cadence and the JSON is sampled down to ~140 points: a daily
  * rate would alias, dropping most spikes between samples.
  */
-export type RollingKey =
-  | "ext_killed_new_30d"
-  | "killed_new_30d"
-  | "injured_new_30d"
-  | "settler_attacks_new_30d";
+export type RollingKey = "ext_killed_new_30d" | "killed_new_30d";
 
 /**
  * Age/sex groups of `summary.json`'s `known_killed_in_gaza` — the individually

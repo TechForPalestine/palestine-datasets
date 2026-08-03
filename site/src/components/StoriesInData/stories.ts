@@ -125,10 +125,9 @@ export const STORIES: Story[] = [
     id: "settler",
     kicker: "West Bank",
     title: "A steady drumbeat, then a surge",
-    insight:
-      "Settler attacks held flat for three years — then spiked in 2026, long after injuries fell.",
+    insight: "Settler attacks and displacement have climbed together since 2023 — and both steepened in 2026.",
     caption:
-      "Both lines are a 30-day pace — how many were recorded in the trailing month — rather than a running total, so surges read as spikes instead of a steeper slope. Each line is scaled to its own maximum so both stay legible. Settler attacks averaged about 117 a month across 2023, 2024 and 2025 alike, then rose to about 168 in 2026 with a peak near 396. Injuries ran the opposite way: roughly 1,230 a month during the military raids of late 2023, falling to about 180–260 a month ever since. The two are not linked in the data — the West Bank dataset counts settler attacks as incidents and counts injuries separately, with no attribution of any injury to a cause. Read the lines side by side, but neither explains the other.",
+      "Both lines are running totals since October 2023, each scaled to its own maximum so the two shapes stay comparable. Settler attacks reached 370 by the end of 2023, 1,797 a year later, 3,143 by the end of 2025 and 4,401 by August 2026 — a pace of roughly 3.7 incidents a day through 2025 that rises to about 5.9 a day across 2026. Displacement tracks the same shape at a little over twice the count: 1,012, then 3,841, then 6,831, then 9,420 people, with the daily pace going from about 8 to about 12 over the same turn. The two are not linked in the data: the West Bank dataset counts settler attacks as incidents and counts displaced persons separately, with no attribution of any displacement to a cause. Read the lines side by side, but neither explains the other.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -136,18 +135,16 @@ export const STORIES: Story[] = [
       sources: ["west_bank_daily"],
       fields: [
         {
-          key: "settler_attacks_new_30d",
+          key: "settler_attacks_cum",
           source: "west_bank_daily",
-          label: "Settler attacks · per 30 days",
+          label: "Settler attacks",
           color: "var(--story-amber)",
-          derived: true,
         },
         {
-          key: "injured_new_30d",
+          key: "displaced_persons_cum",
           source: "west_bank_daily",
-          label: "Injured · per 30 days",
+          label: "People displaced",
           color: "var(--story-blue)",
-          derived: true,
         },
       ],
     },

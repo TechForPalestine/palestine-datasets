@@ -28,7 +28,7 @@ the published datasets; clicking it opens a modal with a large interactive chart
 | `breakdown`        | donut         | Who has been killed                                                                       |
 
 Every `key` is a real column — e.g. `ext_killed_cum`, `ext_killed_children_cum`
-(`casualties_daily.json`); `killed_cum`, `injured_cum`, `settler_attacks_cum`
+(`casualties_daily.json`); `killed_cum`, `displaced_persons_cum`, `settler_attacks_cum`
 (`west_bank_daily.json`); `known_killed_in_gaza.*` (`summary.json`).
 
 ### The breakdown donut reads the identified records, not the aggregate
