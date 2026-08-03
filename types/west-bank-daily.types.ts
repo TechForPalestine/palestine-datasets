@@ -17,5 +17,8 @@ export type WestBankDailyReportV2 = {
   injured_cum: number;
   injured_children_cum: number;
   settler_attacks_cum: number;
+  displaced_households_cum?: number;
+  displaced_persons_cum?: number;
+  displaced_children_cum?: number;
   flash_source: string;
 };
