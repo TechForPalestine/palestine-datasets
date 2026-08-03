@@ -11,6 +11,7 @@
   "ignorePatterns": [
     "site/build",
     "site/src/generated",
-    "site/static"
+    "site/static",
+    "site/src/components/StoriesInData/stories-data.json"
   ]
 }
