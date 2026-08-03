@@ -92,63 +92,6 @@ export const STORIES: Story[] = [
       ],
     },
   },
-  {
-    id: "press-medics",
-    kicker: "Press & medics",
-    title: "Reporting under fire",
-    insight: "Journalists and medical personnel killed in Gaza, scaled to read together.",
-    caption:
-      "Those who document and those who heal — killed at a steady, relentless rate. Each line is scaled to its own maximum so both are legible.",
-    schema: {
-      type: "timeseries-multi",
-      x: "report_date",
-      dualScale: true,
-      sources: ["casualties_daily"],
-      fields: [
-        {
-          key: "ext_med_killed_cum",
-          source: "casualties_daily",
-          label: "Medical personnel",
-          color: "var(--story-amber)",
-        },
-        {
-          key: "ext_press_killed_cum",
-          source: "casualties_daily",
-          label: "Journalists",
-          color: "var(--story-red)",
-        },
-      ],
-    },
-  },
-
-  {
-    id: "settler",
-    kicker: "West Bank",
-    title: "A steady drumbeat, then a surge",
-    insight: "Settler attacks and displacement have climbed together since 2023 — and both steepened in 2026.",
-    caption:
-      "Both lines are running totals since October 2023, each scaled to its own maximum so the two shapes stay comparable. Settler attacks reached 370 by the end of 2023, 1,797 a year later, 3,143 by the end of 2025 and 4,401 by August 2026 — a pace of roughly 3.7 incidents a day through 2025 that rises to about 5.9 a day across 2026. Displacement tracks the same shape at a little over twice the count: 1,012, then 3,841, then 6,831, then 9,420 people, with the daily pace going from about 8 to about 12 over the same turn. The two are not linked in the data: the West Bank dataset counts settler attacks as incidents and counts displaced persons separately, with no attribution of any displacement to a cause. Read the lines side by side, but neither explains the other.",
-    schema: {
-      type: "timeseries-multi",
-      x: "report_date",
-      dualScale: true,
-      sources: ["west_bank_daily"],
-      fields: [
-        {
-          key: "settler_attacks_cum",
-          source: "west_bank_daily",
-          label: "Settler attacks",
-          color: "var(--story-amber)",
-        },
-        {
-          key: "displaced_persons_cum",
-          source: "west_bank_daily",
-          label: "People displaced",
-          color: "var(--story-blue)",
-        },
-      ],
-    },
-  },
 
   /* ---- stacked area ---- */
   {
@@ -184,6 +127,65 @@ export const STORIES: Story[] = [
           label: "Lebanon",
           color: "var(--story-amber)",
           derived: true,
+        },
+      ],
+    },
+  },
+
+  {
+    id: "press-medics",
+    kicker: "Press & medics",
+    title: "Reporting under fire",
+    insight: "Journalists and medical personnel killed in Gaza, scaled to read together.",
+    caption:
+      "Those who document and those who heal — killed at a steady, relentless rate. Each line is scaled to its own maximum so both are legible.",
+    schema: {
+      type: "timeseries-multi",
+      x: "report_date",
+      dualScale: true,
+      sources: ["casualties_daily"],
+      fields: [
+        {
+          key: "ext_med_killed_cum",
+          source: "casualties_daily",
+          label: "Medical personnel",
+          color: "var(--story-amber)",
+        },
+        {
+          key: "ext_press_killed_cum",
+          source: "casualties_daily",
+          label: "Journalists",
+          color: "var(--story-red)",
+        },
+      ],
+    },
+  },
+
+  {
+    id: "settler",
+    kicker: "West Bank",
+    title: "A steady drumbeat, then a surge",
+    insight:
+      "Settler attacks and displacement have climbed together since 2023 — and both steepened in 2026.",
+    caption:
+      "Both lines are running totals since October 2023, each scaled to its own maximum so the two shapes stay comparable. Settler attacks reached 370 by the end of 2023, 1,797 a year later, 3,143 by the end of 2025 and 4,401 by August 2026 — a pace of roughly 3.7 incidents a day through 2025 that rises to about 5.9 a day across 2026. Displacement tracks the same shape at a little over twice the count: 1,012, then 3,841, then 6,831, then 9,420 people, with the daily pace going from about 8 to about 12 over the same turn. The two are not linked in the data: the West Bank dataset counts settler attacks as incidents and counts displaced persons separately, with no attribution of any displacement to a cause. Read the lines side by side, but neither explains the other.",
+    schema: {
+      type: "timeseries-multi",
+      x: "report_date",
+      dualScale: true,
+      sources: ["west_bank_daily"],
+      fields: [
+        {
+          key: "settler_attacks_cum",
+          source: "west_bank_daily",
+          label: "Settler attacks",
+          color: "var(--story-amber)",
+        },
+        {
+          key: "displaced_persons_cum",
+          source: "west_bank_daily",
+          label: "People displaced",
+          color: "var(--story-blue)",
         },
       ],
     },
