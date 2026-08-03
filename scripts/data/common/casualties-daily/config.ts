@@ -114,6 +114,9 @@ export const westBankCarryFields = [
   "injured_cum",
   "injured_children_cum",
   "settler_attacks_cum",
+  "displaced_households_cum",
+  "displaced_persons_cum",
+  "displaced_children_cum",
 ];
 
 export const westBankCumulativeFields: string[] = westBankCarryFields.filter((field) =>
@@ -142,10 +145,21 @@ export const westBankDiscrepancyAllowlist: string[] = [];
 // rather than a fresh cumulative. When a cumulative is left blank, it is
 // resolved as the prior reported cumulative plus the incremental, before the
 // carry-forward timeline is built — see applyIncrementalToCumulative.
+//
+// displaced_* has no OCHA-reported cumulative to carry forward at all (OCHA's
+// own displacement totals use shifting baselines — YTD, since Jan 2023, etc.
+// — that don't reconcile with each other). We only ever enter the as-reported
+// period figure; displaced_*_cum is entirely our own running total, seeded by
+// setting it equal to the incremental on the first report that captures a
+// displaced_* figure, then left blank thereafter so this resolver accumulates
+// it automatically.
 export const westBankIncrementalRules: IncrementalRule[] = [
   { incremental: "killed", cum: "killed_cum" },
   { incremental: "killed_children", cum: "killed_children_cum" },
   { incremental: "injured", cum: "injured_cum" },
   { incremental: "injured_children", cum: "injured_children_cum" },
   { incremental: "settler_attacks", cum: "settler_attacks_cum" },
+  { incremental: "displaced_households", cum: "displaced_households_cum" },
+  { incremental: "displaced_persons", cum: "displaced_persons_cum" },
+  { incremental: "displaced_children", cum: "displaced_children_cum" },
 ];
