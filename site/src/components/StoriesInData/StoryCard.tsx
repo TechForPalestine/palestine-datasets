@@ -1,6 +1,12 @@
 import type { Story } from "./types";
-import { getSeries, getBreakdown } from "./data";
-import { LineAreaChart, StackedAreaChart, DonutChart } from "./charts";
+import { getSeries, getBreakdown, getHistogram, getRateByAge } from "./data";
+import {
+  LineAreaChart,
+  StackedAreaChart,
+  DonutChart,
+  PyramidChart,
+  RateByAgeChart,
+} from "./charts";
 import styles from "./StoriesInData.styles.module.css";
 
 /** The chart shown for a story, sized for either a card (mini) or the modal. */
@@ -32,6 +38,43 @@ export function StoryChart({
         size={isModal ? 300 : 108}
         active={activeSlice ?? null}
         onActive={onActiveSlice}
+      />
+    );
+  }
+
+  if (s.type === "histogram") {
+    const { bands, maxValue } = getHistogram(s);
+    return (
+      <PyramidChart
+        bands={bands}
+        maxValue={maxValue}
+        leftLabel={s.left.label}
+        rightLabel={s.right.label}
+        leftColor={s.left.color}
+        rightColor={s.right.color}
+        width={W}
+        height={H}
+        showLabels={isModal}
+        interactive={isModal}
+      />
+    );
+  }
+
+  if (s.type === "rate-by-age") {
+    const { bands, maxValue } = getRateByAge(s);
+    return (
+      <RateByAgeChart
+        bands={bands}
+        maxValue={maxValue}
+        maleLabel={s.male.label}
+        femaleLabel={s.female.label}
+        maleColor={s.male.color}
+        femaleColor={s.female.color}
+        width={W}
+        height={H}
+        showLabels={isModal}
+        interactive={isModal}
+        grid={grid}
       />
     );
   }

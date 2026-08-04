@@ -1,8 +1,27 @@
 import { useEffect, useState } from "react";
-import type { Story } from "./types";
-import { getBreakdown, getSeries, getCoverageThrough, fmt, formatDate } from "./data";
+import type { Story, StorySource } from "./types";
+import {
+  getBreakdown,
+  getHistogram,
+  getRateByAge,
+  getSeries,
+  getCoverageThrough,
+  fmt,
+  formatDate,
+} from "./data";
 import { StoryChart } from "./StoryCard";
 import styles from "./StoriesInData.styles.module.css";
+
+/**
+ * Published filename per source id, for the "Built from:" pills. Most ids match
+ * their file, but not all — `killed_in_gaza` reads the v3 list — so the mapping
+ * is explicit rather than `${src}.json`, which would name a file that isn't
+ * what the chart was built from.
+ */
+const SOURCE_FILES: Partial<Record<StorySource, string>> = {
+  killed_in_gaza: "killed-in-gaza-v3.json",
+  gaza_population_pcbs_2017: "gaza-population-pcbs-2017.json",
+};
 
 /** Expanded story view. Large interactive chart, caption, and dataset sources. */
 export function StoryModal({ story, onClose }: { story: Story; onClose: () => void }) {
@@ -81,7 +100,7 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
             Built from:
             {story.schema.sources.map((src) => (
               <span key={src} className={styles.sourcePill}>
-                {src}.json
+                {SOURCE_FILES[src] ?? `${src}.json`}
               </span>
             ))}
           </div>
@@ -94,6 +113,48 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
 function legendForSeries(story: Story) {
   const schema = story.schema;
   if (schema.type === "breakdown") return null;
+
+  if (schema.type === "histogram") {
+    const { bands } = getHistogram(schema);
+    const left = bands.reduce((a, b) => a + b.left, 0);
+    const right = bands.reduce((a, b) => a + b.right, 0);
+    return (
+      <>
+        <span className={styles.lg}>
+          <i style={{ background: schema.left.color }} />
+          {schema.left.label} <b>{fmt(left)}</b>
+        </span>
+        <span className={styles.lg}>
+          <i style={{ background: schema.right.color }} />
+          {schema.right.label} <b>{fmt(right)}</b>
+        </span>
+      </>
+    );
+  }
+
+  if (schema.type === "rate-by-age") {
+    // The legend surfaces the killed counts behind the lines (what actually
+    // happened), not the rates — the rates are on the chart itself, and the
+    // counts are what a reader needs to judge how much weight one band
+    // should carry versus another.
+    const { bands } = getRateByAge(schema);
+    const male = bands.reduce((a, b) => a + b.maleKilled, 0);
+    const female = bands.reduce((a, b) => a + b.femaleKilled, 0);
+    return (
+      <>
+        <span className={styles.lg}>
+          <i style={{ background: schema.male.color }} />
+          {schema.male.label} <b>{fmt(male)}</b>{" "}
+          <span className={styles.lgPct}>killed, ages 5–79</span>
+        </span>
+        <span className={styles.lg}>
+          <i style={{ background: schema.female.color }} />
+          {schema.female.label} <b>{fmt(female)}</b>{" "}
+          <span className={styles.lgPct}>killed, ages 5–79</span>
+        </span>
+      </>
+    );
+  }
 
   // A percent-stacked chart's legend is far more useful with the latest share
   // attached — that's the number the chart is actually about.

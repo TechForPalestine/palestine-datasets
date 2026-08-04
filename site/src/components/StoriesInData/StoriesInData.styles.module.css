@@ -252,6 +252,15 @@
   fill: var(--story-muted);
   font-size: 12px;
 }
+.pyramidSide {
+  font-weight: 700;
+  fill: var(--story-ink-2);
+  font-size: 11px;
+}
+.pyramidBand {
+  fill: var(--story-muted);
+  font-size: 8.5px;
+}
 
 /* ------------------------------------------------------------- tooltip */
 

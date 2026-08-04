@@ -1,5 +1,5 @@
 import { useLayoutEffect, useMemo, useRef, useState, type PointerEvent } from "react";
-import type { ChartSeries, BreakdownSlice } from "./types";
+import type { ChartSeries, BreakdownSlice, PyramidBand, AgeRateBand } from "./types";
 import { fmt, fmtShort, formatDate } from "./data";
 import styles from "./StoriesInData.styles.module.css";
 
@@ -16,6 +16,22 @@ function scaleY(v: number, max: number, H: number, pad: Pad) {
 }
 function linePath(pts: { x: number; y: number }[]) {
   return pts.map((p, i) => `${i ? "L" : "M"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
+}
+
+/**
+ * Step-after path: hold at the previous value across to the next point's x,
+ * then jump vertically. For a series like `identified_cum` that only truly
+ * changes on a handful of batch dates, a straight `linePath` between two
+ * known points would draw a slope implying identification arrived
+ * continuously in between — it didn't; every point between two batches was
+ * flat, and the whole batch landed at once on its coverage date.
+ */
+function stepPath(pts: { x: number; y: number }[]) {
+  let d = `M${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+  for (let i = 1; i < pts.length; i++) {
+    d += ` H${pts[i].x.toFixed(1)} V${pts[i].y.toFixed(1)}`;
+  }
+  return d;
 }
 
 /**
@@ -103,13 +119,14 @@ export function LineAreaChart({
         {area &&
           plotted.map((s, si) => {
             const base = height - pad.b;
-            const d = `${linePath(s.pts)} L${s.pts[s.pts.length - 1].x.toFixed(1)} ${base} L${s.pts[0].x.toFixed(1)} ${base} Z`;
+            const line = s.step ? stepPath(s.pts) : linePath(s.pts);
+            const d = `${line} L${s.pts[s.pts.length - 1].x.toFixed(1)} ${base} L${s.pts[0].x.toFixed(1)} ${base} Z`;
             return <path key={`a${si}`} d={d} fill={s.color} fillOpacity={0.14} stroke="none" />;
           })}
         {plotted.map((s, si) => (
           <path
             key={si}
-            d={linePath(s.pts)}
+            d={s.step ? stepPath(s.pts) : linePath(s.pts)}
             fill="none"
             stroke={s.color}
             strokeWidth={2}
@@ -370,6 +387,277 @@ export function DonutChart({
   );
 }
 
+/* ----------------------------------------------------------------- Pyramid */
+
+interface PyramidProps {
+  bands: PyramidBand[];
+  maxValue: number;
+  leftLabel: string;
+  rightLabel: string;
+  leftColor: string;
+  rightColor: string;
+  width?: number;
+  height?: number;
+  /** show side labels + per-band age labels; suppressed at card size. */
+  showLabels?: boolean;
+  interactive?: boolean;
+}
+
+/**
+ * Age/sex pyramid. Both sides are scaled off one shared `maxValue` (the max
+ * across every band on either side) — a per-side scale would make bar length
+ * incomparable across the centerline and misrepresent the sex ratio within
+ * a band, which is exactly the thing this chart exists to show honestly.
+ */
+export function PyramidChart({
+  bands,
+  maxValue,
+  leftLabel,
+  rightLabel,
+  leftColor,
+  rightColor,
+  width = 320,
+  height = 130,
+  showLabels = false,
+  interactive = false,
+}: PyramidProps) {
+  const [hover, setHover] = useState<{ i: number; side: "left" | "right" } | null>(null);
+  const n = bands.length;
+  const pad = { t: showLabels ? 18 : 4, r: 6, b: 4, l: 6 };
+  const rowH = (height - pad.t - pad.b) / n;
+  const barH = Math.max(1, rowH - Math.min(rowH * 0.16, 2));
+  const cx = width / 2;
+  const half = width / 2 - pad.r - (showLabels ? 20 : 0);
+  const scale = (v: number) => (maxValue <= 0 ? 0 : (v / maxValue) * (half - 2));
+
+  const clear = () => interactive && setHover(null);
+  const hovered = hover ? bands[hover.i] : null;
+
+  return (
+    <div className={styles.chartWrap}>
+      <svg
+        className={styles.svg}
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        role="img"
+        onPointerLeave={clear}
+      >
+        {showLabels && (
+          <>
+            <text x={cx - half / 2} y={11} textAnchor="middle" className={styles.pyramidSide}>
+              {leftLabel}
+            </text>
+            <text x={cx + half / 2} y={11} textAnchor="middle" className={styles.pyramidSide}>
+              {rightLabel}
+            </text>
+          </>
+        )}
+        <line className={styles.grid} x1={cx} x2={cx} y1={pad.t} y2={height - pad.b} />
+        {bands.map((b, i) => {
+          // ages run bottom (0-4) to top (85+); rows are stored oldest-first.
+          const row = n - 1 - i;
+          const y = pad.t + row * rowH + (rowH - barH) / 2;
+          const lw = scale(b.left);
+          const rw = scale(b.right);
+          const dim = hover != null;
+          return (
+            <g key={i}>
+              <rect
+                x={cx - lw}
+                y={y}
+                width={lw}
+                height={barH}
+                fill={leftColor}
+                opacity={dim && !(hover?.i === i && hover.side === "left") ? 0.45 : 1}
+                onPointerEnter={interactive ? () => setHover({ i, side: "left" }) : undefined}
+              />
+              <rect
+                x={cx}
+                y={y}
+                width={rw}
+                height={barH}
+                fill={rightColor}
+                opacity={dim && !(hover?.i === i && hover.side === "right") ? 0.45 : 1}
+                onPointerEnter={interactive ? () => setHover({ i, side: "right" }) : undefined}
+              />
+              {showLabels && (
+                <text
+                  x={cx}
+                  y={y + barH / 2}
+                  dy={3}
+                  textAnchor="middle"
+                  className={styles.pyramidBand}
+                >
+                  {b.label}
+                </text>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+      {interactive && hover && hovered && (
+        <Tooltip
+          show
+          xFrac={hover.side === "left" ? 0.25 : 0.75}
+          yFrac={(n - 1 - hover.i + 0.5) / n}
+          header={`${hover.side === "left" ? leftLabel : rightLabel} · ${hovered.label}`}
+          rows={[
+            {
+              color: hover.side === "left" ? leftColor : rightColor,
+              value: hover.side === "left" ? hovered.left : hovered.right,
+            },
+          ]}
+        />
+      )}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------- Rate/age */
+
+interface RateByAgeProps {
+  bands: AgeRateBand[];
+  maxValue: number;
+  maleLabel: string;
+  femaleLabel: string;
+  maleColor: string;
+  femaleColor: string;
+  width?: number;
+  height?: number;
+  showLabels?: boolean;
+  interactive?: boolean;
+  grid?: number;
+}
+
+/**
+ * Two lines — male, female — across categorical 5-year age bands, on one
+ * shared y scale (deaths per 1,000). Unlike `LineAreaChart`'s `dualScale`
+ * option, there is no own-max mode here: the entire point of this chart is
+ * that the female line stays flat while the male line rises and falls, and
+ * that contrast only reads honestly when both are plotted against the same
+ * axis. Own-max scaling would stretch the flat female line to fill its own
+ * range and erase the difference this chart exists to show.
+ */
+export function RateByAgeChart({
+  bands,
+  maxValue,
+  maleLabel,
+  femaleLabel,
+  maleColor,
+  femaleColor,
+  width = 320,
+  height = 130,
+  showLabels = false,
+  interactive = false,
+  grid = 0,
+}: RateByAgeProps) {
+  const n = bands.length;
+  const { idx, ref, onMove, onLeave } = useHoverIndex(n);
+  const pad: Pad = { t: 10, r: 10, b: showLabels ? 22 : 14, l: 10 };
+
+  // Card size can't fit all 15 band labels legibly, so it shows every third
+  // one (plus the last) rather than every one — sparse but still anchors the
+  // reader to real ages instead of an unlabeled axis. The modal shows all 15.
+  const labelStride = showLabels ? 1 : 3;
+
+  const { malePts, femalePts } = useMemo(() => {
+    const toPts = (values: number[]) =>
+      values.map((v, i) => ({ x: scaleX(i, n, width, pad), y: scaleY(v, maxValue, height, pad) }));
+    return {
+      malePts: toPts(bands.map((b) => b.male)),
+      femalePts: toPts(bands.map((b) => b.female)),
+    };
+  }, [bands, maxValue, width, height, pad, n]);
+
+  const hovered = idx != null ? bands[idx] : null;
+
+  return (
+    <div className={styles.chartWrap}>
+      <svg
+        ref={ref}
+        className={styles.svg}
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        role="img"
+        style={interactive ? { touchAction: "none" } : undefined}
+        onPointerDown={interactive ? onMove : undefined}
+        onPointerMove={interactive ? onMove : undefined}
+        onPointerLeave={interactive ? onLeave : undefined}
+      >
+        {grid > 0 &&
+          Array.from({ length: grid }, (_, i) => {
+            const y = pad.t + ((i + 1) / (grid + 1)) * (height - pad.t - pad.b);
+            return (
+              <line key={i} className={styles.grid} x1={pad.l} x2={width - pad.r} y1={y} y2={y} />
+            );
+          })}
+        <path d={linePath(femalePts)} fill="none" stroke={femaleColor} strokeWidth={2} />
+        <path d={linePath(malePts)} fill="none" stroke={maleColor} strokeWidth={2} />
+        {bands.map((b, i) => (
+          <g key={i}>
+            <circle
+              cx={femalePts[i].x}
+              cy={femalePts[i].y}
+              r={2.4}
+              fill={femaleColor}
+              opacity={idx != null && idx !== i ? 0.4 : 1}
+            />
+            <circle
+              cx={malePts[i].x}
+              cy={malePts[i].y}
+              r={2.4}
+              fill={maleColor}
+              opacity={idx != null && idx !== i ? 0.4 : 1}
+            />
+            {(i % labelStride === 0 || i === n - 1) && (
+              <text
+                x={scaleX(i, n, width, pad)}
+                y={height - (showLabels ? 6 : 3)}
+                textAnchor="middle"
+                className={styles.pyramidBand}
+              >
+                {b.label}
+              </text>
+            )}
+          </g>
+        ))}
+        {interactive && idx != null && (
+          <line
+            className={styles.cross}
+            x1={malePts[idx].x}
+            x2={malePts[idx].x}
+            y1={pad.t}
+            y2={height - pad.b}
+          />
+        )}
+      </svg>
+      {interactive && hovered && (
+        <Tooltip
+          show
+          xFrac={n > 1 ? (idx as number) / (n - 1) : 0}
+          header={hovered.label}
+          rows={[
+            {
+              color: maleColor,
+              label: maleLabel,
+              value: hovered.male,
+              text: `${hovered.male.toFixed(1)}/1,000`,
+              sub: `${fmt(hovered.maleKilled)} of ~${fmt(hovered.malePop)}`,
+            },
+            {
+              color: femaleColor,
+              label: femaleLabel,
+              value: hovered.female,
+              text: `${hovered.female.toFixed(1)}/1,000`,
+              sub: `${fmt(hovered.femaleKilled)} of ~${fmt(hovered.femalePop)}`,
+            },
+          ]}
+        />
+      )}
+    </div>
+  );
+}
+
 /* ---------------------------------------------------------------- Tooltip */
 
 interface TooltipRow {
@@ -394,16 +682,23 @@ interface TooltipRow {
 function Tooltip({
   show,
   xFrac,
+  yFrac,
   date,
+  header,
   rows,
 }: {
   show: boolean;
   xFrac: number;
-  date: string;
+  /** vertical position as a 0-1 fraction of the chart height; omit to pin to the top, as line/area charts do. */
+  yFrac?: number;
+  date?: string;
+  /** pre-formatted header text, used instead of running `date` through formatDate. */
+  header?: string;
   rows: TooltipRow[];
 }) {
   const tipRef = useRef<HTMLDivElement | null>(null);
   const [left, setLeft] = useState<number | null>(null);
+  const [top, setTop] = useState<number | null>(null);
 
   useLayoutEffect(() => {
     if (!show) return;
@@ -415,7 +710,12 @@ function Tooltip({
     const margin = 4;
     const raw = xFrac * containerW;
     setLeft(Math.min(Math.max(raw, half + margin), containerW - half - margin));
-  }, [show, xFrac, rows]);
+    if (yFrac != null) {
+      const containerH = container.clientHeight;
+      const rawTop = yFrac * containerH;
+      setTop(Math.min(Math.max(rawTop, margin), containerH - el.offsetHeight - margin));
+    }
+  }, [show, xFrac, yFrac, rows]);
 
   return (
     <div
@@ -424,10 +724,15 @@ function Tooltip({
       style={{
         opacity: show ? 1 : 0,
         left: left != null ? `${left}px` : `${xFrac * 100}%`,
+        top: yFrac != null ? (top != null ? `${top}px` : `${yFrac * 100}%`) : undefined,
       }}
       aria-hidden={!show}
     >
-      {date && <span className={styles.tipDate}>{formatDate(date)}</span>}
+      {header ? (
+        <span className={styles.tipDate}>{header}</span>
+      ) : (
+        date && <span className={styles.tipDate}>{formatDate(date)}</span>
+      )}
       {rows.map((row, i) => (
         <span key={i} className={styles.tipRow}>
           <i style={{ background: row.color }} />
