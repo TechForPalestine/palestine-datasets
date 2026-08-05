@@ -9,13 +9,87 @@ import type { Story } from "./types";
  * so they adapt to light/dark mode.
  */
 export const STORIES: Story[] = [
+  /* ---- histogram / pyramid ---- */
+  {
+    id: "ages",
+    kicker: "Gaza",
+    title: "Death at every age",
+    insight:
+      "Every five-year band is populated, from infants to people in their nineties. This is the shape of a population, not of a fighting force.",
+    caption:
+      "Each record here is a person identified by name, binned by their age. What the two sides trace is close to Gaza's own age structure — a very young population, killed roughly in the proportions it exists in. A campaign that distinguished between people would not produce a pyramid; it would produce a spike.",
+    schema: {
+      type: "histogram",
+      x: null,
+      sources: ["killed_in_gaza"],
+      left: { label: "Men", color: "var(--story-blue)" },
+      right: { label: "Women", color: "var(--story-teal)" },
+      bands: [
+        { min: 0, label: "0-4" },
+        { min: 5, label: "5-9" },
+        { min: 10, label: "10-14" },
+        { min: 15, label: "15-19" },
+        { min: 20, label: "20-24" },
+        { min: 25, label: "25-29" },
+        { min: 30, label: "30-34" },
+        { min: 35, label: "35-39" },
+        { min: 40, label: "40-44" },
+        { min: 45, label: "45-49" },
+        { min: 50, label: "50-54" },
+        { min: 55, label: "55-59" },
+        { min: 60, label: "60-64" },
+        { min: 65, label: "65-69" },
+        { min: 70, label: "70-74" },
+        { min: 75, label: "75-79" },
+        { min: 80, label: "80-84" },
+        { min: 85, label: "85+" },
+      ],
+    },
+  },
+
+  /* ---- rate by age: the numerator is the pyramid above, against a census denominator ---- */
+  {
+    id: "rate-by-age",
+    kicker: "Gaza",
+    title: "Men and boys are the target",
+    insight:
+      "Measured against how many of each were alive before the war, men and boys are killed at a far higher rate — a gap that opens in early adolescence and never closes.",
+    caption:
+      "This is the only chart here that accounts for population: deaths per 1,000 people of that age and sex, against a pre-war census aged forward, so the rates are close estimates rather than exact. The gap is often read as a combatant signal. It isn't one. Men and boys are the ones sent to the flour queues and water points, the ones digging through rubble, staffing hospitals, ambulances and civil defence, sleeping apart from the family or guarding what's left of a home. Being outside is what the rate measures. And it holds for boys barely into their teens and for men in their seventies — ages no one seriously describes as fighters.",
+    schema: {
+      type: "rate-by-age",
+      x: "age_band",
+      sources: ["killed_in_gaza", "gaza_population_pcbs_2017"],
+      male: { label: "Men", color: "var(--story-blue)" },
+      female: { label: "Women", color: "var(--story-teal)" },
+      bands: [
+        { min: 5, max: 9, label: "5-9" },
+        { min: 10, max: 14, label: "10-14" },
+        { min: 15, max: 19, label: "15-19" },
+        { min: 20, max: 24, label: "20-24" },
+        { min: 25, max: 29, label: "25-29" },
+        { min: 30, max: 34, label: "30-34" },
+        { min: 35, max: 39, label: "35-39" },
+        { min: 40, max: 44, label: "40-44" },
+        { min: 45, max: 49, label: "45-49" },
+        { min: 50, max: 54, label: "50-54" },
+        { min: 55, max: 59, label: "55-59" },
+        { min: 60, max: 64, label: "60-64" },
+        { min: 65, max: 69, label: "65-69" },
+        { min: 70, max: 74, label: "70-74" },
+        { min: 75, max: 79, label: "75-79" },
+      ],
+    },
+  },
+
   /* ---- breakdown / donut ---- */
   {
     id: "who",
     kicker: "Gaza",
     title: "Who has been killed",
-    insight: "Of the dead identified by name, nearly a third were children.",
-    caption: "",
+    insight: "Children are close to a third of everyone identified by name.",
+    caption:
+      "Only individually identified records are counted here — a named person, with an age and a sex. The ministry's running aggregate is larger, and the people missing under rubble are in neither. Children are counted as under 18, elders as 65 and over, and elders are combined across sexes rather than split into two slivers.",
     schema: {
       type: "breakdown",
       x: null,
@@ -62,122 +136,15 @@ export const STORIES: Story[] = [
     },
   },
 
-  /* ---- histogram / pyramid ---- */
-  {
-    id: "ages",
-    kicker: "Gaza",
-    title: "The ages of the dead",
-    insight:
-      "The identified dead peak among people in their twenties and thirties, and thin out from there in both directions.",
-    caption:
-      "72,835 people are identified by name — 99.3% of the toll. 5,293 were under 5; the single largest band is ages 30–34, at 8,312.",
-    schema: {
-      type: "histogram",
-      x: null,
-      sources: ["killed_in_gaza"],
-      left: { label: "Men", color: "var(--story-blue)" },
-      right: { label: "Women", color: "var(--story-teal)" },
-      bands: [
-        { min: 0, label: "0-4" },
-        { min: 5, label: "5-9" },
-        { min: 10, label: "10-14" },
-        { min: 15, label: "15-19" },
-        { min: 20, label: "20-24" },
-        { min: 25, label: "25-29" },
-        { min: 30, label: "30-34" },
-        { min: 35, label: "35-39" },
-        { min: 40, label: "40-44" },
-        { min: 45, label: "45-49" },
-        { min: 50, label: "50-54" },
-        { min: 55, label: "55-59" },
-        { min: 60, label: "60-64" },
-        { min: 65, label: "65-69" },
-        { min: 70, label: "70-74" },
-        { min: 75, label: "75-79" },
-        { min: 80, label: "80-84" },
-        { min: 85, label: "85+" },
-      ],
-    },
-  },
-
-  /* ---- rate by age: the numerator is the pyramid above, against a census denominator ---- */
-  {
-    id: "rate-by-age",
-    kicker: "Gaza",
-    title: "A death rate flat by age — except for men",
-    insight:
-      "Women and girls die at the same rate at every age. Males do not — and the gap opens at about age 10 and never closes, not even in their seventies.",
-    caption:
-      "Girls and boys under 10 die at nearly the same rate. From age 10 on, the male rate breaks away — peaking at 3.6x the female rate at 35–39 — and never closes the gap, even into their seventies. Standardized against the female rate, that divergence adds up to roughly 28,000 excess male deaths, 39% of the identified list.",
-    schema: {
-      type: "rate-by-age",
-      x: "age_band",
-      sources: ["killed_in_gaza", "gaza_population_pcbs_2017"],
-      male: { label: "Men", color: "var(--story-blue)" },
-      female: { label: "Women", color: "var(--story-teal)" },
-      bands: [
-        { min: 5, max: 9, label: "5-9" },
-        { min: 10, max: 14, label: "10-14" },
-        { min: 15, max: 19, label: "15-19" },
-        { min: 20, max: 24, label: "20-24" },
-        { min: 25, max: 29, label: "25-29" },
-        { min: 30, max: 34, label: "30-34" },
-        { min: 35, max: 39, label: "35-39" },
-        { min: 40, max: 44, label: "40-44" },
-        { min: 45, max: 49, label: "45-49" },
-        { min: 50, max: 54, label: "50-54" },
-        { min: 55, max: 59, label: "55-59" },
-        { min: 60, max: 64, label: "60-64" },
-        { min: 65, max: 69, label: "65-69" },
-        { min: 70, max: 74, label: "70-74" },
-        { min: 75, max: 79, label: "75-79" },
-      ],
-    },
-  },
-
-  /* ---- batch-stack: the composition of each release of the identified list ---- */
-  {
-    id: "batches",
-    kicker: "Gaza",
-    title: "Who each new list names",
-    insight:
-      "Boys hold a near-constant share of every batch the ministry has released. Girls and women don’t — their share roughly halves after the first one.",
-    caption:
-      "The first release of the identified-dead list was 62.1% women and children. Every release since has fallen further — down to 36.9% in the most recent — while boys' share has barely moved, holding near 17–21% across all ten.",
-    schema: {
-      type: "batch-stack",
-      x: "update_batch",
-      // Batches range from 1,765 records to 18,408. On absolute columns the
-      // eye compares batch *size*, which is an artifact of release cadence
-      // and backlog, not of who was killed — the composition is the story.
-      normalize: "percent",
-      sources: ["killed_in_gaza"],
-      // Colors match the "Who has been killed" donut group for group: the same
-      // category has to be the same color across the carousel, or a reader
-      // moving between the two charts re-learns the legend each time.
-      groups: [
-        { key: "female_child", label: "Girls", color: "var(--story-plum)" },
-        { key: "male_child", label: "Boys", color: "var(--story-red)" },
-        { key: "female_adult", label: "Women", color: "var(--story-teal)" },
-        { key: "male_adult", label: "Men", color: "var(--story-blue)" },
-        { key: "senior", label: "Elders", color: "var(--story-amber)" },
-        // Currently 0 in every batch. Kept so the columns provably sum to each
-        // batch's whole size rather than quietly dropping unusable records;
-        // the legend omits a group that is zero at both ends.
-        { key: "no_age", label: "Age unrecorded", color: "var(--story-olive)" },
-      ],
-    },
-  },
-
   /* ---- multi-line: identification catching up to the aggregate ---- */
   {
     id: "coverage",
     kicker: "Gaza",
     title: "Naming every name",
     insight:
-      "The identified list held near half the ministry’s toll for over a year, then jumped to full coverage in a single March 2025 batch and has stayed there since.",
+      "For more than a year, most of the dead had no published name — identification was a backlog, not a running record.",
     caption:
-      "For over a year, the identified list held at little more than half the ministry's toll. A single batch covering March 2025 pushed it past full coverage, and it's stayed there since.",
+      "The red line is the ministry's daily aggregate; the stepped line is how many of those people had been individually named. The gap between them was never a dispute about how many died — it was the lag of the work required to name each one. That work eventually caught up, which is why the identified list is now the more detailed of the two rather than the smaller.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -209,35 +176,36 @@ export const STORIES: Story[] = [
     },
   },
 
-  /* ---- multi-line ---- */
+  /* ---- batch-stack: the composition of each release of the identified list ---- */
   {
-    id: "fronts",
-    kicker: "Gaza & West Bank",
-    title: "Two front lines",
-    insight: "How the toll in Gaza and the West Bank climbs over the same window.",
+    id: "batches",
+    kicker: "Gaza",
+    title: "Named in batches, not in order",
+    insight:
+      "Each column is one republication of the identified list — a record of who could be named by then, not of who died that month.",
     caption:
-      "Gaza's toll is roughly 66x the West Bank's — each line is scaled to its own maximum so both climbs stay visible. Read the tooltip for true counts, not line height. Neither ever flattens.",
+      "A batch marks recovery and adjudication, not death. Some of these people were pulled from rubble months after they were killed; others were declared dead by a court once their families could file, later still. Columns are shown as shares because the batches differ enormously in size, and the mix shifts with what identification was possible — early releases lean on hospital and morgue records, later ones on rubble recovery and family testimony. Read a change in composition as a change in how the dead were found.",
     schema: {
-      type: "timeseries-multi",
-      x: "report_date",
-      // Gaza's cumulative toll (~73k) dwarfs the West Bank's (~1.1k); a shared
-      // axis would flatten the West Bank line to a barely-visible sliver
-      // along the bottom, hiding that it climbs too.
-      dualScale: true,
-      sources: ["casualties_daily", "west_bank_daily"],
-      fields: [
-        {
-          key: "ext_killed_cum",
-          source: "casualties_daily",
-          label: "Killed · Gaza",
-          color: "var(--story-red)",
-        },
-        {
-          key: "killed_cum",
-          source: "west_bank_daily",
-          label: "Killed · West Bank",
-          color: "var(--story-blue)",
-        },
+      type: "batch-stack",
+      x: "update_batch",
+      // Batches range from 1,765 records to 18,408. On absolute columns the
+      // eye compares batch *size*, which is an artifact of release cadence
+      // and backlog, not of who was killed — the composition is the story.
+      normalize: "percent",
+      sources: ["killed_in_gaza"],
+      // Colors match the "Who has been killed" donut group for group: the same
+      // category has to be the same color across the carousel, or a reader
+      // moving between the two charts re-learns the legend each time.
+      groups: [
+        { key: "female_child", label: "Girls", color: "var(--story-plum)" },
+        { key: "male_child", label: "Boys", color: "var(--story-red)" },
+        { key: "female_adult", label: "Women", color: "var(--story-teal)" },
+        { key: "male_adult", label: "Men", color: "var(--story-blue)" },
+        { key: "senior", label: "Elders", color: "var(--story-amber)" },
+        // Currently 0 in every batch. Kept so the columns provably sum to each
+        // batch's whole size rather than quietly dropping unusable records;
+        // the legend omits a group that is zero at both ends.
+        { key: "no_age", label: "Age unrecorded", color: "var(--story-olive)" },
       ],
     },
   },
@@ -247,9 +215,10 @@ export const STORIES: Story[] = [
     id: "share",
     kicker: "Gaza, West Bank & Lebanon",
     title: "Where the killing is happening",
-    insight: "Gaza was almost the whole toll — until Lebanon became most of it.",
+    insight:
+      "The center of the killing has moved. Gaza was almost the entire toll for two years; Lebanon took the majority of it within weeks of entering the data.",
     caption:
-      "Each band is a territory's share of deaths in the trailing 30 days. Gaza is nearly the whole column for two years — until Lebanon starts reporting in March 2026 and takes the majority within weeks. The West Bank never disappears, and never grows large.",
+      "Each band is a territory's share of the deaths reported in the trailing 30 days — a picture of where the killing is concentrated at that moment, not how much of it there has been. A band appearing is also a reporting event: Lebanon's share starts at zero because the dataset had no Lebanon figures before it began, not because no one had been killed there. The West Bank never disappears from the column and never grows large.",
     schema: {
       type: "stacked-area",
       x: "report_date",
@@ -281,14 +250,82 @@ export const STORIES: Story[] = [
     },
   },
 
+  /* ---- multi-line ---- */
+  {
+    id: "fronts",
+    kicker: "Gaza & West Bank",
+    title: "Two front lines",
+    insight:
+      "The West Bank is not a quiet backdrop to Gaza — it has its own toll, climbing through the same window with far less attention paid to it.",
+    caption:
+      "Gaza's toll is larger than the West Bank's by orders of magnitude, so each line is scaled to its own maximum and the two heights mean nothing against each other — read the tooltip for true counts. What the shapes are for is timing: whether a period of intensity in one coincides with one in the other.",
+    schema: {
+      type: "timeseries-multi",
+      x: "report_date",
+      // Gaza's cumulative toll (~73k) dwarfs the West Bank's (~1.1k); a shared
+      // axis would flatten the West Bank line to a barely-visible sliver
+      // along the bottom, hiding that it climbs too.
+      dualScale: true,
+      sources: ["casualties_daily", "west_bank_daily"],
+      fields: [
+        {
+          key: "ext_killed_cum",
+          source: "casualties_daily",
+          label: "Killed · Gaza",
+          color: "var(--story-red)",
+        },
+        {
+          key: "killed_cum",
+          source: "west_bank_daily",
+          label: "Killed · West Bank",
+          color: "var(--story-blue)",
+        },
+      ],
+    },
+  },
+
+  {
+    id: "settler",
+    kicker: "West Bank",
+    title: "Pushed off the land",
+    insight:
+      "In the West Bank, settler attacks and the displacement of Palestinian families rise on the same curve — and both have steepened, not settled.",
+    caption:
+      "Each line is scaled to its own maximum, so compare the slopes, not the heights; the tooltip carries the true counts. Both are running totals, so the interesting quantity is steepness: a stretch where the line gets visibly steeper is a stretch where attacks or displacement were arriving faster than before. The two move together, though the dataset records no causal link between them — it counts incidents and people, not motives.",
+    schema: {
+      type: "timeseries-multi",
+      x: "report_date",
+      // Displaced persons (~9,420) run a little over 2x settler attacks
+      // (~4,401) — not the extreme gap fronts/press-medics have, but still
+      // enough that a shared axis would visibly compress the smaller line
+      // relative to the larger one, understating how much it has also grown.
+      dualScale: true,
+      sources: ["west_bank_daily"],
+      fields: [
+        {
+          key: "settler_attacks_cum",
+          source: "west_bank_daily",
+          label: "Settler attacks",
+          color: "var(--story-amber)",
+        },
+        {
+          key: "displaced_persons_cum",
+          source: "west_bank_daily",
+          label: "People displaced",
+          color: "var(--story-blue)",
+        },
+      ],
+    },
+  },
+
   {
     id: "press-medics",
     kicker: "Press & medics",
-    title: "Reporting under fire",
+    title: "Counting the people who count",
     insight:
-      "Medical-personnel deaths haven’t been updated since October 2025; journalist deaths have kept climbing.",
+      "Journalists and medics are killed in a war that also destroys the capacity to record it — including, eventually, the count of the medics themselves.",
     caption:
-      "The medical-personnel count has been frozen at 1,701 since October 2025 — the ministry stopped reporting it, not a sign the killing stopped. Journalist deaths keep climbing, most recently to 262 in April 2026.",
+      "The medical-personnel line is flat because the ministry stopped publishing that breakdown in late 2025, not because medics stopped being killed; a flat line here is the absence of a count, not the absence of deaths. The journalist line is still live, but it moves rarely — each step is a confirmed death, and long gaps between steps are normal for it. Each line is scaled to its own maximum, so the tooltip, not the height, carries the true numbers.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -323,40 +360,6 @@ export const STORIES: Story[] = [
           // nature of this series, not a sign the ministry stopped counting.
           staleOk:
             "Journalist deaths are rare, irregular events; the column moved three times within 2026 itself (most recently 2026-04-08), unlike ext_med_killed_cum, which the ministry stopped updating entirely.",
-        },
-      ],
-    },
-  },
-
-  {
-    id: "settler",
-    kicker: "West Bank",
-    title: "A steady drumbeat, then a surge",
-    insight:
-      "Settler attacks and displacement have climbed together since 2023 — and both steepened in 2026.",
-    caption:
-      "Settler attacks climbed from 370 in 2023 to 4,401 by August 2026 — the daily pace nearly doubling in 2026 alone, from about 3.7 to 5.9 a day. Displacement has accelerated on a similar curve, though the dataset draws no direct link between the two.",
-    schema: {
-      type: "timeseries-multi",
-      x: "report_date",
-      // Displaced persons (~9,420) run a little over 2x settler attacks
-      // (~4,401) — not the extreme gap fronts/press-medics have, but still
-      // enough that a shared axis would visibly compress the smaller line
-      // relative to the larger one, understating how much it has also grown.
-      dualScale: true,
-      sources: ["west_bank_daily"],
-      fields: [
-        {
-          key: "settler_attacks_cum",
-          source: "west_bank_daily",
-          label: "Settler attacks",
-          color: "var(--story-amber)",
-        },
-        {
-          key: "displaced_persons_cum",
-          source: "west_bank_daily",
-          label: "People displaced",
-          color: "var(--story-blue)",
         },
       ],
     },
