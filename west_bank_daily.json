@@ -16347,5 +16347,17 @@
     "displaced_persons_cum": 9420,
     "displaced_children_cum": 3904,
     "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-08-05",
+    "killed_cum": 1108,
+    "killed_children_cum": 234,
+    "injured_cum": 11399,
+    "injured_children_cum": 1902,
+    "settler_attacks_cum": 4401,
+    "displaced_households_cum": 1396,
+    "displaced_persons_cum": 9420,
+    "displaced_children_cum": 3904,
+    "flash_source": "fill"
   }
 ]
