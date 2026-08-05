@@ -1,0 +1,87 @@
+{
+  "_readme": "Hand-authored reference dataset, NOT one of this project's published/versioned datasets — do not move to the repo root alongside casualties_daily.json etc. It exists so the StoriesInData 'death rate by age and sex' story has a pre-war population denominator. See site/src/components/StoriesInData/README.md for how it's used (age-shifted, then scaled to a 2023 total) and its licensing status below.",
+  "id": "pcbs_census_2017_gaza_5yr_age_sex",
+  "label": "Gaza Strip population by 5-year age group and sex, Census 2017 (measured, final results)",
+  "type": "measured_census",
+  "geography": "Gaza Strip (all 5 governorates: North Gaza, Gaza, Deir al-Balah, Khan Yunis, Rafah; all residents regardless of place of birth)",
+  "reference_date": "1 December 2017 (midnight 30 Nov/1 Dec 2017)",
+  "source": {
+    "publisher": "Palestinian Central Bureau of Statistics (PCBS)",
+    "publication": "Population, Housing and Establishments Census 2017: Census Final Results - Summary (Updated Version)",
+    "publication_date": "July 2018",
+    "reference_id": "3232",
+    "table": "Table 3: Population in Palestine by Age Group, Sex and Governorate, 2017 (Gaza Strip column)",
+    "url": "http://www.pcbs.gov.ps/Downloads/book2383.pdf",
+    "date_accessed": "2026-08-03",
+    "citation": "Palestinian Central Bureau of Statistics, 2018. Population, Housing and Establishments Census 2017: Census Final Results - Summary. Ramallah - Palestine.",
+    "cross_check_source": {
+      "publication": "PHC 2017: Population Final Results - Detailed Report - Palestine",
+      "table": "Table 1: Population in Palestine by Governorate, Type of Locality and Sex, 2017 (used to verify Gaza Strip total and sex split independently: 924,582 F / 950,735 M / 1,875,317 total, matching Table 3 exactly)",
+      "url": "http://www.pcbs.gov.ps/Downloads/book2425.pdf"
+    }
+  },
+  "attribution": {
+    "rights_statement": "The source PDF is marked \"All rights reserved\" and PCBS requires the citation string below when the data is used. No explicit reuse grant (e.g. a Creative Commons license) or public-domain dedication was found for this publication.",
+    "required_citation": "Palestinian Central Bureau of Statistics, 2018. Population, Housing and Establishments Census 2017: Census Final Results - Summary. Ramallah - Palestine.",
+    "attribution_required": true,
+    "reuse_clearance": "Pending. The repo maintainer is seeking clearance from PCBS directly for reuse of this table beyond attributed citation; that clearance had not been granted as of date_accessed above. Do not describe this data as CC-licensed, openly licensed, or public domain until that changes."
+  },
+  "notes": "Numbers extracted directly from the PDF text (pdftotext) of the official PCBS 'Census Final Results - Summary' report. This is the actually-counted census population by governorate; PCBS separately states the census total including a post-enumeration-survey undercount adjustment was 1,899,291 for Gaza Strip (vs. 1,875,317 actually counted) - the adjustment is not broken down by age/sex, so it is not reflected in the bands below.",
+  "totals": {
+    "male": 950735,
+    "female": 924582,
+    "total": 1875317
+  },
+  "not_stated": {
+    "male": 442,
+    "female": 259,
+    "total": 701
+  },
+  "bands": [
+    { "band_min": 0, "band_max": 4, "male": 143660, "female": 136842, "total": 280502 },
+    { "band_min": 5, "band_max": 9, "male": 140237, "female": 133695, "total": 273932 },
+    { "band_min": 10, "band_max": 14, "male": 116905, "female": 111429, "total": 228334 },
+    { "band_min": 15, "band_max": 19, "male": 97358, "female": 92850, "total": 190208 },
+    { "band_min": 20, "band_max": 24, "male": 98464, "female": 95777, "total": 194241 },
+    { "band_min": 25, "band_max": 29, "male": 84749, "female": 83124, "total": 167873 },
+    { "band_min": 30, "band_max": 34, "male": 60828, "female": 61141, "total": 121969 },
+    { "band_min": 35, "band_max": 39, "male": 48178, "female": 48793, "total": 96971 },
+    { "band_min": 40, "band_max": 44, "male": 40690, "female": 40204, "total": 80894 },
+    { "band_min": 45, "band_max": 49, "male": 31101, "female": 30286, "total": 61387 },
+    { "band_min": 50, "band_max": 54, "male": 29782, "female": 27504, "total": 57286 },
+    { "band_min": 55, "band_max": 59, "male": 20583, "female": 19610, "total": 40193 },
+    { "band_min": 60, "band_max": 64, "male": 14371, "female": 14789, "total": 29160 },
+    { "band_min": 65, "band_max": 69, "male": 10878, "female": 11342, "total": 22220 },
+    { "band_min": 70, "band_max": 74, "male": 6176, "female": 6870, "total": 13046 },
+    { "band_min": 75, "band_max": 79, "male": 2906, "female": 4434, "total": 7340 },
+    { "band_min": 80, "band_max": 84, "male": 2081, "female": 3094, "total": 5175 },
+    { "band_min": 85, "band_max": 89, "male": 909, "female": 1685, "total": 2594 },
+    { "band_min": 90, "band_max": 94, "male": 311, "female": 573, "total": 884 },
+    { "band_min": 95, "band_max": null, "male": 126, "female": 281, "total": 407 }
+  ],
+  "sanity_checks": {
+    "bands_plus_not_stated_sum_to_total_male": "143660+140237+116905+97358+98464+84749+60828+48178+40690+31101+29782+20583+14371+10878+6176+2906+2081+909+311+126+442 = 950735 (matches stated total exactly)",
+    "bands_plus_not_stated_sum_to_total_female": "136842+133695+111429+92850+95777+83124+61141+48793+40204+30286+27504+19610+14789+11342+6870+4434+3094+1685+573+281+259 = 924582 (matches stated total exactly)",
+    "male_plus_female_total": "950735 + 924582 = 1875317 (matches Table 3 stated total and independently matches Table 1 of the Detailed Report)",
+    "sex_ratio_male_pct": 50.7,
+    "pct_under_15": 41.75,
+    "pct_65_plus": 2.76
+  },
+  "scaling_reference": {
+    "description": "The 2023 Gaza Strip population total used to age this census forward to approximate the pre-war 2023 population — PCBS publishes no Gaza-only 5-year-band x sex table for any post-census year, so the census age/sex structure is scaled by this total-population ratio rather than replaced.",
+    "gaza_strip_total_2023": 2226544,
+    "gaza_strip_total_2017_census": 1875317,
+    "source": {
+      "publisher": "Palestinian Central Bureau of Statistics (PCBS)",
+      "publication": "Statistics Indicators Tables — \"Estimated Population in Palestine Mid-Year by Region, 1997-2026\"",
+      "url": "https://www.pcbs.gov.ps/statisticsIndicatorsTables.aspx?lang=en&table_id=696",
+      "date_accessed": "2026-08-03",
+      "footnote": "By: Palestinian Central Bureau of Statistics, 2023. Revised Estimates based on the final results of Population, Housing and Establishments Census, 2017. Ramallah - Palestine. The page also carries a disclaimer that Gaza Strip estimates were prepared before 7 October 2023 and were later revised downward (to roughly 2.1 million by mid-2025) to reflect war casualties/displacement — that later revision is NOT reflected in the 2,226,544 figure used here, which is the pre-war projection."
+    },
+    "attribution": {
+      "rights_statement": "Same PCBS \"all rights reserved\" posture as the census table above; no separate reuse grant found.",
+      "attribution_required": true,
+      "reuse_clearance": "Pending, same as the census table above."
+    }
+  }
+}

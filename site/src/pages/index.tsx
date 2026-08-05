@@ -11,6 +11,7 @@ import { HomeDailyChart } from "../components/HomeDailyChart";
 import { KilledName } from "../components/KilledName";
 import { StoriesInData } from "../components/StoriesInData";
 import { BuildFlags } from "../lib/build-flags";
+import { useLayoutEffect, useRef, useState } from "react";
 
 /**
  * Editorial Masthead (hero direction "A").
@@ -79,11 +80,19 @@ function HomepageHeader() {
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
+  const [showStoriesCarousel, setShowStoriesCarousel] = useState(false);
+
+  useLayoutEffect(() => {
+    if (!window || typeof window === "undefined") return;
+    if (!window.location.search.includes("stories=1")) return;
+    setShowStoriesCarousel(true);
+  }, []);
+
   return (
     <Layout title="" description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
-        {BuildFlags.exploreStories && <StoriesInData />}
+        {showStoriesCarousel && <StoriesInData />}
         <HomeDailyChart />
         <KilledName />
         <div style={{ height: 40 }} />

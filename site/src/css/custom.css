@@ -26,6 +26,17 @@
   --ifm-font-family-base: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ifm-heading-font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
   --ifm-background-color: #faf8f5;
+
+  /* Home-page section max-width, kept in lockstep with Infima's real
+     .container (the hero's <Heading> sits inside one) so gutters line up
+     at every breakpoint, including its 1320px widening on large desktops. */
+  --tfp-home-maxw: var(--ifm-container-width);
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --tfp-home-maxw: var(--ifm-container-width-xl);
+  }
 }
 
 footer.footer {
