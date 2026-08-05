@@ -21,8 +21,7 @@ import type { TimeField, TimeseriesSource } from "./types";
 
 // @ts-expect-error .dir is specific to the bun runtime which this script is invoked with
 const ROOT = join(import.meta.dir, "../../../..");
-// @ts-expect-error .dir is specific to the bun runtime which this script is invoked with
-const OUT = join(import.meta.dir, "stories-data.json");
+const OUT = join(ROOT, "site/src/generated/stories-data.json");
 
 /** Number of points to sample across the window (keeps the JSON small). */
 const POINTS = 140;

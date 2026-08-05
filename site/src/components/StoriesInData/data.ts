@@ -1,4 +1,4 @@
-import storiesData from "./stories-data.json";
+import storiesData from "../../generated/stories-data.json";
 import type {
   StorySchema,
   ChartSeries,
