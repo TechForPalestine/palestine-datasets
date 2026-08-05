@@ -1,5 +1,16 @@
 import type { Story } from "./types";
 
+export const STORIES_INDEX: string[] = [
+  "ages",
+  "rate-by-age",
+  "who",
+  "share",
+  // "fronts",
+  "settler",
+  "coverage",
+  "batches",
+];
+
 /**
  * The stories shown in the home-page carousel.
  *
@@ -253,20 +264,46 @@ export const STORIES: Story[] = [
   /* ---- multi-line ---- */
   {
     id: "fronts",
-    kicker: "Gaza & West Bank",
+    kicker: "Gaza, West Bank & Lebanon",
     title: "Two front lines",
     insight:
       "The West Bank is not a quiet backdrop to Gaza — it has its own toll, climbing through the same window with far less attention paid to it.",
     caption:
-      "Gaza's toll is larger than the West Bank's by orders of magnitude, so each line is scaled to its own maximum and the two heights mean nothing against each other — read the tooltip for true counts. What the shapes are for is timing: whether a period of intensity in one coincides with one in the other.",
+      "Gaza's toll is larger than the West Bank's by orders of magnitude, so each line is scaled to its own maximum and the two heights mean nothing against each other — read the tooltip for true counts. What the shapes are for is timing: whether a period of intensity in one coincides with one in the other. Lebanon's line starts where this dataset's Lebanon figures start, not where the killing there did, so its steepness is partly an artifact of a short window — treat it as a fragment, not a trend to compare against the other two. The shaded span is the ceasefire announced in October 2025 and still in effect: an annotation placed by hand, not a field in any of these datasets. It's the only one marked, because it's the only one all three lines run inside — and all three keep climbing through it.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
-      // Gaza's cumulative toll (~73k) dwarfs the West Bank's (~1.1k); a shared
-      // axis would flatten the West Bank line to a barely-visible sliver
-      // along the bottom, hiding that it climbs too.
+      // Gaza's cumulative toll (~73k) dwarfs the West Bank's (~1.1k) and
+      // Lebanon's (~4.3k); a shared axis would flatten both smaller lines to a
+      // barely-visible sliver along the bottom, hiding that they climb too.
       dualScale: true,
-      sources: ["casualties_daily", "west_bank_daily"],
+      // One ceasefire span, drawn behind the lines so a reader can check whether
+      // a slope changed at it. Not from the datasets — the dates are hand-placed
+      // from the source named below, and the caption says so.
+      //
+      // Deliberately the only one. Earlier ceasefires (the Nov 2023 pause, the
+      // Jan-Mar 2025 Gaza ceasefire, the Nov 2024 Israel-Hezbollah cessation)
+      // all fall before 2026-03-05, where this dataset's Lebanon column begins —
+      // so on a chart whose third line is Lebanon they'd invite exactly the
+      // comparison the data can't support: a reader checking Lebanon's slope
+      // against a marker that predates the Lebanon series entirely. Marking only
+      // the ceasefire all three lines are actually inside keeps every
+      // before/after the chart offers a real one.
+      markers: [
+        {
+          date: "2025-10-10",
+          ongoing: true,
+          label: "Ceasefire · from Oct 2025",
+          // The one span this repo's own source data pins down: the daily Gaza
+          // briefings from mid-2026 still run a "Since the ceasefire (October
+          // 11)" tally, and OCHA's West Bank reports date the announcement to
+          // 10 Oct 2025 — announcement date used here, so the band starts a day
+          // before the counting does.
+          source:
+            "Announced 10 Oct 2025 (OCHA, quoted in source_data/west-bank-daily/2026-06-15.md); still in effect at the last plotted date.",
+        },
+      ],
+      sources: ["casualties_daily", "west_bank_daily", "lebanon_casualties_daily"],
       fields: [
         {
           key: "ext_killed_cum",
@@ -279,6 +316,12 @@ export const STORIES: Story[] = [
           source: "west_bank_daily",
           label: "Killed · West Bank",
           color: "var(--story-blue)",
+        },
+        {
+          key: "killed_cum",
+          source: "lebanon_casualties_daily",
+          label: "Killed · Lebanon",
+          color: "var(--story-amber)",
         },
       ],
     },
@@ -365,3 +408,15 @@ export const STORIES: Story[] = [
     },
   },
 ];
+
+export const getStoryById = (storyId: string) => {
+  const story = STORIES.find((story) => story.id === storyId);
+  if (!story) {
+    throw new Error(`Story not found for id=${storyId}`);
+  }
+  return story;
+};
+
+if (STORIES_INDEX.some((storyId) => !STORIES.find((story) => story.id === storyId))) {
+  throw new Error(`STORIES_INDEX has unexpected ID not found in STORIES`);
+}

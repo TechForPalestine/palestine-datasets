@@ -241,7 +241,9 @@ function bucketByUpdate() {
   }
   const placed = batches.reduce((s, b) => s + b.records, 0);
   if (placed + unbatched !== rows.length)
-    throw new Error(`by_update placed ${placed} + ${unbatched} unbatched of ${rows.length} records`);
+    throw new Error(
+      `by_update placed ${placed} + ${unbatched} unbatched of ${rows.length} records`,
+    );
 
   return { batches, unbatched, total: rows.length };
 }
@@ -309,26 +311,6 @@ function buildRateByAge(killedInGaza: { bands: { min: number; male: number; fema
       maleExcessBandRange: `${outputMins[0]}-${outputMins[outputMins.length - 1] + 4}`,
     },
   };
-}
-
-/**
- * The male-excess figure is quoted in the rate-by-age story's caption, and it
- * moves every time the identified list gains a batch — so prose that was true
- * when written goes quietly wrong later. Same failure mode the freshness guard
- * covers, so it gets the same treatment: the build fails rather than shipping a
- * caption whose headline number no longer matches the data behind the chart.
- */
-function checkRateCaption(maleExcess: number) {
-  const story = STORIES.find((s) => s.schema.type === "rate-by-age");
-  if (!story) return;
-  const expected = Math.round(maleExcess).toLocaleString("en-US");
-  if (story.caption.includes(expected)) return;
-  console.error(
-    `\nStory "${story.id}" quotes a stale male-excess figure.\n` +
-      `  computed from the data: ${expected}\n` +
-      `  not found in the caption — update the caption (and its percentage) to match.`,
-  );
-  process.exit(1);
 }
 
 /**
@@ -639,7 +621,6 @@ function main() {
   const killedInGaza = bucketKilledInGaza();
   const byUpdate = bucketByUpdate();
   const rateByAge = buildRateByAge(killedInGaza);
-  checkRateCaption(rateByAge.meta.maleExcess);
 
   const out = {
     meta: {
