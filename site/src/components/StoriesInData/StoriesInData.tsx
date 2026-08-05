@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { STORIES } from "./stories";
+import { getStoryById, STORIES, STORIES_INDEX } from "./stories";
 import { StoryCard } from "./StoryCard";
 import { StoryModal } from "./StoryModal";
 import styles from "./StoriesInData.styles.module.css";
@@ -39,9 +39,11 @@ export function StoriesInData() {
 
       <div className={styles.viewport} ref={viewportRef}>
         <div className={styles.track}>
-          {STORIES.map((story) => (
-            <StoryCard key={story.id} story={story} onOpen={setOpenId} />
+          <div className={styles.spacer} aria-hidden="true" />
+          {STORIES_INDEX.map((storyId) => (
+            <StoryCard key={storyId} story={getStoryById(storyId)} onOpen={setOpenId} />
           ))}
+          <div className={styles.spacer} aria-hidden="true" />
         </div>
       </div>
 

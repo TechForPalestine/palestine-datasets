@@ -5,7 +5,9 @@
  */
 
 :root {
-  --story-maxw: 1140px; /* matches Docusaurus .container width */
+  --story-maxw: var(
+    --tfp-home-maxw
+  ); /* matches Docusaurus .container width, incl. its xl widening */
   --story-surface: #ffffff;
   --story-surface-2: #fafdfb;
   --story-line: #e7e9e8;
@@ -13,6 +15,8 @@
   --story-ink-2: #46484a;
   --story-muted: #6b7783;
   --story-soft: #f1f6f2;
+  --story-backdrop: rgba(20, 28, 24, 0.5);
+  --story-modal-shadow: 0 24px 60px rgba(20, 30, 25, 0.3);
 
   /* chart palette */
   --story-red: #c0392f;
@@ -31,6 +35,10 @@
   --story-ink-2: #c9c5bd;
   --story-muted: #9a948a;
   --story-soft: #26241f;
+  /* darker backdrop in dark mode: the surface is close to the page background,
+     so the modal needs a stronger scrim to separate from the content behind */
+  --story-backdrop: rgba(6, 8, 7, 0.78);
+  --story-modal-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
 
   --story-red: #e0655b;
   --story-blue: #6fa6c2;
@@ -125,10 +133,6 @@
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: max(
-    var(--ifm-spacing-horizontal, 1rem),
-    calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
-  );
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   /* room for the lifted-card shadow, pulled back so layout doesn't shift */
@@ -142,10 +146,27 @@
   display: flex;
   gap: 16px;
   padding-bottom: 2px;
-  padding-inline: max(
-    var(--ifm-spacing-horizontal, 1rem),
-    calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
-  );
+}
+/* Real flex items instead of container padding-inline: Chrome excludes a flex
+   container's trailing inline padding from its scrollable overflow region
+   once content overflows, so the end gutter silently collapsed to 0 at max
+   scroll. Spacers carry the same gutter width but count as scrollable
+   content, so both ends stay put. They also replace scroll-padding-inline —
+   snapping to the first/last card's edge now already lands flush with the
+   gutter. */
+.spacer {
+  /* track's `gap` adds 16px between the spacer and the adjacent card, so the
+     spacer itself only needs to make up the rest of the gutter width */
+  flex: 0 0
+    calc(
+      max(
+          var(--ifm-spacing-horizontal, 1rem),
+          calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
+        ) - 16px
+    );
+  /* snap-eligible so the leading spacer is a valid rest position — otherwise
+     mandatory snap jumps straight to the first card and the gutter is lost */
+  scroll-snap-align: start;
 }
 
 .card {
@@ -244,6 +265,27 @@
   fill: var(--story-muted);
   font-size: 12px;
 }
+.pyramidSide {
+  font-weight: 700;
+  fill: var(--story-ink-2);
+  font-size: 11px;
+}
+.pyramidBand {
+  fill: var(--story-muted);
+  font-size: 8.5px;
+}
+
+/* batch-stack column axis: the batch ordinal reads as the label, its coverage
+   date as the quieter detail underneath. */
+.colBatch {
+  font-weight: 700;
+  fill: var(--story-ink-2);
+  font-size: 10px;
+}
+.colDate {
+  fill: var(--story-muted);
+  font-size: 8.5px;
+}
 
 /* ------------------------------------------------------------- tooltip */
 
@@ -283,6 +325,10 @@
 .tipLbl {
   opacity: 0.85;
 }
+.tipSub {
+  opacity: 0.6;
+  font-size: 11px;
+}
 
 /* --------------------------------------------------------------- modal */
 
@@ -290,7 +336,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(20, 28, 24, 0.5);
+  background: var(--story-backdrop);
   backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
@@ -302,7 +348,7 @@
   position: relative;
   background: var(--story-surface);
   border-radius: 20px;
-  box-shadow: 0 24px 60px rgba(20, 30, 25, 0.3);
+  box-shadow: var(--story-modal-shadow);
   width: min(780px, 100%);
   max-height: 92vh;
   overflow-y: auto;
@@ -409,6 +455,11 @@
   padding-top: 16px;
   border-top: 1px solid var(--story-line);
 }
+.coverage {
+  margin: 0 0 10px;
+  color: var(--story-muted);
+  font-size: 0.8rem;
+}
 .sources {
   display: flex;
   align-items: center;
@@ -425,6 +476,12 @@
   border: 1px solid var(--story-line);
   border-radius: 6px;
   padding: 3px 8px;
+  text-decoration: none;
+}
+
+a.sourcePill:hover {
+  border-color: var(--story-ink-2);
+  text-decoration: underline;
 }
 
 @keyframes storyFadeIn {

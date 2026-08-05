@@ -12,11 +12,31 @@
  * Dataset sources + their column keys (the "typed" part of the typed schema)
  * ------------------------------------------------------------------------- */
 
-/** Datasets that are daily time series (one row per `report_date`). */
-export type TimeseriesSource = "casualties_daily" | "west_bank_daily";
+/**
+ * Datasets whose values are emitted as one time series aligned onto the
+ * shared `dates[]` axis. `casualties_daily` / `west_bank_daily` /
+ * `lebanon_casualties_daily` report daily; `killed_in_gaza` doesn't — its
+ * identified-record count only moves on the list's ten irregular republish
+ * batches — but generate-stories-data.ts still carries it forward flat onto
+ * the same date grid, so it fits the same `TimeField` shape.
+ */
+export type TimeseriesSource =
+  | "casualties_daily"
+  | "west_bank_daily"
+  | "lebanon_casualties_daily"
+  | "killed_in_gaza";
+
+/**
+ * The PCBS 2017 census reference table (`gaza-population-pcbs-2017.json`) used
+ * as the population denominator for the death-rate-by-age story. It's a
+ * reference dataset the generator reads, not one of this project's published
+ * daily/summary datasets — hence its own source id rather than folding it
+ * into `TimeseriesSource`.
+ */
+export type PopulationSource = "gaza_population_pcbs_2017";
 
 /** All sources a story can read from. */
-export type StorySource = TimeseriesSource | "summary";
+export type StorySource = TimeseriesSource | "summary" | PopulationSource;
 
 /**
  * Cumulative numeric columns of `casualties_daily.json`.
@@ -30,7 +50,9 @@ export type CasualtyDailyKey =
   | "ext_press_killed_cum"
   | "ext_civdef_killed_cum"
   | "aid_seeker_killed_cum"
-  | "ext_injured_cum";
+  | "ext_injured_cum"
+  /** rolling window, see {@link RollingKey} */
+  | "ext_killed_new_30d";
 
 /**
  * Cumulative numeric columns of `west_bank_daily.json`.
@@ -39,19 +61,57 @@ export type CasualtyDailyKey =
 export type WestBankDailyKey =
   | "killed_cum"
   | "killed_children_cum"
-  | "injured_cum"
-  | "settler_attacks_cum";
+  | "displaced_persons_cum"
+  | "settler_attacks_cum"
+  /** rolling window, see {@link RollingKey} */
+  | "killed_new_30d";
 
 /**
- * Paths into `summary.json` (gaza.killed breakdown).
+ * Cumulative numeric columns of `lebanon_casualties_daily.json`. This dataset
+ * only begins partway through the window; before its first report every column
+ * reads 0.
+ * @see LebanonDailyReportV3 in /types/lebanon-daily.types.ts
+ */
+export type LebanonDailyKey =
+  | "killed_cum"
+  /** rolling window, see {@link RollingKey} */
+  | "killed_new_30d";
+
+/**
+ * `*_new_30d` columns are not raw dataset columns: generate-stories-data.ts
+ * derives them from the matching `*_cum` column at full daily resolution as
+ * "how much this count grew in the trailing 30 days as of this date". They let
+ * a chart show the *current pace* — and its spikes — instead of a running
+ * total, whose monotonic climb flattens every surge into the same slope.
+ *
+ * 30 days rather than daily deltas because the underlying datasets report on
+ * an irregular cadence and the JSON is sampled down to ~140 points: a daily
+ * rate would alias, dropping most spikes between samples.
+ */
+export type RollingKey = "ext_killed_new_30d" | "killed_new_30d";
+
+/**
+ * Age/sex groups of `summary.json`'s `known_killed_in_gaza` — the individually
+ * identified records, not the ministry's running aggregate. The dataset counts
+ * each record exactly once under a gendered age group, so these keys are
+ * disjoint and sum to `records`.
+ *
+ * There is deliberately no press / medical / civil-defence key here: those
+ * people *are* included in these counts, but the dataset carries no profession
+ * field, so they cannot be separated back out of the age groups. Slicing a
+ * part-to-whole chart by both would double-count.
+ *
  * @see PreviewDataV3 in /types/summary.types.ts
  */
 export type SummaryKey =
-  | "gaza.killed.children"
-  | "gaza.killed.women"
-  | "gaza.killed.medical"
-  | "gaza.killed.press"
-  | "gaza.killed.civil_defence";
+  | "known_killed_in_gaza.male_child"
+  | "known_killed_in_gaza.female_child"
+  | "known_killed_in_gaza.male_adult"
+  | "known_killed_in_gaza.female_adult"
+  /** both sexes: seniors are ~5% of the list, so split they'd be two slivers. */
+  | "known_killed_in_gaza.senior"
+  /** records whose age was not recorded; currently 0, kept so the sum is honest. */
+  | "known_killed_in_gaza.no_age";
 
 /**
  * Values computed in `data.ts` from the columns above — not raw dataset
@@ -59,11 +119,56 @@ export type SummaryKey =
  */
 export type DerivedKey =
   /** ext_killed_cum − ext_killed_children_cum − ext_killed_women_cum */
-  | "ext_killed_men_other_cum"
-  /** gaza.killed.total − (children + women + medical + press + civil_defence) */
-  | "gaza.killed.men_other";
+  "ext_killed_men_other_cum";
 
-export type FieldKey = CasualtyDailyKey | WestBankDailyKey | SummaryKey | DerivedKey;
+/**
+ * `killed_in_gaza`'s own time series — not read from a dataset column, but
+ * built by generate-stories-data.ts from the identified-record list's ten
+ * historical batches (`updateDates` in
+ * scripts/data/common/killed-in-gaza/constants.ts). Each batch's records are
+ * counted and added to a running total, and that total is placed at the
+ * batch's `includesUntil` date — the date the batch's records cover *through*
+ * — not its later `on` (publish) date. `includesUntil` is the honest x
+ * position: it's what the list can truthfully claim as of that point, while
+ * `on` is just when the ministry got around to saying so.
+ */
+export type KilledInGazaKey = "identified_cum";
+
+/**
+ * The six age/sex groups of the identified-record list, as counted *within a
+ * single republish batch*. Deliberately the same six disjoint groups as
+ * {@link SummaryKey} — same cutoffs (child under 18, senior 65+, `no_age` for
+ * an unrecorded age), same combined-across-sexes `senior` — so the batch-stack
+ * story and the breakdown donut are the same partition of the same people,
+ * just cut per batch rather than over the whole list. Anything else would
+ * invite a reader to compare two charts whose categories don't line up.
+ */
+export type BatchGroupKey =
+  | "male_child"
+  | "female_child"
+  | "male_adult"
+  | "female_adult"
+  | "senior"
+  | "no_age";
+
+/**
+ * One band of the batch-composition stack. Like {@link HistogramSide} there's
+ * no dataset column behind it: the generator crosses each record's `age`,
+ * `sex` and `update` columns to get a (batch, group) cell.
+ */
+export interface BatchGroup {
+  key: BatchGroupKey;
+  label: string;
+  color: string;
+}
+
+export type FieldKey =
+  | CasualtyDailyKey
+  | WestBankDailyKey
+  | LebanonDailyKey
+  | SummaryKey
+  | DerivedKey
+  | KilledInGazaKey;
 
 /* ----------------------------------------------------------------------------
  * Field descriptors
@@ -71,35 +176,125 @@ export type FieldKey = CasualtyDailyKey | WestBankDailyKey | SummaryKey | Derive
 
 /** One plotted line / band, bound to a real time-series column. */
 export interface TimeField {
-  key: CasualtyDailyKey | WestBankDailyKey | DerivedKey;
+  key: CasualtyDailyKey | WestBankDailyKey | LebanonDailyKey | DerivedKey | KilledInGazaKey;
   source: TimeseriesSource;
   label: string;
   /** CSS color or var(), e.g. "var(--story-red)". */
   color: string;
   /** true when the value is computed in data.ts rather than read directly. */
   derived?: boolean;
+  /**
+   * Draw this line step-after (hold flat, then jump vertically at the next
+   * known date) instead of interpolating a slanted line between points. A
+   * straight line between two known values depicts continuous change that
+   * didn't happen; it's only honest for series with a real value on every
+   * sampled date. Series like `identified_cum` only change on the handful of
+   * dates a batch actually landed — everything between two batches is a flat
+   * carry-forward, not a slope — so they opt into `step`. Defaults off,
+   * which keeps every other (daily) field rendering exactly as before.
+   */
+  step?: boolean;
+  /**
+   * Opt-in acknowledgment that this column has gone quiet, with the reason a
+   * human is vouching for that being honest. generate-stories-data.ts fails
+   * the build when a plotted column's last real value-change is older than
+   * its staleness threshold — unless this is set. It's a required string,
+   * not a bare boolean, because "yes I checked" isn't the point; the point is
+   * that whoever set it had to write down *why* a flat line here isn't the
+   * failure mode the guard exists to catch (a caption asserting motion, or a
+   * dual-scaled line pinned at 1.0, over a column the source quietly stopped
+   * updating). Two honest reasons in practice: the column is a genuine
+   * irregular/step series (e.g. `identified_cum`'s republish batches — long
+   * gaps are the series working as intended), or the source stopped
+   * publishing that disaggregation and the story's own copy already says so
+   * plainly rather than asserting a rate over it.
+   */
+  staleOk?: string;
 }
 
 /** One slice of a categorical breakdown, bound to a summary path. */
 export interface BreakdownPart {
-  key: SummaryKey | DerivedKey;
+  key: SummaryKey;
   source: "summary";
   label: string;
   color: string;
   derived?: boolean;
+  /** see {@link TimeField.staleOk} — same contract, for breakdown-sourced fields. */
+  staleOk?: string;
+}
+
+/**
+ * One 5-year age band of the population pyramid. `min` is the lower bound in
+ * years; the top band (`min: 85`) is "85+", left unbounded because the
+ * dataset doesn't cap recorded ages.
+ */
+export interface HistogramBand {
+  min: number;
+  label: string;
+}
+
+/**
+ * One side of the pyramid — men or women — sharing the centerline. Unlike
+ * `TimeField`/`BreakdownPart` there's no `key`: a side isn't one dataset
+ * column, it's "this sex's count within each band," which the generator
+ * computes by crossing two columns (`age`, `sex`) rather than reading one.
+ */
+export interface HistogramSide {
+  label: string;
+  color: string;
+}
+
+/**
+ * One 5-year age band of the death-rate-by-age chart. Unlike `HistogramBand`
+ * this is deliberately not open-ended at either end — the generator only
+ * emits bands 5-9 through 75-79 (see `RateByAgeSchema`), so `min`/`max` are
+ * both always finite here.
+ */
+export interface RateBand {
+  min: number;
+  max: number;
+  label: string;
+}
+
+/**
+ * One sex's line in the rate chart. Like `HistogramSide`, there's no `key` —
+ * the generator computes a rate per (band, sex) rather than reading one
+ * dataset column.
+ */
+export interface RateSide {
+  label: string;
+  color: string;
 }
 
 /* ----------------------------------------------------------------------------
  * Schemas — discriminated by `type`, which mirrors the card's chart
  * ------------------------------------------------------------------------- */
 
-export type SchemaType = "timeseries-multi" | "timeseries-area" | "stacked-area" | "breakdown";
+export type SchemaType =
+  | "timeseries-multi"
+  | "timeseries-area"
+  | "stacked-area"
+  | "batch-stack"
+  | "breakdown"
+  | "histogram"
+  | "rate-by-age";
 
 /** Two or more cumulative lines sharing an x axis. */
 export interface TimeseriesMultiSchema {
   type: "timeseries-multi";
   x: "report_date";
-  /** normalize each line to its own max so small + large series both read. */
+  /**
+   * Normalize each line to its own maximum instead of a shared axis. This is
+   * a justified exception, not the default reach for "series of different
+   * sizes" — once every line has its own scale, a reader's eye naturally
+   * compares vertical *position*, and that comparison stops being backed by
+   * the data: a tiny series and a huge one both end at the same height. Turn
+   * it on only when the magnitudes differ enough that a shared scale would
+   * flatten the smaller line to invisibility, and only alongside two things:
+   * the caption discloses that each line is scaled to its own maximum, and
+   * the insight makes no claim that depends on comparing the lines' heights
+   * or positions (the tooltip still reports true values either way).
+   */
   dualScale?: boolean;
   sources: TimeseriesSource[];
   fields: TimeField[];
@@ -113,12 +308,54 @@ export interface TimeseriesAreaSchema {
   fields: [TimeField];
 }
 
-/** Cumulative bands stacked bottom→top to a combined total. */
+/** Bands stacked bottom→top to a combined total. */
 export interface StackedAreaSchema {
   type: "stacked-area";
   x: "report_date";
+  /**
+   * "percent" restacks each column to 100%, so the chart reads as *share* of
+   * the combined total rather than its absolute size. Omit for absolute bands.
+   */
+  normalize?: "percent";
   sources: TimeseriesSource[];
   fields: TimeField[];
+}
+
+/**
+ * The age/sex composition of each republish batch of the identified-record
+ * list, one stacked column per batch.
+ *
+ * `x` is `"update_batch"` — a batch ordinal, not a date — and that is the
+ * whole reason this isn't a `stacked-area` with ten points. The list has ten
+ * batches landing at irregular coverage dates, and nothing is known about the
+ * composition *between* two of them; an area interpolating across that gap
+ * would draw a gradual demographic drift the data never measured. Columns
+ * make no claim about the space between them, the same discipline that makes
+ * `identified_cum` a step line rather than a slope. They're spaced evenly for
+ * the same reason: the x axis is an ordinal, so unequal gaps would imply a
+ * time scale the chart isn't using.
+ *
+ * Each column counts only the records *that batch added*, not the list as it
+ * stood after it. The running list is dominated by its early mass, so a
+ * cumulative cut damps every later shift into invisibility; per-batch is what
+ * makes a change in composition legible at all. What that shift means is
+ * bounded, though, and the story's caption has to say so: a batch is an
+ * *identification* cohort, not a death cohort. The records carry `age`, `sex`
+ * and `dob` but no date of death, so "batch 10 is 59% men" is a fact about
+ * who was newly named in that batch — heavily but not exclusively people who
+ * died in its coverage window.
+ */
+export interface BatchStackSchema {
+  type: "batch-stack";
+  x: "update_batch";
+  /**
+   * "percent" restacks each column to 100%, so a column reads as the batch's
+   * *composition* rather than its size. Batches range from 1,765 to 18,408
+   * records, so absolute columns would compare heights instead of mixes.
+   */
+  normalize?: "percent";
+  sources: ["killed_in_gaza"];
+  groups: BatchGroup[];
 }
 
 /** A categorical part-to-whole breakdown (donut). */
@@ -130,11 +367,50 @@ export interface BreakdownSchema {
   parts: BreakdownPart[];
 }
 
+/**
+ * An age/sex population pyramid of the individually identified dead. This
+ * reads killed-in-gaza-v3.min.json — the per-record list — rather than
+ * summary.json's `known_killed_in_gaza` aggregate the breakdown donut uses,
+ * because that aggregate only carries six pre-summed age/sex buckets. The
+ * per-record list still has single-year ages, so it can be rebinned into
+ * 5-year bands; the donut's six buckets can't be un-summed back into that
+ * resolution. Both read the same underlying identification work — this
+ * schema just asks a finer question of it.
+ */
+export interface HistogramSchema {
+  type: "histogram";
+  x: null;
+  sources: ["killed_in_gaza"];
+  left: HistogramSide;
+  right: HistogramSide;
+  bands: HistogramBand[];
+}
+
+/**
+ * Death rate per 1,000 pre-war population, by 5-year age band and sex — the
+ * pyramid's records (the numerator) against the PCBS 2017 census, aged
+ * forward and scaled to a 2023 population size (the denominator; see
+ * `RATE_AGE_SHIFT_YEARS` / `RATE_POP_SCALE_*` in generate-stories-data.ts for
+ * exactly how). `x` is categorical — an age band, not a date — because this
+ * is a cross-sectional comparison of two rates, not a time series.
+ */
+export interface RateByAgeSchema {
+  type: "rate-by-age";
+  x: "age_band";
+  sources: ["killed_in_gaza", PopulationSource];
+  male: RateSide;
+  female: RateSide;
+  bands: RateBand[];
+}
+
 export type StorySchema =
   | TimeseriesMultiSchema
   | TimeseriesAreaSchema
   | StackedAreaSchema
-  | BreakdownSchema;
+  | BatchStackSchema
+  | BreakdownSchema
+  | HistogramSchema
+  | RateByAgeSchema;
 
 /* ----------------------------------------------------------------------------
  * Story
@@ -165,10 +441,50 @@ export interface ChartSeries {
   label: string;
   color: string;
   points: SeriesPoint[];
+  /** carried from TimeField.step — see that field's doc comment. */
+  step?: boolean;
 }
 
 export interface BreakdownSlice {
   label: string;
   color: string;
   value: number;
+}
+
+/**
+ * One column of the batch-composition stack — a batch's true count in each
+ * group, plus the batch's own identity so a tooltip can name what it is
+ * rather than just "column 7". `records` is the batch's whole size, which
+ * `segments` sums to; `share` is each segment as a percent of it.
+ */
+export interface BatchColumn {
+  number: number;
+  /** the date this batch's records are complete *through* (not its publish date). */
+  includesUntil: string;
+  /** the date the ministry actually published the batch. */
+  publishedOn: string;
+  records: number;
+  segments: { label: string; color: string; value: number; share: number }[];
+}
+
+/** One row of the pyramid — a band's true count on each side. */
+export interface PyramidBand {
+  label: string;
+  left: number;
+  right: number;
+}
+
+/**
+ * One row of the rate-by-age chart — a band's true rate per 1,000 for each
+ * sex, plus the raw killed count and scaled population behind it, so a
+ * tooltip can show the arithmetic rather than just the ratio.
+ */
+export interface AgeRateBand {
+  label: string;
+  male: number;
+  female: number;
+  maleKilled: number;
+  femaleKilled: number;
+  malePop: number;
+  femalePop: number;
 }

@@ -1,6 +1,13 @@
 import type { Story } from "./types";
-import { getSeries, getBreakdown } from "./data";
-import { LineAreaChart, StackedAreaChart, DonutChart } from "./charts";
+import { getSeries, getBreakdown, getHistogram, getRateByAge, getBatchStack } from "./data";
+import {
+  LineAreaChart,
+  StackedAreaChart,
+  StackedColumnChart,
+  DonutChart,
+  PyramidChart,
+  RateByAgeChart,
+} from "./charts";
 import styles from "./StoriesInData.styles.module.css";
 
 /** The chart shown for a story, sized for either a card (mini) or the modal. */
@@ -36,11 +43,65 @@ export function StoryChart({
     );
   }
 
+  if (s.type === "histogram") {
+    const { bands, maxValue } = getHistogram(s);
+    return (
+      <PyramidChart
+        bands={bands}
+        maxValue={maxValue}
+        leftLabel={s.left.label}
+        rightLabel={s.right.label}
+        leftColor={s.left.color}
+        rightColor={s.right.color}
+        width={W}
+        height={H}
+        showLabels={isModal}
+        interactive={isModal}
+      />
+    );
+  }
+
+  if (s.type === "rate-by-age") {
+    const { bands, maxValue } = getRateByAge(s);
+    return (
+      <RateByAgeChart
+        bands={bands}
+        maxValue={maxValue}
+        maleLabel={s.male.label}
+        femaleLabel={s.female.label}
+        maleColor={s.male.color}
+        femaleColor={s.female.color}
+        width={W}
+        height={H}
+        showLabels={isModal}
+        interactive={isModal}
+        grid={grid}
+      />
+    );
+  }
+
+  if (s.type === "batch-stack") {
+    const { columns } = getBatchStack(s);
+    return (
+      <StackedColumnChart
+        columns={columns}
+        percent={s.normalize === "percent"}
+        width={W}
+        height={H}
+        pad={pad}
+        grid={grid}
+        showLabels={isModal}
+        interactive={isModal}
+      />
+    );
+  }
+
   const series = getSeries(s);
   if (s.type === "stacked-area") {
     return (
       <StackedAreaChart
         series={series}
+        percent={s.normalize === "percent"}
         width={W}
         height={H}
         pad={pad}
