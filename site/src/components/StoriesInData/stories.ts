@@ -15,8 +15,7 @@ export const STORIES: Story[] = [
     kicker: "Gaza",
     title: "Who has been killed",
     insight: "Of the dead identified by name, nearly a third were children.",
-    caption:
-      "Everyone here was identified individually — name, age, sex — rather than counted in a daily total. That list used to lag the ministry’s running aggregate by months; it no longer does — as of this list’s own coverage date (noted below), it holds slightly more records than the aggregate held on that same date, covering 99.3% of the toll counted since. The “Naming every name” story on this page charts how that gap closed. Each record sits in exactly one age-and-sex group, so the slices add up to the whole list; elders are shown together rather than split, being under 5% of it. Journalists, medics and civil-defence workers are counted here too, but the records carry no profession, so they can’t be pulled back out of these groups — showing them as separate slices would count those people twice.",
+    caption: "",
     schema: {
       type: "breakdown",
       x: null,
@@ -71,7 +70,7 @@ export const STORIES: Story[] = [
     insight:
       "The identified dead peak among people in their twenties and thirties, and thin out from there in both directions.",
     caption:
-      "killed-in-gaza-v3 carries a name, an age and a date of birth for 72,835 people — as of this list’s own coverage date, that is more records than the ministry’s running aggregate held on the same date (72,628), and it covers 99.3% of the current total (73,375). Nearly everyone in the toll now has an identity behind the number, which is what makes a chart at this resolution possible: the “Who has been killed” donut sums these same records into six age-and-sex buckets, but the underlying records carry single-year ages, so they can also be rebinned into 5-year bands. The base is wide — 5,293 of the dead were under 5 — and the widest single band is 30–34, at 8,312; the two bands either side of 30 hold 16,443 people between them.",
+      "72,835 people are identified by name — 99.3% of the toll. 5,293 were under 5; the single largest band is ages 30–34, at 8,312.",
     schema: {
       type: "histogram",
       x: null,
@@ -109,7 +108,7 @@ export const STORIES: Story[] = [
     insight:
       "Women and girls die at the same rate at every age. Males do not — and the gap opens at about age 10 and never closes, not even in their seventies.",
     caption:
-      "Each line is deaths per 1,000 people of that age and sex in Gaza’s approximate 2023 population — the same identified dead as “The ages of the dead” pyramid, now divided by a population instead of just counted. The denominator comes from PCBS’s 2017 census, the only Gaza-only breakdown by 5-year age band and sex PCBS has published: each band is shifted five years older (the 2017 5–9 cohort stands in for the 2023 10–14 cohort) and every count is scaled by 2,226,544 ⁄ 1,875,317 — PCBS’s 2023 mid-year Gaza Strip estimate over the 2017 census total — to approximate 2023 population size while keeping the census age structure. The female rate barely moves with age: 15.5 to 18.9 per 1,000 across ages 5–49, a coefficient of variation of 8%. The male rate swings from 17.1 to 67.9 over the same span, a coefficient of variation of 37%. A death rate flat with respect to age is what indiscriminate killing looks like, and it holds for women and children alike — girls and boys under 10 die at nearly identical rates, 15.8 versus 17.1 per 1,000. Males break from that flat baseline at every age past childhood.\n\nTaking the female rate in each band as the baseline, the age-standardized male excess — how many more men died than would have if men’s rate matched women’s at every age — is 28,247 people across the ages charted here, 38.8% of the identified list, largest at 30–34. That total covers ages 5–79 only, the bands the chart shows; the excluded 80+ bands would add fewer than a hundred to it.\n\nWhere that excess sits matters more than its size. Under 10 there is barely any: boys die at 1.08 times the girls’ rate, 221 deaths above parity, and children that age are plainly being killed without regard to which they are. From 10–14 onward the male rate never returns to the female one — 1.47 times at 10–14, 2.68 by 15–19, peaking at 3.62 at 35–39, and still 1.74 to 1.96 times among men in their sixties and seventies. Nearly three in ten of the excess deaths — 28.7% — fall outside ages 20–49 altogether: 4,892 among boys aged 10–19, 1,611 among men in their fifties, 1,386 among men aged 60–79, and 221 among children under 10. A gap that opens at age 10 and is still open at 79 is not the shape of a count of fighters.\n\nWhat it is the shape of, this data cannot settle. The dataset carries no combatant field, and two different explanations predict the same curve: an approach that treats males of almost any age as presumptively legitimate targets, and gendered exposure — men and boys outdoors working, queuing for aid, digging through rubble, staying behind when families evacuate. Both would elevate male rates at 12 and at 72. So 28,247 is a ceiling containing every one of those mechanisms, not an estimate of combatants, and the age profile rules out the narrowest reading without establishing which of the rest is doing the work.\n\nThe denominator is static and pre-war: it is the 2017 census structure, shifted and scaled, not a population actually measured in 2023 — running the same computation unshifted moves the overall male:female ratio from 2.42 to 2.27, so the conclusion is robust to that choice, but each individual band’s rate carries the shift assumption. Rates use the individually identified list, about 99.3% of the ministry’s aggregate toll, so if anything they run slightly low. Under-5s aren’t computable at all: the 2017 census has no age band below zero to shift forward from, and most under-5s alive during the war were born after that census.",
+      "Girls and boys under 10 die at nearly the same rate. From age 10 on, the male rate breaks away — peaking at 3.6x the female rate at 35–39 — and never closes the gap, even into their seventies. Standardized against the female rate, that divergence adds up to roughly 28,000 excess male deaths, 39% of the identified list.",
     schema: {
       type: "rate-by-age",
       x: "age_band",
@@ -144,7 +143,7 @@ export const STORIES: Story[] = [
     insight:
       "Boys hold a near-constant share of every batch the ministry has released. Girls and women don’t — their share roughly halves after the first one.",
     caption:
-      "Each column is one of the ten releases of the identified-dead list, showing only the people that release newly named — not the list as it stood after it, which is dominated by its early mass and would flatten every later shift into invisibility. Columns are evenly spaced and sit at a batch ordinal, not a date: the releases land at irregular coverage dates and nothing is known about the composition between two of them, so an area drawn across those gaps would depict a gradual drift no one measured.\n\nThe first release stands apart from all nine that followed. Names added in it — deaths through January 5, 2024, the opening three months — are 62.1% women and children. No later batch exceeds 49.2%, and the most recent is 36.9%. But the shift is not spread evenly across those groups. Boys barely move: 20.9% of the first batch, 17.1% of the latest, and never outside 14.0–20.9% in any release. It is girls and women whose share falls by roughly half — girls from 18.1% to 8.2%, women from 23.1% to 11.6% — while men rise from 33.5% to 59.4%. Read alongside “A death rate flat by age — except for men,” where the male excess opens at about age 10 and never closes, the same asymmetry shows up twice in two independent cuts of this list.\n\nWhat a column is not: a death cohort. The records carry a name, an age, a date of birth and a sex, but no date of death, so a batch is the set of people newly *identified* by that release, heavily but not exclusively those who died within its coverage window. A record’s batch is the release its ministry ID first appeared in and is never reassigned afterward, so the ten columns are disjoint and sum to the whole list; the “Who has been killed” donut is precisely these ten columns added together.\n\nTwo changes in how the list was compiled sit underneath the trend and cannot be separated from it. From the second release onward the ministry accepted submissions from families of the killed, alongside its own hospital records. From the sixth onward the list has reached us via Iraq Body Count rather than directly. Either could shift who gets named and how quickly, independent of any change in who was killed. The columns are an honest account of the list; they are a bounded account of the war.",
+      "The first release of the identified-dead list was 62.1% women and children. Every release since has fallen further — down to 36.9% in the most recent — while boys' share has barely moved, holding near 17–21% across all ten.",
     schema: {
       type: "batch-stack",
       x: "update_batch",
@@ -178,7 +177,7 @@ export const STORIES: Story[] = [
     insight:
       "The identified list held near half the ministry’s toll for over a year, then jumped to full coverage in a single March 2025 batch and has stayed there since.",
     caption:
-      "Both lines count the same dead on the same scale: the ministry’s running daily aggregate, and how many of those deaths had by then been individually identified by name. Each point on the identified line sits at a batch’s includesUntil date — the date its records are complete through — not the later date the batch was actually published; publication lagged coverage by 6 to 81 days across the list’s ten historical batches, so the line is plotted where the honest claim is, not where the announcement landed. Coverage sat at 54.3% through the first five batches, then a single 18,408-record batch covering March 2025 pushed it to 100.7% and it has stayed at or above full coverage since — 72,835 identified against 72,628 in the aggregate as of the most recent batch. That the identified count runs slightly ahead of the aggregate from there on is real, not a rounding artifact: they are two separately compiled counts, and neither is clamped to the other here.",
+      "For over a year, the identified list held at little more than half the ministry's toll. A single batch covering March 2025 pushed it past full coverage, and it's stayed there since.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -217,7 +216,7 @@ export const STORIES: Story[] = [
     title: "Two front lines",
     insight: "How the toll in Gaza and the West Bank climbs over the same window.",
     caption:
-      "Cumulative people killed in each territory. Gaza’s toll is roughly 66x the West Bank’s, so each line is scaled to its own maximum rather than a shared one — that keeps the West Bank’s climb legible, but it also means the two lines reach the same height on the chart despite the real gap between them; read the tooltip for true counts, not line position. Neither pauses.",
+      "Gaza's toll is roughly 66x the West Bank's — each line is scaled to its own maximum so both climbs stay visible. Read the tooltip for true counts, not line height. Neither ever flattens.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -250,7 +249,7 @@ export const STORIES: Story[] = [
     title: "Where the killing is happening",
     insight: "Gaza was almost the whole toll — until Lebanon became most of it.",
     caption:
-      "Each band is one territory’s share of everyone killed across the three in the trailing 30 days, so the chart tracks where the current pace sits rather than all-time totals. For two years Gaza is effectively the entire column; once Lebanon’s health ministry begins reporting in March 2026 it takes the majority within weeks. The West Bank stays a thin, unbroken band throughout — never large, never absent.",
+      "Each band is a territory's share of deaths in the trailing 30 days. Gaza is nearly the whole column for two years — until Lebanon starts reporting in March 2026 and takes the majority within weeks. The West Bank never disappears, and never grows large.",
     schema: {
       type: "stacked-area",
       x: "report_date",
@@ -289,7 +288,7 @@ export const STORIES: Story[] = [
     insight:
       "Medical-personnel deaths haven’t been updated since October 2025; journalist deaths have kept climbing.",
     caption:
-      "The medical-personnel count has sat at 1,701 since October 7, 2025 — the ministry stopped publishing that disaggregation, and this flat line is that reporting gap, not a claim that medics stopped being killed. Journalists are a live count by contrast: it rose from 257 to 262 during 2026, most recently in April. Each line is scaled to its own maximum so both are legible on one chart — that means line height compares each series to itself, not to the other; read the tooltip for true counts.",
+      "The medical-personnel count has been frozen at 1,701 since October 2025 — the ministry stopped reporting it, not a sign the killing stopped. Journalist deaths keep climbing, most recently to 262 in April 2026.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -336,7 +335,7 @@ export const STORIES: Story[] = [
     insight:
       "Settler attacks and displacement have climbed together since 2023 — and both steepened in 2026.",
     caption:
-      "Both lines are running totals since October 2023. Each is scaled to its own maximum, not a shared axis, so the smaller settler-attacks count doesn’t get flattened by displacement’s larger one — that means the two curves reaching similar heights is a scaling choice, not evidence the counts are close; the numbers below are what to compare, not line position. Settler attacks reached 370 by the end of 2023, 1,797 a year later, 3,143 by the end of 2025 and 4,401 by August 2026 — a pace of roughly 3.7 incidents a day through 2025 that rises to about 5.9 a day across 2026. Displacement tracks a similar acceleration at a little over twice the count: 1,012, then 3,841, then 6,831, then 9,420 people, with the daily pace going from about 8 to about 12 over the same turn. The two are not linked in the data: the West Bank dataset counts settler attacks as incidents and counts displaced persons separately, with no attribution of any displacement to a cause. Read the lines side by side, but neither explains the other.",
+      "Settler attacks climbed from 370 in 2023 to 4,401 by August 2026 — the daily pace nearly doubling in 2026 alone, from about 3.7 to 5.9 a day. Displacement has accelerated on a similar curve, though the dataset draws no direct link between the two.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",

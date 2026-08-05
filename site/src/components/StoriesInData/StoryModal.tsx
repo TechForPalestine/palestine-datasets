@@ -14,14 +14,21 @@ import { StoryChart } from "./StoryCard";
 import styles from "./StoriesInData.styles.module.css";
 
 /**
- * Published filename per source id, for the "Built from:" pills. Most ids match
- * their file, but not all — `killed_in_gaza` reads the v3 list — so the mapping
- * is explicit rather than `${src}.json`, which would name a file that isn't
- * what the chart was built from.
+ * Dataset name + docs-page link per source id, for the "Built from:" pills.
+ * `href` is omitted for sources with no published docs page (the PCBS
+ * reference table isn't one of this project's datasets; Lebanon daily
+ * casualties doesn't have a docs page yet) — those render as plain text.
  */
-const SOURCE_FILES: Partial<Record<StorySource, string>> = {
-  killed_in_gaza: "killed-in-gaza-v3.json",
-  gaza_population_pcbs_2017: "gaza-population-pcbs-2017.json",
+const SOURCE_INFO: Record<StorySource, { name: string; href?: string }> = {
+  killed_in_gaza: { name: "Killed in Gaza", href: "/docs/killed-in-gaza" },
+  summary: { name: "Summary Data", href: "/docs/summary" },
+  casualties_daily: { name: "Daily Casualties – Gaza", href: "/docs/casualties-daily" },
+  west_bank_daily: {
+    name: "Daily Casualties – West Bank",
+    href: "/docs/casualties-daily-west-bank",
+  },
+  lebanon_casualties_daily: { name: "Daily Casualties – Lebanon" },
+  gaza_population_pcbs_2017: { name: "PCBS 2017 Census (Gaza)" },
 };
 
 /** Expanded story view. Large interactive chart, caption, and dataset sources. */
@@ -99,11 +106,18 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
           )}
           <div className={styles.sources}>
             Built from:
-            {story.schema.sources.map((src) => (
-              <span key={src} className={styles.sourcePill}>
-                {SOURCE_FILES[src] ?? `${src}.json`}
-              </span>
-            ))}
+            {story.schema.sources.map((src) => {
+              const info = SOURCE_INFO[src];
+              return info.href ? (
+                <a key={src} href={info.href} className={styles.sourcePill}>
+                  {info.name}
+                </a>
+              ) : (
+                <span key={src} className={styles.sourcePill}>
+                  {info.name}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>

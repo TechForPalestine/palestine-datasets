@@ -463,6 +463,12 @@
   border: 1px solid var(--story-line);
   border-radius: 6px;
   padding: 3px 8px;
+  text-decoration: none;
+}
+
+a.sourcePill:hover {
+  border-color: var(--story-ink-2);
+  text-decoration: underline;
 }
 
 @keyframes storyFadeIn {
