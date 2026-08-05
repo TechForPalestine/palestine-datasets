@@ -133,10 +133,6 @@
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: max(
-    var(--ifm-spacing-horizontal, 1rem),
-    calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
-  );
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   /* room for the lifted-card shadow, pulled back so layout doesn't shift */
@@ -150,10 +146,27 @@
   display: flex;
   gap: 16px;
   padding-bottom: 2px;
-  padding-inline: max(
-    var(--ifm-spacing-horizontal, 1rem),
-    calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
-  );
+}
+/* Real flex items instead of container padding-inline: Chrome excludes a flex
+   container's trailing inline padding from its scrollable overflow region
+   once content overflows, so the end gutter silently collapsed to 0 at max
+   scroll. Spacers carry the same gutter width but count as scrollable
+   content, so both ends stay put. They also replace scroll-padding-inline —
+   snapping to the first/last card's edge now already lands flush with the
+   gutter. */
+.spacer {
+  /* track's `gap` adds 16px between the spacer and the adjacent card, so the
+     spacer itself only needs to make up the rest of the gutter width */
+  flex: 0 0
+    calc(
+      max(
+          var(--ifm-spacing-horizontal, 1rem),
+          calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
+        ) - 16px
+    );
+  /* snap-eligible so the leading spacer is a valid rest position — otherwise
+     mandatory snap jumps straight to the first card and the gutter is lost */
+  scroll-snap-align: start;
 }
 
 .card {

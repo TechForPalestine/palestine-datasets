@@ -39,9 +39,11 @@ export function StoriesInData() {
 
       <div className={styles.viewport} ref={viewportRef}>
         <div className={styles.track}>
+          <div className={styles.spacer} aria-hidden="true" />
           {STORIES_INDEX.map((storyId) => (
             <StoryCard key={storyId} story={getStoryById(storyId)} onOpen={setOpenId} />
           ))}
+          <div className={styles.spacer} aria-hidden="true" />
         </div>
       </div>
 
