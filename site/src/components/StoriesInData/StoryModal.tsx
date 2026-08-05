@@ -4,6 +4,7 @@ import {
   getBreakdown,
   getHistogram,
   getRateByAge,
+  getBatchStack,
   getSeries,
   getCoverageThrough,
   fmt,
@@ -154,6 +155,34 @@ function legendForSeries(story: Story) {
         </span>
       </>
     );
+  }
+
+  if (schema.type === "batch-stack") {
+    // The chart is about a *change* in composition, so the legend carries both
+    // ends of it rather than one share: what a group was in the first batch
+    // and what it is in the latest. A single number here (the latest share, as
+    // the stacked-area legend shows) would name the destination and leave the
+    // movement — the actual finding — readable only off the columns.
+    const { columns } = getBatchStack(schema);
+    const first = columns[0];
+    const last = columns[columns.length - 1];
+    const pct = (v: number) => `${v.toFixed(v < 10 ? 1 : 0)}%`;
+    return schema.groups.map((g, i) => {
+      const a = first.segments[i].share;
+      const b = last.segments[i].share;
+      // A group absent at both ends (today: no_age) would be "0% → 0%", a
+      // legend entry for a category the chart never draws.
+      if (a === 0 && b === 0) return null;
+      return (
+        <span key={g.key} className={styles.lg}>
+          <i style={{ background: g.color }} />
+          {g.label}{" "}
+          <b>
+            {pct(a)} → {pct(b)}
+          </b>
+        </span>
+      );
+    });
   }
 
   // A percent-stacked chart's legend is far more useful with the latest share

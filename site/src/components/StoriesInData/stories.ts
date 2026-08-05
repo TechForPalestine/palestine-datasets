@@ -136,6 +136,40 @@ export const STORIES: Story[] = [
     },
   },
 
+  /* ---- batch-stack: the composition of each release of the identified list ---- */
+  {
+    id: "batches",
+    kicker: "Gaza",
+    title: "Who each new list names",
+    insight:
+      "Boys hold a near-constant share of every batch the ministry has released. Girls and women don’t — their share roughly halves after the first one.",
+    caption:
+      "Each column is one of the ten releases of the identified-dead list, showing only the people that release newly named — not the list as it stood after it, which is dominated by its early mass and would flatten every later shift into invisibility. Columns are evenly spaced and sit at a batch ordinal, not a date: the releases land at irregular coverage dates and nothing is known about the composition between two of them, so an area drawn across those gaps would depict a gradual drift no one measured.\n\nThe first release stands apart from all nine that followed. Names added in it — deaths through January 5, 2024, the opening three months — are 62.1% women and children. No later batch exceeds 49.2%, and the most recent is 36.9%. But the shift is not spread evenly across those groups. Boys barely move: 20.9% of the first batch, 17.1% of the latest, and never outside 14.0–20.9% in any release. It is girls and women whose share falls by roughly half — girls from 18.1% to 8.2%, women from 23.1% to 11.6% — while men rise from 33.5% to 59.4%. Read alongside “A death rate flat by age — except for men,” where the male excess opens at about age 10 and never closes, the same asymmetry shows up twice in two independent cuts of this list.\n\nWhat a column is not: a death cohort. The records carry a name, an age, a date of birth and a sex, but no date of death, so a batch is the set of people newly *identified* by that release, heavily but not exclusively those who died within its coverage window. A record’s batch is the release its ministry ID first appeared in and is never reassigned afterward, so the ten columns are disjoint and sum to the whole list; the “Who has been killed” donut is precisely these ten columns added together.\n\nTwo changes in how the list was compiled sit underneath the trend and cannot be separated from it. From the second release onward the ministry accepted submissions from families of the killed, alongside its own hospital records. From the sixth onward the list has reached us via Iraq Body Count rather than directly. Either could shift who gets named and how quickly, independent of any change in who was killed. The columns are an honest account of the list; they are a bounded account of the war.",
+    schema: {
+      type: "batch-stack",
+      x: "update_batch",
+      // Batches range from 1,765 records to 18,408. On absolute columns the
+      // eye compares batch *size*, which is an artifact of release cadence
+      // and backlog, not of who was killed — the composition is the story.
+      normalize: "percent",
+      sources: ["killed_in_gaza"],
+      // Colors match the "Who has been killed" donut group for group: the same
+      // category has to be the same color across the carousel, or a reader
+      // moving between the two charts re-learns the legend each time.
+      groups: [
+        { key: "female_child", label: "Girls", color: "var(--story-plum)" },
+        { key: "male_child", label: "Boys", color: "var(--story-red)" },
+        { key: "female_adult", label: "Women", color: "var(--story-teal)" },
+        { key: "male_adult", label: "Men", color: "var(--story-blue)" },
+        { key: "senior", label: "Elders", color: "var(--story-amber)" },
+        // Currently 0 in every batch. Kept so the columns provably sum to each
+        // batch's whole size rather than quietly dropping unusable records;
+        // the legend omits a group that is zero at both ends.
+        { key: "no_age", label: "Age unrecorded", color: "var(--story-olive)" },
+      ],
+    },
+  },
+
   /* ---- multi-line: identification catching up to the aggregate ---- */
   {
     id: "coverage",

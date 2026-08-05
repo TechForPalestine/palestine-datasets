@@ -134,6 +134,34 @@ export type DerivedKey =
  */
 export type KilledInGazaKey = "identified_cum";
 
+/**
+ * The six age/sex groups of the identified-record list, as counted *within a
+ * single republish batch*. Deliberately the same six disjoint groups as
+ * {@link SummaryKey} — same cutoffs (child under 18, senior 65+, `no_age` for
+ * an unrecorded age), same combined-across-sexes `senior` — so the batch-stack
+ * story and the breakdown donut are the same partition of the same people,
+ * just cut per batch rather than over the whole list. Anything else would
+ * invite a reader to compare two charts whose categories don't line up.
+ */
+export type BatchGroupKey =
+  | "male_child"
+  | "female_child"
+  | "male_adult"
+  | "female_adult"
+  | "senior"
+  | "no_age";
+
+/**
+ * One band of the batch-composition stack. Like {@link HistogramSide} there's
+ * no dataset column behind it: the generator crosses each record's `age`,
+ * `sex` and `update` columns to get a (batch, group) cell.
+ */
+export interface BatchGroup {
+  key: BatchGroupKey;
+  label: string;
+  color: string;
+}
+
 export type FieldKey =
   | CasualtyDailyKey
   | WestBankDailyKey
@@ -246,6 +274,7 @@ export type SchemaType =
   | "timeseries-multi"
   | "timeseries-area"
   | "stacked-area"
+  | "batch-stack"
   | "breakdown"
   | "histogram"
   | "rate-by-age";
@@ -290,6 +319,43 @@ export interface StackedAreaSchema {
   normalize?: "percent";
   sources: TimeseriesSource[];
   fields: TimeField[];
+}
+
+/**
+ * The age/sex composition of each republish batch of the identified-record
+ * list, one stacked column per batch.
+ *
+ * `x` is `"update_batch"` — a batch ordinal, not a date — and that is the
+ * whole reason this isn't a `stacked-area` with ten points. The list has ten
+ * batches landing at irregular coverage dates, and nothing is known about the
+ * composition *between* two of them; an area interpolating across that gap
+ * would draw a gradual demographic drift the data never measured. Columns
+ * make no claim about the space between them, the same discipline that makes
+ * `identified_cum` a step line rather than a slope. They're spaced evenly for
+ * the same reason: the x axis is an ordinal, so unequal gaps would imply a
+ * time scale the chart isn't using.
+ *
+ * Each column counts only the records *that batch added*, not the list as it
+ * stood after it. The running list is dominated by its early mass, so a
+ * cumulative cut damps every later shift into invisibility; per-batch is what
+ * makes a change in composition legible at all. What that shift means is
+ * bounded, though, and the story's caption has to say so: a batch is an
+ * *identification* cohort, not a death cohort. The records carry `age`, `sex`
+ * and `dob` but no date of death, so "batch 10 is 59% men" is a fact about
+ * who was newly named in that batch — heavily but not exclusively people who
+ * died in its coverage window.
+ */
+export interface BatchStackSchema {
+  type: "batch-stack";
+  x: "update_batch";
+  /**
+   * "percent" restacks each column to 100%, so a column reads as the batch's
+   * *composition* rather than its size. Batches range from 1,765 to 18,408
+   * records, so absolute columns would compare heights instead of mixes.
+   */
+  normalize?: "percent";
+  sources: ["killed_in_gaza"];
+  groups: BatchGroup[];
 }
 
 /** A categorical part-to-whole breakdown (donut). */
@@ -341,6 +407,7 @@ export type StorySchema =
   | TimeseriesMultiSchema
   | TimeseriesAreaSchema
   | StackedAreaSchema
+  | BatchStackSchema
   | BreakdownSchema
   | HistogramSchema
   | RateByAgeSchema;
@@ -382,6 +449,22 @@ export interface BreakdownSlice {
   label: string;
   color: string;
   value: number;
+}
+
+/**
+ * One column of the batch-composition stack — a batch's true count in each
+ * group, plus the batch's own identity so a tooltip can name what it is
+ * rather than just "column 7". `records` is the batch's whole size, which
+ * `segments` sums to; `share` is each segment as a percent of it.
+ */
+export interface BatchColumn {
+  number: number;
+  /** the date this batch's records are complete *through* (not its publish date). */
+  includesUntil: string;
+  /** the date the ministry actually published the batch. */
+  publishedOn: string;
+  records: number;
+  segments: { label: string; color: string; value: number; share: number }[];
 }
 
 /** One row of the pyramid — a band's true count on each side. */

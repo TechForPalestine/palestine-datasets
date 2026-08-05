@@ -7,10 +7,10 @@ the published datasets; clicking it opens a modal with a large interactive chart
 
 | File                              | Role                                                                                                                                                                                                                           |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `types.ts`                        | The **typed schema**. A discriminated union (`timeseries-multi`, `timeseries-area`, `stacked-area`, `breakdown`, `histogram`, `rate-by-age`) whose `type` mirrors each card's chart and whose `key`s are real dataset columns. |
+| `types.ts`                        | The **typed schema**. A discriminated union (`timeseries-multi`, `timeseries-area`, `stacked-area`, `batch-stack`, `breakdown`, `histogram`, `rate-by-age`) whose `type` mirrors each card's chart and whose `key`s are real dataset columns. |
 | `stories.ts`                      | The `Story[]` shown in the carousel, each with its typed `schema`.                                                                                                                                                             |
 | `data.ts`                         | Reads the schema keys out of `stories-data.json`, derives series/breakdowns/pyramid bands/rate bands, formats numbers.                                                                                                         |
-| `charts.tsx`                      | React + SVG charts: `LineAreaChart`, `StackedAreaChart`, `DonutChart`, `PyramidChart`, `RateByAgeChart` (with hover/tooltips).                                                                                                 |
+| `charts.tsx`                      | React + SVG charts: `LineAreaChart`, `StackedAreaChart`, `StackedColumnChart`, `DonutChart`, `PyramidChart`, `RateByAgeChart` (with hover/tooltips).                                                                           |
 | `StoryCard.tsx`                   | A single carousel card (chart → kicker → title → insight).                                                                                                                                                                     |
 | `StoryModal.tsx`                  | Expanded story view: big interactive chart, legend, caption, dataset sources.                                                                                                                                                  |
 | `StoriesInData.tsx`               | The carousel section.                                                                                                                                                                                                          |
@@ -25,6 +25,7 @@ the published datasets; clicking it opens a modal with a large interactive chart
 | `timeseries-multi` | multi-line                        | Two front lines · Reporting under fire · A steady drumbeat, then a surge (dual-scale) · Naming every name (shared scale, step line) |
 | `timeseries-area`  | filled area                       | _(no story currently uses it; the primitive is kept for future stories)_                                                            |
 | `stacked-area`     | stacked bands                     | Where the killing is happening                                                                                                      |
+| `batch-stack`      | stacked columns, one per batch    | Who each new list names                                                                                                             |
 | `breakdown`        | donut                             | Who has been killed                                                                                                                 |
 | `histogram`        | age/sex pyramid                   | The ages of the dead                                                                                                                |
 | `rate-by-age`      | age/sex rate lines (shared scale) | A death rate flat by age — except for men                                                                                           |
@@ -91,6 +92,58 @@ itself, which would silently smooth a real step into a slanted line. So the
 generator unions the ten batch indices into the sampled index set before
 picking every column — a few extra points shared by the whole file, in
 exchange for the jump always being representable.
+
+### `batch-stack`: reading the list as ten cohorts instead of one total
+
+"Who each new list names" cuts `killed-in-gaza-v3.min.json` by its `update`
+column into the ten republish batches, and draws each batch's age/sex
+composition as one percent-stacked column.
+
+Four choices carry the honesty of this chart, and each has a cheaper
+alternative that would have been wrong:
+
+- **Per-batch, not cumulative.** A column counts only the records that batch
+  *added*. The running list is dominated by its early mass, so a cumulative
+  cut damps every later shift toward invisibility — girls go 18.1% → 13.3%
+  cumulatively but 18.1% → 8.2% per batch, and the second is the real
+  movement. `update` is assigned once, on the batch where a ministry ID first
+  appears, and never reassigned (`gatherIds` in
+  `scripts/data/v3/killed-in-gaza.ts` guards on `!identifierUpdateIndex.has`),
+  so the ten cohorts are genuinely disjoint and sum to the whole list. That
+  makes the breakdown donut exactly these ten columns added together.
+- **Columns, not an area; ordinal x, not dates.** Batches land at irregular
+  coverage dates and nothing was measured between any two of them. An area
+  across those gaps would draw a gradual demographic drift no one observed,
+  and date-spacing would imply a continuous axis the data doesn't sit on —
+  the same reasoning that makes `identified_cum` a step line rather than a
+  slope. Columns claim this batch, this mix, and nothing about the space
+  between.
+- **Percent, not absolute.** Batches range from 1,765 records to 18,408. On
+  absolute columns the eye compares batch *size*, which is an artifact of
+  release cadence and identification backlog rather than of who was killed.
+- **The same six groups as the donut, in the same colors.** Child under 18,
+  senior 65+ across both sexes, `no_age` for an unrecorded age — the cutoffs
+  are copied from `genderAge` in `scripts/data/v3/summary.ts` rather than
+  re-chosen, so a column and a donut slice partition the same people the same
+  way. `no_age` is currently 0 in every batch and is still emitted, so the
+  generator can assert that the groups sum to each batch's own `records`
+  (it throws if they don't); the modal legend omits a group that's zero at
+  both ends rather than printing "0% → 0%".
+
+**What the chart cannot say.** A batch is an *identification* cohort, not a
+death cohort. The records carry `age`, `dob` and `sex` but no date of death,
+so a column is who was newly named in that release — heavily but not
+exclusively people who died within its coverage window. Two compilation
+changes also sit underneath the trend and can't be separated from it: from
+batch 2 the ministry accepted family submissions alongside hospital records,
+and from batch 6 the list has reached us via Iraq Body Count rather than
+directly. The story's caption states all three limits; they are the reason
+its copy claims a fact about the list rather than a fact about the war.
+
+The generator's aggregate output is checkable against the project's own
+published change summaries — summing all ten columns gives 49.5% men, 17.6%
+boys, 16.1% women, 12.1% girls, 4.7% elders, which is the table in
+`site/updates/2026-07-27-killed-list-update.md` exactly.
 
 ### The pyramid shares one scale across the centerline
 
@@ -280,6 +333,15 @@ The catalog ships with placeholder entries for killed-in-gaza demographic
 series (`gaza.kig.*`). Their `datasetFile` / `valuePath` are `null` because the
 underlying `demographics-by-update` time series isn't generated yet — that
 generator is part of phase 2.
+
+The `batch-stack` story does **not** close those placeholders and deliberately
+added no catalog entry of its own. It reads columns that already exist
+(`age`, `sex`, `update` on `killed-in-gaza-v3.min.json`) and emits its
+per-batch cross only into `stories-data.json`, a component build artifact.
+Catalog entries describe *published, versioned series a phase 2 explorer could
+plot* — pointing one at a file this component generates for itself would name
+a series no API consumer can fetch. The `gaza.kig.*` placeholders stay
+placeholders until a real `demographics-by-update` dataset is published.
 
 ## Phase 2 — free-form explore (planned)
 

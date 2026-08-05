@@ -1,5 +1,5 @@
 import { useLayoutEffect, useMemo, useRef, useState, type PointerEvent } from "react";
-import type { ChartSeries, BreakdownSlice, PyramidBand, AgeRateBand } from "./types";
+import type { ChartSeries, BreakdownSlice, PyramidBand, AgeRateBand, BatchColumn } from "./types";
 import { fmt, fmtShort, formatDate } from "./data";
 import styles from "./StoriesInData.styles.module.css";
 
@@ -295,6 +295,173 @@ export function StackedAreaChart({
       )}
     </div>
   );
+}
+
+/* ------------------------------------------------------ Stacked columns */
+
+interface ColumnProps {
+  columns: BatchColumn[];
+  /** stack each column to a constant 100% so it reads as composition, not size */
+  percent?: boolean;
+  width?: number;
+  height?: number;
+  pad?: Pad;
+  /** show per-column batch number + coverage date; suppressed at card size. */
+  showLabels?: boolean;
+  interactive?: boolean;
+  grid?: number;
+}
+
+/**
+ * One stacked column per republish batch of the identified-record list.
+ *
+ * Columns, not an area, and evenly spaced rather than placed on a date scale:
+ * the x axis is a batch ordinal. Ten batches landed at irregular coverage
+ * dates and nothing was measured between any two of them, so an area would
+ * interpolate a demographic drift that was never observed and date-spacing
+ * would imply a continuous axis the data doesn't sit on. Discrete columns
+ * claim exactly what's known — this batch, this mix — and nothing about the
+ * gaps, the same reasoning behind `identified_cum`'s step line.
+ *
+ * Hover highlights a whole column rather than one segment: the question a
+ * reader brings here is "what was this batch made of," which is a comparison
+ * among the segments of one column, so the tooltip shows all of them at once.
+ */
+export function StackedColumnChart({
+  columns,
+  percent = false,
+  width = 320,
+  height = 130,
+  pad = DEF_PAD,
+  showLabels = false,
+  interactive = false,
+  grid = 0,
+}: ColumnProps) {
+  const [hover, setHover] = useState<number | null>(null);
+  const n = columns.length;
+  // Two label lines (batch number, coverage date) live below the plot, so the
+  // stack has to end above them rather than run to the padded bottom edge.
+  const labelH = showLabels ? 30 : 0;
+  const plotBottom = height - pad.b - labelH;
+  const plotH = plotBottom - pad.t;
+  const slot = (width - pad.l - pad.r) / n;
+  const barW = slot * 0.74;
+
+  const max = useMemo(
+    () => (percent ? 100 : Math.max(...columns.map((c) => c.records)) * 1.08 || 1),
+    [columns, percent],
+  );
+  const clear = () => interactive && setHover(null);
+  const hovered = hover != null ? columns[hover] : null;
+
+  return (
+    <div className={styles.chartWrap}>
+      <svg
+        className={styles.svg}
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        role="img"
+        onPointerLeave={clear}
+      >
+        {grid > 0 &&
+          Array.from({ length: grid }, (_, i) => {
+            const y = pad.t + ((i + 1) / (grid + 1)) * plotH;
+            return (
+              <line key={i} className={styles.grid} x1={pad.l} x2={width - pad.r} y1={y} y2={y} />
+            );
+          })}
+        {columns.map((col, ci) => {
+          const x = pad.l + ci * slot + (slot - barW) / 2;
+          const dim = hover != null && hover !== ci;
+          let acc = 0;
+          return (
+            <g
+              key={col.number}
+              onPointerEnter={interactive ? () => setHover(ci) : undefined}
+              onPointerDown={interactive ? () => setHover(ci) : undefined}
+            >
+              {/* full-slot hit target: segments alone leave dead gaps between columns */}
+              <rect x={pad.l + ci * slot} y={pad.t} width={slot} height={plotH} fill="transparent" />
+              {col.segments.map((seg, si) => {
+                const v = percent ? seg.share : seg.value;
+                const y0 = plotBottom - (acc / max) * plotH;
+                acc += v;
+                const y1 = plotBottom - (acc / max) * plotH;
+                const h = y0 - y1;
+                if (h <= 0) return null;
+                // 1px shaved off the top of every segment but the last gives a
+                // surface-colored seam between neighbours, so two adjacent
+                // bands never read as one block. Never below 0.5px, or a thin
+                // segment would vanish into its own separator.
+                const gap = si === col.segments.length - 1 ? 0 : Math.min(1, h - 0.5);
+                return (
+                  <rect
+                    key={seg.label}
+                    x={x}
+                    y={y1 + gap}
+                    width={barW}
+                    height={Math.max(0.5, h - gap)}
+                    fill={seg.color}
+                    opacity={dim ? 0.4 : 0.92}
+                  />
+                );
+              })}
+              {showLabels && (
+                <>
+                  <text
+                    x={x + barW / 2}
+                    y={plotBottom + 13}
+                    textAnchor="middle"
+                    className={styles.colBatch}
+                  >
+                    {col.number}
+                  </text>
+                  <text
+                    x={x + barW / 2}
+                    y={plotBottom + 25}
+                    textAnchor="middle"
+                    className={styles.colDate}
+                  >
+                    {shortMonth(col.includesUntil)}
+                  </text>
+                </>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+      {interactive && hovered && (
+        <Tooltip
+          show
+          xFrac={(pad.l + (hover! + 0.5) * slot) / width}
+          header={`Batch ${hovered.number} · through ${formatDate(hovered.includesUntil)}`}
+          rows={[
+            ...hovered.segments
+              .filter((s) => s.value > 0)
+              .map((s) => ({
+                color: s.color,
+                label: s.label,
+                value: s.value,
+                text: `${s.share.toFixed(s.share < 10 ? 1 : 0)}%`,
+                sub: fmt(s.value),
+              })),
+            {
+              color: "var(--story-ink)",
+              label: "Added by this batch",
+              value: hovered.records,
+              strong: true,
+            },
+          ]}
+        />
+      )}
+    </div>
+  );
+}
+
+/** "Jan ’24" — compact enough to sit under a column without colliding. */
+function shortMonth(iso: string): string {
+  const d = new Date(iso + "T00:00:00Z");
+  return d.toLocaleDateString(undefined, { month: "short", timeZone: "UTC" }) + " ’" + iso.slice(2, 4);
 }
 
 /* ------------------------------------------------------------------ Donut */

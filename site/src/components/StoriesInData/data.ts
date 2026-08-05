@@ -5,6 +5,7 @@ import type {
   BreakdownSlice,
   PyramidBand,
   AgeRateBand,
+  BatchColumn,
   TimeField,
   TimeseriesSource,
 } from "./types";
@@ -47,6 +48,19 @@ interface StoriesData {
     binned: number;
     bands: { min: number; male: number; female: number }[];
     identified_cum: number[];
+    by_update: {
+      number: number;
+      includesUntil: string;
+      publishedOn: string;
+      records: number;
+      male_child: number;
+      female_child: number;
+      male_adult: number;
+      female_adult: number;
+      senior: number;
+      no_age: number;
+    }[];
+    unbatched: number;
   };
   rate_by_age: {
     bands: {
@@ -106,9 +120,46 @@ function toSeries(field: TimeField): ChartSeries {
 
 /** Series for any time-based schema (line / area / stacked). */
 export function getSeries(schema: StorySchema): ChartSeries[] {
-  if (schema.type === "breakdown" || schema.type === "histogram" || schema.type === "rate-by-age")
+  if (
+    schema.type === "breakdown" ||
+    schema.type === "histogram" ||
+    schema.type === "rate-by-age" ||
+    schema.type === "batch-stack"
+  )
     return [];
   return schema.fields.map(toSeries);
+}
+
+/**
+ * Columns for the batch-composition stack — one per republish batch, in batch
+ * order, each carrying its groups' true counts and their share of that batch.
+ *
+ * Unlike `getBreakdown`, empty groups are *not* dropped. There the donut would
+ * draw an invisible arc with a legend entry; here a group's absence in one
+ * batch is information — the column has to stay comparable to its neighbours,
+ * and the legend is shared across all ten columns rather than per-column, so a
+ * group that's zero in batch 3 and 4% in batch 9 has to keep its slot.
+ */
+export function getBatchStack(schema: StorySchema): { columns: BatchColumn[]; total: number } {
+  if (schema.type !== "batch-stack") return { columns: [], total: 0 };
+  const columns = DATA.killed_in_gaza.by_update.map((b) => ({
+    number: b.number,
+    includesUntil: b.includesUntil,
+    publishedOn: b.publishedOn,
+    records: b.records,
+    segments: schema.groups.map((g) => {
+      const value = b[g.key];
+      if (typeof value !== "number")
+        throw new Error(`stories-data.json batch ${b.number} missing group ${g.key}`);
+      return {
+        label: g.label,
+        color: g.color,
+        value,
+        share: b.records > 0 ? (value / b.records) * 100 : 0,
+      };
+    }),
+  }));
+  return { columns, total: columns.reduce((s, c) => s + c.records, 0) };
 }
 
 /**
@@ -199,6 +250,9 @@ export function getCoverageThrough(schema: StorySchema): string | null {
     return readsKnownKilled ? DATA.summary.known_killed_in_gaza.includes_until : null;
   }
   if (schema.type === "histogram") return DATA.summary.known_killed_in_gaza.includes_until;
+  // batch-stack reads the same list, but a single coverage note would be the
+  // wrong shape for it: every column carries its own coverage date on the
+  // axis, which is more specific than one date for the chart as a whole.
   return null;
 }
 

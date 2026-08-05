@@ -262,6 +262,18 @@
   font-size: 8.5px;
 }
 
+/* batch-stack column axis: the batch ordinal reads as the label, its coverage
+   date as the quieter detail underneath. */
+.colBatch {
+  font-weight: 700;
+  fill: var(--story-ink-2);
+  font-size: 10px;
+}
+.colDate {
+  fill: var(--story-muted);
+  font-size: 8.5px;
+}
+
 /* ------------------------------------------------------------- tooltip */
 
 .tip {

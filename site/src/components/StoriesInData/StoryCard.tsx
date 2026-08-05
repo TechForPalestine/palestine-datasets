@@ -1,8 +1,9 @@
 import type { Story } from "./types";
-import { getSeries, getBreakdown, getHistogram, getRateByAge } from "./data";
+import { getSeries, getBreakdown, getHistogram, getRateByAge, getBatchStack } from "./data";
 import {
   LineAreaChart,
   StackedAreaChart,
+  StackedColumnChart,
   DonutChart,
   PyramidChart,
   RateByAgeChart,
@@ -75,6 +76,22 @@ export function StoryChart({
         showLabels={isModal}
         interactive={isModal}
         grid={grid}
+      />
+    );
+  }
+
+  if (s.type === "batch-stack") {
+    const { columns } = getBatchStack(s);
+    return (
+      <StackedColumnChart
+        columns={columns}
+        percent={s.normalize === "percent"}
+        width={W}
+        height={H}
+        pad={pad}
+        grid={grid}
+        showLabels={isModal}
+        interactive={isModal}
       />
     );
   }

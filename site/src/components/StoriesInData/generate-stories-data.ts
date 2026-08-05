@@ -157,6 +157,95 @@ function bucketKilledInGaza() {
   return { total: rows.length, nullAge, unknownSex, binned, bands };
 }
 
+/**
+ * Age/sex composition of each republish batch of the identified-record list.
+ *
+ * Counts only the records a batch *added* — `update` is the batch a record
+ * first appeared in, so grouping by it partitions the list into ten disjoint
+ * cohorts that sum to the whole. The six groups mirror summary.json's
+ * `known_killed_in_gaza` exactly (child under 18, senior 65+ across both
+ * sexes, `no_age` for age -1; see `genderAge` in scripts/data/v3/summary.ts),
+ * so a column here and a slice of the breakdown donut mean the same thing —
+ * the donut is just every column added together.
+ *
+ * Reads killed-in-gaza-v3.min.json directly for the same reason the pyramid
+ * does: summary.json's pre-summed buckets carry no `update`, so they can't be
+ * cut per batch after the fact.
+ */
+function bucketByUpdate() {
+  const raw = readJson<unknown[][]>("killed-in-gaza-v3.min.json");
+  const [header, ...rows] = raw;
+  const ageIdx = (header as string[]).indexOf("age");
+  const sexIdx = (header as string[]).indexOf("sex");
+  const updateIdx = (header as string[]).indexOf("update");
+
+  const empty = () => ({
+    records: 0,
+    male_child: 0,
+    female_child: 0,
+    male_adult: 0,
+    female_adult: 0,
+    senior: 0,
+    no_age: 0,
+  });
+  const byBatch = new Map(updateDates.map((b) => [b.number, empty()]));
+  let unbatched = 0;
+
+  for (const row of rows) {
+    const batch = byBatch.get(row[updateIdx] as number);
+    // A record whose `update` isn't one of the ten known batches can't be
+    // placed in a column; counted rather than dropped so the emitted totals
+    // always reconcile against the list's own length.
+    if (!batch) {
+      unbatched++;
+      continue;
+    }
+    batch.records++;
+
+    const age = row[ageIdx];
+    const sex = row[sexIdx];
+    // Age decides the group first, exactly as summary.ts's genderAge does:
+    // senior and no_age are both sex-independent there, so an unusable sex
+    // only matters for the child/adult split.
+    if (typeof age !== "number" || Number.isNaN(age) || age < 0) batch.no_age++;
+    else if (age >= 65) batch.senior++;
+    else if (sex !== "m" && sex !== "f") batch.no_age++;
+    else if (age < 18) batch[sex === "m" ? "male_child" : "female_child"]++;
+    else batch[sex === "m" ? "male_adult" : "female_adult"]++;
+  }
+
+  const batches = updateDates.map((b) => ({
+    number: b.number,
+    includesUntil: b.includesUntil,
+    publishedOn: b.on,
+    ...byBatch.get(b.number)!,
+  }));
+
+  // Every record must land in exactly one (batch, group) cell. A silent
+  // shortfall here would render as columns that look complete but aren't, so
+  // it fails the build rather than shipping a stack that doesn't add up.
+  const GROUPS = [
+    "male_child",
+    "female_child",
+    "male_adult",
+    "female_adult",
+    "senior",
+    "no_age",
+  ] as const;
+  for (const b of batches) {
+    const summed = GROUPS.reduce((s, g) => s + b[g], 0);
+    if (summed !== b.records)
+      throw new Error(
+        `batch ${b.number}: groups sum to ${summed} but the batch holds ${b.records} records`,
+      );
+  }
+  const placed = batches.reduce((s, b) => s + b.records, 0);
+  if (placed + unbatched !== rows.length)
+    throw new Error(`by_update placed ${placed} + ${unbatched} unbatched of ${rows.length} records`);
+
+  return { batches, unbatched, total: rows.length };
+}
+
 /** Shape of the hand-authored `site/src/data/gaza-population-pcbs-2017.json`. */
 interface CensusReference {
   bands: { band_min: number; band_max: number | null; male: number; female: number }[];
@@ -321,18 +410,26 @@ function rollingNew(cum: number[], days: number): number[] {
 
 /**
  * Every (story, TimeField) pair actually rendered on the carousel. Breakdown
- * parts, histogram bands and rate-by-age bands are deliberately excluded:
- * they're single snapshot counts (or a ratio of two snapshot counts) read
- * off `summary.json` / `killed-in-gaza-v3.min.json` / the PCBS census
- * reference, not a value sitting on the `dates[]` grid, so "the last date
- * this changed" isn't a question that means anything for them the way it
- * does for a plotted time series.
+ * parts, histogram bands, rate-by-age bands and batch-stack groups are
+ * deliberately excluded: they're single snapshot counts (or a ratio of two
+ * snapshot counts) read off `summary.json` / `killed-in-gaza-v3.min.json` /
+ * the PCBS census reference, not a value sitting on the `dates[]` grid, so
+ * "the last date this changed" isn't a question that means anything for them
+ * the way it does for a plotted time series. Batch-stack columns are the
+ * clearest case: a batch's composition is fixed the moment it lands and is
+ * never revised, so it has no freshness to check — the thing that could go
+ * stale there is the *list*, which `identified_cum` already guards.
  */
 function plottedTimeFields(): { storyId: string; field: TimeField }[] {
   const out: { storyId: string; field: TimeField }[] = [];
   for (const story of STORIES) {
     const schema = story.schema;
-    if (schema.type === "breakdown" || schema.type === "histogram" || schema.type === "rate-by-age")
+    if (
+      schema.type === "breakdown" ||
+      schema.type === "histogram" ||
+      schema.type === "rate-by-age" ||
+      schema.type === "batch-stack"
+    )
       continue;
     for (const field of schema.fields) out.push({ storyId: story.id, field });
   }
@@ -540,6 +637,7 @@ function main() {
   // list as the donut (`includes_until` on `known_killed_in_gaza`), rather than
   // duplicated here — both schemas read the same identification work.
   const killedInGaza = bucketKilledInGaza();
+  const byUpdate = bucketByUpdate();
   const rateByAge = buildRateByAge(killedInGaza);
   checkRateCaption(rateByAge.meta.maleExcess);
 
@@ -567,7 +665,12 @@ function main() {
         no_age: both("no_age"),
       },
     },
-    killed_in_gaza: { ...killedInGaza, identified_cum: pick(identified.full) },
+    killed_in_gaza: {
+      ...killedInGaza,
+      identified_cum: pick(identified.full),
+      by_update: byUpdate.batches,
+      unbatched: byUpdate.unbatched,
+    },
     rate_by_age: rateByAge,
   };
 
@@ -585,6 +688,18 @@ function main() {
       `  ${b.label.padEnd(6)} male ${b.male.toFixed(1).padStart(5)}  female ${b.female.toFixed(1).padStart(5)}`,
     );
   }
+  console.log("\nkilled_in_gaza by update batch (share of the records that batch added):");
+  for (const b of byUpdate.batches) {
+    const pct = (n: number) => `${((n / b.records) * 100).toFixed(1)}%`.padStart(6);
+    console.log(
+      `  batch ${String(b.number).padStart(2)} (through ${b.includesUntil})  ` +
+        `${String(b.records).padStart(6)} records   ` +
+        `boys ${pct(b.male_child)}  girls ${pct(b.female_child)}  ` +
+        `men ${pct(b.male_adult)}  women ${pct(b.female_adult)}  elders ${pct(b.senior)}`,
+    );
+  }
+  if (byUpdate.unbatched > 0)
+    console.log(`  (${byUpdate.unbatched} records carry no recognized update batch)`);
   console.log(
     `identified_cum batch totals — ${updateDates.map((b) => identified.full[dates.indexOf(b.includesUntil) === -1 ? dates.length - 1 : dates.indexOf(b.includesUntil)]).join(", ")}`,
   );
