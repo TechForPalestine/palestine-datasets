@@ -12,7 +12,7 @@
  * project policy the reported cumulative is authoritative and the daily is
  * reconciled to it, so mismatches are flagged for editorial review.
  */
-import type { CarryForwardRule, DeltaRule, IncrementalRule } from "./content";
+import type { CarryForwardRule, DeltaRule, IncrementalRule, PhaseRebaseRule } from "./content";
 
 export const gazaContentDir = "source_data/gaza-daily";
 export const westBankContentDir = "source_data/west-bank-daily";
@@ -103,6 +103,31 @@ export const lebanonDiscrepancyAllowlist: string[] = [];
 export const lebanonCumulativeFields: string[] = lebanonDiscrepancyPairs.map((pair) => pair.cum);
 
 export const lebanonCumulativeRegressionAllowlist: string[] = [];
+
+/**
+ * Lebanon's MoPH restarts its cumulative count at zero for each escalation, so
+ * `phase` marks which counting episode a report belongs to and the continuous
+ * series is derived from it (see derivePhaseCumulative):
+ *
+ *   1 — 8 Oct 2023 → 4 Dec 2024, closing at 4,047 killed / 16,638 injured.
+ *       MoPH published a running "since the start of the aggression" total only
+ *       from 28 Oct 2024; earlier figures in this phase are relayed by OCHA/WHO.
+ *   2 — from 2 Mar 2026, MoPH counting afresh from zero.
+ *
+ * Reports entered through the CMS carry the figure exactly as MoPH publishes it
+ * — phase-relative — in killed_cum / injured_cum. The build preserves that under
+ * killed_cum_reported / injured_cum_reported and rewrites killed_cum /
+ * injured_cum to the continuous total since 8 Oct 2023, so the published series
+ * shares an origin with the Gaza and West Bank datasets. Phase offsets are
+ * derived from the data, so a future phase 3 needs no change here beyond
+ * entering `phase: 3`.
+ */
+export const lebanonPhaseField = "phase";
+
+export const lebanonPhaseRebase: PhaseRebaseRule[] = [
+  { field: "killed_cum", reportedField: "killed_cum_reported" },
+  { field: "injured_cum", reportedField: "injured_cum_reported" },
+];
 
 // West Bank is not reported daily: source files exist only for actual report
 // dates, and these flash cumulative fields are carried forward to fill every

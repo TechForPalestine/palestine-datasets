@@ -32,6 +32,7 @@ import {
   lebanonContentDir,
   lebanonCumulativeFields,
   lebanonCumulativeRegressionAllowlist,
+  lebanonPhaseField,
   lebanonDiscrepancyAllowlist,
   lebanonDiscrepancyPairs,
   westBankContentDir,
@@ -55,6 +56,13 @@ type DatasetSpec = {
   allowlist: string[];
   cumulativeFields: string[];
   cumulativeRegressionAllowlist: string[];
+  /**
+   * Front-matter field marking which counting episode a report belongs to, for
+   * sources that restart their cumulative at zero (Lebanon MoPH). When set, the
+   * consistency checks below treat a phase change as a legitimate reset rather
+   * than a regression, while still enforcing both rules within each phase.
+   */
+  phaseField?: string;
 };
 
 const datasets: DatasetSpec[] = [
@@ -81,6 +89,7 @@ const datasets: DatasetSpec[] = [
     allowlist: lebanonDiscrepancyAllowlist,
     cumulativeFields: lebanonCumulativeFields,
     cumulativeRegressionAllowlist: lebanonCumulativeRegressionAllowlist,
+    phaseField: lebanonPhaseField,
   },
 ];
 
@@ -105,6 +114,7 @@ for (const {
   allowlist,
   cumulativeFields,
   cumulativeRegressionAllowlist,
+  phaseField,
 } of datasets) {
   const inScope = (date: string) => !scoped || (scopeByDir[dir] ?? new Set<string>()).has(date);
   const records = readDailyReports(dir);
@@ -128,7 +138,7 @@ for (const {
 
   // 2. cumulative regressions — cumulatives only rise; a drop is corruption
   const regressionAllowed = new Set(cumulativeRegressionAllowlist);
-  const regressions = findCumulativeRegressions(records, cumulativeFields).filter((r) =>
+  const regressions = findCumulativeRegressions(records, cumulativeFields, phaseField).filter((r) =>
     inScope(r.report_date),
   );
   // grandfathered pre-policy revisions are accepted; any new regression fails
@@ -158,7 +168,7 @@ for (const {
   // 3. reported daily vs. cumulative discrepancies
   if (pairs.length > 0) {
     const allowed = new Set(allowlist);
-    const discrepancies = findReportingDiscrepancies(records, pairs).filter((d) =>
+    const discrepancies = findReportingDiscrepancies(records, pairs, phaseField).filter((d) =>
       inScope(d.report_date),
     );
     // grandfathered pre-policy days are accepted; any new discrepancy fails
