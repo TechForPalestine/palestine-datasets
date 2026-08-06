@@ -198,6 +198,63 @@ export const deriveExtendedSeries = (
   return records;
 };
 
+export type PhaseRebaseRule = { field: string; reportedField: string };
+
+/**
+ * Rebases per-phase reported cumulatives onto a single continuous series.
+ *
+ * Lebanon's MoPH does not run one running total across the whole period: it
+ * restarts its count at zero for each distinct escalation ("the aggression"),
+ * so a report's headline cumulative is relative to that phase's own origin, not
+ * to October 2023. Concatenating phases naively would make the series appear to
+ * collapse at each boundary (phase 1 closes at 4,047 killed; phase 2 opens at
+ * 123), which is both wrong and indistinguishable from data corruption.
+ *
+ * Contributors therefore enter the figure exactly as MoPH publishes it, and
+ * this step derives the continuous series from `phase`:
+ *
+ *  - `reportedField` (e.g. ext killed_cum_reported) preserves the as-published,
+ *    phase-relative figure, so a row can always be checked against its source.
+ *  - `field` (e.g. killed_cum) is rewritten in place to the continuous total
+ *    since the start of the series: the sum of every prior phase's closing
+ *    total plus this report's phase-relative figure.
+ *
+ * Offsets are derived from the data rather than hard-coded, so extending the
+ * series with a further phase needs no configuration: at each phase change the
+ * running offset becomes the last continuous value carried out of the prior
+ * phase. Records must be ordered oldest-first (readDailyReports guarantees it).
+ */
+export const derivePhaseCumulative = (
+  records: DailyRecord[],
+  phaseField: string,
+  rules: PhaseRebaseRule[],
+): DailyRecord[] => {
+  const offsets: Record<string, number> = {};
+  const lastContinuous: Record<string, number> = {};
+  let currentPhase: unknown;
+  for (const record of records) {
+    const phase = getPath(record, phaseField);
+    if (currentPhase !== undefined && phase !== currentPhase) {
+      for (const { field } of rules) {
+        offsets[field] = lastContinuous[field] ?? 0;
+      }
+    }
+    currentPhase = phase;
+    for (const { field, reportedField } of rules) {
+      const reported = getPath(record, field);
+      if (!isNumber(reported)) {
+        continue;
+      }
+      // keep the as-published figure before overwriting with the rebased total
+      setPath(record, reportedField, reported);
+      const continuous = (offsets[field] ?? 0) + reported;
+      setPath(record, field, continuous);
+      lastContinuous[field] = continuous;
+    }
+  }
+  return records;
+};
+
 export type IncrementalRule = { incremental: string; cum: string };
 
 /**
@@ -247,10 +304,21 @@ export type ReportingDiscrepancy = {
 export const findReportingDiscrepancies = (
   records: DailyRecord[],
   pairs: DeltaRule[],
+  phaseField?: string,
 ): ReportingDiscrepancy[] => {
   const discrepancies: ReportingDiscrepancy[] = [];
-  const prevCum: Record<string, number> = {};
+  let prevCum: Record<string, number> = {};
+  let currentPhase: unknown;
   for (const record of records) {
+    // a new phase restarts the reported cumulative from its own origin, so the
+    // first report of a phase has no prior figure to difference against
+    if (phaseField) {
+      const phase = getPath(record, phaseField);
+      if (currentPhase !== undefined && phase !== currentPhase) {
+        prevCum = {};
+      }
+      currentPhase = phase;
+    }
     for (const { daily, cum } of pairs) {
       const dailyValue = getPath(record, daily);
       const cumValue = getPath(record, cum);
@@ -291,11 +359,22 @@ export type CumulativeRegression = {
 export const findCumulativeRegressions = (
   records: DailyRecord[],
   fields: string[],
+  phaseField?: string,
 ): CumulativeRegression[] => {
   const regressions: CumulativeRegression[] = [];
-  const prev: Record<string, { value: number; date: string }> = {};
+  let prev: Record<string, { value: number; date: string }> = {};
+  let currentPhase: unknown;
   for (const record of records) {
     const date = String(record.report_date);
+    // a phase boundary resets the reported cumulative by design; monotonicity is
+    // still enforced within each phase, and on the derived continuous series
+    if (phaseField) {
+      const phase = getPath(record, phaseField);
+      if (currentPhase !== undefined && phase !== currentPhase) {
+        prev = {};
+      }
+      currentPhase = phase;
+    }
     for (const field of fields) {
       const value = getPath(record, field);
       if (!isNumber(value)) {
