@@ -162,7 +162,8 @@
       max(
           var(--ifm-spacing-horizontal, 1rem),
           calc((100% - var(--story-maxw)) / 2 + var(--ifm-spacing-horizontal, 1rem))
-        ) - 16px
+        ) -
+        16px
     );
   /* snap-eligible so the leading spacer is a valid rest position — otherwise
      mandatory snap jumps straight to the first card and the gutter is lost */
