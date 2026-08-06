@@ -381,7 +381,13 @@ export function StackedColumnChart({
               onPointerDown={interactive ? () => setHover(ci) : undefined}
             >
               {/* full-slot hit target: segments alone leave dead gaps between columns */}
-              <rect x={pad.l + ci * slot} y={pad.t} width={slot} height={plotH} fill="transparent" />
+              <rect
+                x={pad.l + ci * slot}
+                y={pad.t}
+                width={slot}
+                height={plotH}
+                fill="transparent"
+              />
               {col.segments.map((seg, si) => {
                 const v = percent ? seg.share : seg.value;
                 const y0 = plotBottom - (acc / max) * plotH;
@@ -461,7 +467,9 @@ export function StackedColumnChart({
 /** "Jan ’24" — compact enough to sit under a column without colliding. */
 function shortMonth(iso: string): string {
   const d = new Date(iso + "T00:00:00Z");
-  return d.toLocaleDateString(undefined, { month: "short", timeZone: "UTC" }) + " ’" + iso.slice(2, 4);
+  return (
+    d.toLocaleDateString(undefined, { month: "short", timeZone: "UTC" }) + " ’" + iso.slice(2, 4)
+  );
 }
 
 /* ------------------------------------------------------------------ Donut */

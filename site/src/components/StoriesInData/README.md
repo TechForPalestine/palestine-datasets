@@ -5,18 +5,18 @@ the published datasets; clicking it opens a modal with a large interactive chart
 
 ## Files
 
-| File                              | Role                                                                                                                                                                                                                           |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| File                              | Role                                                                                                                                                                                                                                          |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `types.ts`                        | The **typed schema**. A discriminated union (`timeseries-multi`, `timeseries-area`, `stacked-area`, `batch-stack`, `breakdown`, `histogram`, `rate-by-age`) whose `type` mirrors each card's chart and whose `key`s are real dataset columns. |
-| `stories.ts`                      | The `Story[]` shown in the carousel, each with its typed `schema`.                                                                                                                                                             |
-| `data.ts`                         | Reads the schema keys out of `stories-data.json`, derives series/breakdowns/pyramid bands/rate bands, formats numbers.                                                                                                         |
-| `charts.tsx`                      | React + SVG charts: `LineAreaChart`, `StackedAreaChart`, `StackedColumnChart`, `DonutChart`, `PyramidChart`, `RateByAgeChart` (with hover/tooltips).                                                                           |
-| `StoryCard.tsx`                   | A single carousel card (chart → kicker → title → insight).                                                                                                                                                                     |
-| `StoryModal.tsx`                  | Expanded story view: big interactive chart, legend, caption, dataset sources.                                                                                                                                                  |
-| `StoriesInData.tsx`               | The carousel section.                                                                                                                                                                                                          |
-| `StoriesInData.styles.module.css` | Scoped styles + `--story-*` color tokens with light/dark variants.                                                                                                                                                             |
-| `generate-stories-data.ts`        | Build script that writes `stories-data.json` from the published datasets.                                                                                                                                                      |
-| `stories-data.json`               | Generated data the component imports. A sample is committed so the component runs without a build.                                                                                                                             |
+| `stories.ts`                      | The `Story[]` shown in the carousel, each with its typed `schema`.                                                                                                                                                                            |
+| `data.ts`                         | Reads the schema keys out of `stories-data.json`, derives series/breakdowns/pyramid bands/rate bands, formats numbers.                                                                                                                        |
+| `charts.tsx`                      | React + SVG charts: `LineAreaChart`, `StackedAreaChart`, `StackedColumnChart`, `DonutChart`, `PyramidChart`, `RateByAgeChart` (with hover/tooltips).                                                                                          |
+| `StoryCard.tsx`                   | A single carousel card (chart → kicker → title → insight).                                                                                                                                                                                    |
+| `StoryModal.tsx`                  | Expanded story view: big interactive chart, legend, caption, dataset sources.                                                                                                                                                                 |
+| `StoriesInData.tsx`               | The carousel section.                                                                                                                                                                                                                         |
+| `StoriesInData.styles.module.css` | Scoped styles + `--story-*` color tokens with light/dark variants.                                                                                                                                                                            |
+| `generate-stories-data.ts`        | Build script that writes `stories-data.json` from the published datasets.                                                                                                                                                                     |
+| `stories-data.json`               | Generated data the component imports. A sample is committed so the component runs without a build.                                                                                                                                            |
 
 ## Schema → chart mapping
 
@@ -103,7 +103,7 @@ Four choices carry the honesty of this chart, and each has a cheaper
 alternative that would have been wrong:
 
 - **Per-batch, not cumulative.** A column counts only the records that batch
-  *added*. The running list is dominated by its early mass, so a cumulative
+  _added_. The running list is dominated by its early mass, so a cumulative
   cut damps every later shift toward invisibility — girls go 18.1% → 13.3%
   cumulatively but 18.1% → 8.2% per batch, and the second is the real
   movement. `update` is assigned once, on the batch where a ministry ID first
@@ -119,7 +119,7 @@ alternative that would have been wrong:
   slope. Columns claim this batch, this mix, and nothing about the space
   between.
 - **Percent, not absolute.** Batches range from 1,765 records to 18,408. On
-  absolute columns the eye compares batch *size*, which is an artifact of
+  absolute columns the eye compares batch _size_, which is an artifact of
   release cadence and identification backlog rather than of who was killed.
 - **The same six groups as the donut, in the same colors.** Child under 18,
   senior 65+ across both sexes, `no_age` for an unrecorded age — the cutoffs
@@ -130,7 +130,7 @@ alternative that would have been wrong:
   (it throws if they don't); the modal legend omits a group that's zero at
   both ends rather than printing "0% → 0%".
 
-**What the chart cannot say.** A batch is an *identification* cohort, not a
+**What the chart cannot say.** A batch is an _identification_ cohort, not a
 death cohort. The records carry `age`, `dob` and `sex` but no date of death,
 so a column is who was newly named in that release — heavily but not
 exclusively people who died within its coverage window. Two compilation
@@ -338,8 +338,8 @@ The `batch-stack` story does **not** close those placeholders and deliberately
 added no catalog entry of its own. It reads columns that already exist
 (`age`, `sex`, `update` on `killed-in-gaza-v3.min.json`) and emits its
 per-batch cross only into `stories-data.json`, a component build artifact.
-Catalog entries describe *published, versioned series a phase 2 explorer could
-plot* — pointing one at a file this component generates for itself would name
+Catalog entries describe _published, versioned series a phase 2 explorer could
+plot_ — pointing one at a file this component generates for itself would name
 a series no API consumer can fetch. The `gaza.kig.*` placeholders stay
 placeholders until a real `demographics-by-update` dataset is published.
 
