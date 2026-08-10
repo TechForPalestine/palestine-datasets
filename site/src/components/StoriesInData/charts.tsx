@@ -615,6 +615,7 @@ export function PyramidChart({
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="none"
         role="img"
+        style={interactive ? { touchAction: "none" } : undefined}
         onPointerLeave={clear}
       >
         {showLabels && (
@@ -645,6 +646,7 @@ export function PyramidChart({
                 fill={leftColor}
                 opacity={dim && !(hover?.i === i && hover.side === "left") ? 0.45 : 1}
                 onPointerEnter={interactive ? () => setHover({ i, side: "left" }) : undefined}
+                onPointerDown={interactive ? () => setHover({ i, side: "left" }) : undefined}
               />
               <rect
                 x={cx}
@@ -654,6 +656,7 @@ export function PyramidChart({
                 fill={rightColor}
                 opacity={dim && !(hover?.i === i && hover.side === "right") ? 0.45 : 1}
                 onPointerEnter={interactive ? () => setHover({ i, side: "right" }) : undefined}
+                onPointerDown={interactive ? () => setHover({ i, side: "right" }) : undefined}
               />
               {showLabels && (
                 <text
