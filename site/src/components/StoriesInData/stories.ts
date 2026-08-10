@@ -33,8 +33,8 @@ export const STORIES: Story[] = [
       type: "histogram",
       x: null,
       sources: ["killed_in_gaza"],
-      left: { label: "Men", color: "var(--story-blue)" },
-      right: { label: "Women", color: "var(--story-teal)" },
+      left: { label: "Male", color: "var(--story-blue)" },
+      right: { label: "Female", color: "var(--story-teal)" },
       bands: [
         { min: 0, label: "0-4" },
         { min: 5, label: "5-9" },
@@ -71,8 +71,8 @@ export const STORIES: Story[] = [
       type: "rate-by-age",
       x: "age_band",
       sources: ["killed_in_gaza", "gaza_population_pcbs_2017"],
-      male: { label: "Men", color: "var(--story-blue)" },
-      female: { label: "Women", color: "var(--story-teal)" },
+      male: { label: "Male", color: "var(--story-blue)" },
+      female: { label: "Female", color: "var(--story-teal)" },
       bands: [
         { min: 5, max: 9, label: "5-9" },
         { min: 10, max: 14, label: "10-14" },

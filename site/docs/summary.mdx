@@ -7,7 +7,7 @@ description: The latest information from our other datasets. For time series dat
 This dataset provides a summary of the latest values from each dataset:
 
 - for [Killed in Gaza](/docs/killed-in-gaza) it provides composition information by gender and age group
-- for Daily Casualties in [Gaza](/docs/casualties-daily) and the [West Bank](/docs/casualties-daily-west-bank) it provides cumulative values from the latest reported day
+- for Daily Casualties in [Gaza](/docs/casualties-daily), the [West Bank](/docs/casualties-daily-west-bank) and [Lebanon](/docs/casualties-daily-lebanon) it provides cumulative values from the latest reported day
 
 ## Usage
 
@@ -21,7 +21,7 @@ The file is updated whenever the other datasets are updated (typically daily).
 
 ## Fields
 
-The object has three root-level fields:
+The object has the following root-level fields:
 
 ### `gaza`
 
@@ -57,6 +57,18 @@ Has the latest cumulative values from the last daily report from our [West Bank 
 | killed.children  | total number of children killed to the report date        |
 | injured.total    | total number of people injured to the report date         |
 | injured.children | total number of children injured to the report date       |
+
+### `lebanon`
+
+Has the latest cumulative values from the last report in our [Lebanon Daily Casualties dataset](/docs/casualties-daily-lebanon):
+
+| field name    | value                                                                  |
+| ------------- | ----------------------------------------------------------------------- |
+| reports       | number of reports in the underlying data series (not one per day, see [the dataset docs](/docs/casualties-daily-lebanon)) |
+| first_report  | YYYY-MM-DD for the earliest report date in the underlying data series |
+| last_update   | YYYY-MM-DD for last report date including these values                |
+| killed.total  | continuous cumulative total killed since October 8, 2023 (`killed_cum`, see [the dataset docs](/docs/casualties-daily-lebanon#counting-phases)) |
+| injured.total | continuous cumulative total injured since October 8, 2023 (`injured_cum`, see [the dataset docs](/docs/casualties-daily-lebanon#counting-phases)) |
 
 ### `known_killed_in_gaza`
 

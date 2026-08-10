@@ -233,6 +233,15 @@
   width: 100%;
   height: 100%;
 }
+/* Axis/side labels drawn as SVG <text> are selectable by default; a finger
+   dragging across them to hover a bar starts a native text selection
+   instead, which swallows the touch and blocks the chart's own pointer
+   handling on mobile. */
+.svg text {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
 .grid {
   stroke: color-mix(in srgb, var(--story-line) 70%, transparent);
   stroke-width: 1;
@@ -405,6 +414,39 @@
   max-width: 64vw;
 }
 
+/* Prev/next paging within the modal — desktop: a close pair of buttons at
+   the bottom of the modal box, below the footer. Mobile overrides this into
+   a fixed full-width bar, see the max-width:680px block below. */
+.modalNav {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+}
+.navArrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--story-line);
+  background: var(--story-surface);
+  color: var(--story-ink);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(20, 30, 25, 0.14);
+  transition:
+    border-color 0.12s,
+    color 0.12s;
+}
+.navArrow:hover {
+  border-color: var(--story-red);
+  color: var(--story-red);
+}
+.navArrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
@@ -416,7 +458,14 @@
   align-items: center;
   gap: 7px;
   font-size: 0.86rem;
-  color: var(--story-ink-2);
+  font-weight: 600;
+  color: var(--story-ink);
+  /* Legend text sits right where a reader's thumb drags across the chart
+     above it; selectable text intercepts that touch as a text-selection
+     gesture instead of a chart hover, so mobile hover never registers. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 .lg i {
   width: 16px;
@@ -501,11 +550,45 @@ a.sourcePill:hover {
   .headTitle {
     font-size: 1.4rem;
   }
-  .modal {
-    padding: 22px 18px 18px;
-  }
   .modalTitle {
     font-size: 1.4rem;
+  }
+
+  /* Full-screen modal, offset from the top like a sheet: the page (and its
+     header) stays visible, blurred, in the gap above. The prev/next bar
+     becomes a fixed bottom section rather than a pair hanging off the chart
+     card, so paging through the carousel never requires dismissing and
+     re-opening. */
+  .backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .modal {
+    width: 100%;
+    height: calc(100dvh - 64px - env(safe-area-inset-top, 0px));
+    max-height: none;
+    border-radius: 20px 20px 0 0;
+    padding: 20px 18px calc(78px + env(safe-area-inset-bottom)) 18px;
+  }
+  .modalNav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    margin: 0;
+    justify-content: space-between;
+    gap: 0;
+    padding: 10px 22px calc(10px + env(safe-area-inset-bottom));
+    background: var(--story-surface);
+    border-top: 1px solid var(--story-line);
+    box-shadow: none;
+  }
+  .navArrow {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    box-shadow: none;
   }
 }
 

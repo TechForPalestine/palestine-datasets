@@ -3,7 +3,7 @@ import previewData from "@site/src/generated/summary.json";
 
 const format = (count: number) => new Intl.NumberFormat().format(count);
 
-export const DailyReportStatsLabel = ({ area }: { area: "gaza" | "west_bank" }) => {
+export const DailyReportStatsLabel = ({ area }: { area: "gaza" | "west_bank" | "lebanon" }) => {
   return (
     <div>
       {translate(

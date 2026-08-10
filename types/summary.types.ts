@@ -79,6 +79,17 @@ export type PreviewDataV3 = {
     };
     settler_attacks: number;
   };
+  lebanon: {
+    reports: number;
+    first_report: string;
+    last_update: string;
+    killed: {
+      total: number;
+    };
+    injured: {
+      total: number;
+    };
+  };
   known_killed_in_gaza: {
     records: number;
     pages: number;

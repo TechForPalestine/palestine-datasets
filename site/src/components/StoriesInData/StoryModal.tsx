@@ -3,7 +3,6 @@ import type { Story, StorySource } from "./types";
 import {
   getBreakdown,
   getHistogram,
-  getRateByAge,
   getBatchStack,
   getSeries,
   getCoverageThrough,
@@ -16,8 +15,8 @@ import styles from "./StoriesInData.styles.module.css";
 /**
  * Dataset name + docs-page link per source id, for the "Built from:" pills.
  * `href` is omitted for sources with no published docs page (the PCBS
- * reference table isn't one of this project's datasets; Lebanon daily
- * casualties doesn't have a docs page yet) — those render as plain text.
+ * reference table isn't one of this project's datasets) — those render as
+ * plain text.
  */
 const SOURCE_INFO: Record<StorySource, { name: string; href?: string }> = {
   killed_in_gaza: { name: "Killed in Gaza", href: "/docs/killed-in-gaza" },
@@ -27,16 +26,38 @@ const SOURCE_INFO: Record<StorySource, { name: string; href?: string }> = {
     name: "Daily Casualties – West Bank",
     href: "/docs/casualties-daily-west-bank",
   },
-  lebanon_casualties_daily: { name: "Daily Casualties – Lebanon" },
+  lebanon_casualties_daily: {
+    name: "Daily Casualties – Lebanon",
+    href: "/docs/casualties-daily-lebanon",
+  },
   gaza_population_pcbs_2017: { name: "PCBS 2017 Census (Gaza)" },
 };
 
 /** Expanded story view. Large interactive chart, caption, and dataset sources. */
-export function StoryModal({ story, onClose }: { story: Story; onClose: () => void }) {
+export function StoryModal({
+  story,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  story: Story;
+  onClose: () => void;
+  /** Paging within the modal, so a reader can move through the whole carousel without dismissing it. */
+  onPrev?: () => void;
+  onNext?: () => void;
+}) {
   const [activeSlice, setActiveSlice] = useState<number | null>(null);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    setActiveSlice(null);
+  }, [story.id]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowLeft") onPrev?.();
+      else if (e.key === "ArrowRight") onNext?.();
+    };
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -44,10 +65,16 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [onClose]);
+  }, [onClose, onPrev, onNext]);
 
   const isPie = story.schema.type === "breakdown";
   const breakdown = isPie ? getBreakdown(story.schema) : null;
+  // The rate-by-age chart's point is the *gap* between the two lines, which
+  // the chart itself already shows; a legend here would just repeat the
+  // count/labels the "Men and boys targeted" caption already carries, and
+  // its swatches are easy to confuse with the "Death at every age" legend
+  // since both use the same male/female colors for different counts.
+  const showLegend = story.schema.type !== "rate-by-age";
   const coverageThrough = getCoverageThrough(story.schema);
 
   return (
@@ -75,26 +102,28 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
           />
         </div>
 
-        <div className={styles.legend}>
-          {breakdown
-            ? breakdown.slices.map((s, i) => {
-                const pct = ((s.value / breakdown.total) * 100).toFixed(
-                  s.value / breakdown.total < 0.02 ? 1 : 0,
-                );
-                return (
-                  <span
-                    key={i}
-                    className={`${styles.lg} ${styles.lgClick} ${activeSlice === i ? styles.lgOn : ""}`}
-                    onPointerEnter={() => setActiveSlice(i)}
-                    onPointerLeave={() => setActiveSlice(null)}
-                  >
-                    <i style={{ background: s.color }} />
-                    {s.label} <b>{fmt(s.value)}</b> <span className={styles.lgPct}>{pct}%</span>
-                  </span>
-                );
-              })
-            : legendForSeries(story)}
-        </div>
+        {showLegend && (
+          <div className={styles.legend}>
+            {breakdown
+              ? breakdown.slices.map((s, i) => {
+                  const pct = ((s.value / breakdown.total) * 100).toFixed(
+                    s.value / breakdown.total < 0.02 ? 1 : 0,
+                  );
+                  return (
+                    <span
+                      key={i}
+                      className={`${styles.lg} ${styles.lgClick} ${activeSlice === i ? styles.lgOn : ""}`}
+                      onPointerEnter={() => setActiveSlice(i)}
+                      onPointerLeave={() => setActiveSlice(null)}
+                    >
+                      <i style={{ background: s.color }} />
+                      {s.label} <b>{fmt(s.value)}</b> <span className={styles.lgPct}>{pct}%</span>
+                    </span>
+                  );
+                })
+              : legendForSeries(story)}
+          </div>
+        )}
 
         <p className={styles.caption}>{story.caption}</p>
 
@@ -120,6 +149,27 @@ export function StoryModal({ story, onClose }: { story: Story; onClose: () => vo
             })}
           </div>
         </div>
+
+        {(onPrev || onNext) && (
+          <div className={styles.modalNav}>
+            <button
+              className={styles.navArrow}
+              aria-label="Previous story"
+              onClick={onPrev}
+              disabled={!onPrev}
+            >
+              ‹
+            </button>
+            <button
+              className={styles.navArrow}
+              aria-label="Next story"
+              onClick={onNext}
+              disabled={!onNext}
+            >
+              ›
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -147,29 +197,9 @@ function legendForSeries(story: Story) {
     );
   }
 
-  if (schema.type === "rate-by-age") {
-    // The legend surfaces the killed counts behind the lines (what actually
-    // happened), not the rates — the rates are on the chart itself, and the
-    // counts are what a reader needs to judge how much weight one band
-    // should carry versus another.
-    const { bands } = getRateByAge(schema);
-    const male = bands.reduce((a, b) => a + b.maleKilled, 0);
-    const female = bands.reduce((a, b) => a + b.femaleKilled, 0);
-    return (
-      <>
-        <span className={styles.lg}>
-          <i style={{ background: schema.male.color }} />
-          {schema.male.label} <b>{fmt(male)}</b>{" "}
-          <span className={styles.lgPct}>killed, ages 5–79</span>
-        </span>
-        <span className={styles.lg}>
-          <i style={{ background: schema.female.color }} />
-          {schema.female.label} <b>{fmt(female)}</b>{" "}
-          <span className={styles.lgPct}>killed, ages 5–79</span>
-        </span>
-      </>
-    );
-  }
+  // rate-by-age renders no legend — see `showLegend` in StoryModal. (This
+  // branch never runs, but narrows the type below away from RateByAgeSchema.)
+  if (schema.type === "rate-by-age") return null;
 
   if (schema.type === "batch-stack") {
     // The chart is about a *change* in composition, so the legend carries both
