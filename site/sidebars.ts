@@ -25,6 +25,7 @@ const sidebars: SidebarsConfig = {
         "summary",
         "casualties-daily",
         "casualties-daily-west-bank",
+        "casualties-daily-lebanon",
         "infrastructure-damaged",
       ],
     },

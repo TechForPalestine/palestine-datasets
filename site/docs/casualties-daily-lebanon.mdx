@@ -1,0 +1,59 @@
+---
+description: Reports on casualties in Lebanon including number of people killed and injured, sourced from Lebanon's Ministry of Public Health. Useful applications include time series and trend analysis.
+---
+
+# Daily Casualties - Lebanon
+
+This dataset provides cumulative totals for those killed and injured in Lebanon since October 8th, 2023.
+
+import { DailyReportStatsLabel } from "@site/src/components";
+
+<DailyReportStatsLabel area="lebanon" />
+
+## Usage
+
+The dataset is available as a single JSON array with an object for each report. You can also download in CSV format below.
+
+import { JSONFileLinks } from "@site/src/components";
+
+<JSONFileLinks resource="LebanonDaily_V3" />
+
+---
+
+## Report Fields
+
+Each report in this JSON array will have the following fields for Lebanon.
+
+(optional fields will be omitted from the JSON if there is no value reported)
+
+| field name            | value                                                                          | optional |
+| ---------------------- | ------------------------------------------------------------------------------ | -------- |
+| report_date            | date in YYYY-MM-DD                                                             | no       |
+| report_source          | one of `moph_lb`, `ocha` or `who` (see below)                                  | no       |
+| report_period          | hours covered by this report; a multiple of 24 when days are skipped           | no       |
+| phase                  | MoPH counting episode this report belongs to (see below)                      | no       |
+| killed                 | killed persons for the given report period                                    | yes      |
+| killed_cum             | continuous cumulative total killed since October 8, 2023 (see below)          | no       |
+| killed_cum_reported    | killed_cum as MoPH actually published it, relative to its own phase           | no       |
+| injured                | injured persons for the given report period                                   | yes      |
+| injured_cum            | continuous cumulative total injured since October 8, 2023 (see below)         | no       |
+| injured_cum_reported   | injured_cum as MoPH actually published it, relative to its own phase          | no       |
+
+## Daily Sources
+
+For Lebanon, we depend on Lebanon's [Ministry of Public Health (MoPH)](https://www.moph.gov.lb/), relayed through:
+
+- `moph_lb` - figures published directly by the Ministry of Public Health.
+- `ocha` - [UN OCHA](https://www.unocha.org/lebanon) flash updates relaying MoPH figures, used before MoPH published its own running total.
+- `who` - [WHO EMRO](https://www.emro.who.int/) situation reports relaying MoPH figures, used before MoPH published its own running total.
+
+Unlike the Gaza and West Bank datasets, Lebanon is not reported on a daily basis: rows only exist for dates a report was actually published, so consecutive rows can be several days apart. `report_period` records how many hours a given row covers.
+
+## Counting Phases
+
+Lebanon's Ministry of Public Health restarts its cumulative count at zero for each new escalation. The `phase` field marks which counting episode a report belongs to:
+
+- **Phase 1** - October 8, 2023 through December 4, 2024, closing at 4,047 killed and 16,638 injured. MoPH published its own running "since the start of the aggression" total only from October 28, 2024 onward; earlier figures in this phase are as relayed by OCHA or WHO EMRO.
+- **Phase 2** - from March 2, 2026, MoPH began counting afresh from zero.
+
+To keep one shared October 2023 origin with the Gaza and West Bank datasets, `killed_cum` and `injured_cum` are continuous totals derived across phases. The figure exactly as MoPH published it — relative to its own phase — is preserved alongside in `killed_cum_reported` and `injured_cum_reported`. If you're comparing a row against the cited source, read the `_reported` fields; if you want an unbroken time series comparable to Gaza and the West Bank, use `killed_cum` / `injured_cum`.

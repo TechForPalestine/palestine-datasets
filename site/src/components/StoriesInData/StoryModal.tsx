@@ -15,8 +15,8 @@ import styles from "./StoriesInData.styles.module.css";
 /**
  * Dataset name + docs-page link per source id, for the "Built from:" pills.
  * `href` is omitted for sources with no published docs page (the PCBS
- * reference table isn't one of this project's datasets; Lebanon daily
- * casualties doesn't have a docs page yet) — those render as plain text.
+ * reference table isn't one of this project's datasets) — those render as
+ * plain text.
  */
 const SOURCE_INFO: Record<StorySource, { name: string; href?: string }> = {
   killed_in_gaza: { name: "Killed in Gaza", href: "/docs/killed-in-gaza" },
@@ -26,7 +26,10 @@ const SOURCE_INFO: Record<StorySource, { name: string; href?: string }> = {
     name: "Daily Casualties – West Bank",
     href: "/docs/casualties-daily-west-bank",
   },
-  lebanon_casualties_daily: { name: "Daily Casualties – Lebanon" },
+  lebanon_casualties_daily: {
+    name: "Daily Casualties – Lebanon",
+    href: "/docs/casualties-daily-lebanon",
+  },
   gaza_population_pcbs_2017: { name: "PCBS 2017 Census (Gaza)" },
 };
 

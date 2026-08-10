@@ -6,11 +6,13 @@ import killedPersons from "../../../killed-in-gaza.json";
 import killedPress from "../../../press_killed_in_gaza.json";
 import gazaDailies from "../../../casualties_daily.json";
 import westBankDailies from "../../../west_bank_daily.json";
+import lebanonDailies from "../../../lebanon_casualties_daily.json";
 import { KilledInGaza } from "../../../types/killed-in-gaza.types";
 import { updateDates } from "../common/killed-in-gaza/constants";
 
 const [lastGazaReport] = gazaDailies.slice().reverse();
 const [lastWestBankReport] = westBankDailies.slice().reverse();
+const [lastLebanonReport] = lebanonDailies.slice().reverse();
 
 const kigPageSize = 100;
 
@@ -101,6 +103,17 @@ const previewData: PreviewDataV3 = {
       children:
         lastWestBankReport.verified?.injured_children_cum ??
         lastWestBankReport.injured_children_cum,
+    },
+  },
+  lebanon: {
+    reports: lebanonDailies.length,
+    first_report: lebanonDailies[0].report_date,
+    last_update: lastLebanonReport.report_date,
+    killed: {
+      total: lastLebanonReport.killed_cum,
+    },
+    injured: {
+      total: lastLebanonReport.injured_cum,
     },
   },
   known_killed_in_gaza: {
