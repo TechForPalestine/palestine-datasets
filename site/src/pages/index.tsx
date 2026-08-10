@@ -80,19 +80,12 @@ function HomepageHeader() {
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
-  const [showStoriesCarousel, setShowStoriesCarousel] = useState(false);
-
-  useLayoutEffect(() => {
-    if (!window || typeof window === "undefined") return;
-    if (!window.location.search.includes("stories=1")) return;
-    setShowStoriesCarousel(true);
-  }, []);
 
   return (
     <Layout title="" description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
-        {showStoriesCarousel && <StoriesInData />}
+        <StoriesInData />
         <HomeDailyChart />
         <KilledName />
         <div style={{ height: 40 }} />

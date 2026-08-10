@@ -4,7 +4,7 @@ description: Reports on casualties in Lebanon including number of people killed 
 
 # Daily Casualties - Lebanon
 
-This dataset provides cumulative totals for those killed and injured in Lebanon since October 8th, 2023.
+This dataset provides cumulative totals for those killed and injured in Lebanon since the first report on November 14th, 2023 (see [Counting Phases](#counting-phases) for why the continuous totals below are anchored to October 8, 2023 instead).
 
 import { DailyReportStatsLabel } from "@site/src/components";
 
@@ -33,10 +33,10 @@ Each report in this JSON array will have the following fields for Lebanon.
 | report_period          | hours covered by this report; a multiple of 24 when days are skipped           | no       |
 | phase                  | MoPH counting episode this report belongs to (see below)                      | no       |
 | killed                 | killed persons for the given report period                                    | yes      |
-| killed_cum             | continuous cumulative total killed since October 8, 2023 (see below)          | no       |
+| killed_cum             | continuous cumulative total killed, anchored to October 8, 2023 (see below)   | no       |
 | killed_cum_reported    | killed_cum as MoPH actually published it, relative to its own phase           | no       |
 | injured                | injured persons for the given report period                                   | yes      |
-| injured_cum            | continuous cumulative total injured since October 8, 2023 (see below)         | no       |
+| injured_cum            | continuous cumulative total injured, anchored to October 8, 2023 (see below)  | no       |
 | injured_cum_reported   | injured_cum as MoPH actually published it, relative to its own phase          | no       |
 
 ## Daily Sources
@@ -56,4 +56,6 @@ Lebanon's Ministry of Public Health restarts its cumulative count at zero for ea
 - **Phase 1** - October 8, 2023 through December 4, 2024, closing at 4,047 killed and 16,638 injured. MoPH published its own running "since the start of the aggression" total only from October 28, 2024 onward; earlier figures in this phase are as relayed by OCHA or WHO EMRO.
 - **Phase 2** - from March 2, 2026, MoPH began counting afresh from zero.
 
-To keep one shared October 2023 origin with the Gaza and West Bank datasets, `killed_cum` and `injured_cum` are continuous totals derived across phases. The figure exactly as MoPH published it — relative to its own phase — is preserved alongside in `killed_cum_reported` and `injured_cum_reported`. If you're comparing a row against the cited source, read the `_reported` fields; if you want an unbroken time series comparable to Gaza and the West Bank, use `killed_cum` / `injured_cum`.
+Phase 1's own origin is October 8, 2023 — the same date Gaza and the West Bank count from — but that's not when Lebanon reporting actually begins: the first report available for Lebanon is from November 14, 2023, over five weeks later, already showing 77 killed and 251 injured. Nothing is published for the gap in between, and it is not zero-filled; the dataset simply has no rows before November 14, 2023.
+
+To keep one shared October 2023 origin with the Gaza and West Bank datasets despite that gap and the phase-2 restart, `killed_cum` and `injured_cum` are continuous totals derived across phases. The figure exactly as MoPH published it — relative to its own phase — is preserved alongside in `killed_cum_reported` and `injured_cum_reported`. If you're comparing a row against the cited source, read the `_reported` fields; if you want an unbroken time series comparable to Gaza and the West Bank, use `killed_cum` / `injured_cum`.
