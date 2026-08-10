@@ -18,6 +18,12 @@ export function StoriesInData() {
   const scrollBy = (dir: number) =>
     viewportRef.current?.scrollBy({ left: dir * 340, behavior: "smooth" });
   const openStory = STORIES.find((s) => s.id === openId) ?? null;
+  const openIndex = openId ? STORIES_INDEX.indexOf(openId) : -1;
+  const step = (dir: number) => {
+    if (openIndex < 0) return;
+    const next = (openIndex + dir + STORIES_INDEX.length) % STORIES_INDEX.length;
+    setOpenId(STORIES_INDEX[next]);
+  };
 
   return (
     <section className={styles.section} aria-label="Stories in the data">
@@ -47,7 +53,14 @@ export function StoriesInData() {
         </div>
       </div>
 
-      {openStory && <StoryModal story={openStory} onClose={() => setOpenId(null)} />}
+      {openStory && (
+        <StoryModal
+          story={openStory}
+          onClose={() => setOpenId(null)}
+          onPrev={() => step(-1)}
+          onNext={() => step(1)}
+        />
+      )}
     </section>
   );
 }
