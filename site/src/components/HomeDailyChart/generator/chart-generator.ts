@@ -26,16 +26,6 @@ type MappedData = {
   slimData: SlimData[];
 };
 
-const eventsToSkipOnMobile = [
-  "ICJ",
-  "Thanksgiving",
-  "NYE",
-  "Superbowl",
-  "Easter",
-  "Ramadan",
-  "GHF Start",
-];
-
 const lastWestBankReport = westBankDailyTimeSeries[westBankDailyTimeSeries.length - 1];
 const westBankLookup = westBankDailyTimeSeries.reduce(
   (acc, report) => ({
@@ -168,32 +158,27 @@ const json: {
   width: number;
   height: number;
   dayPoints: [number, number][];
-  eventDotRadius: number;
   mobile: {
     width: number;
     height: number;
     dayPoints: [number, number][];
-    eventDotRadius: number;
   };
 } = {
   data: data.slimData,
   width: 0,
   height: 0,
   dayPoints: [],
-  eventDotRadius: 0,
   mobile: {
     width: 0,
     height: 0,
     dayPoints: [],
-    eventDotRadius: 0,
   },
 };
-
-const eventDotRadius = 9;
 
 const render = async ({ mobile } = { mobile: false }) => {
   const width = mobile ? 500 : 1000;
   const height = 300;
+  const markerDotRadius = mobile ? 9 : 7;
   const id = (elementId: string) => `${elementId}${mobile ? "Mobile" : ""}`;
 
   const d3n = new D3Node();
@@ -205,7 +190,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("overflow", "visible");
 
   const helpers = bindHelpers(svg, id, {
-    eventDotRadius,
+    markerDotRadius,
     width,
     height,
     mobile,
@@ -237,6 +222,19 @@ const render = async ({ mobile } = { mobile: false }) => {
     ])
     .range([height, 0]);
 
+  const linePathId = "chartlinepath";
+
+  // Faint vertical guides at each year boundary, drawn beneath the area/line
+  // so they read as a background reference rather than data.
+  const [domainStart, domainEnd] = d3.extent(data.chart, (d: any) => d.date);
+  chartEvents.forEach((yearMark) => {
+    const markDate = D3Node.d3.timeParse("%Y-%m-%d")(yearMark.date);
+    if (!markDate || markDate < domainStart || markDate > domainEnd) {
+      return;
+    }
+    helpers.addYearGridline({ x: x(markDate) as number, label: yearMark.label });
+  });
+
   const pathData = d3
     .area()
     .x(function (d: any) {
@@ -246,10 +244,6 @@ const render = async ({ mobile } = { mobile: false }) => {
     .y1(function (d: any) {
       return y(d.value);
     });
-
-  const days = data.slimData.length;
-
-  const linePathId = "chartlinepath";
 
   // Gradient-filled area (no stroke — rendered below the line)
   const areaPathStr = pathData(data.chart) as string;
@@ -279,90 +273,16 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("stroke-linecap", "round")
     .attr("d", lineGenerator(data.chart) as string);
 
-  const desiredTickCount = mobile ? 5 : 10;
-  const xAxisPlan = days / desiredTickCount;
-  const xAxisStep = Math.ceil(xAxisPlan / 5) * 5;
-  const xAxisSteps: number[] = [0];
-  const maxStep = xAxisStep * days;
-  while (xAxisSteps[xAxisSteps.length - 1] < days) {
-    const nextStep = xAxisSteps[xAxisSteps.length - 1] + xAxisStep;
-    if (nextStep < maxStep) {
-      xAxisSteps.push(nextStep);
-    }
-  }
-  xAxisSteps[0] = 1;
-
   // Compute day points directly from d3 scales — no need for point-at-length
   // since d3.line()/d3.area() without curve produces a polyline matching these
-  // coordinates exactly.
+  // coordinates exactly. Used client-side to position the hover/pan marker.
   const dayPoints: [number, number][] = data.chart.map((d) => [
     x(d.date) as number,
     y(d.value) as number,
   ]);
 
-  const axisStepMinDistance = width * 0.1;
-  const xAxisPoints = xAxisSteps.reduce(
-    (points, stepValue) => {
-      const idx = Math.min(stepValue - 1, data.chart.length - 1);
-      const point: [number, number] = [
-        x(data.chart[idx].date) as number,
-        y(data.chart[idx].value) as number,
-      ];
-      const lastPointX = points[points.length - 1]?.[0] ?? -Infinity;
-      // don't allow axis ticks too close together, particularly
-      // near the right-side end where TODAY takes up more space
-      if (point[0] < lastPointX + axisStepMinDistance) {
-        return points;
-      }
-      return points.concat([point]);
-    },
-    [] as [number, number][],
-  );
-
-  const dotOffset = eventDotRadius * 2;
-  const eventLabelBottomOffset = 20;
-  const eventLineLabelOffset = 25;
-
-  chartEvents.forEach((chartEvent) => {
-    if (mobile && eventsToSkipOnMobile.includes(chartEvent.label)) {
-      return;
-    }
-
-    const eventIndex = data.slimData.findIndex(({ date }) => date === chartEvent.date);
-    const eventPoint: [number, number] = [
-      x(data.chart[eventIndex].date) as number,
-      y(data.chart[eventIndex].value) as number,
-    ];
-    helpers.addEventPoint({
-      eventPoint,
-      eventLabel: chartEvent.label,
-      dotOffset,
-      eventLineLabelOffset,
-      eventLabelBottomOffset,
-    });
-  });
-
   helpers.addEventDotShadowFilter();
-
-  // main count label
-  const latestKilledValue = new Intl.NumberFormat().format(
-    data.slimData[data.slimData.length - 1].killed,
-  );
-  helpers.addKilledCountLabelOverlay(latestKilledValue);
-
-  xAxisPoints.forEach((point, i) => {
-    const lastTick = i === xAxisPoints.length - 1;
-    const [x, y] = point;
-    helpers.addAxisTickLabel({ i, x, xAxisSteps, lastTick });
-
-    if (lastTick) {
-      //
-      // movable dot for "TODAY"
-      //
-      helpers.addMovableDotLine();
-    }
-  });
-
+  helpers.addMarkerDotLine();
   helpers.addGradientDefinition();
 
   const svgStr = d3n.svgString();
@@ -391,7 +311,6 @@ const render = async ({ mobile } = { mobile: false }) => {
       width,
       height,
       dayPoints,
-      eventDotRadius,
     };
     // mobile is the last one to render so it renders the data json which backs both
     fs.writeFileSync(`site/src/generated/daily-chart.json`, JSON.stringify(json));
@@ -399,7 +318,6 @@ const render = async ({ mobile } = { mobile: false }) => {
     json.width = width;
     json.height = height;
     json.dayPoints = dayPoints;
-    json.eventDotRadius = eventDotRadius;
   }
 };
 

@@ -30,13 +30,14 @@ const elderlyRatePct = Math.round(
 const elderlyStrokeOffset = ((100 - elderlyRatePct / 2) / 100) * radialProgressCircum;
 
 const numFmt = new Intl.NumberFormat();
+// "—" for zero/missing values so every rail row always renders at the same
+// height, regardless of which day is selected.
+const railValue = (n: number) => (n ? numFmt.format(n) : "—");
 
 const days = chartData.data.length;
 
-let sliderCount: SVGTextElement;
-let sliderLine: SVGPathElement;
-let sliderDot: SVGCircleElement;
-let sliderLabel: HTMLDivElement;
+let markerLine: SVGPathElement;
+let markerDot: SVGCircleElement;
 
 // align with media query in CSS
 const isMobile = () => typeof window === "object" && window.innerWidth <= 500;
@@ -50,21 +51,16 @@ const elId = (id: string) => {
 };
 
 const resetElementHandles = () => {
-  sliderCount = undefined;
-  sliderLine = undefined;
-  sliderDot = undefined;
-  sliderLabel = undefined;
+  markerLine = undefined;
+  markerDot = undefined;
 };
 
 let setHandleResetListener = false;
 
-const moveLine = (day: number) => {
-  if (!sliderDot || !sliderLine) {
-    sliderCount = document.querySelector(`#${elId("chartcount")}`);
-    sliderLine = document.querySelector(`#${elId("chartsliderline")}`);
-    sliderDot = document.querySelector(`#${elId("chartsliderdot")}`);
-    // not in SVG, does not have to be scoped
-    sliderLabel = document.querySelector("#chartsliderlabel");
+const moveMarker = (day: number) => {
+  if (!markerLine || !markerDot) {
+    markerLine = document.querySelector(`#${elId("chartmarkerline")}`);
+    markerDot = document.querySelector(`#${elId("chartmarkerdot")}`);
   }
 
   if (!setHandleResetListener) {
@@ -72,46 +68,67 @@ const moveLine = (day: number) => {
     window.addEventListener("resize", resetElementHandles);
   }
 
-  sliderCount.innerHTML = numFmt.format(chartData.data[day].killed);
   const { dayPoints, height } = isMobile() ? chartData.mobile : chartData;
-
   const [x, y] = dayPoints[day];
-  const lineData = `M${x} ${y} v${height - y}`;
-  sliderLine.setAttribute("d", lineData);
-  sliderDot.setAttribute("cx", x.toString());
-  sliderDot.setAttribute("cy", `${y}`);
-
-  const sliderProgress = (day + 1) / days;
-  const parentSize = sliderLabel.parentElement.getBoundingClientRect().width;
-  const labelSize = sliderLabel.getBoundingClientRect().width;
-  const rightOffset = Math.round((1 - sliderProgress) * parentSize);
-  if (labelSize + rightOffset < parentSize) {
-    sliderLabel.style.left = "auto";
-    sliderLabel.style.right = `${rightOffset}px`;
-  } else {
-    sliderLabel.style.left = "0px";
-    sliderLabel.style.right = "auto";
-  }
+  markerLine.setAttribute("d", `M${x} ${y} v${height - y}`);
+  markerDot.setAttribute("cx", x.toString());
+  markerDot.setAttribute("cy", `${y}`);
 };
 
-const sliderLabels = chartData.data.map(
-  (dayData, i) => `${format(parseISO(dayData.date), "MMMM do")} (Day ${i + 1})`,
-);
+const dayFromPointerX = (clientX: number, rect: DOMRect) => {
+  const fraction = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+  return Math.round(fraction * (days - 1));
+};
 
 export const HomeDailyChart = () => {
-  const tracked = useRef(false);
+  const dayRef = useRef(days - 1);
   const [day, setDay] = useState(days - 1);
   const dayData = chartData.data[day];
 
-  const onSliderChange = (e) => {
-    if (!tracked.current) {
-      tracked.current = true;
+  const onScrub = (e: React.PointerEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const nextDay = dayFromPointerX(e.clientX, rect);
+    if (nextDay !== dayRef.current) {
+      dayRef.current = nextDay;
+      setDay(nextDay);
+      moveMarker(nextDay);
     }
-
-    const { value } = e.target;
-    setDay(+value);
-    moveLine(+value);
   };
+
+  const dateLabel = format(parseISO(dayData.date), "MMMM do, yyyy");
+  const [markX, markY] = chartData.dayPoints[day];
+  const calloutPct = (markX / chartData.width) * 100;
+  const calloutAnchor =
+    calloutPct > 74
+      ? { right: 0 }
+      : calloutPct < 4
+        ? { left: 0 }
+        : { left: `${calloutPct - 4}%` };
+  const calloutAbove = markY > chartData.height * 0.4;
+
+  const railRows = [
+    { label: "Injured", value: railValue(dayData.injured) },
+    { label: "Children killed", value: railValue(dayData.children) },
+    { label: "Women killed", value: railValue(dayData.women) },
+    { label: "Medical personnel killed", value: railValue(dayData.medical) },
+    {
+      label: dayData.press === 1 ? "Journalist killed" : "Journalists killed",
+      value: railValue(dayData.press),
+    },
+    { label: "First responders killed", value: railValue(dayData.civdef) },
+  ];
+
+  const warningLink = (
+    <a href="/updates/gaza-ministry-casualty-context/" className={styles.railFootnote}>
+      <svg width="17" height="15" viewBox="0 0 88 76" fill="none" className={styles.railFootnoteIcon}>
+        <path
+          d="M0 76H88L44 0L0 76ZM48 64H40V56H48V64ZM48 48H40V32H48V48Z"
+          fill="var(--tfp-chart-warning)"
+        />
+      </svg>
+      <span>Why these numbers do not fully reflect the human toll</span>
+    </a>
+  );
 
   return (
     <div className={styles.chartContainer}>
@@ -121,93 +138,72 @@ export const HomeDailyChart = () => {
         <span className={styles.mastLine} aria-hidden="true" />
       </div>
       <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza and the West Bank</div>
-      <div className={styles.chartWarning}>
-        <a href="/updates/gaza-ministry-casualty-context/">
-          <svg
-            width="17"
-            height="15"
-            viewBox="0 0 88 76"
-            fill="none"
-            style={{ position: "relative", top: 2 }}
-          >
-            <path
-              d="M0 76H88L44 0L0 76ZM48 64H40V56H48V64ZM48 48H40V32H48V48Z"
-              fill="var(--tfp-chart-warning)"
-            />
-          </svg>{" "}
-          Learn why these numbers do not fully reflect the human toll
-        </a>
-      </div>
-      <div className={styles.chartBreakdownTags}>
-        <div className={styles.chartBreakdownTagsTopRow}>
-          {!!dayData.seekingAid && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.seekingAid)} <span>attacked</span> seeking aid
-            </div>
-          )}
-          <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.injured)} <span>injured</span>
+
+      <div className={styles.chartGrid}>
+        <div className={styles.rail}>
+          <div className={styles.railDayLabel}>{dateLabel}</div>
+          <div className={styles.railCount}>{numFmt.format(dayData.killed)}</div>
+          <div className={styles.railCaption}>killed in Gaza and the West Bank</div>
+          <div className={styles.railDivider} aria-hidden="true" />
+          <div>
+            {railRows.map((row) => (
+              <div key={row.label} className={styles.railRow}>
+                <span className={styles.railRowLabel}>{row.label}</span>
+                <b className={styles.railRowValue}>{row.value}</b>
+              </div>
+            ))}
           </div>
-          {!!dayData.children && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.children)} children <span>killed</span>
-            </div>
-          )}
-          {!!dayData.starved && (
-            <div className={[styles.chartBreakdownTag, styles.chartTagMax920].join(" ")}>
-              {numFmt.format(dayData.starved)} <span>starved to death</span>
-            </div>
-          )}
-        </div>
-        <div className={styles.chartBreakdownTagsSubsequentRows}>
-          {!!dayData.women && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.women)} women <span>killed</span>
-            </div>
-          )}
-          <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.medical)} medical personnel <span>killed</span>
-          </div>
-          <div className={styles.chartBreakdownTag}>
-            {numFmt.format(dayData.press)} {dayData.press === 1 ? "journalist" : "journalists"}{" "}
-            <span>killed</span>
-          </div>
-          {!!dayData.civdef && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.civdef)} first responders <span>killed</span>
-            </div>
-          )}
-          {!!dayData.settlerActs && (
-            <div className={styles.chartBreakdownTag}>
-              {numFmt.format(dayData.settlerActs)} settler <span>attacks</span>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className={styles.homeChartDesktop}>
-        <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />
-      </div>
-      <div className={styles.homeChartMobile}>
-        <HomepageCasualtyChartMobile style={{ width: "100%", height: "auto" }} />
-      </div>
-      <div className={styles.chartSlider}>
-        <div style={{ position: "relative", height: 30 }}>
-          <div id="chartsliderlabel" className={styles.chartSliderLabel}>
-            {sliderLabels[day]}
-          </div>
+          {warningLink}
         </div>
 
-        <input
-          type="range"
-          onChange={onSliderChange}
-          min={0}
-          max={days - 1}
-          step={1}
-          value={day}
-          list="days"
-        />
-        <div className={styles.chartSliderHint}>Use the slider to change the date</div>
+        <div className={styles.chartColumn}>
+          <div className={styles.homeChartDesktop}>
+            <div
+              className={styles.chartScrubArea}
+              onPointerMove={onScrub}
+              style={{ touchAction: "pan-y" }}
+            >
+              <HomepageCasualtyChart style={{ width: "100%", height: "auto" }} />
+              <div
+                className={styles.chartCallout}
+                style={{
+                  ...calloutAnchor,
+                  top: calloutAbove
+                    ? `${((markY - 76) / chartData.height) * 100}%`
+                    : `${((markY + 22) / chartData.height) * 100}%`,
+                }}
+              >
+                <div className={styles.chartCalloutDay}>
+                  Day {day + 1} &middot; {dateLabel}
+                </div>
+                <div className={styles.chartCalloutStat}>
+                  {numFmt.format(dayData.killed)} killed &middot; {numFmt.format(dayData.injured)}{" "}
+                  injured
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles.homeChartMobile}>
+            <div
+              className={styles.chartScrubArea}
+              onPointerMove={onScrub}
+              style={{ touchAction: "pan-y" }}
+            >
+              <HomepageCasualtyChartMobile style={{ width: "100%", height: "auto" }} />
+              <div className={styles.chartCalloutMobile}>
+                <div className={styles.chartCalloutDay}>
+                  Day {day + 1} &middot; {dateLabel}
+                </div>
+                <div className={styles.chartCalloutStat}>
+                  {numFmt.format(dayData.killed)} killed &middot; {numFmt.format(dayData.injured)}{" "}
+                  injured
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div className={styles.chartFooterButtonsContainer}>
         <div className={styles.chartFooterButtons}>
           <Button to="/docs/datasets?chartdata=1" type="secondary">
