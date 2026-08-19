@@ -12,6 +12,8 @@
   --tfp-chart-killed-count: #211d19;
   --tfp-chart-accent: #3a342d;
   --tfp-chart-accent-border: #d8d0c4;
+  --tfp-chart-callout-bg: #211d19;
+  --tfp-chart-callout-text: #faf8f5;
   --tfp-radial-section-title: #3a342d;
   --tfp-radial-progress-track: #e8e0d4;
   --tfp-radial-progress-fill: #211d19;
@@ -40,6 +42,8 @@
   --tfp-chart-killed-count: #d8d4cc;
   --tfp-chart-accent: #b8b3aa;
   --tfp-chart-accent-border: #3a3835;
+  --tfp-chart-callout-bg: #3a3835;
+  --tfp-chart-callout-text: #e6e3dd;
   --tfp-radial-section-title: #b8b3aa;
   --tfp-radial-progress-track: #34322f;
   --tfp-radial-progress-fill: #c2473d;
@@ -104,92 +108,137 @@
   line-height: 1.3em;
 }
 
-.chartWarning {
-  display: inline-block;
-  position: relative;
-  left: -6px;
-  line-height: 1.3em;
-  margin-left: 3px;
-  margin-bottom: 20px;
-  background-color: var(--ifm-footer-bg-color);
-  padding: 10px 20px;
-  border-radius: 20px;
-}
-
-.chartWarning a {
-  font-weight: bold;
-  line-height: 0.5em;
-  color: var(--tfp-chart-warning);
-}
-
 .chartContainer svg {
   max-width: 100%;
 }
 
-.chartBreakdownTags {
+/* ---- split rail + chart ---- */
+.chartGrid {
+  display: grid;
+  grid-template-columns: 268px 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.rail {
+  min-width: 0;
+}
+
+.railDayLabel {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--story-red, #c0392f);
+  margin-bottom: 8px;
+}
+
+.railCount {
+  font-family: var(--ifm-heading-font-family);
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+  color: var(--tfp-chart-killed-count);
+}
+
+.railCaption {
+  font-size: 0.86rem;
+  color: var(--tfp-chart-subtitle);
+  margin-top: 4px;
+}
+
+.railDivider {
+  height: 1px;
+  background: var(--tfp-chart-line);
+  opacity: 0.18;
+  margin: 16px 0 2px;
+}
+
+.railRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  height: 31px;
+  align-items: center;
+  font-size: 0.86rem;
+  border-bottom: 1px solid var(--tfp-chart-axis-line);
+}
+
+.railRowLabel {
+  color: var(--tfp-chart-subtitle);
+}
+
+.railRowValue {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--tfp-chart-title);
+}
+
+.railFootnote {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--tfp-chart-warning);
+  text-decoration: none;
+}
+
+.railFootnoteIcon {
+  position: relative;
+  top: 3px;
+  flex: none;
+}
+
+.chartColumn {
+  min-width: 0;
+  padding-bottom: 26px;
+}
+
+.chartScrubArea {
+  position: relative;
+}
+
+.chartCallout {
   position: absolute;
+  width: 214px;
+  max-width: 46%;
+  background: var(--tfp-chart-callout-bg);
+  color: var(--tfp-chart-callout-text);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(20, 30, 25, 0.22);
+  pointer-events: none;
 }
 
-.chartBreakdownTagsTopRow {
-  max-width: 100%;
-}
-
-.chartBreakdownTagsSubsequentRows {
-  max-width: 70%;
-}
-
-.chartBreakdownTag {
-  display: inline-block;
-  background-color: var(--tfp-chart-tag-bg);
-  border: 1px solid var(--tfp-chart-tag-border);
-  padding: 3px 10px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  border-radius: 6px;
-}
-
-.chartBreakdownTag span {
-  color: #ca3a32;
-}
-
-.chartSlider {
-  width: 100%;
-  padding-top: 40px;
-}
-
-.chartSliderLabel {
-  display: inline-block;
+.chartCalloutMobile {
   position: absolute;
+  left: 0;
   right: 0;
-}
-
-.chartSlider input[type="range"] {
-  width: 100%;
-  accent-color: var(--tfp-chart-line);
-}
-
-.chartSlider input[type="range"]::-webkit-slider-runnable-track {
-  background: linear-gradient(
-    to right,
-    var(--tfp-chart-gradient-bottom-stop),
-    var(--tfp-chart-gradient-top-stop)
-  );
+  top: 0;
+  background: var(--tfp-chart-callout-bg);
+  color: var(--tfp-chart-callout-text);
   border-radius: 10px;
+  padding: 9px 11px;
+  pointer-events: none;
 }
 
-.chartSlider input[type="range"]::-moz-range-track {
-  background: linear-gradient(
-    to right,
-    var(--tfp-chart-gradient-bottom-stop),
-    var(--tfp-chart-gradient-top-stop)
-  );
-  border-radius: 10px;
+.chartCalloutDay {
+  font-size: 0.78rem;
+  font-weight: 600;
+  opacity: 0.62;
+  letter-spacing: 0.02em;
 }
 
-.chartSliderHint {
-  text-align: right;
-  font-size: 0.8em;
-  color: #777;
+.chartCalloutStat {
+  font-size: 0.86rem;
+  font-weight: 600;
+  margin-top: 3px;
+  font-variant-numeric: tabular-nums;
 }
 
 .chartRadials {
@@ -242,12 +291,6 @@
   color: var(--tfp-radial-progress-fill);
 }
 
-/* Big cumulative count baked into the chart SVG (ids set in the generator). */
-.chartContainer :global(#chartcount),
-.chartContainer :global(#chartcountMobile) {
-  font-family: var(--ifm-heading-font-family);
-}
-
 .chartFooterButtonsContainer {
   padding: 20px;
   padding-bottom: 20px;
@@ -258,12 +301,6 @@
 .chartFooterButtons {
   display: flex;
   justify-content: flex-end;
-}
-
-.chartFooterJsonMessage {
-  margin-top: 20px;
-  text-align: center;
-  color: #777;
 }
 
 .homeChartDesktop {
@@ -288,30 +325,19 @@
   }
 }
 
-@media screen and (max-width: 920px) {
-  .chartTagMax920 {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 999px) {
-  .chartBreakdownTags {
-    height: 100px;
-    overflow: visible;
+@media screen and (max-width: 880px) {
+  .chartGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  .chartBreakdownTags > div {
-    max-width: none;
+  .railDivider {
+    margin: 14px 0 2px;
   }
 
-  .homeChartDesktop {
-    padding-top: 80px;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .homeChartDesktop {
-    padding-top: 100px;
+  .railRow {
+    height: auto;
+    padding: 6px 0;
   }
 }
 
@@ -319,11 +345,9 @@
   .chartTitle {
     font-size: 1.45rem;
   }
-}
 
-@media screen and (max-width: 600px) {
-  .homeChartDesktop {
-    padding-top: 150px;
+  .railCount {
+    font-size: 46px;
   }
 }
 
@@ -332,19 +356,20 @@
     padding-left: 2px;
   }
 
-  .chartBreakdownTags {
-    position: relative;
-    top: -5px;
-    height: 160px;
-    overflow: visible;
+  .chartFooterButtons {
+    flex-direction: column;
   }
 
-  .chartBreakdownTags > div {
-    max-width: none;
+  .homeChartDesktop {
+    display: none;
   }
 
-  .chartBreakdownTag {
-    font-size: 0.8em;
+  .homeChartMobile {
+    display: block;
+  }
+
+  .chartColumn {
+    padding-bottom: 14px;
   }
 
   .chartRadials > div:first-of-type {
@@ -359,17 +384,5 @@
   .chartRadialRateText {
     top: 45%;
     font-size: 1.8em;
-  }
-
-  .chartFooterButtons {
-    flex-direction: column;
-  }
-
-  .homeChartDesktop {
-    display: none;
-  }
-
-  .homeChartMobile {
-    display: block;
   }
 }
