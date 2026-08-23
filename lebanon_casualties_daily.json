@@ -2166,5 +2166,15 @@
     "injured_cum": 28939,
     "killed_cum_reported": 4346,
     "injured_cum_reported": 12301
+  },
+  {
+    "report_date": "2026-08-19",
+    "report_source": "moph_lb",
+    "report_period": 72,
+    "phase": 2,
+    "killed_cum": 8395,
+    "injured_cum": 28945,
+    "killed_cum_reported": 4348,
+    "injured_cum_reported": 12307
   }
 ]
