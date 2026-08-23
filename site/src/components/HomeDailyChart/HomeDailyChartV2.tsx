@@ -6,28 +6,6 @@ import HomepageCasualtyChartV2Mobile from "../../generated/daily-chart-v2-mobile
 import chartData from "../../generated/daily-chart-v2.json";
 import styles from "./HomeDailyChartV2.styles.module.css";
 import { Button } from "../Button";
-import { HalfRadialProgress, radialProgressCircum } from "./HalfRadialProgress";
-import previewData from "@site/src/generated/summary.json";
-import { BuildFlags } from "@site/src/lib/build-flags";
-
-const childrenRatePct = Math.round(
-  ((previewData.known_killed_in_gaza.female.child + previewData.known_killed_in_gaza.male.child) /
-    previewData.known_killed_in_gaza.records) *
-    100,
-);
-const childrenStrokeOffset = ((100 - childrenRatePct / 2) / 100) * radialProgressCircum;
-
-const womenRatePct = Math.round(
-  (previewData.known_killed_in_gaza.female.adult / previewData.known_killed_in_gaza.records) * 100,
-);
-const womenStrokeOffset = ((100 - womenRatePct / 2) / 100) * radialProgressCircum;
-
-const elderlyRatePct = Math.round(
-  ((previewData.known_killed_in_gaza.female.senior + previewData.known_killed_in_gaza.male.senior) /
-    previewData.known_killed_in_gaza.records) *
-    100,
-);
-const elderlyStrokeOffset = ((100 - elderlyRatePct / 2) / 100) * radialProgressCircum;
 
 const numFmt = new Intl.NumberFormat();
 // "—" for zero/missing values so every rail row always renders at the same
@@ -213,63 +191,6 @@ export const HomeDailyChartV2 = () => {
           </Button>
         </div>
       </div>
-      {BuildFlags.legacyModules && (
-        <>
-          <div className={styles.chartRadialsContainer}>
-            <div className={styles.chartRadials}>
-              <div>Of those killed:</div>
-              <div>
-                <HalfRadialProgress
-                  {...{
-                    rate: childrenRatePct,
-                    strokeOffset: childrenStrokeOffset,
-                    label: "were children",
-                  }}
-                />
-                <HalfRadialProgress
-                  {...{
-                    rate: womenRatePct,
-                    strokeOffset: womenStrokeOffset,
-                    label: "were women",
-                  }}
-                />
-                {!isMobile() && (
-                  <HalfRadialProgress
-                    {...{
-                      rate: elderlyRatePct,
-                      strokeOffset: elderlyStrokeOffset,
-                      label: "were elderly",
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: "var(--tfp-chart-cta-box-fill)",
-              fontSize: "1.5em",
-              fontWeight: "bold",
-              textAlign: "center",
-              color: "var(--tfp-radial-section-title)",
-              paddingTop: "30px",
-            }}
-          >
-            Start telling their story:
-          </div>
-          <div className={styles.chartFooterButtonsContainer}>
-            <div className={styles.chartFooterButtons}>
-              <Button to="/docs/datasets?chartdata=1" type="primary">
-                Get the daily numbers
-              </Button>
-              <div style={{ width: 10, height: 10 }} />
-              <Button to="/docs/killed-in-gaza" type="primary">
-                Get the list of those killed
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 };

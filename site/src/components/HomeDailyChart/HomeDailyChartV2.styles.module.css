@@ -14,12 +14,6 @@
   --tfp-chart-accent-border: #d8d0c4;
   --tfp-chart-callout-bg: #211d19;
   --tfp-chart-callout-text: #faf8f5;
-  --tfp-radial-section-title: #3a342d;
-  --tfp-radial-progress-track: #e8e0d4;
-  --tfp-radial-progress-fill: #211d19;
-  --tfp-chart-cta-box-fill: #f1ede6;
-  --tfp-chart-cta-box-border: #e4ddd2;
-  --tfp-base-text: #211d19;
   --tfp-warning-h: 3;
   --tfp-warning-s: 60%;
   --tfp-warning-l: 49%;
@@ -44,12 +38,6 @@
   --tfp-chart-accent-border: #3a3835;
   --tfp-chart-callout-bg: #3a3835;
   --tfp-chart-callout-text: #e6e3dd;
-  --tfp-radial-section-title: #b8b3aa;
-  --tfp-radial-progress-track: #34322f;
-  --tfp-radial-progress-fill: #c2473d;
-  --tfp-chart-cta-box-fill: #242220;
-  --tfp-chart-cta-box-border: #3a3835;
-  --tfp-base-text: #e6e3dd;
   --tfp-chart-warning: hsl(var(--tfp-warning-hsl));
   --tfp-chart-warning-bg: hsla(var(--tfp-warning-hsl), 0.4);
 }
@@ -241,56 +229,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.chartRadials {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  align-items: center;
-  max-width: 100%;
-}
-
-.chartRadials > div:first-of-type {
-  position: relative;
-  top: 18px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.2em;
-  font-family: var(--ifm-heading-font-family);
-  color: var(--tfp-radial-section-title);
-}
-
-.chartRadials > div:nth-of-type(2) {
-  display: flex;
-  text-align: center;
-}
-
-.chartRadialsContainer {
-  border-bottom: 1px solid var(--tfp-chart-cta-box-border);
-  display: flex;
-  justify-content: space-between;
-}
-
-.chartRadialRateLabel {
-  position: absolute;
-  bottom: 5px;
-  text-align: center;
-  width: 100%;
-  font-size: 1em;
-  font-weight: bold;
-  color: var(--tfp-base-text);
-}
-
-.chartRadialRateText {
-  position: absolute;
-  top: 40%;
-  text-align: center;
-  width: 100%;
-  font-size: 2em;
-  font-weight: bold;
-  font-family: var(--ifm-heading-font-family);
-  color: var(--tfp-radial-progress-fill);
-}
-
 .chartFooterButtonsContainer {
   padding: 20px;
   padding-bottom: 20px;
@@ -310,19 +248,6 @@
 
 .homeChartMobile {
   display: none;
-}
-
-@media screen and (max-width: 900px) {
-  .chartRadialsContainer {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
-  }
-
-  .chartRadials {
-    max-width: none;
-    align-items: center;
-  }
 }
 
 @media screen and (max-width: 880px) {
@@ -370,19 +295,5 @@
 
   .chartColumn {
     padding-bottom: 14px;
-  }
-
-  .chartRadials > div:first-of-type {
-    top: 25px;
-  }
-
-  .chartRadialRateLabel {
-    bottom: 8px;
-    font-size: 0.9em;
-  }
-
-  .chartRadialRateText {
-    top: 45%;
-    font-size: 1.8em;
   }
 }
