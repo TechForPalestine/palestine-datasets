@@ -7,11 +7,11 @@ import Translate from "@docusaurus/Translate";
 
 import styles from "./index.module.css";
 import { KilledHeaderMarquee } from "../components";
-import { HomeDailyChart } from "../components/HomeDailyChart";
+import { HomeDailyChart, HomeDailyChartV2 } from "../components/HomeDailyChart";
 import { KilledName } from "../components/KilledName";
 import { StoriesInData } from "../components/StoriesInData";
 import { BuildFlags } from "../lib/build-flags";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 /**
  * Editorial Masthead (hero direction "A").
@@ -78,15 +78,30 @@ function HomepageHeader() {
   );
 }
 
+// Temporary review flag for the split-rail chart redesign: visit the
+// homepage with ?newChart=1 to preview it. Checked post-mount (rather than
+// during render) so the server-rendered markup is always the current chart
+// and swapping in the new one doesn't cause a hydration mismatch. Remove
+// this flag, HomeDailyChartV2, and the old HomeDailyChart once the redesign
+// is approved and promoted to the default.
+const useNewChartFlag = () => {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    setEnabled(new URLSearchParams(window.location.search).get("newChart") === "1");
+  }, []);
+  return enabled;
+};
+
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
+  const showNewChart = useNewChartFlag();
 
   return (
     <Layout title="" description={siteConfig.tagline}>
       <HomepageHeader />
       <main>
         <StoriesInData />
-        <HomeDailyChart />
+        {showNewChart ? <HomeDailyChartV2 /> : <HomeDailyChart />}
         <KilledName />
         <div style={{ height: 40 }} />
       </main>
