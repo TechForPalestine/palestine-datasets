@@ -246,12 +246,7 @@ export const KilledNamesListGrid = () => {
 
   const applyFilters = useCallback(
     (filters: PersonType[], nameSearch: string, ageRange: AgeRange, listUpdates: number[] = []) => {
-      if (
-        filters.length === 6 &&
-        !nameSearch.trim().length &&
-        !ageRange &&
-        !listUpdates.length
-      ) {
+      if (filters.length === 6 && !nameSearch.trim().length && !ageRange && !listUpdates.length) {
         filteredRecords.current = [];
         filteredSearchMatches.current = {};
         setCSVDownloadParams(createCSVDownload(records.current, records.current.length));
