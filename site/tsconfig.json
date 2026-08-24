@@ -3,6 +3,6 @@
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "types": ["webpack-dev-server"]
+    "types": ["webpack-dev-server", "bun"]
   }
 }
