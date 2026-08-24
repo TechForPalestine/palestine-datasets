@@ -15,6 +15,7 @@ export interface UrlFilterParams {
   excluded: PersonType[];
   search: string;
   ageRange: AgeRange;
+  listUpdates: number[];
 }
 
 const isPersonType = (val: string): val is PersonType =>
@@ -28,6 +29,18 @@ const parseAgeRange = (value: string | null): AgeRange => {
   const max = parseInt(match[2], 10);
   if (min > max) return null;
   return [min, max];
+};
+
+const parseListUpdates = (value: string | null): number[] => {
+  if (!value) return [];
+  return Array.from(
+    new Set(
+      value
+        .split("|")
+        .map((v) => parseInt(v, 10))
+        .filter((n) => Number.isInteger(n) && n > 0),
+    ),
+  );
 };
 
 export const parseUrlFilterParams = (search: string): UrlFilterParams => {
@@ -46,6 +59,7 @@ export const parseUrlFilterParams = (search: string): UrlFilterParams => {
     excluded,
     search: params.get("search") ?? "",
     ageRange,
+    listUpdates: parseListUpdates(params.get("updates")),
   };
 };
 
@@ -53,10 +67,12 @@ export const buildFilterQueryString = ({
   filters,
   search,
   ageRange,
+  listUpdates,
 }: {
   filters: PersonType[];
   search: string;
   ageRange: AgeRange;
+  listUpdates?: number[];
 }): string => {
   const params = new URLSearchParams();
   if (ageRange) {
@@ -70,6 +86,9 @@ export const buildFilterQueryString = ({
   const trimmedSearch = search.trim();
   if (trimmedSearch) {
     params.set("search", trimmedSearch);
+  }
+  if (listUpdates && listUpdates.length > 0) {
+    params.set("updates", listUpdates.join("|"));
   }
   const queryString = params.toString();
   return queryString ? `?${queryString}` : "";

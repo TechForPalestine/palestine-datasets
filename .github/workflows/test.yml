@@ -1,5 +1,17 @@
 on:
   push:
+    branches:
+      - "main"
+    paths:
+      - "**.json"
+      - "**.js"
+      - "**.jsx"
+      - "**.mjs"
+      - "**.ts"
+      - "**.tsx"
+      - "**.lockb"
+      - ".github/workflows/test.yml"
+  pull_request:
     paths:
       - "**.json"
       - "**.js"
