@@ -9,6 +9,16 @@ on:
       - "**.tsx"
       - "**.lockb"
       - ".github/workflows/test.yml"
+  pull_request:
+    paths:
+      - "**.json"
+      - "**.js"
+      - "**.jsx"
+      - "**.mjs"
+      - "**.ts"
+      - "**.tsx"
+      - "**.lockb"
+      - ".github/workflows/test.yml"
 
 permissions:
   contents: read
