@@ -71,10 +71,12 @@ export const KilledNamesListGrid = () => {
     filters: PersonType[];
     filteredCount: number;
     ageRange: AgeRange;
+    listUpdates: number[];
   }>({
     nameSearch: "",
     filteredCount: 0,
     ageRange: null,
+    listUpdates: [],
     filters: [...ALL_PERSON_TYPES].sort() as PersonType[],
   });
   const [columnConfig, setColumnConfig] = useState<
@@ -112,7 +114,12 @@ export const KilledNamesListGrid = () => {
     if (loading) return;
 
     setFilterState((prev) => {
-      const filteredCount = applyFilters(prev.filters, prev.nameSearch, prev.ageRange);
+      const filteredCount = applyFilters(
+        prev.filters,
+        prev.nameSearch,
+        prev.ageRange,
+        prev.listUpdates,
+      );
       return { ...prev, filteredCount: filteredCount ?? 0 };
     });
   }, [loading]);
@@ -120,7 +127,11 @@ export const KilledNamesListGrid = () => {
   useEffect(() => {
     if (typeof window !== "object") return;
     const params = parseUrlFilterParams(window.location.search);
-    const hasParams = params.excluded.length > 0 || !!params.search || !!params.ageRange;
+    const hasParams =
+      params.excluded.length > 0 ||
+      !!params.search ||
+      !!params.ageRange ||
+      params.listUpdates.length > 0;
     if (!hasParams) return;
 
     const newFilters = ALL_PERSON_TYPES.filter(
@@ -132,6 +143,7 @@ export const KilledNamesListGrid = () => {
       filters: newFilters,
       nameSearch: params.search,
       ageRange: params.ageRange,
+      listUpdates: params.listUpdates,
     }));
 
     if (params.search && filterRowRef.current) {
@@ -233,8 +245,13 @@ export const KilledNamesListGrid = () => {
   );
 
   const applyFilters = useCallback(
-    (filters: PersonType[], nameSearch: string, ageRange: AgeRange) => {
-      if (filters.length === 6 && !nameSearch.trim().length && !ageRange) {
+    (filters: PersonType[], nameSearch: string, ageRange: AgeRange, listUpdates: number[] = []) => {
+      if (
+        filters.length === 6 &&
+        !nameSearch.trim().length &&
+        !ageRange &&
+        !listUpdates.length
+      ) {
         filteredRecords.current = [];
         filteredSearchMatches.current = {};
         setCSVDownloadParams(createCSVDownload(records.current, records.current.length));
@@ -259,6 +276,10 @@ export const KilledNamesListGrid = () => {
         }
 
         if (ageRange && (age < ageRange[0] || age > ageRange[1])) {
+          return false;
+        }
+
+        if (listUpdates.length && !listUpdates.includes(row[recordCols.update] as number)) {
           return false;
         }
 
@@ -341,16 +362,20 @@ export const KilledNamesListGrid = () => {
     [],
   );
 
-  const writeUrl = useCallback((filters: PersonType[], nameSearch: string, ageRange: AgeRange) => {
-    if (typeof window !== "object") return;
-    const qs = buildFilterQueryString({
-      filters,
-      search: nameSearch,
-      ageRange,
-    });
-    const url = `${window.location.pathname}${qs}${window.location.hash}`;
-    window.history.replaceState(null, "", url);
-  }, []);
+  const writeUrl = useCallback(
+    (filters: PersonType[], nameSearch: string, ageRange: AgeRange, listUpdates: number[]) => {
+      if (typeof window !== "object") return;
+      const qs = buildFilterQueryString({
+        filters,
+        search: nameSearch,
+        ageRange,
+        listUpdates,
+      });
+      const url = `${window.location.pathname}${qs}${window.location.hash}`;
+      window.history.replaceState(null, "", url);
+    },
+    [],
+  );
 
   const onToggleFilter = useCallback(
     (type: PersonType) => {
@@ -364,9 +389,14 @@ export const KilledNamesListGrid = () => {
           : [...baseFilters, type].sort();
         const newAgeRange = exitingAgesMode ? null : prev.ageRange;
 
-        const filteredCount = applyFilters(newFilters, prev.nameSearch, newAgeRange);
+        const filteredCount = applyFilters(
+          newFilters,
+          prev.nameSearch,
+          newAgeRange,
+          prev.listUpdates,
+        );
 
-        writeUrl(newFilters, prev.nameSearch, newAgeRange);
+        writeUrl(newFilters, prev.nameSearch, newAgeRange, prev.listUpdates);
 
         return {
           ...prev,
@@ -391,9 +421,9 @@ export const KilledNamesListGrid = () => {
           searchHasSortPriority.current = true;
         }
 
-        const filteredCount = applyFilters(prev.filters, query, prev.ageRange);
+        const filteredCount = applyFilters(prev.filters, query, prev.ageRange, prev.listUpdates);
 
-        writeUrl(prev.filters, query, prev.ageRange);
+        writeUrl(prev.filters, query, prev.ageRange, prev.listUpdates);
 
         return {
           ...prev,
@@ -461,7 +491,12 @@ export const KilledNamesListGrid = () => {
             : String(bVal).localeCompare(String(aVal));
         });
 
-        applyFilters(filterState.filters, filterState.nameSearch, filterState.ageRange);
+        applyFilters(
+          filterState.filters,
+          filterState.nameSearch,
+          filterState.ageRange,
+          filterState.listUpdates,
+        );
 
         return { ...prevConfig, sort: newSort };
       });
@@ -528,8 +563,8 @@ export const KilledNamesListGrid = () => {
       searchHasSortPriority.current = false;
       setFilterState((prev) => {
         const newFilters = [...ALL_PERSON_TYPES].sort() as PersonType[];
-        const filteredCount = applyFilters(newFilters, prev.nameSearch, range);
-        writeUrl(newFilters, prev.nameSearch, range);
+        const filteredCount = applyFilters(newFilters, prev.nameSearch, range, prev.listUpdates);
+        writeUrl(newFilters, prev.nameSearch, range, prev.listUpdates);
         return {
           ...prev,
           filters: newFilters,

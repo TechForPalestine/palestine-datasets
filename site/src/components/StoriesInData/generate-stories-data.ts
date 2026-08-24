@@ -19,7 +19,6 @@ import { updateDates } from "../../../../scripts/data/common/killed-in-gaza/cons
 import { STORIES } from "./stories";
 import type { TimeField, TimeseriesSource } from "./types";
 
-// @ts-expect-error .dir is specific to the bun runtime which this script is invoked with
 const ROOT = join(import.meta.dir, "../../../..");
 const OUT = join(ROOT, "site/src/generated/stories-data.json");
 
