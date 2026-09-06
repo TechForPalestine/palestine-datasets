@@ -16,7 +16,7 @@ export const Header = React.memo(
     onPress: (col: (typeof kig3FieldIndex)[number]) => void;
   }) => {
     return (
-      <>
+      <div className={styles.headerRow}>
         {columnConfig.columns.map((col, index) => {
           let remappedContent: string = col;
           if (col === "en_name") {
@@ -64,7 +64,7 @@ export const Header = React.memo(
             </div>
           );
         })}
-      </>
+      </div>
     );
   },
 );
