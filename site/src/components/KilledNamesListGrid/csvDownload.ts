@@ -23,7 +23,7 @@ export const createCSVDownload = (records: PersonRow[], totalRecords: number) =>
   );
   const headerRow = kig3FieldIndex.map((col) => `"${col.replace(/"/g, '""')}"`).join(",");
   csvContent.unshift(headerRow);
-  const csvBlob = new Blob([csvContent.join("\n")], {
+  const csvBlob = new Blob(["\uFEFF" + csvContent.join("\n")], {
     type: "text/csv;charset=utf-8;",
   });
   const csvDataObjectURL = URL.createObjectURL(csvBlob);

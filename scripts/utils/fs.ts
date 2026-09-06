@@ -41,13 +41,26 @@ export const writeOffManifestJson = (filePath: string | AliasedFile, json: any) 
   fs.writeFileSync(typeof filePath === "string" ? filePath : filePath.from, JSON.stringify(json));
 };
 
+const utf8Bom = "\uFEFF";
+
+const escapeCsvField = (value: unknown): string => {
+  if (value === null || value === undefined) {
+    return "";
+  }
+  const str = String(value);
+  if (/["\n\r,]/.test(str)) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+};
+
 export const writeManifestCsv = (
   resource: ApiResource,
   filePath: string | AliasedFile,
   rows: any[][],
 ) => {
   const fs = require("fs");
-  const csvString = rows.map((columns) => columns.join(",")).join("\n");
-  fs.writeFileSync(typeof filePath === "string" ? filePath : filePath.from, csvString);
+  const csvString = rows.map((columns) => columns.map(escapeCsvField).join(",")).join("\n");
+  fs.writeFileSync(typeof filePath === "string" ? filePath : filePath.from, utf8Bom + csvString);
   addToManifest(resource, { csv: filePath });
 };
