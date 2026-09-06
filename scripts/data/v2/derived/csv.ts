@@ -74,12 +74,7 @@ const wbDailyRows = wbDailies.reduce(
 writeManifestCsv(ApiResource.WestBankDailyV2, `${writePath}/west_bank_daily.csv`, wbDailyRows);
 
 const csvCols = ["name", "name_en", "notes"];
-const notesColIdx = csvCols.indexOf("notes");
 writeManifestCsv(ApiResource.PressKilledInGazaV2, `${writePath}/press_killed_in_gaza.csv`, [
   csvCols,
-  ...pressKilled.map((record: Record<string, string>) =>
-    csvCols.map((col, i) =>
-      i === notesColIdx ? `"${record[col].replace(/["]/g, "'")}"` : record[col],
-    ),
-  ),
+  ...pressKilled.map((record: Record<string, string>) => csvCols.map((col) => record[col])),
 ]);
