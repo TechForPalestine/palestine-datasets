@@ -134,11 +134,22 @@
   gap: 10px;
 }
 
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
 .headerCell {
   background-color: var(--ifm-navbar-background-color);
   border-top: 2px solid var(--ifm-footer-bg-color);
   font-weight: 700;
-  display: inline-block;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 [data-theme="light"] .headerCell {
