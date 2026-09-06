@@ -191,6 +191,13 @@
   position: relative;
 }
 
+/* An inline svg leaves baseline descender space below it, making this box
+   taller than the chart itself — which would slide the percentage-positioned
+   event markers and callout off the line, further the lower they sit. */
+.chartScrubArea svg {
+  display: block;
+}
+
 .chartCallout {
   position: absolute;
   width: 236px;
