@@ -191,28 +191,121 @@
   position: relative;
 }
 
+/* An inline svg leaves baseline descender space below it, making this box
+   taller than the chart itself — which would slide the percentage-positioned
+   event markers and callout off the line, further the lower they sit. */
+.chartScrubArea svg {
+  display: block;
+}
+
 .chartCallout {
   position: absolute;
-  width: 214px;
-  max-width: 46%;
+  width: 236px;
+  max-width: 48%;
   background: var(--tfp-chart-callout-bg);
   color: var(--tfp-chart-callout-text);
   border-radius: 10px;
   padding: 10px 12px;
   box-shadow: 0 8px 24px rgba(20, 30, 25, 0.22);
   pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.14s ease;
 }
 
+/* Anchored to the foot of the narrow chart: the line and its event markers
+   climb into the top half, so covering the fill costs the least. */
 .chartCalloutMobile {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  bottom: 0;
   background: var(--tfp-chart-callout-bg);
   color: var(--tfp-chart-callout-text);
   border-radius: 10px;
   padding: 9px 11px;
   pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.14s ease;
+}
+
+/* The callout belongs to the pointer: with nothing being scrubbed it goes
+   away rather than sitting on the chart claiming to describe "today". */
+.chartCalloutIdle {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.chartCalloutEvent {
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 4px;
+}
+
+.chartCalloutDetail {
+  font-size: 0.78rem;
+  line-height: 1.4;
+  margin-top: 5px;
+  opacity: 0.78;
+}
+
+/* ---- key event markers ---- */
+.eventMarker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.eventMarkerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tfp-chart-line);
+  box-shadow: 0 0 0 2px var(--tfp-chart-gradient-bottom-stop);
+  transition:
+    transform 0.12s ease,
+    background 0.12s ease;
+}
+
+.eventMarker:hover .eventMarkerDot,
+.eventMarkerActive .eventMarkerDot {
+  background: var(--tfp-chart-today-line);
+  transform: scale(1.4);
+}
+
+.eventMarker:focus-visible {
+  outline: 2px solid var(--tfp-chart-today-line);
+  outline-offset: 1px;
+  border-radius: 50%;
+}
+
+.chartHint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
+  font-size: 0.78rem;
+  line-height: 1.3;
+  color: var(--tfp-chart-subtitle);
+}
+
+.chartHintDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tfp-chart-line);
+  box-shadow: 0 0 0 2px var(--tfp-chart-gradient-bottom-stop);
 }
 
 .chartCalloutDay {
@@ -295,5 +388,19 @@
 
   .chartColumn {
     padding-bottom: 14px;
+  }
+
+  .eventMarker {
+    width: 26px;
+    height: 26px;
+  }
+
+  .eventMarkerDot {
+    width: 9px;
+    height: 9px;
+  }
+
+  .chartHint {
+    margin-top: 26px;
   }
 }
