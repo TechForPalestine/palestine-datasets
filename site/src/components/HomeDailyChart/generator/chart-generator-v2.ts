@@ -2,6 +2,7 @@ import fs from "fs";
 import D3Node from "d3-node";
 import { transform } from "@svgr/core";
 import chartEvents from "./chart_events.json";
+import { keyEvents } from "./key-events";
 import gazaDailyTimeSeries from "../../../../../casualties_daily.min.json";
 import westBankDailyTimeSeries from "../../../../../west_bank_daily.min.json";
 import { CasualtyDailyReportV2 } from "../../../../../types/casualties-daily.types";
@@ -153,25 +154,72 @@ const data = gazaDailyTimeSeries.reduce(
   } as MappedData,
 );
 
+// Key dated events, resolved to their index in the daily series. Events whose
+// date has no matching report are dropped rather than silently misplaced.
+type PlottedEvent = {
+  day: number;
+  date: string;
+  title: string;
+  detail: string;
+};
+
+const dayIndexByDate = new Map(data.slimData.map(({ date }, index) => [date, index]));
+
+const plottedEvents: PlottedEvent[] = keyEvents
+  .map((event) => ({ ...event, day: dayIndexByDate.get(event.date) }))
+  .filter((event): event is PlottedEvent => typeof event.day === "number")
+  .sort((a, b) => a.day - b.day);
+
+const missingEventDates = keyEvents.filter((event) => !dayIndexByDate.has(event.date));
+if (missingEventDates.length) {
+  console.warn(
+    `chart-generator-v2: ignoring key events with no matching report date: ${missingEventDates
+      .map((event) => event.date)
+      .join(", ")}`,
+  );
+}
+
+// Markers closer together than this (in svg units) would overlap into an
+// unreadable clump, so the later one renders without a dot. The day is still
+// scrubbable and still names its event in the callout.
+const minMarkerGap = 11;
+
+const thinMarkers = (points: [number, number][]): ([number, number] | null)[] => {
+  let lastKeptX = -Infinity;
+  return points.map((point) => {
+    if (point[0] - lastKeptX < minMarkerGap) {
+      return null;
+    }
+    lastKeptX = point[0];
+    return point;
+  });
+};
+
 const json: {
   data: typeof data.slimData;
   width: number;
   height: number;
   dayPoints: [number, number][];
+  events: PlottedEvent[];
+  eventPoints: ([number, number] | null)[];
   mobile: {
     width: number;
     height: number;
     dayPoints: [number, number][];
+    eventPoints: ([number, number] | null)[];
   };
 } = {
   data: data.slimData,
   width: 0,
   height: 0,
   dayPoints: [],
+  events: plottedEvents,
+  eventPoints: [],
   mobile: {
     width: 0,
     height: 0,
     dayPoints: [],
+    eventPoints: [],
   },
 };
 
@@ -281,6 +329,10 @@ const render = async ({ mobile } = { mobile: false }) => {
     y(d.value) as number,
   ]);
 
+  // Marker positions for the key events, in the same svg coordinate space as
+  // dayPoints so the overlay can place them as a percentage of the chart box.
+  const eventPoints = thinMarkers(plottedEvents.map((event) => dayPoints[event.day]));
+
   helpers.addEventDotShadowFilter();
   helpers.addMarkerDotLine();
   helpers.addGradientDefinition();
@@ -311,6 +363,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       width,
       height,
       dayPoints,
+      eventPoints,
     };
     // mobile is the last one to render so it renders the data json which backs both
     fs.writeFileSync(`site/src/generated/daily-chart-v2.json`, JSON.stringify(json));
@@ -318,6 +371,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     json.width = width;
     json.height = height;
     json.dayPoints = dayPoints;
+    json.eventPoints = eventPoints;
   }
 };
 
