@@ -53,20 +53,28 @@ collections:
       - { label: "Report period (hours)", name: report_period, widget: number, value_type: int, default: 24 }
 
       # --- Reported figures (manual input) ---
+      # Ordered by actual entry frequency (reviewed against the last month of
+      # source_data/gaza-daily) so the fields used on nearly every report sit
+      # at the top and the rarely-touched ones sink toward the bottom.
       - { label: "Killed (daily, reported)", name: killed, widget: number, value_type: int, required: false, hint: "As reported. If it conflicts with the cumulative, reconcile it and note the decision below." }
       - { label: "Killed cumulative (reported)", name: killed_cum, widget: number, value_type: int, hint: "Authoritative cumulative total as reported by the source." }
       - { label: "Injured (daily, reported)", name: injured, widget: number, value_type: int, required: false }
       - { label: "Injured cumulative (reported)", name: injured_cum, widget: number, value_type: int, required: false }
+
+      # Frequently used adjustments (appear on most reports)
+      - { label: "Killed truce (newly identified)", name: killed_truce_new, widget: number, value_type: int, required: false }
+      - { label: "Killed recovered", name: killed_recovered, widget: number, value_type: int, required: false }
+      - { label: "Killed succumbed to wounds", name: killed_succumbed, widget: number, value_type: int, required: false }
+
+      # Rarely reported — the source hasn't updated most of these in months.
+      # Only fill in when it explicitly publishes a new figure for one of them.
       - { label: "Killed children cumulative (reported)", name: killed_children_cum, widget: number, value_type: int, required: false }
       - { label: "Killed women cumulative (reported)", name: killed_women_cum, widget: number, value_type: int, required: false }
       - { label: "Massacres cumulative (reported)", name: massacres_cum, widget: number, value_type: int, required: false }
       - { label: "Civil defense killed cumulative (reported)", name: civdef_killed_cum, widget: number, value_type: int, required: false }
       - { label: "Medical personnel killed cumulative (reported)", name: med_killed_cum, widget: number, value_type: int, required: false }
       - { label: "Press killed cumulative (reported)", name: press_killed_cum, widget: number, value_type: int, required: false }
-      - { label: "Killed recovered", name: killed_recovered, widget: number, value_type: int, required: false }
-      - { label: "Killed succumbed to wounds", name: killed_succumbed, widget: number, value_type: int, required: false }
-      - { label: "Killed truce (newly identified)", name: killed_truce_new, widget: number, value_type: int, required: false }
-      - { label: "Killed by committee review", name: killed_committee, widget: number, value_type: int, required: false }
+      - { label: "Killed by committee review", name: killed_committee, widget: number, value_type: int, required: false, hint: "Used only for periodic committee reconciliation events, not daily reports." }
       - { label: "Famine deaths cumulative", name: famine_cum, widget: number, value_type: int, required: false }
       - { label: "Child famine deaths cumulative", name: child_famine_cum, widget: number, value_type: int, required: false }
       - { label: "Aid seekers killed cumulative", name: aid_seeker_killed_cum, widget: number, value_type: int, required: false }
@@ -136,10 +144,12 @@ collections:
       # Entered as the source publishes them, i.e. relative to the phase above.
       # The build preserves these as killed_cum_reported / injured_cum_reported
       # and rebases killed_cum / injured_cum onto the continuous series.
-      - { label: "Killed (daily, reported)", name: killed, widget: number, value_type: int, required: false, hint: "Change since the prior report. Should equal killed_cum minus the previous killed_cum." }
+      # Recent reports only give a cumulative, so those come first; the daily
+      # delta fields below are rarely filled in anymore.
       - { label: "Killed cumulative (reported)", name: killed_cum, widget: number, value_type: int, hint: "Cumulative total exactly as the source states it, for the selected phase — not the continuous since-2023 total." }
-      - { label: "Injured (daily, reported)", name: injured, widget: number, value_type: int, required: false, hint: "Change since the prior report." }
       - { label: "Injured cumulative (reported)", name: injured_cum, widget: number, value_type: int, required: false, hint: "Cumulative total exactly as the source states it, for the selected phase — not the continuous since-2023 total." }
+      - { label: "Killed (daily, reported)", name: killed, widget: number, value_type: int, required: false, hint: "Change since the prior report, if the source gives one. Should equal killed_cum minus the previous killed_cum." }
+      - { label: "Injured (daily, reported)", name: injured, widget: number, value_type: int, required: false, hint: "Change since the prior report, if the source gives one." }
 
       - { label: "Source material", name: body, widget: markdown, required: false, hint: "Paste the original bulletin title and link, or a reference to a source screenshot." }
 
@@ -165,19 +175,29 @@ collections:
     fields:
       - { label: "Report date", name: report_date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
       - { label: "Flash source", name: flash_source, widget: string, required: false, hint: "e.g. un. Omit if not a flash report; carries forward." }
+
+      # Current reporting convention: enter the incremental figures below.
+      # The cumulative counterparts are almost never entered directly anymore
+      # (the build derives them) — they're kept further down for the rare
+      # report that gives a fresh cumulative instead of a delta.
       - { label: "Killed (incremental, since prior report)", name: killed, widget: number, value_type: int, required: false, hint: "Used to compute the cumulative below when it's left blank." }
-      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false, hint: "Omit if unchanged/not reported — it carries forward. Leave blank to compute from the incremental above." }
       - { label: "Killed children (incremental)", name: killed_children, widget: number, value_type: int, required: false }
-      - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
       - { label: "Injured (incremental)", name: injured, widget: number, value_type: int, required: false }
-      - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int, required: false }
       - { label: "Injured children (incremental)", name: injured_children, widget: number, value_type: int, required: false }
-      - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
       - { label: "Settler attacks (incremental)", name: settler_attacks, widget: number, value_type: int, required: false }
-      - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int, required: false }
       - { label: "Displaced households (as reported this period)", name: displaced_households, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only." }
       - { label: "Displaced persons (as reported this period)", name: displaced_persons, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only." }
       - { label: "Displaced children (as reported this period)", name: displaced_children, widget: number, value_type: int, required: false, hint: "As-reported figure for this reporting period only." }
+
+      - { label: "Editorial notes", name: editorial_notes, widget: text, required: false, hint: "Document any editorial decision. Not published in the dataset." }
+
+      # Rarely used now — only needed when a report gives a fresh cumulative
+      # instead of an incremental figure.
+      - { label: "Killed cumulative", name: killed_cum, widget: number, value_type: int, required: false, hint: "Omit if unchanged/not reported — it carries forward. Leave blank to compute from the incremental above." }
+      - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured cumulative", name: injured_cum, widget: number, value_type: int, required: false }
+      - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
+      - { label: "Settler attacks cumulative", name: settler_attacks_cum, widget: number, value_type: int, required: false }
 
       - label: "Verified figures (optional)"
         name: verified
@@ -194,7 +214,5 @@ collections:
           - { label: "Killed children cumulative", name: killed_children_cum, widget: number, value_type: int, required: false }
           - { label: "Injured children (daily)", name: injured_children, widget: number, value_type: int, required: false }
           - { label: "Injured children cumulative", name: injured_children_cum, widget: number, value_type: int, required: false }
-
-      - { label: "Editorial notes", name: editorial_notes, widget: text, required: false, hint: "Document any editorial decision. Not published in the dataset." }
 
       - { label: "Source material", name: body, widget: markdown, required: false, hint: "Paste the original bulletin text, links, or a reference to a source screenshot." }

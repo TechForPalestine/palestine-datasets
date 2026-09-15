@@ -165,6 +165,16 @@ origin (the `auth_endpoint` defaults to `/auth`).
 Add data-entry collaborators with write access to the repository (or to a team
 with write access). Decap authorizes against GitHub repo permissions.
 
+**Access is all-or-nothing — there is no read-only CMS role.** Decap's GitHub
+backend gates login itself on the GitHub API's `permissions.push` flag for the
+authenticated user (`hasWriteAccess()` in `implementation.tsx`), which is only
+true for the **Write**, **Maintain**, or **Admin** repo role. A collaborator
+added at **Read** or **Triage** gets `push: false` and is rejected at the
+login screen with "Your GitHub user account does not have access to this
+repo." — they can't even browse entries, regardless of the repo being public.
+To let someone view the data without editing it, point them at the repo
+directly on GitHub (or a local clone) instead of `/admin`.
+
 ## Using it
 
 Visit `https://data.techforpalestine.org/admin/`, log in with GitHub, pick the

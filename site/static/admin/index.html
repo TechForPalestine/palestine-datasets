@@ -7,6 +7,24 @@
     <title>Tech For Palestine — Data Entry</title>
   </head>
   <body>
+    <!-- Decap's number widget always renders <input type="number">, which lets
+         the mouse scroll wheel increment/decrement the value when the field is
+         focused — easy to trigger by accident right after typing a figure.
+         There's no widget config to disable this, so block it globally: eat
+         the wheel event while any number input has focus (it still scrolls
+         the page normally otherwise). -->
+    <script>
+      document.addEventListener(
+        'wheel',
+        function (e) {
+          var el = document.activeElement;
+          if (el && el.tagName === 'INPUT' && el.type === 'number') {
+            e.preventDefault();
+          }
+        },
+        { passive: false },
+      );
+    </script>
     <!-- Decap CMS: git-based, commits straight to the repo (no backend/database).
          Bundle is self-hosted from our own deploy (not a third-party CDN). The
          version is pinned via the `decap-cms` devDependency and vendored into
