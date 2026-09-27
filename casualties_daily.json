@@ -23468,5 +23468,42 @@
     "ext_press_killed_cum": 262,
     "ext_killed": 6,
     "ext_injured": 35
+  },
+  {
+    "report_date": "2026-09-25",
+    "report_source": "missing",
+    "report_period": 0,
+    "ext_killed_cum": 73928,
+    "ext_injured_cum": 175030,
+    "ext_killed_children_cum": 20179,
+    "ext_killed_women_cum": 12500,
+    "ext_massacres_cum": 12000,
+    "ext_civdef_killed_cum": 140,
+    "ext_med_killed_cum": 1701,
+    "ext_press_killed_cum": 262,
+    "ext_killed": 0,
+    "ext_injured": 0
+  },
+  {
+    "report_date": "2026-09-26",
+    "report_source": "mohtel",
+    "report_period": 48,
+    "killed": 88,
+    "killed_cum": 74016,
+    "injured": 38,
+    "injured_cum": 175068,
+    "killed_truce_new": 6,
+    "killed_succumbed": 1,
+    "killed_committee": 81,
+    "ext_killed_cum": 74016,
+    "ext_injured_cum": 175068,
+    "ext_killed_children_cum": 20179,
+    "ext_killed_women_cum": 12500,
+    "ext_massacres_cum": 12000,
+    "ext_civdef_killed_cum": 140,
+    "ext_med_killed_cum": 1701,
+    "ext_press_killed_cum": 262,
+    "ext_killed": 88,
+    "ext_injured": 38
   }
 ]
