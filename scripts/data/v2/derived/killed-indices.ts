@@ -65,6 +65,8 @@ const generate = () => {
     };
 
     page.push(record);
+    const recordPageId = `${pageCount}.${page.length - 1}`;
+
     if (page.length >= pagedResourceLimit || lastRecord) {
       writeOffManifestJson(`${writePath}/page-${pageCount}.json`, page);
       if (!lastRecord) {
@@ -72,8 +74,6 @@ const generate = () => {
         page.length = 0; // empty array for next page
       }
     }
-
-    const recordPageId = `${pageCount}.${page.length - 1}`;
 
     return {
       ...acc,
