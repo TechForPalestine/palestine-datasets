@@ -211,9 +211,20 @@ export const HomeDailyChartV2 = () => {
         Day {day + 1} &middot; {dateLabel}
       </div>
       {activeEvent && <div className={styles.chartCalloutEvent}>{activeEvent.title}</div>}
-      <div className={styles.chartCalloutStat}>
-        {numFmt.format(dayData.killed)} killed &middot; {numFmt.format(dayData.injured)} injured
-      </div>
+      {activeEvent && (
+        <div className={styles.chartCalloutStat}>
+          {numFmt.format(dayData.killed + dayData.injured)} casualties to date
+        </div>
+      )}
+      {!activeEvent && (
+        <div className={styles.chartCalloutStat}>
+          To date:
+          <br />
+          {numFmt.format(dayData.killed)} killed • {numFmt.format(dayData.injured)} injured
+          <br />
+          {numFmt.format(dayData.killed + dayData.injured)} total casualties
+        </div>
+      )}
       {activeEvent && <div className={styles.chartCalloutDetail}>{activeEvent.detail}</div>}
     </>
   );

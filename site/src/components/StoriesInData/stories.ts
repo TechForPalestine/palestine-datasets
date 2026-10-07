@@ -26,9 +26,9 @@ export const STORIES: Story[] = [
     kicker: "Gaza",
     title: "Death at every age",
     insight:
-      "Every five-year band is populated, from infants to people in their nineties. This is the shape of a population, not of a fighting force.",
+      "Deaths occur across all age groups, from infants to the elderly. This reflects the structure of a general population, not a fighting force.",
     caption:
-      "Each record here is a person identified by name. What the two sides trace is close to Gaza's own age structure — a very young population, killed roughly in the proportions it exists in. A campaign that distinguished between people would not produce a pyramid.",
+      "Each record represents an identified person. The distribution of deaths mirrors Gaza’s young population. A campaign targeting specific groups would not result in this pyramid shape.",
     schema: {
       type: "histogram",
       x: null,
@@ -64,9 +64,9 @@ export const STORIES: Story[] = [
     kicker: "Gaza",
     title: "Men and boys targeted",
     insight:
-      "Measured against how many of each were alive before the war, men and boys are killed at a far higher rate — a gap that opens in early adolescence and never closes.",
+      "Compared to the pre-war population, men and boys are killed at a much higher rate—a gap that begins in adolescence and persists through old age.",
     caption:
-      "This chart tracks the death rate per 1,000 people of that age and sex, against a pre-war census aged forward (the rates are best estimates). Men and boys are the ones sent to the flour queues and water points, the ones digging through rubble, staffing hospitals, ambulances and civil defence, sleeping apart from the family or guarding what's left of a home. Being outside is what the rate measures. And it holds for boys barely into their teens and for men in their seventies, these are ages no one seriously describes as combatant-aged.",
+      "This chart shows the death rate per 1,000 people of each age and sex, using pre-war census data as a baseline. The higher rates for men and boys reflect the roles they often play: gathering supplies for the family, digging through rubble, staffing hospitals, ambulances and civil defence, sleeping apart from the family or guarding what's left of a home. This disparity is visible from early teens through their seventies.",
     schema: {
       type: "rate-by-age",
       x: "age_band",
@@ -99,9 +99,9 @@ export const STORIES: Story[] = [
     kicker: "Gaza",
     title: "Indiscriminate killing",
     insight:
-      "Children, women, and the elderly account for more than half of those killed. Children account for the largest share of that.",
+      "More than half of those killed are children, women, or the elderly, with children making up the largest group.",
     caption:
-      "Only individually named humans are counted here and the number is estimated to be far larger. This number excludes those still missing under rubble or who were unidentifiable. Children are counted as under 18, elders as 65 and over.",
+      "This count only includes people identified by name; the actual number is likely much higher. It excludes those missing under rubble or those who cannot be identified.Children are under 18, and elders are 65 or older.",
     schema: {
       type: "breakdown",
       x: null,
@@ -155,7 +155,7 @@ export const STORIES: Story[] = [
     title: "Naming every life",
     insight: "Health authorities in Gaza have tirelessly accounted for those lost by name.",
     caption:
-      "The red line is the ministry's daily casualties aggregate; the stepped line is how many of those people had been individually named. This chart shows how up to date the names list is with daily casualty reporting, which in the past was often called into doubt.",
+      "The red line shows total daily casualties reported by the Ministry; the stepped line shows how many have been identified by name. This tracks how closely the list of named individuals keeps up with the total death toll.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -193,9 +193,9 @@ export const STORIES: Story[] = [
     kicker: "Gaza",
     title: "Names list updates",
     insight:
-      "Each column is one republication of the identified list — a record of who could be named by then, not of who died that month.",
+      "Each column represents a new update to the list of identified names, rather than a monthly death toll.",
     caption:
-      "A batch marks recovery and adjudication, not death. Some of these people were pulled from rubble months after they were killed; others were declared dead by a court once their families could file, later still. Columns are shown as shares because the batches differ enormously in size, and the mix shifts with what identification was possible — early releases lean on hospital and morgue records, later ones on rubble recovery and family testimony. Read a change in composition as a change in how the dead were found.",
+      "These columns show the composition of each update. A 'batch' represents a period of identification—often through rubble recovery or legal declarations—rather than when the deaths occurred. As methods of identification change, so does the makeup of the list.",
     schema: {
       type: "batch-stack",
       x: "update_batch",
@@ -227,9 +227,9 @@ export const STORIES: Story[] = [
     kicker: "Gaza, West Bank & Lebanon",
     title: "Every neighbour attacked",
     insight:
-      "The center of the killing has moved. Lebanon increasingly accounts for the brunt of Israel's air attacks.",
+      "The focus of the violence has shifted. Lebanon now accounts for a larger share of the recent deaths.",
     caption:
-      "Each band is a territory's share of the deaths reported in the trailing 30 days — a picture of where the killing is concentrated at that moment, not how much of it there has been.",
+      "Each band shows the percentage of deaths in each territory over the last 30 days. This illustrates where violence is currently concentrated, rather than total death counts.",
     schema: {
       type: "stacked-area",
       x: "report_date",
@@ -267,9 +267,9 @@ export const STORIES: Story[] = [
     kicker: "Gaza, West Bank & Lebanon",
     title: "Two front lines",
     insight:
-      "The West Bank is not a quiet backdrop to Gaza — it has its own toll, climbing through the same window with far less attention paid to it.",
+      "The West Bank is not a quiet backdrop to Gaza; its death toll is rising alongside Gaza's, though it receives much less attention.",
     caption:
-      "Gaza's toll is larger than the West Bank's by orders of magnitude, so each line is scaled to its own maximum and the two heights mean nothing against each other — read the tooltip for true counts. What the shapes are for is timing: whether a period of intensity in one coincides with one in the other. Lebanon's line starts where this dataset's Lebanon figures start, not where the killing there did, so its steepness is partly an artifact of a short window — treat it as a fragment, not a trend to compare against the other two. The shaded span is the ceasefire announced in October 2025 and still in effect: an annotation placed by hand, not a field in any of these datasets. It's the only one marked, because it's the only one all three lines run inside — and all three keep climbing through it.",
+      "Because Gaza's death toll is so much larger, the lines for the West Bank and Lebanon are scaled separately so their trends remain visible. Lebanon's data covers a shorter period and should be viewed as a fragment of a larger trend. The shaded area marks the October 2025 ceasefire.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -306,9 +306,9 @@ export const STORIES: Story[] = [
     kicker: "West Bank",
     title: "Pushed off the land",
     insight:
-      "In the West Bank, settler attacks and the displacement of Palestinian families rise on the same curve — and both have steepened, not settled.",
+      "In the West Bank, settler attacks and Palestinian displacement are rising together, with both trends accelerating.",
     caption:
-      "Each line is scaled to its own maximum, so compare the slopes, not the heights; the tooltip carries the true counts.",
+      "Lines are scaled to their own maximums to show trends. Compare the steepness of the slopes rather than the height of the lines; use the tooltip for exact numbers.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
@@ -340,9 +340,9 @@ export const STORIES: Story[] = [
     kicker: "Press & medics",
     title: "Counting the people who count",
     insight:
-      "Journalists and medics are killed in a war that also destroys the capacity to record it — including, eventually, the count of the medics themselves.",
+      "Journalists and medics are being killed in attacks that are also destroying the very systems used to record the toll.",
     caption:
-      "The medical-personnel line is flat because the ministry stopped publishing that breakdown in late 2025, not because medics stopped being killed; a flat line here is the absence of a count, not the absence of deaths. The journalist line is still live, but it moves rarely — each step is a confirmed death, and long gaps between steps are normal for it. Each line is scaled to its own maximum, so the tooltip, not the height, carries the true numbers.",
+      "The medical personnel count is flat because the Ministry stopped providing that specific breakdown in late 2025, not because deaths stopped. Journalist deaths are recorded as they are confirmed; because these are rare events, the line moves in infrequent steps.",
     schema: {
       type: "timeseries-multi",
       x: "report_date",
