@@ -153,7 +153,8 @@ export const STORIES: Story[] = [
     id: "coverage",
     kicker: "Gaza",
     title: "Naming every life",
-    insight: "Health authorities in Gaza have tirelessly accounted for those lost by name.",
+    insight:
+      "Health authorities in Gaza have been tirelessly accounting for those lost by their name.",
     caption:
       "The red line shows total daily casualties reported by the Ministry; the stepped line shows how many have been identified by name. This tracks how closely the list of named individuals keeps up with the total death toll.",
     schema: {
