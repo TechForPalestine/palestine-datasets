@@ -1,0 +1,65 @@
+name: Update Decap CMS
+
+# Opens a PR that points scripts/build/decap-cms.json at a release of our
+# Decap CMS fork (sterlingwes/decap-cms). The build then vendors that exact
+# bundle into /admin (scripts/build/vendor-decap.ts). See
+# docs/decap-cms-setup.md#self-hosted-cms-bundle.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Fork release tag (e.g. fork-v3.16.3-3c7ff8c). Leave empty for the latest release.
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-decap
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      # the update script only uses built-ins, so no `bun install` is needed
+      - name: update the pinned release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: bun run scripts/build/update-decap.ts $TAG
+
+      - name: open a pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- scripts/build/decap-cms.json; then
+            echo "decap-cms.json is already up to date"
+            exit 0
+          fi
+          tag=$(jq -r .tag scripts/build/decap-cms.json)
+          repo=$(jq -r .repo scripts/build/decap-cms.json)
+          branch="chore/decap-cms-$tag"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -m "chore: update Decap CMS bundle to $tag" -- scripts/build/decap-cms.json
+          git push --force-with-lease origin "$branch"
+          if gh pr view "$branch" > /dev/null 2>&1; then
+            echo "PR for $branch already exists"
+          else
+            gh pr create --base "${{ github.ref_name }}" --head "$branch" \
+              --title "chore: update Decap CMS bundle to $tag" \
+              --body "Pins the \`/admin\` Decap CMS bundle to [$repo@$tag](https://github.com/$repo/releases/tag/$tag).
+
+          Check \`/admin\` locally before merging: run \`bun run vendor-decap\`, then \`bun run docs-start\`."
+          fi

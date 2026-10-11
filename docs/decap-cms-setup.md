@@ -123,13 +123,60 @@ it is **not** published in the dataset JSON.
 ## Self-hosted CMS bundle
 
 The Decap CMS JavaScript is **served from our own deploy**, not a third-party CDN
-(unpkg), so we own the code and the version. The version is pinned via the
-`decap-cms` devDependency in `site/package.json`, and `bun run vendor-decap`
-copies that exact bundle to `site/static/admin/decap-cms.js` (served at
-`/admin/decap-cms.js`). This runs automatically in `scripts/build/pre-build.sh`;
-the copied file is gitignored (generated at build time). To bump the version,
-change the pin and re-run the vendor step. For local admin testing run
-`bun run vendor-decap` once after `bun install`.
+(unpkg), so we own the code and the version.
+
+The bundle is built from a fork,
+[sterlingwes/decap-cms](https://github.com/sterlingwes/decap-cms), not the npm
+`decap-cms` package. The fork adds fixes for this deploy: a mobile-friendly
+editor and toasts, faster loading of large collections, and the GitHub Actions
+status of a published entry. Its `FORK.md` covers syncing it with upstream.
+Each fork release attaches a prebuilt `decap-cms.js`.
+
+`scripts/build/decap-cms.json` pins the release we serve:
+
+```json
+{
+  "repo": "sterlingwes/decap-cms",
+  "tag": "fork-v3.16.3-3c7ff8c",
+  "sha256": "…"
+}
+```
+
+`bun run vendor-decap` downloads that release's `decap-cms.js` and checks its
+sha256 against the pin. It then writes the file to
+`site/static/admin/decap-cms.js` (served at `/admin/decap-cms.js`). If the
+checksum doesn't match, the build fails, so a deploy can only ship the bundle
+that was reviewed in the pin's PR. The step runs automatically in
+`scripts/build/pre-build.sh`. The vendored file is gitignored, and later runs
+skip the download when it already matches the pin. For local admin testing, run
+`bun run vendor-decap` once.
+
+### Updating the CMS version
+
+1. **Publish a fork release.** In `sterlingwes/decap-cms`, merge the change into
+   `main`, then go to Actions → **Fork release** → **Run workflow**. It builds
+   the bundle and creates a release tagged
+   `fork-v<decap version>-<short sha>`, with `decap-cms.js` and
+   `decap-cms.js.sha256` attached.
+2. **Bump the pin here.** Use either option:
+   - Go to Actions → **Update Decap CMS** → **Run workflow**. Leave the tag
+     empty to get the latest release. The workflow updates
+     `scripts/build/decap-cms.json` and opens a PR.
+   - Run `bun run update-decap` (latest) or `bun run update-decap <tag>`
+     locally, then commit `scripts/build/decap-cms.json`.
+
+   Either way, the script checks the downloaded bundle against the release's
+   published `.sha256` before recording it.
+3. **Check and merge.** Run `bun run vendor-decap && bun run docs-start` and
+   open `/admin`. Once you merge, the next deploy serves the new bundle.
+
+The workflow needs **Settings → Actions → General → Allow GitHub Actions to
+create and approve pull requests** to be enabled. GitHub doesn't run other
+workflows on PRs opened with the workflow token. Push an empty commit to the
+branch, or close and reopen the PR, if you want `test.yml` to run on it.
+
+To roll back, run the workflow (or `bun run update-decap <tag>`) with an
+earlier release tag.
 
 ## One-time setup
 
