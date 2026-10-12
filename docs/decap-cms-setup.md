@@ -161,7 +161,9 @@ skip the download when it already matches the pin. For local admin testing, run
 2. **Bump the pin here.** Use either option:
    - Go to Actions → **Update Decap CMS** → **Run workflow**. Leave the tag
      empty to get the latest release. The workflow updates
-     `scripts/build/decap-cms.json` and opens a PR.
+     `scripts/build/decap-cms.json` and pushes it to a
+     `chore/decap-cms-<tag>` branch. Click **Open the pull request** in the
+     run's summary to open a prefilled PR.
    - Run `bun run update-decap` (latest) or `bun run update-decap <tag>`
      locally, then commit `scripts/build/decap-cms.json`.
 
@@ -170,10 +172,9 @@ skip the download when it already matches the pin. For local admin testing, run
 3. **Check and merge.** Run `bun run vendor-decap && bun run docs-start` and
    open `/admin`. Once you merge, the next deploy serves the new bundle.
 
-The workflow needs **Settings → Actions → General → Allow GitHub Actions to
-create and approve pull requests** to be enabled. GitHub doesn't run other
-workflows on PRs opened with the workflow token. Push an empty commit to the
-branch, or close and reopen the PR, if you want `test.yml` to run on it.
+Actions in this repo can't open pull requests, so the workflow pushes the
+branch and you open the PR yourself. Because a person opens it, the usual PR
+checks run on it.
 
 To roll back, run the workflow (or `bun run update-decap <tag>`) with an
 earlier release tag.
