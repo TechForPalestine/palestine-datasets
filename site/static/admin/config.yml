@@ -20,6 +20,11 @@ backend:
 # Simple mode: each save commits straight to the staging branch above (no
 # per-entry review PR). The merge gate to main lives in the promotion workflow.
 
+# Replaces the Decap logo on the login screen with the site's navbar mark
+# (300x300, the width Decap gives the login logo).
+logo:
+  src: /img/tfp-mark-header.png
+
 # Source material pasted into report bodies is committed as part of the dataset.
 media_folder: site/static/img/data-sources
 public_folder: /img/data-sources
