@@ -26,9 +26,9 @@
       );
     </script>
     <!-- Decap CMS: git-based, commits straight to the repo (no backend/database).
-         Bundle is self-hosted from our own deploy (not a third-party CDN). The
-         version is pinned via the `decap-cms` devDependency and vendored into
-         this folder at build time by `bun run vendor-decap`. -->
+         Bundle is self-hosted from our own deploy (not a third-party CDN). It
+         is built from our fork's release pinned in scripts/build/decap-cms.json
+         and vendored into this folder at build time by `bun run vendor-decap`. -->
     <script src="/admin/decap-cms.js"></script>
   </body>
 </html>
