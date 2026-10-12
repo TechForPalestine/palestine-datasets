@@ -1,0 +1,72 @@
+name: Update Decap CMS
+
+# Pushes a branch that points scripts/build/decap-cms.json at a release of our
+# Decap CMS fork (sterlingwes/decap-cms). The build then vendors that exact
+# bundle into /admin (scripts/build/vendor-decap.ts). See
+# docs/decap-cms-setup.md#self-hosted-cms-bundle.
+#
+# Actions in this repo aren't allowed to open pull requests, so the run summary
+# links to a prefilled "open a pull request" page for the branch instead. A PR
+# opened that way by a person also runs the usual PR checks.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Fork release tag (e.g. fork-v3.16.3-3c7ff8c). Leave empty for the latest release.
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-decap
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        name: setup bun
+        with:
+          bun-version: 1.0.22
+
+      # the update script only uses built-ins, so no `bun install` is needed
+      - name: update the pinned release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: bun run scripts/build/update-decap.ts $TAG
+
+      - name: push a branch and link to its pull request
+        env:
+          BASE: ${{ github.ref_name }}
+        run: |
+          if git diff --quiet -- scripts/build/decap-cms.json; then
+            echo "decap-cms.json is already up to date" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          tag=$(jq -r .tag scripts/build/decap-cms.json)
+          repo=$(jq -r .repo scripts/build/decap-cms.json)
+          branch="chore/decap-cms-$tag"
+          title="chore: update Decap CMS bundle to $tag"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -m "$title" -- scripts/build/decap-cms.json
+          git push --force origin "$branch"
+
+          body="Pins the \`/admin\` Decap CMS bundle to [$repo@$tag](https://github.com/$repo/releases/tag/$tag).
+
+          Check \`/admin\` locally before merging: run \`bun run vendor-decap\`, then \`bun run docs-start\`."
+          uri() { jq -rn --arg v "$1" '$v|@uri'; }
+          url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/$BASE...$branch?expand=1&title=$(uri "$title")&body=$(uri "$body")"
+          {
+            echo "### Decap CMS pinned to \`$tag\`"
+            echo
+            echo "Pushed branch \`$branch\`. **[Open the pull request]($url)**"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "Open the pull request: $url"
