@@ -49,6 +49,12 @@ export const keyEvents: KeyEvent[] = [
       "The court finds it plausible that Israel's actions amount to genocide and orders measures to prevent them.",
   },
   {
+    date: "2024-02-15",
+    title: "Nasser hospital raid",
+    detail:
+      "After a weeks-long siege, Israeli forces storm Nasser Medical Complex in Khan Younis, the largest hospital in southern Gaza, forcing it out of service.",
+  },
+  {
     date: "2024-02-29",
     title: "The flour massacre",
     detail: "Over 100 Palestinians are killed near Gaza City while waiting for food aid.",
@@ -75,6 +81,12 @@ export const keyEvents: KeyEvent[] = [
     title: "ICC arrest warrants",
     detail:
       "The International Criminal Court issues arrest warrants for Israel's prime minister and former defence minister.",
+  },
+  {
+    date: "2024-12-27",
+    title: "Kamal Adwan hospital raid",
+    detail:
+      "Israeli forces storm and burn Kamal Adwan Hospital in Beit Lahia, detaining its director and putting northern Gaza's last major hospital out of service.",
   },
   {
     date: "2025-01-19",
