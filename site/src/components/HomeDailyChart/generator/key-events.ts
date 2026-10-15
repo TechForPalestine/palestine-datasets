@@ -71,6 +71,18 @@ export const keyEvents: KeyEvent[] = [
       "Israel orders eastern Rafah to evacuate and takes the crossing into Egypt, closing a main aid route.",
   },
   {
+    date: "2024-09-17",
+    title: "Pager attacks in Lebanon",
+    detail:
+      "Israel detonates thousands of pagers, and the next day walkie-talkies, across Lebanon, killing dozens and wounding thousands.",
+  },
+  {
+    date: "2024-10-01",
+    title: "Ground invasion of Lebanon",
+    detail:
+      "Israeli forces launch a ground invasion of southern Lebanon after a week of intensified airstrikes.",
+  },
+  {
     date: "2024-10-06",
     title: "Siege of northern Gaza",
     detail:
@@ -81,6 +93,12 @@ export const keyEvents: KeyEvent[] = [
     title: "ICC arrest warrants",
     detail:
       "The International Criminal Court issues arrest warrants for Israel's prime minister and former defence minister.",
+  },
+  {
+    date: "2024-11-27",
+    title: "Lebanon ceasefire",
+    detail:
+      "A ceasefire between Israel and Hezbollah takes effect, though Israeli strikes on Lebanon continue.",
   },
   {
     date: "2024-12-27",
@@ -119,5 +137,11 @@ export const keyEvents: KeyEvent[] = [
     title: "Ceasefire takes effect",
     detail:
       "A US-brokered ceasefire begins and the remaining living hostages are released days later.",
+  },
+  {
+    date: "2026-03-02",
+    title: "Renewed war in Lebanon",
+    detail:
+      "After Hezbollah rocket fire into Israel amid the wider regional war, Israel launches large-scale strikes across Lebanon.",
   },
 ];

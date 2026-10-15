@@ -5,7 +5,9 @@ import chartEvents from "./chart_events.json";
 import { keyEvents } from "./key-events";
 import gazaDailyTimeSeries from "../../../../../casualties_daily.min.json";
 import westBankDailyTimeSeries from "../../../../../west_bank_daily.min.json";
+import lebanonDailyTimeSeries from "../../../../../lebanon_casualties_daily.min.json";
 import { CasualtyDailyReportV2 } from "../../../../../types/casualties-daily.types";
+import { LebanonDailyReportV3 } from "../../../../../types/lebanon-daily.types";
 import { bindHelpers } from "./svg-helpers-v2";
 
 type SlimData = {
@@ -56,6 +58,32 @@ const getWestBankValue = (
   return typeof value === "number" ? value : 0;
 };
 
+// Lebanon rows exist only on report dates, so each Gaza day takes the latest
+// Lebanon report on or before it (0 before the first one), carried forward
+// through gaps rather than interpolated. A single pointer walks the rows as the
+// Gaza series advances, which relies on both being sorted by date.
+const lebanonReports = lebanonDailyTimeSeries as LebanonDailyReportV3[];
+lebanonReports.forEach((report, index) => {
+  if (index > 0 && report.report_date <= lebanonReports[index - 1].report_date) {
+    throw new Error(`chart-generator-v2: lebanon reports not sorted at ${report.report_date}`);
+  }
+});
+
+let lebanonIndex = -1;
+const getLebanonAsOf = (reportDate: string) => {
+  while (
+    lebanonIndex + 1 < lebanonReports.length &&
+    lebanonReports[lebanonIndex + 1].report_date <= reportDate
+  ) {
+    lebanonIndex++;
+  }
+  const report = lebanonReports[lebanonIndex];
+  return {
+    killed: report?.killed_cum ?? 0,
+    injured: report?.injured_cum ?? 0,
+  };
+};
+
 let lastChildrenKilledReportPct = 0;
 let lastWomenKilledReportPct = 0;
 let lastFamineReport = 0;
@@ -86,8 +114,12 @@ const data = gazaDailyTimeSeries.reduce(
       getWestBankValue(report_date, ["verified", "killed_children_cum"], "killed_children_cum");
     let women = ext_killed_women_cum;
 
-    let killed =
+    // Children/women estimates are proportions of the Gaza + West Bank total
+    // only; Lebanon has no such breakdown, so it is added after them.
+    const gazaWbKilled =
       ext_killed_cum + getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
+    const lebanon = getLebanonAsOf(report_date);
+    const killed = gazaWbKilled + lebanon.killed;
 
     if (killed_children_cum) {
       lastChildrenKilledReportPct =
@@ -97,18 +129,18 @@ const data = gazaDailyTimeSeries.reduce(
             ["verified", "killed_children_cum"],
             "killed_children_cum",
           )) /
-        killed;
+        gazaWbKilled;
     }
 
     if (killed_women_cum) {
-      lastWomenKilledReportPct = killed_women_cum / killed;
+      lastWomenKilledReportPct = killed_women_cum / gazaWbKilled;
     }
 
     if (lastChildrenKilledReportPct > 0) {
-      children = Math.floor(killed * lastChildrenKilledReportPct);
+      children = Math.floor(gazaWbKilled * lastChildrenKilledReportPct);
     }
     if (lastWomenKilledReportPct > 0) {
-      women = Math.floor(killed * lastWomenKilledReportPct);
+      women = Math.floor(gazaWbKilled * lastWomenKilledReportPct);
     }
 
     let starved = lastFamineReport;
@@ -131,7 +163,8 @@ const data = gazaDailyTimeSeries.reduce(
         civdef: ext_civdef_killed_cum,
         injured:
           ext_injured_cum +
-          getWestBankValue(report_date, ["verified", "injured_cum"], "injured_cum"),
+          getWestBankValue(report_date, ["verified", "injured_cum"], "injured_cum") +
+          lebanon.injured,
         children,
         killed,
         women,
@@ -143,8 +176,7 @@ const data = gazaDailyTimeSeries.reduce(
       }),
       chart: acc.chart.concat({
         date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
-        value:
-          ext_killed_cum + getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum"),
+        value: killed,
       }),
     };
   },

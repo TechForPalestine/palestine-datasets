@@ -261,13 +261,13 @@ export const HomeDailyChartV2 = () => {
         <h2 className={styles.chartTitle}>The Human Toll</h2>
         <span className={styles.mastLine} aria-hidden="true" />
       </div>
-      <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza and the West Bank</div>
+      <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza, the West Bank and Lebanon</div>
 
       <div className={styles.chartGrid}>
         <div className={styles.rail}>
           <div className={styles.railDayLabel}>{dateLabel}</div>
           <div className={styles.railCount}>{numFmt.format(dayData.killed)}</div>
-          <div className={styles.railCaption}>killed in Gaza and the West Bank</div>
+          <div className={styles.railCaption}>killed in Gaza, the West Bank and Lebanon</div>
           <div className={styles.railDivider} aria-hidden="true" />
           <div>
             {railRows.map((row) => (
@@ -277,6 +277,7 @@ export const HomeDailyChartV2 = () => {
               </div>
             ))}
           </div>
+          <div className={styles.railNote}>Breakdowns cover Gaza and the West Bank</div>
           {warningLink}
         </div>
 
