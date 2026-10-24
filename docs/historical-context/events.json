@@ -20,11 +20,11 @@
   { "date": "1978-03-14", "precision": "day", "region": "lebanon", "tier": 2, "title": "Invasion of southern Lebanon", "detail": "Israel invades up to the Litani River, killing over a thousand Lebanese and Palestinians." },
   { "date": "1982-06-06", "precision": "day", "region": "lebanon", "tier": 1, "title": "Invasion of Lebanon and siege of Beirut", "detail": "Israel invades Lebanon and besieges Beirut; Lebanese police count about 19,000 killed by the end of August." },
   { "date": "1982-09-16", "precision": "day", "region": "lebanon", "tier": 1, "title": "Sabra and Shatila massacre", "detail": "Israeli-allied Phalange militia kill hundreds to thousands of Palestinian refugees and Lebanese in camps surrounded by the Israeli army." },
-  { "date": "1985-10-01", "precision": "day", "region": "other", "tier": 3, "title": "Tunis air strike", "detail": "Israel bombs PLO headquarters in Tunisia, killing about 60 people." },
+  { "date": "1985-10-01", "precision": "day", "region": "other", "tier": 3, "title": "Tunis air strike", "detail": "Israel bombs PLO headquarters near Tunis, killing between 41 and 71 people." },
   { "date": "1987-12-09", "precision": "day", "region": "opt", "tier": 1, "title": "First Intifada", "detail": "A mass uprising begins in Gaza and spreads across the occupied territory." },
   { "date": "1993-09-13", "precision": "day", "region": "opt", "tier": 2, "title": "Oslo Accords", "detail": "Israel and the PLO sign the first Oslo agreement, creating the Palestinian Authority." },
   { "date": "1994-02-25", "precision": "day", "region": "west_bank", "tier": 3, "title": "Ibrahimi Mosque massacre", "detail": "A settler kills 29 Palestinians at prayer in Hebron." },
-  { "date": "1996-04-18", "precision": "day", "region": "lebanon", "tier": 3, "title": "Qana massacre", "detail": "Israeli shelling of a UN compound in Qana kills 106 sheltering civilians." },
+  { "date": "1996-04-18", "precision": "day", "region": "lebanon", "tier": 3, "title": "Qana massacre", "detail": "Israeli shelling of a UN compound in Qana kills over 100 civilians sheltering there." },
   { "date": "2000-05-24", "precision": "day", "region": "lebanon", "tier": 3, "title": "Withdrawal from southern Lebanon", "detail": "Israel ends its 22-year occupation of southern Lebanon." },
   { "date": "2000-09-28", "precision": "day", "region": "opt", "tier": 1, "title": "Second Intifada", "detail": "A second uprising begins; over 4,800 Palestinians are killed by Israeli forces by the end of 2008." },
   { "date": "2002-03-29", "precision": "day", "region": "west_bank", "tier": 3, "title": "Operation Defensive Shield", "detail": "Israel reinvades West Bank cities, including the siege of Jenin refugee camp." },
@@ -35,7 +35,7 @@
   { "date": "2008-12-27", "precision": "day", "region": "gaza", "tier": 1, "title": "Cast Lead", "detail": "A 22-day assault on Gaza kills about 1,400 Palestinians." },
   { "date": "2012-11-14", "precision": "day", "region": "gaza", "tier": 3, "title": "Pillar of Defense", "detail": "An eight-day assault on Gaza kills about 170 Palestinians." },
   { "date": "2014-07-08", "precision": "day", "region": "gaza", "tier": 1, "title": "Protective Edge", "detail": "A 51-day assault on Gaza kills over 2,250 Palestinians, including 551 children." },
-  { "date": "2018-03-30", "precision": "day", "region": "gaza", "tier": 2, "title": "Great March of Return", "detail": "Weekly protests at Gaza's fence begin; Israeli snipers kill over 200 people over the following year and a half." },
+  { "date": "2018-03-30", "precision": "day", "region": "gaza", "tier": 2, "title": "Great March of Return", "detail": "Weekly protests at Gaza's fence begin; by the end of 2018 Israeli forces have killed 180 people at the protests." },
   { "date": "2021-05-10", "precision": "day", "region": "gaza", "tier": 2, "title": "May 2021 war", "detail": "An 11-day assault on Gaza kills over 250 Palestinians amid uprisings across Palestine." },
   { "date": "2023-10-07", "precision": "day", "region": "gaza", "tier": 1, "title": "The current war", "detail": "After the Hamas-led attack, Israel begins the assault on Gaza tracked in detail on this site." }
 ]

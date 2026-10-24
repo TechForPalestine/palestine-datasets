@@ -2,40 +2,40 @@ id,start,end,region,killed_low,killed_central,killed_high,injured_central,cadenc
 nebi-musa-1920,1920-04-04,1920-04-07,palestine,4,4,4,18,event,high,"Palin Commission (1920)",Jerusalem riots; killed by British troops and Jewish residents
 jaffa-1921,1921-05-01,1921-05-07,palestine,48,48,48,73,event,high,"Haycraft Commission (1921)",Mostly killed by British forces
 riots-1929,1929-08-23,1929-08-29,palestine,116,116,116,232,event,high,"Shaw Commission (1930)",Most killed by Mandate police; ~20 by Jewish attackers
-riots-1933,1933-10-13,1933-10-28,palestine,20,26,30,,event,medium,"Murison Commission (1934); needs primary check",Demonstrators shot by Mandate police in Jaffa/Jerusalem
+riots-1933,1933-10-13,1933-10-28,palestine,26,26,26,187,event,medium,"Murison Commission (1934), via Wikipedia '1933 Palestine riots'","Verified: 26 rioters or bystanders killed, 187 injured across the October riots (19 in Jaffa on 27 Oct, 7 more in the following week)"
 revolt-1936-39,1936-04-19,1939-08-31,palestine,2108,3832,5000,14760,annual,medium,"W. Khalidi, From Haven to Conquest (1971) Appendix IV; British official figures","Khalidi: 3,832 killed by British (excludes ~1,200 intra-communal). Low = British official (>2,000 in combat + 108 hanged). Colonial Office annual reports give per-year figures — 1938 was the peak; prototype allocates uniformly (known distortion)"
-irgun-bombings-1937-39,1937-11-14,1939-07-31,palestine,150,250,350,,event,low,"Needs sourcing (Morris, Righteous Victims; British police reports)",Irgun bombings of Arab markets/buses (e.g. Haifa July 1938)
+irgun-bombings-1937-39,1937-03-01,1939-07-31,palestine,273,273,350,,event,medium,"Wikipedia 'List of Irgun attacks' (itemised, per-incident citations)","Verified: 32 itemised attacks sum to 273 Arabs killed (e.g. Haifa market 25 Jul 1938: 43). High allows for Dec 1937 Jerusalem market attack ('dozens killed or injured', uncounted)"
 civil-war-1947-48,1947-11-30,1948-05-14,palestine,1300,2000,3000,,monthly,medium,"UK Delegation to UN (1948): 1,300 Arabs killed Oct 1947–24 Apr 1948; plus Deir Yassin/Haifa/Jaffa","British monthly casualty returns to the UN exist for part of this phase"
 nakba-war-1948,1948-05-15,1949-01-07,palestine,1700,11000,12000,,era,low,"Aref al-Aref, al-Nakba (13,000 total 1947–49); PCBS (~15,000); Morris (lower bound)","Central = al-Aref 13,000 minus civil-war phase. Event-level massacres (Lydda, Tantura, Dawayima…) documented individually; no continuous series"
 infiltrators-1949-56,1949-07-21,1956-10-28,palestine,2700,3850,5000,,era,medium,"B. Morris, Israel's Border Wars 1949–1956 (1993)","Morris: 2,700–5,000 'infiltrators' killed, great majority unarmed; mostly refugees crossing armistice lines. Central = midpoint"
 qibya-1953,1953-10-14,1953-10-15,west_bank,69,69,69,,event,high,"UN Mixed Armistice Commission",Unit 101 raid on Jordanian-ruled West Bank
 kafr-qasim-1956,1956-10-29,1956-10-29,palestine,49,49,49,,event,high,"Israeli court records",Palestinian citizens of Israel shot by Border Police
 gaza-occupation-1956-57,1956-11-02,1957-03-07,gaza,386,386,1200,,event,low,"UNRWA Director report (Khan Yunis 275); Rafah 111 (Neff)","Central = documented Khan Yunis + Rafah. Higher totals for the full occupation are cited but unsourced here"
-opt-1967-87,1967-06-11,1987-12-08,opt,650,650,1000,,era,low,"Unverified aggregate (~32/yr); needs UN Special Committee / Al-Haq / PLO letters to UNSC","Biggest documentation gap after the 1967 war itself"
+opt-1967-87,1967-06-11,1987-12-08,opt,114,650,1000,,era,low,"Central unverified (~32/yr, no primary source found). Partial: Israeli govt figures via MERIP (1988)","Could not verify. Only partial counts found: 92 killed in the West Bank 1968–83 (Israeli govt) and 22 Apr 1986–May 1987 (MERIP); Gaza 1967–72 uncounted. Low = those partials. Needs UN Special Committee / Al-Haq research"
 land-day-1976,1976-03-30,1976-03-30,palestine,6,6,6,,event,high,"Widely documented",Palestinian citizens of Israel
 first-intifada,1987-12-09,2000-09-28,opt,1491,1491,1491,,annual,high,"B'Tselem: 1,376 by security forces + 115 by civilians","B'Tselem publishes per-year and Gaza/West Bank split, and per-person lists (daily derivable). Prototype allocates uniformly"
 second-intifada-to-2008,2000-09-29,2008-12-26,opt,4907,4907,4907,,daily,high,"B'Tselem database (per-person, date of incident)","4,860 by security forces + 47 by civilians. Per-person records give daily cadence and Gaza/WB split"
-cast-lead-start-2008,2008-12-27,2008-12-31,gaza,390,390,420,,daily,medium,"OCHA Protection of Civilians reports",Bridges B'Tselem end-date and OCHA year 2009
-ocha-2009,2009-01-01,2009-12-31,opt,1066,1066,1066,,daily,medium,"OCHA casualties database (figures from memory; verify)",Includes Cast Lead January 2009
-ocha-2010,2010-01-01,2010-12-31,opt,95,95,95,,daily,medium,OCHA,
-ocha-2011,2011-01-01,2011-12-31,opt,124,124,124,,daily,medium,OCHA,
-ocha-2012,2012-01-01,2012-12-31,opt,260,260,260,,daily,medium,OCHA,Pillar of Defense (Nov)
-ocha-2013,2013-01-01,2013-12-31,opt,39,39,39,,daily,medium,OCHA,
-ocha-2014,2014-01-01,2014-12-31,opt,2329,2329,2329,,daily,medium,OCHA,Protective Edge (Jul–Aug): 2,251 in Gaza
-ocha-2015,2015-01-01,2015-12-31,opt,170,170,170,,daily,medium,OCHA,
-ocha-2016,2016-01-01,2016-12-31,opt,109,109,109,,daily,medium,OCHA,
-ocha-2017,2017-01-01,2017-12-31,opt,77,77,77,,daily,medium,OCHA,
-ocha-2018,2018-01-01,2018-12-31,opt,299,299,299,,daily,medium,OCHA,Great March of Return
-ocha-2019,2019-01-01,2019-12-31,opt,138,138,138,,daily,medium,OCHA,
-ocha-2020,2020-01-01,2020-12-31,opt,31,31,31,,daily,medium,OCHA,
-ocha-2021,2021-01-01,2021-12-31,opt,349,349,349,,daily,medium,OCHA,May 2021 Gaza war
-ocha-2022,2022-01-01,2022-12-31,opt,191,191,191,,daily,medium,OCHA,
-ocha-2023-pre,2023-01-01,2023-10-06,opt,234,234,234,,daily,medium,OCHA,Mostly West Bank
-hula-1948,1948-10-31,1948-11-01,lebanon,35,35,58,,event,medium,"Widely documented (Operation Hiram)",Hula massacre
-litani-1978,1978-03-14,1978-03-21,lebanon,700,1100,2000,,era,medium,"Various; Lebanese government",Lebanese and Palestinians
-beirut-1981,1981-07-17,1981-07-17,lebanon,200,300,300,,event,medium,"Contemporary press",Air strikes on Fakhani district
+cast-lead-start-2008,2008-12-27,2008-12-31,gaza,310,350,390,,daily,medium,"OCHA Humanitarian Monitor Dec 2008; OCHA PoC weekly 31 Dec 2008","Verified: ~350 killed by 31 Dec (OCHA); 310–390 in first three days per Al Mezan/PCHR/UNRWA. Bridges B'Tselem end-date and OCHA year 2009"
+ocha-2009,2009-01-01,2009-12-31,opt,1066,1066,1066,,daily,high,"OCHA casualties database, via C. Bjork-James summary sheet (CC BY 4.0)","Verified against OCHA-derived per-year sheet (2008–Sep 2023 total 6,412). Includes Cast Lead January 2009"
+ocha-2010,2010-01-01,2010-12-31,opt,95,95,95,,daily,high,OCHA,
+ocha-2011,2011-01-01,2011-12-31,opt,124,124,124,,daily,high,OCHA,
+ocha-2012,2012-01-01,2012-12-31,opt,260,260,260,,daily,high,OCHA,"Pillar of Defense (Nov): 174 per OHCHR"
+ocha-2013,2013-01-01,2013-12-31,opt,39,39,39,,daily,high,OCHA,
+ocha-2014,2014-01-01,2014-12-31,opt,2329,2329,2329,,daily,high,OCHA,"Protective Edge (Jul–Aug): 2,251 in Gaza incl. 551 children (OCHA key figures)"
+ocha-2015,2015-01-01,2015-12-31,opt,174,174,174,,daily,high,OCHA,
+ocha-2016,2016-01-01,2016-12-31,opt,109,109,109,,daily,high,OCHA,
+ocha-2017,2017-01-01,2017-12-31,opt,77,77,77,,daily,high,OCHA,
+ocha-2018,2018-01-01,2018-12-31,opt,300,300,300,,daily,high,OCHA,"Great March of Return (254 killed in Gaza 30 Mar–31 Dec, 180 of them at the protests)"
+ocha-2019,2019-01-01,2019-12-31,opt,138,138,138,,daily,high,OCHA,
+ocha-2020,2020-01-01,2020-12-31,opt,30,30,30,,daily,high,OCHA,
+ocha-2021,2021-01-01,2021-12-31,opt,349,349,349,,daily,high,OCHA,"May 2021 Gaza war: 261 per OHCHR"
+ocha-2022,2022-01-01,2022-12-31,opt,191,191,191,,daily,high,OCHA,
+ocha-2023-pre,2023-01-01,2023-09-30,opt,232,232,232,,daily,high,OCHA,"Jan–Sep 2023, mostly West Bank. 1–6 Oct 2023 not yet covered (small)"
+hula-1948,1948-10-31,1948-11-01,lebanon,35,35,58,,event,medium,"Wikipedia 'Hula massacre'","Verified: 35–58 men executed"
+litani-1978,1978-03-14,1978-03-21,lebanon,700,1100,2000,,era,medium,"A. R. Norton (~1,100); 1,100–2,000 (various)","Verified central. IDF counted 300–550 Palestinian fighters only; low of 700 is a secondary figure"
+beirut-1981,1981-07-17,1981-07-17,lebanon,90,123,300,,event,medium,"Palestinian reports (123 killed, 550 wounded); Lebanese police (~90, Beirut only); Lebanon UN spokesman (300+)","Revised down: 300 was the upper estimate, not the documented count. Strikes on Fakhani (Beirut), Sidon and camps"
 invasion-1982,1982-06-04,1982-08-31,lebanon,17825,19085,19085,30302,era,medium,"Lebanese police via an-Nahar (MERIP 1982; CSM 1982-12-21)","Includes combatants (PLO, Syrian, Lebanese). Police tallies were periodic, so a weekly-ish series may be reconstructable from press"
-sabra-shatila-1982,1982-09-16,1982-09-18,lebanon,460,1390,3500,,event,medium,"Bayan Nuwayhed al-Hout (name-based study); Kahan Commission 700–800","Perpetrated by Phalange militia under IDF control of the area"
-accountability-1993,1993-07-25,1993-07-31,lebanon,118,118,140,,event,medium,"Lebanese government / HRW",Civilians
-grapes-of-wrath-1996,1996-04-11,1996-04-27,lebanon,154,154,170,,event,high,"HRW; UN (Qana 106)",Civilians
-lebanon-war-2006,2006-07-12,2006-08-14,lebanon,1109,1191,1191,4409,daily,high,"Lebanese government / Higher Relief Council (daily); HRW 'Why They Died' (1,109)",
+sabra-shatila-1982,1982-09-16,1982-09-18,lebanon,460,1390,3500,,event,medium,"Bayan Nuwayhed al-Hout, Sabra and Shatila: September 1982 (1,390 names); Kahan Commission 700–800","Verified. al-Hout's 1,390 names include the abducted as well as the killed. Perpetrated by Phalange militia under IDF control of the area"
+accountability-1993,1993-07-25,1993-07-31,lebanon,118,118,140,,event,medium,"Wikipedia 'Operation Accountability'","Verified: 118 Lebanese civilians, plus a disputed number of Hezbollah fighters"
+grapes-of-wrath-1996,1996-04-11,1996-04-27,lebanon,154,154,250,,event,high,"HRW (154 civilians, 351 wounded); A. Bregman (250 killed, Qana 106)","Verified. High raised to Bregman's 250"
+lebanon-war-2006,2006-07-12,2006-08-14,lebanon,1109,1191,1300,4409,daily,high,"Lebanese government (1,191 killed, 4,409 wounded); HRW 'Why They Died' (1,109)","Verified. Government count does not separate civilians and combatants; some estimates run to ~1,300"
