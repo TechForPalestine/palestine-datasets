@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Zoomed-out context chart — prototype</title>
+<style>
+.viz-root { color-scheme: light; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --grid: #e4e3df; --s-palestine: #2a78d6; --s-opt: #eb6834; --s-gaza: #1baf7a; --s-west_bank: #eda100; --s-lebanon: #e87ba4;
+  background: var(--surface); color: var(--ink); font: 14px/1.4 system-ui, sans-serif; padding: 24px; max-width: 1100px; margin: auto; }
+@media (prefers-color-scheme: dark) { .viz-root { color-scheme: dark; --surface: #1a1a19; --ink: #fff; --ink-2: #c3c2b7; --grid: #34332f; --s-palestine: #3987e5; --s-opt: #d95926; --s-gaza: #199e70; --s-west_bank: #c98500; --s-lebanon: #d55181; } }
+body { margin: 0; background: #fcfcfb; } @media (prefers-color-scheme: dark) { body { background: #1a1a19; } }
+h1 { font-size: 20px; margin: 0 0 4px; } p.note { color: var(--ink-2); margin: 0 0 12px; max-width: 70ch; }
+svg { width: 100%; height: auto; display: block; overflow: visible; }
+.grid { stroke: var(--grid); stroke-width: 1; } .baseline { stroke: var(--ink-2); stroke-width: 1; }
+.axis { fill: var(--ink-2); font-size: 11px; } .panel { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.s-palestine { fill: var(--s-palestine); background: var(--s-palestine); }
+.s-opt { fill: var(--s-opt); background: var(--s-opt); }
+.s-gaza { fill: var(--s-gaza); background: var(--s-gaza); }
+.s-west_bank { fill: var(--s-west_bank); background: var(--s-west_bank); }
+.s-lebanon { fill: var(--s-lebanon); background: var(--s-lebanon); }
+.band { fill: var(--ink-2); opacity: .18; } .cum { fill: none; stroke: var(--ink); stroke-width: 2; }
+.hatch-line { stroke: var(--ink-2); stroke-width: 1; opacity: .35; } .gap { cursor: help; }
+.hit { fill: transparent; } .hit:hover { fill: var(--ink); opacity: .06; }
+.event { fill: var(--surface); stroke: var(--ink); stroke-width: 2; cursor: help; } .event-stem { stroke: var(--ink-2); stroke-width: 1; stroke-dasharray: 2 3; opacity: .5; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 8px 0 4px; color: var(--ink-2); font-size: 12px; }
+.key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.gap-key { background: repeating-linear-gradient(45deg, var(--ink-2) 0 1px, transparent 1px 4px); opacity: .6; }
+#tip { position: fixed; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--grid); border-radius: 6px; padding: 8px 10px; font-size: 12px; max-width: 320px; box-shadow: 0 4px 16px rgb(0 0 0 / .15); display: none; }
+table { border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; } td, th { padding: 2px 10px; text-align: right; border-bottom: 1px solid var(--grid); }
+</style></head>
+<body><div class="viz-root">
+<h1>Prototype: 1917–2026 in context</h1>
+<p class="note">Draft data from docs/historical-context/estimates.csv. Era totals are spread evenly across their dates, and hatched spans are periods with no usable figure, not zero deaths. This is for deciding scope, not for publishing.</p>
+<div class="legend"><span class="key"><i class="s-palestine"></i>Mandate Palestine / 1948 lines</span><span class="key"><i class="s-opt"></i>Occupied territory (Gaza/WB not split)</span><span class="key"><i class="s-gaza"></i>Gaza</span><span class="key"><i class="s-west_bank"></i>West Bank</span><span class="key"><i class="s-lebanon"></i>Lebanon</span><span class="key"><i class="gap-key"></i>No usable figure yet</span></div>
+<svg viewBox="0 0 1100 680" role="img" aria-labelledby="t">
+<title id="t">Palestinians and Lebanese killed by year, 1917–2026</title>
+<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" class="hatch-line"/></pattern></defs>
+<rect class="gap" x="275.5837419419071" y="70" width="72.76969410359158" height="570" fill="url(#hatch)" data-tip="1940–47: militia killings unquantified"/>
+<rect class="gap" x="433.66702342136045" y="70" width="94.35627348980756" height="570" fill="url(#hatch)" data-tip="1957–67: border killings and the 1967 war unquantified"/>
+<rect class="gap" x="533.1869477561788" y="70" width="93.80212559424558" height="570" fill="url(#hatch)" data-tip="1968–78: raids on Lebanon unquantified"/>
+<rect class="gap" x="668.5753540582921" y="70" width="162.6424073474874" height="570" fill="url(#hatch)" data-tip="1982–2000: occupation of south Lebanon only partly quantified"/>
+<line class="grid" x1="64" x2="1076" y1="370" y2="370"/>
+<text class="axis" x="56" y="374" text-anchor="end">0</text>
+<line class="grid" x1="64" x2="1076" y1="295" y2="295"/>
+<text class="axis" x="56" y="299" text-anchor="end">7,500</text>
+<line class="grid" x1="64" x2="1076" y1="220" y2="220"/>
+<text class="axis" x="56" y="224" text-anchor="end">15,000</text>
+<line class="grid" x1="64" x2="1076" y1="145" y2="145"/>
+<text class="axis" x="56" y="149" text-anchor="end">22,500</text>
+<line class="grid" x1="64" x2="1076" y1="70" y2="70"/>
+<text class="axis" x="56" y="74" text-anchor="end">30,000</text>
+<line class="grid" x1="64" x2="1076" y1="640" y2="640"/>
+<text class="axis" x="56" y="644" text-anchor="end">0</text>
+<line class="grid" x1="64" x2="1076" y1="590" y2="590"/>
+<text class="axis" x="56" y="594" text-anchor="end">40,000</text>
+<line class="grid" x1="64" x2="1076" y1="540" y2="540"/>
+<text class="axis" x="56" y="544" text-anchor="end">80,000</text>
+<line class="grid" x1="64" x2="1076" y1="490" y2="490"/>
+<text class="axis" x="56" y="494" text-anchor="end">120,000</text>
+<line class="grid" x1="64" x2="1076" y1="440" y2="440"/>
+<text class="axis" x="56" y="444" text-anchor="end">160,000</text>
+<text class="axis" x="91.58145207457002" y="660" text-anchor="middle">1920</text>
+<text class="axis" x="183.59519127859224" y="660" text-anchor="middle">1930</text>
+<text class="axis" x="275.5837419419071" y="660" text-anchor="middle">1940</text>
+<text class="axis" x="367.59748114592924" y="660" text-anchor="middle">1950</text>
+<text class="axis" x="459.58603180924405" y="660" text-anchor="middle">1960</text>
+<text class="axis" x="551.5997710132663" y="660" text-anchor="middle">1970</text>
+<text class="axis" x="643.5883216765811" y="660" text-anchor="middle">1980</text>
+<text class="axis" x="735.6020608806034" y="660" text-anchor="middle">1990</text>
+<text class="axis" x="827.5906115439182" y="660" text-anchor="middle">2000</text>
+<text class="axis" x="919.6043507479403" y="660" text-anchor="middle">2010</text>
+<text class="axis" x="1011.5929014112552" y="660" text-anchor="middle">2020</text>
+<text class="panel" x="64" y="36">Killed per year (central estimate)</text>
+<text class="panel" x="64" y="426">Cumulative killed since 1917 (shaded: low–high range)</text>
+<rect class="s-palestine" x="92.08145207457002" y="370.46" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="91.58145207457002" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1920&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 4"/>
+<rect class="s-palestine" x="101.30045797346742" y="370.02" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="100.80045797346742" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1921&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 48"/>
+<rect class="s-palestine" x="174.90137392040222" y="369.34" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="174.40137392040222" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1929&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 116"/>
+<rect class="s-palestine" x="211.70183189386964" y="370.24" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="211.20183189386964" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1933&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 26 (up to 30)"/>
+<rect class="s-palestine" x="239.28328396843963" y="362.49330081300815" width="8.193817358190003" height="7.0066991869918525"/>
+<rect class="hit" x="238.78328396843963" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1936&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 801 (up to 1,045)"/>
+<rect class="s-palestine" x="248.50228986733705" y="358.93661788617885" width="8.193817358190003" height="10.563382113821149"/>
+<rect class="hit" x="248.00228986733705" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1937&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 1,156 (up to 1,511)"/>
+<rect class="s-palestine" x="257.69610722552704" y="357.6686178861789" width="8.193817358190003" height="11.831382113821121"/>
+<rect class="hit" x="257.19610722552704" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1938&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 1,283 (up to 1,688)"/>
+<rect class="s-palestine" x="266.88992458371706" y="362.08146341463413" width="8.193817358190003" height="7.418536585365871"/>
+<rect class="hit" x="266.38992458371706" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1939&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 842 (up to 1,107)"/>
+<rect class="s-palestine" x="340.4908405306519" y="366.66766467065867" width="8.193817358190003" height="2.8323353293413334"/>
+<rect class="hit" x="339.9908405306519" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1947&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 383 (up to 575)"/>
+<rect class="s-palestine" x="349.68465788884185" y="247.56762944698838" width="8.193817358190003" height="121.93237055301162"/>
+<rect class="s-lebanon" x="349.68465788884185" y="247.21762944698838" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="349.18465788884185" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1948&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 12,293 (up to 14,072)&lt;br>Lebanon: 35 (up to 58)"/>
+<rect class="s-palestine" x="358.9036637877393" y="364.88834156169054" width="8.193817358190003" height="4.611658438309462"/>
+<rect class="hit" x="358.4036637877393" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1949&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 561 (up to 662)"/>
+<rect class="s-palestine" x="368.09748114592924" y="365.21114038389163" width="8.193817358190003" height="4.288859616108368"/>
+<rect class="hit" x="367.59748114592924" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1950&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 529 (up to 687)"/>
+<rect class="s-palestine" x="377.29129850411925" y="365.21114038389163" width="8.193817358190003" height="4.288859616108368"/>
+<rect class="hit" x="376.79129850411925" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1951&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 529 (up to 687)"/>
+<rect class="s-palestine" x="386.4851158623093" y="365.1966503575461" width="8.193817358190003" height="4.303349642453895"/>
+<rect class="hit" x="385.9851158623093" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1952&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 530 (up to 689)"/>
+<rect class="s-palestine" x="395.70412176120664" y="365.21114038389163" width="8.193817358190003" height="4.288859616108368"/>
+<rect class="s-west_bank" x="395.70412176120664" y="364.52114038389163" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="395.20412176120664" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1953&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 529 (up to 687)&lt;br>West Bank: 69"/>
+<rect class="s-palestine" x="404.89793911939665" y="365.21114038389163" width="8.193817358190003" height="4.288859616108368"/>
+<rect class="hit" x="404.39793911939665" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1954&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 529 (up to 687)"/>
+<rect class="s-palestine" x="414.09175647758667" y="365.21114038389163" width="8.193817358190003" height="4.288859616108368"/>
+<rect class="hit" x="413.59175647758667" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1955&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 529 (up to 687)"/>
+<rect class="s-palestine" x="423.2855738357767" y="365.6340120436583" width="8.193817358190003" height="3.865987956341712"/>
+<rect class="s-gaza" x="423.2855738357767" y="363.795916805563" width="8.193817358190003" height="0.8380952380952635"/>
+<rect class="hit" x="422.7855738357767" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1956&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 487 (up to 617)&lt;br>Gaza: 184 (up to 571)"/>
+<rect class="s-gaza" x="432.5045797346741" y="368.47809523809525" width="8.193817358190003" height="1.02190476190475"/>
+<rect class="hit" x="432.0045797346741" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1957&lt;/b>&lt;br>Gaza: 202 (up to 629)"/>
+<rect class="s-opt" x="524.4931303979889" y="370.32286935613143" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="523.9931303979889" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1967&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 18 (up to 27)"/>
+<rect class="s-opt" x="533.6869477561788" y="370.1822067860005" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="533.1869477561788" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1968&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="542.9059536550762" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="542.4059536550762" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1969&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="552.0997710132663" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="551.5997710132663" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1970&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="561.2935883714563" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="560.7935883714563" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1971&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="570.4874057296463" y="370.1822067860005" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="569.9874057296463" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1972&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="579.7064116285437" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="579.2064116285437" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1973&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="588.9002289867337" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="588.4002289867337" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1974&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="598.0940463449238" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="597.5940463449238" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1975&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-palestine" x="607.2878637031137" y="370.44" width="8.193817358190003" height="0.5"/>
+<rect class="s-opt" x="607.2878637031137" y="370.12220678600056" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="606.7878637031137" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1976&lt;/b>&lt;br>Mandate Palestine / 1948 lines: 6&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="616.5068696020111" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="616.0068696020111" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1977&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="625.7006869602012" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="s-lebanon" x="625.7006869602012" y="359.1830750734705" width="8.193817358190003" height="10"/>
+<rect class="hit" x="625.2006869602012" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1978&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)&lt;br>Lebanon: 1,100 (up to 2,000)"/>
+<rect class="s-opt" x="634.8945043183911" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="634.3945043183911" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1979&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="644.0883216765811" y="370.1822067860005" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="643.5883216765811" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1980&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="653.3073275754786" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="s-lebanon" x="653.3073275754786" y="367.1830750734705" width="8.193817358190003" height="2"/>
+<rect class="hit" x="652.8073275754786" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1981&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)&lt;br>Lebanon: 300"/>
+<rect class="s-opt" x="662.5011449336685" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="s-lebanon" x="662.5011449336685" y="165.43307507347046" width="8.193817358190003" height="203.75000000000003"/>
+<rect class="hit" x="662.0011449336685" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1982&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)&lt;br>Lebanon: 20,475 (up to 22,585)"/>
+<rect class="s-opt" x="671.6949622918585" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="671.1949622918585" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1983&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="680.8887796500486" y="370.1822067860005" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="680.3887796500486" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1984&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="690.1077855489459" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="689.6077855489459" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1985&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="699.3016029071359" y="370.1830750734705" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="698.8016029071359" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1986&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 32 (up to 49)"/>
+<rect class="s-opt" x="708.495420265326" y="370.1297387164891" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="707.995420265326" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1987&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 37 (up to 53)"/>
+<rect class="s-opt" x="717.6892376235159" y="369.33346301838395" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="717.1892376235159" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1988&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 117"/>
+<rect class="s-opt" x="726.9082435224133" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="726.4082435224133" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1989&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="736.1020608806034" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="735.6020608806034" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1990&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="745.2958782387933" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="744.7958782387933" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1991&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="754.4896955969833" y="369.33346301838395" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="753.9896955969833" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1992&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 117"/>
+<rect class="s-opt" x="763.7087014958807" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="s-lebanon" x="763.7087014958807" y="368.1566502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="763.2087014958807" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1993&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116&lt;br>Lebanon: 118 (up to 140)"/>
+<rect class="s-opt" x="772.9025188540708" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="772.4025188540708" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1994&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="782.0963362122608" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="781.5963362122608" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1995&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="791.2901535704508" y="369.33346301838395" width="8.193817358190003" height="0.5"/>
+<rect class="s-lebanon" x="791.2901535704508" y="367.79346301838393" width="8.193817358190003" height="0.5400000000000205"/>
+<rect class="hit" x="790.7901535704508" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1996&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 117&lt;br>Lebanon: 154 (up to 170)"/>
+<rect class="s-opt" x="800.5091594693482" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="800.0091594693482" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1997&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="809.7029768275381" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="809.2029768275381" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1998&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="818.8967941857281" y="369.3366502778965" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="818.3967941857281" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>1999&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 116"/>
+<rect class="s-opt" x="828.0906115439182" y="368.1011557480062" width="8.193817358190003" height="1.3988442519938076"/>
+<rect class="hit" x="827.5906115439182" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2000&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 240"/>
+<rect class="s-opt" x="837.3096174428155" y="364.5516273663235" width="8.193817358190003" height="4.948372633676513"/>
+<rect class="hit" x="836.8096174428155" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2001&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 595"/>
+<rect class="s-opt" x="846.5034348010056" y="364.5516273663235" width="8.193817358190003" height="4.948372633676513"/>
+<rect class="hit" x="846.0034348010056" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2002&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 595"/>
+<rect class="s-opt" x="855.6972521591956" y="364.5516273663235" width="8.193817358190003" height="4.948372633676513"/>
+<rect class="hit" x="855.1972521591956" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2003&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 595"/>
+<rect class="s-opt" x="864.8910695173855" y="364.53533045499836" width="8.193817358190003" height="4.964669545001641"/>
+<rect class="hit" x="864.3910695173855" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2004&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 596"/>
+<rect class="s-opt" x="874.1100754162829" y="364.5516273663235" width="8.193817358190003" height="4.948372633676513"/>
+<rect class="hit" x="873.6100754162829" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2005&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 595"/>
+<rect class="s-opt" x="883.303892774473" y="364.5516273663235" width="8.193817358190003" height="4.948372633676513"/>
+<rect class="s-lebanon" x="883.303892774473" y="352.64162736632346" width="8.193817358190003" height="10.910000000000025"/>
+<rect class="hit" x="882.803892774473" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2006&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 595&lt;br>Lebanon: 1,191"/>
+<rect class="s-opt" x="892.497710132663" y="364.5516273663235" width="8.193817358190003" height="4.948372633676513"/>
+<rect class="hit" x="891.997710132663" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2007&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 595"/>
+<rect class="s-opt" x="901.691527490853" y="364.61681501162406" width="8.193817358190003" height="4.883184988375945"/>
+<rect class="s-gaza" x="901.691527490853" y="360.716815011624" width="8.193817358190003" height="2.900000000000034"/>
+<rect class="hit" x="901.191527490853" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2008&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 588&lt;br>Gaza: 390 (up to 420)"/>
+<rect class="s-opt" x="910.9105333897504" y="359.84" width="8.193817358190003" height="9.660000000000025"/>
+<rect class="hit" x="910.4105333897504" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2009&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 1,066"/>
+<rect class="s-opt" x="920.1043507479403" y="369.55" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="919.6043507479403" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2010&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 95"/>
+<rect class="s-opt" x="929.2981681061303" y="369.26" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="928.7981681061303" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2011&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 124"/>
+<rect class="s-opt" x="938.4919854643205" y="367.9" width="8.193817358190003" height="1.6000000000000227"/>
+<rect class="hit" x="937.9919854643205" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2012&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 260"/>
+<rect class="s-opt" x="947.7109913632178" y="370.11" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="947.2109913632178" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2013&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 39"/>
+<rect class="s-opt" x="956.9048087214078" y="347.21" width="8.193817358190003" height="22.29000000000002"/>
+<rect class="hit" x="956.4048087214078" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2014&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 2,329"/>
+<rect class="s-opt" x="966.0986260795978" y="368.8" width="8.193817358190003" height="0.6999999999999886"/>
+<rect class="hit" x="965.5986260795978" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2015&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 170"/>
+<rect class="s-opt" x="975.2924434377877" y="369.41" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="974.7924434377877" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2016&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 109"/>
+<rect class="s-opt" x="984.5114493366851" y="369.73" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="984.0114493366851" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2017&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 77"/>
+<rect class="s-opt" x="993.7052666948751" y="367.51" width="8.193817358190003" height="1.990000000000009"/>
+<rect class="hit" x="993.2052666948751" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2018&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 299"/>
+<rect class="s-opt" x="1002.8990840530653" y="369.12" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="1002.3990840530653" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2019&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 138"/>
+<rect class="s-opt" x="1012.0929014112552" y="370.19" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="1011.5929014112552" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2020&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 31"/>
+<rect class="s-opt" x="1021.3119073101526" y="367.01" width="8.193817358190003" height="2.490000000000009"/>
+<rect class="hit" x="1020.8119073101526" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2021&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 349"/>
+<rect class="s-opt" x="1030.5057246683427" y="368.59" width="8.193817358190003" height="0.910000000000025"/>
+<rect class="hit" x="1030.0057246683427" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2022&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 191"/>
+<rect class="s-opt" x="1039.6995420265325" y="368.16" width="8.193817358190003" height="1.339999999999975"/>
+<rect class="s-gaza" x="1039.6995420265325" y="149.94" width="8.193817358190003" height="217.22000000000003"/>
+<rect class="s-west_bank" x="1039.6995420265325" y="146.83999999999997" width="8.193817358190003" height="2.1000000000000227"/>
+<rect class="s-lebanon" x="1039.6995420265325" y="145.66000000000003" width="8.193817358190003" height="0.5"/>
+<rect class="hit" x="1039.1995420265325" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2023&lt;/b>&lt;br>Occupied territory (Gaza/WB not split): 234&lt;br>Gaza: 21,822&lt;br>West Bank: 310&lt;br>Lebanon: 118"/>
+<rect class="s-gaza" x="1048.8933593847228" y="133.31" width="8.193817358190003" height="236.19"/>
+<rect class="s-west_bank" x="1048.8933593847228" y="128.39" width="8.193817358190003" height="3.920000000000016"/>
+<rect class="s-lebanon" x="1048.8933593847228" y="89.10000000000002" width="8.193817358190003" height="38.289999999999964"/>
+<rect class="hit" x="1048.3933593847228" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2024&lt;/b>&lt;br>Gaza: 23,719&lt;br>West Bank: 492&lt;br>Lebanon: 3,929"/>
+<rect class="s-gaza" x="1058.11236528362" y="113.21999999999997" width="8.193817358190003" height="256.28000000000003"/>
+<rect class="s-west_bank" x="1058.11236528362" y="110.84999999999997" width="8.193817358190003" height="1.3700000000000045"/>
+<rect class="hit" x="1057.61236528362" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2025&lt;/b>&lt;br>Gaza: 25,728&lt;br>West Bank: 237"/>
+<rect class="s-gaza" x="1067.30618264181" y="337.79" width="8.193817358190003" height="31.70999999999998"/>
+<rect class="s-west_bank" x="1067.30618264181" y="336.94" width="8.193817358190003" height="0.5"/>
+<rect class="s-lebanon" x="1067.30618264181" y="293.08" width="8.193817358190003" height="42.860000000000014"/>
+<rect class="hit" x="1066.80618264181" y="70" width="9.193817358190003" height="300" data-tip="&lt;b>2026&lt;/b>&lt;br>Gaza: 3,271&lt;br>West Bank: 85&lt;br>Lebanon: 4,386"/>
+<line class="baseline" x1="64" x2="1076" y1="370" y2="370"/>
+<polygon class="band" points="73.19381735819,640 82.38763471638002,640 91.58145207457002,640 100.80045797346742,639.995 109.9942753316574,639.935 119.18809268984742,639.935 128.3819100480374,639.935 137.60091594693483,639.935 146.79473330512482,639.935 155.9885506633148,639.935 165.18236802150483,639.935 174.40137392040222,639.935 183.59519127859224,639.79 192.78900863678223,639.79 201.98282599497227,639.79 211.20183189386964,639.79 220.39564925205963,639.7525 229.58946661024964,639.7525 238.78328396843963,639.7525 248.00228986733705,638.4466056910569 257.19610722552704,636.5583308943089 266.38992458371706,634.448156097561 275.5837419419071,633.065 284.80274784080444,633.065 293.99656519899446,633.065 303.1903825571845,633.065 312.38419991537444,633.065 321.60320581427186,633.065 330.7970231724619,633.065 339.9908405306519,633.065 349.18465788884185,632.3464371257485 358.4036637877393,614.6836764705882 367.59748114592924,613.856726571321 376.79129850411925,612.9981454648099 385.9851158623093,612.1395643582988 395.20412176120664,611.2786309747836 404.39793911939665,610.3337998682725 413.59175647758667,609.4752187617614 422.7855738357767,608.6166376552503 432.0045797346741,607.1307142857142 441.19839709286407,606.345 450.3922144510541,606.345 459.58603180924405,606.345 468.80503770814147,606.345 477.9988550663315,606.345 487.1926724245215,606.345 496.3864897827115,606.345 505.6054956816089,606.345 514.7993130397989,606.345 523.9931303979889,606.345 533.1869477561788,606.3109364146407 542.4059536550762,606.2498223350253 551.5997710132663,606.1888752337697 560.7935883714563,606.1279281325141 569.9874057296463,606.0669810312584 579.2064116285437,606.005866951643 588.4002289867337,605.9449198503874 597.5940463449238,605.8839727491318 606.7878637031137,605.8230256478761 616.0068696020111,605.7544115682607 625.2006869602012,605.693464467005 634.3945043183911,603.1325173657494 643.5883216765811,603.0715702644937 652.8073275754786,603.0104561848784 662.0011449336685,602.5745090836227 671.1949622918585,574.2823119823671 680.3887796500486,574.2213648811114 689.6077855489459,574.1602508014961 698.8016029071359,574.0993037002404 707.995420265326,574.0383565989848 717.1892376235159,573.9720866289013 726.4082435224133,573.8262695061992 735.6020608806034,573.6808507909363 744.7958782387933,573.5354320756734 753.9896955969833,573.3900133604104 763.2087014958807,573.2441962377084 772.4025188540708,572.9237775224454 781.5963362122608,572.7783588071826 790.7901535704508,572.6329400919196 800.0091594693482,572.2746229692176 809.2029768275381,572.1292042539546 818.3967941857281,571.9837855386918 827.5906115439182,571.8383668234288 836.8096174428155,571.5385112919296 846.0034348010056,570.79496471272 855.1972521591956,570.0514181335104 864.3910695173855,569.3078715543008 873.6100754162829,568.5622878611757 882.803892774473,567.8187412819661 891.997710132663,565.5864447027566 901.191527490853,564.842898123547 910.4105333897504,563.5825 919.6043507479403,562.25 928.7981681061303,562.13125 937.9919854643205,561.9762499999999 947.2109913632178,561.65125 956.4048087214078,561.6025 965.5986260795978,558.69125 974.7924434377877,558.47875 984.0114493366851,558.3425 993.2052666948751,558.24625 1002.3990840530653,557.8725 1011.5929014112552,557.7 1020.8119073101526,557.66125 1030.0057246683427,557.225 1039.1995420265325,556.9862499999999 1048.3933593847228,528.88125 1057.61236528362,493.70624999999995 1066.80618264181,461.25 1076,451.5725 1076,482.12125000000003 1066.80618264181,491.79875000000004 1057.61236528362,524.255 1048.3933593847228,559.4300000000001 1039.1995420265325,587.535 1030.0057246683427,587.7737500000001 1020.8119073101526,588.21 1011.5929014112552,588.24875 1002.3990840530653,588.42125 993.2052666948751,588.795 984.0114493366851,588.89125 974.7924434377877,589.0275 965.5986260795978,589.24 956.4048087214078,592.15125 947.2109913632178,592.2 937.9919854643205,592.525 928.7981681061303,592.6800000000001 919.6043507479403,592.79875 910.4105333897504,594.13125 901.191527490853,595.354148123547 891.997710132663,596.0976947027566 882.803892774473,598.2274912819662 873.6100754162829,598.9710378611757 864.3910695173855,599.7166215543009 855.1972521591956,600.4601681335105 846.0034348010056,601.2037147127201 836.8096174428155,601.9472612919296 827.5906115439182,602.2471168234289 818.3967941857281,602.3925355386917 809.2029768275381,602.5379542539547 800.0091594693482,602.6833729692177 790.7901535704508,603.0216900919196 781.5963362122608,603.1671088071826 772.4025188540708,603.3125275224455 763.2087014958807,603.6054462377084 753.9896955969833,603.7512633604105 744.7958782387933,603.8966820756734 735.6020608806034,604.0421007909363 726.4082435224133,604.1875195061992 717.1892376235159,604.3333366289013 707.995420265326,604.3796192893401 698.8016029071359,604.4192349051563 689.6077855489459,604.4588505209725 680.3887796500486,604.4985746727224 671.1949622918585,604.5381902885387 662.0011449336685,627.4340559043548 652.8073275754786,627.723671520171 643.5883216765811,627.7633956719209 634.3945043183911,627.8030112877371 625.2006869602012,628.7176269035533 616.0068696020111,628.7572425193695 606.7878637031137,628.8044666711194 597.5940463449238,628.8440822869356 588.4002289867337,628.8836979027518 579.2064116285437,628.923313518568 569.9874057296463,628.9630376703179 560.7935883714563,629.0026532861341 551.5997710132663,629.0422689019504 542.4059536550762,629.0818845177665 533.1869477561788,629.1216086695165 523.9931303979889,629.14375 514.7993130397989,629.14375 505.6054956816089,629.14375 496.3864897827115,629.14375 487.1926724245215,629.14375 477.9988550663315,629.14375 468.80503770814147,629.14375 459.58603180924405,629.14375 450.3922144510541,629.14375 441.19839709286407,629.14375 432.0045797346741,629.396488095238 422.7855738357767,630.0711093338351 413.59175647758667,630.5347431313512 404.39793911939665,630.9983769288672 395.20412176120664,631.5482607263831 385.9851158623093,632.0131647534814 376.79129850411925,632.4767985509974 367.59748114592924,632.9404323485134 358.4036637877393,633.21125 349.18465788884185,636.631122754491 339.9908405306519,636.9425 330.7970231724619,636.9425 321.60320581427186,636.9425 312.38419991537444,636.9425 303.1903825571845,636.9425 293.99656519899446,636.9425 284.80274784080444,636.9425 275.5837419419071,636.9425 266.38992458371706,637.5266731707317 257.19610722552704,638.4181040650407 248.00228986733705,639.2144349593495 238.78328396843963,639.765 229.58946661024964,639.765 220.39564925205963,639.765 211.20183189386964,639.79 201.98282599497227,639.79 192.78900863678223,639.79 183.59519127859224,639.79 174.40137392040222,639.935 165.18236802150483,639.935 155.9885506633148,639.935 146.79473330512482,639.935 137.60091594693483,639.935 128.3819100480374,639.935 119.18809268984742,639.935 109.9942753316574,639.935 100.80045797346742,639.995 91.58145207457002,640 82.38763471638002,640 73.19381735819,640"/>
+<polyline class="cum" points="73.19381735819,640 82.38763471638002,640 91.58145207457002,640 100.80045797346742,639.995 109.9942753316574,639.935 119.18809268984742,639.935 128.3819100480374,639.935 137.60091594693483,639.935 146.79473330512482,639.935 155.9885506633148,639.935 165.18236802150483,639.935 174.40137392040222,639.935 183.59519127859224,639.79 192.78900863678223,639.79 201.98282599497227,639.79 211.20183189386964,639.79 220.39564925205963,639.7575 229.58946661024964,639.7575 238.78328396843963,639.7575 248.00228986733705,638.756662601626 257.19610722552704,637.3112398373984 266.38992458371706,635.7073170731708 275.5837419419071,634.655 284.80274784080444,634.655 293.99656519899446,634.655 303.1903825571845,634.655 312.38419991537444,634.655 321.60320581427186,634.655 330.7970231724619,634.655 339.9908405306519,634.655 349.18465788884185,634.1759580838324 358.4036637877393,618.7656617647059 367.59748114592924,618.0642044599172 376.79129850411925,617.4030970079036 385.9851158623093,616.7419895558901 395.20412176120664,616.0790708505833 404.39793911939665,615.3317133985698 413.59175647758667,614.6706059465563 422.7855738357767,614.0094984945428 432.0045797346741,613.1714880952381 441.19839709286407,612.91875 450.3922144510541,612.91875 459.58603180924405,612.91875 468.80503770814147,612.91875 477.9988550663315,612.91875 487.1926724245215,612.91875 496.3864897827115,612.91875 505.6054956816089,612.91875 514.7993130397989,612.91875 523.9931303979889,612.91875 533.1869477561788,612.8966086695165 542.4059536550762,612.8568845177665 551.5997710132663,612.8172689019503 560.7935883714563,612.7776532861341 569.9874057296463,612.7380376703179 579.2064116285437,612.6983135185679 588.4002289867337,612.6586979027518 597.5940463449238,612.6190822869356 606.7878637031137,612.5794666711195 616.0068696020111,612.5322425193694 625.2006869602012,612.4926269035533 634.3945043183911,611.0780112877371 643.5883216765811,611.0383956719209 652.8073275754786,610.998671520171 662.0011449336685,610.5840559043547 671.1949622918585,584.9506902885386 680.3887796500486,584.9110746727224 689.6077855489459,584.8713505209724 698.8016029071359,584.8317349051563 707.995420265326,584.7921192893401 717.1892376235159,584.7458366289012 726.4082435224133,584.6000195061993 735.6020608806034,584.4546007909363 744.7958782387933,584.3091820756733 753.9896955969833,584.1637633604104 763.2087014958807,584.0179462377084 772.4025188540708,583.7250275224454 781.5963362122608,583.5796088071826 790.7901535704508,583.4341900919196 800.0091594693482,583.0958729692176 809.2029768275381,582.9504542539546 818.3967941857281,582.8050355386918 827.5906115439182,582.6596168234288 836.8096174428155,582.3597612919295 846.0034348010056,581.61621471272 855.1972521591956,580.8726681335104 864.3910695173855,580.1291215543009 873.6100754162829,579.3835378611757 882.803892774473,578.6399912819661 891.997710132663,576.4076947027565 901.191527490853,575.664148123547 910.4105333897504,574.44125 919.6043507479403,573.10875 928.7981681061303,572.99 937.9919854643205,572.8349999999999 947.2109913632178,572.51 956.4048087214078,572.46125 965.5986260795978,569.55 974.7924434377877,569.3375 984.0114493366851,569.20125 993.2052666948751,569.105 1002.3990840530653,568.7312499999999 1011.5929014112552,568.5587499999999 1020.8119073101526,568.52 1030.0057246683427,568.08375 1039.1995420265325,567.845 1048.3933593847228,539.74 1057.61236528362,504.56499999999994 1066.80618264181,472.10875 1076,462.43125"/>
+<rect class="hit" x="64" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1917&lt;/b>&lt;br>0 (range 0–0)"/>
+<rect class="hit" x="73.19381735819" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1918&lt;/b>&lt;br>0 (range 0–0)"/>
+<rect class="hit" x="82.38763471638002" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1919&lt;/b>&lt;br>0 (range 0–0)"/>
+<rect class="hit" x="91.58145207457002" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1920&lt;/b>&lt;br>4 (range 4–4)"/>
+<rect class="hit" x="100.80045797346742" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1921&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="109.9942753316574" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1922&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="119.18809268984742" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1923&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="128.3819100480374" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1924&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="137.60091594693483" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1925&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="146.79473330512482" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1926&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="155.9885506633148" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1927&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="165.18236802150483" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1928&lt;/b>&lt;br>52 (range 52–52)"/>
+<rect class="hit" x="174.40137392040222" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1929&lt;/b>&lt;br>168 (range 168–168)"/>
+<rect class="hit" x="183.59519127859224" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1930&lt;/b>&lt;br>168 (range 168–168)"/>
+<rect class="hit" x="192.78900863678223" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1931&lt;/b>&lt;br>168 (range 168–168)"/>
+<rect class="hit" x="201.98282599497227" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1932&lt;/b>&lt;br>168 (range 168–168)"/>
+<rect class="hit" x="211.20183189386964" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1933&lt;/b>&lt;br>194 (range 188–198)"/>
+<rect class="hit" x="220.39564925205963" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1934&lt;/b>&lt;br>194 (range 188–198)"/>
+<rect class="hit" x="229.58946661024964" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1935&lt;/b>&lt;br>194 (range 188–198)"/>
+<rect class="hit" x="238.78328396843963" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1936&lt;/b>&lt;br>995 (range 628–1,243)"/>
+<rect class="hit" x="248.00228986733705" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1937&lt;/b>&lt;br>2,151 (range 1,266–2,753)"/>
+<rect class="hit" x="257.19610722552704" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1938&lt;/b>&lt;br>3,434 (range 1,979–4,441)"/>
+<rect class="hit" x="266.38992458371706" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1939&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="275.5837419419071" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1940&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="284.80274784080444" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1941&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="293.99656519899446" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1942&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="303.1903825571845" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1943&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="312.38419991537444" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1944&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="321.60320581427186" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1945&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="330.7970231724619" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1946&lt;/b>&lt;br>4,276 (range 2,446–5,548)"/>
+<rect class="hit" x="339.9908405306519" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1947&lt;/b>&lt;br>4,659 (range 2,695–6,123)"/>
+<rect class="hit" x="349.18465788884185" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1948&lt;/b>&lt;br>16,987 (range 5,431–20,253)"/>
+<rect class="hit" x="358.4036637877393" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1949&lt;/b>&lt;br>17,549 (range 5,648–20,915)"/>
+<rect class="hit" x="367.59748114592924" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1950&lt;/b>&lt;br>18,078 (range 6,019–21,601)"/>
+<rect class="hit" x="376.79129850411925" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1951&lt;/b>&lt;br>18,606 (range 6,389–22,288)"/>
+<rect class="hit" x="385.9851158623093" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1952&lt;/b>&lt;br>19,137 (range 6,761–22,977)"/>
+<rect class="hit" x="395.20412176120664" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1953&lt;/b>&lt;br>19,735 (range 7,201–23,733)"/>
+<rect class="hit" x="404.39793911939665" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1954&lt;/b>&lt;br>20,264 (range 7,572–24,420)"/>
+<rect class="hit" x="413.59175647758667" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1955&lt;/b>&lt;br>20,792 (range 7,943–25,107)"/>
+<rect class="hit" x="422.7855738357767" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1956&lt;/b>&lt;br>21,463 (range 8,483–26,295)"/>
+<rect class="hit" x="432.0045797346741" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1957&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="441.19839709286407" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1958&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="450.3922144510541" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1959&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="459.58603180924405" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1960&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="468.80503770814147" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1961&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="477.9988550663315" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1962&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="487.1926724245215" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1963&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="496.3864897827115" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1964&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="505.6054956816089" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1965&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="514.7993130397989" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1966&lt;/b>&lt;br>21,665 (range 8,685–26,924)"/>
+<rect class="hit" x="523.9931303979889" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1967&lt;/b>&lt;br>21,683 (range 8,703–26,951)"/>
+<rect class="hit" x="533.1869477561788" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1968&lt;/b>&lt;br>21,714 (range 8,734–27,000)"/>
+<rect class="hit" x="542.4059536550762" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1969&lt;/b>&lt;br>21,746 (range 8,766–27,049)"/>
+<rect class="hit" x="551.5997710132663" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1970&lt;/b>&lt;br>21,778 (range 8,798–27,098)"/>
+<rect class="hit" x="560.7935883714563" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1971&lt;/b>&lt;br>21,810 (range 8,830–27,146)"/>
+<rect class="hit" x="569.9874057296463" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1972&lt;/b>&lt;br>21,841 (range 8,861–27,195)"/>
+<rect class="hit" x="579.2064116285437" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1973&lt;/b>&lt;br>21,873 (range 8,893–27,244)"/>
+<rect class="hit" x="588.4002289867337" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1974&lt;/b>&lt;br>21,905 (range 8,925–27,293)"/>
+<rect class="hit" x="597.5940463449238" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1975&lt;/b>&lt;br>21,936 (range 8,956–27,342)"/>
+<rect class="hit" x="606.7878637031137" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1976&lt;/b>&lt;br>21,974 (range 8,994–27,396)"/>
+<rect class="hit" x="616.0068696020111" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1977&lt;/b>&lt;br>22,006 (range 9,026–27,445)"/>
+<rect class="hit" x="625.2006869602012" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1978&lt;/b>&lt;br>23,138 (range 9,758–29,494)"/>
+<rect class="hit" x="634.3945043183911" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1979&lt;/b>&lt;br>23,169 (range 9,789–29,543)"/>
+<rect class="hit" x="643.5883216765811" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1980&lt;/b>&lt;br>23,201 (range 9,821–29,592)"/>
+<rect class="hit" x="652.8073275754786" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1981&lt;/b>&lt;br>23,533 (range 10,053–29,940)"/>
+<rect class="hit" x="662.0011449336685" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1982&lt;/b>&lt;br>44,039 (range 28,369–52,574)"/>
+<rect class="hit" x="671.1949622918585" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1983&lt;/b>&lt;br>44,071 (range 28,401–52,623)"/>
+<rect class="hit" x="680.3887796500486" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1984&lt;/b>&lt;br>44,103 (range 28,433–52,672)"/>
+<rect class="hit" x="689.6077855489459" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1985&lt;/b>&lt;br>44,135 (range 28,465–52,721)"/>
+<rect class="hit" x="698.8016029071359" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1986&lt;/b>&lt;br>44,166 (range 28,496–52,769)"/>
+<rect class="hit" x="707.995420265326" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1987&lt;/b>&lt;br>44,203 (range 28,533–52,822)"/>
+<rect class="hit" x="717.1892376235159" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1988&lt;/b>&lt;br>44,320 (range 28,650–52,939)"/>
+<rect class="hit" x="726.4082435224133" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1989&lt;/b>&lt;br>44,436 (range 28,766–53,055)"/>
+<rect class="hit" x="735.6020608806034" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1990&lt;/b>&lt;br>44,553 (range 28,883–53,172)"/>
+<rect class="hit" x="744.7958782387933" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1991&lt;/b>&lt;br>44,669 (range 28,999–53,288)"/>
+<rect class="hit" x="753.9896955969833" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1992&lt;/b>&lt;br>44,786 (range 29,116–53,405)"/>
+<rect class="hit" x="763.2087014958807" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1993&lt;/b>&lt;br>45,020 (range 29,350–53,661)"/>
+<rect class="hit" x="772.4025188540708" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1994&lt;/b>&lt;br>45,136 (range 29,466–53,777)"/>
+<rect class="hit" x="781.5963362122608" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1995&lt;/b>&lt;br>45,253 (range 29,583–53,894)"/>
+<rect class="hit" x="790.7901535704508" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1996&lt;/b>&lt;br>45,523 (range 29,853–54,180)"/>
+<rect class="hit" x="800.0091594693482" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1997&lt;/b>&lt;br>45,640 (range 29,970–54,297)"/>
+<rect class="hit" x="809.2029768275381" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1998&lt;/b>&lt;br>45,756 (range 30,086–54,413)"/>
+<rect class="hit" x="818.3967941857281" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 1999&lt;/b>&lt;br>45,872 (range 30,202–54,529)"/>
+<rect class="hit" x="827.5906115439182" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2000&lt;/b>&lt;br>46,112 (range 30,442–54,769)"/>
+<rect class="hit" x="836.8096174428155" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2001&lt;/b>&lt;br>46,707 (range 31,037–55,364)"/>
+<rect class="hit" x="846.0034348010056" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2002&lt;/b>&lt;br>47,302 (range 31,632–55,959)"/>
+<rect class="hit" x="855.1972521591956" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2003&lt;/b>&lt;br>47,897 (range 32,227–56,554)"/>
+<rect class="hit" x="864.3910695173855" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2004&lt;/b>&lt;br>48,493 (range 32,823–57,150)"/>
+<rect class="hit" x="873.6100754162829" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2005&lt;/b>&lt;br>49,088 (range 33,418–57,745)"/>
+<rect class="hit" x="882.803892774473" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2006&lt;/b>&lt;br>50,874 (range 35,122–59,531)"/>
+<rect class="hit" x="891.997710132663" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2007&lt;/b>&lt;br>51,469 (range 35,717–60,126)"/>
+<rect class="hit" x="901.191527490853" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2008&lt;/b>&lt;br>52,447 (range 36,695–61,134)"/>
+<rect class="hit" x="910.4105333897504" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2009&lt;/b>&lt;br>53,513 (range 37,761–62,200)"/>
+<rect class="hit" x="919.6043507479403" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2010&lt;/b>&lt;br>53,608 (range 37,856–62,295)"/>
+<rect class="hit" x="928.7981681061303" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2011&lt;/b>&lt;br>53,732 (range 37,980–62,419)"/>
+<rect class="hit" x="937.9919854643205" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2012&lt;/b>&lt;br>53,992 (range 38,240–62,679)"/>
+<rect class="hit" x="947.2109913632178" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2013&lt;/b>&lt;br>54,031 (range 38,279–62,718)"/>
+<rect class="hit" x="956.4048087214078" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2014&lt;/b>&lt;br>56,360 (range 40,608–65,047)"/>
+<rect class="hit" x="965.5986260795978" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2015&lt;/b>&lt;br>56,530 (range 40,778–65,217)"/>
+<rect class="hit" x="974.7924434377877" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2016&lt;/b>&lt;br>56,639 (range 40,887–65,326)"/>
+<rect class="hit" x="984.0114493366851" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2017&lt;/b>&lt;br>56,716 (range 40,964–65,403)"/>
+<rect class="hit" x="993.2052666948751" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2018&lt;/b>&lt;br>57,015 (range 41,263–65,702)"/>
+<rect class="hit" x="1002.3990840530653" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2019&lt;/b>&lt;br>57,153 (range 41,401–65,840)"/>
+<rect class="hit" x="1011.5929014112552" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2020&lt;/b>&lt;br>57,184 (range 41,432–65,871)"/>
+<rect class="hit" x="1020.8119073101526" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2021&lt;/b>&lt;br>57,533 (range 41,781–66,220)"/>
+<rect class="hit" x="1030.0057246683427" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2022&lt;/b>&lt;br>57,724 (range 41,972–66,411)"/>
+<rect class="hit" x="1039.1995420265325" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2023&lt;/b>&lt;br>80,208 (range 64,456–88,895)"/>
+<rect class="hit" x="1048.3933593847228" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2024&lt;/b>&lt;br>108,348 (range 92,596–117,035)"/>
+<rect class="hit" x="1057.61236528362" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2025&lt;/b>&lt;br>134,313 (range 118,561–143,000)"/>
+<rect class="hit" x="1066.80618264181" y="440" width="9.193817358190003" height="200" data-tip="&lt;b>By end of 2026&lt;/b>&lt;br>142,055 (range 126,303–150,742)"/>
+<line class="baseline" x1="64" x2="1076" y1="640" y2="640"/>
+<line class="event-stem" x1="71.68250491574781" x2="71.68250491574781" y1="58" y2="370"/>
+<circle class="event" cx="71.68250491574781" cy="58" r="4" data-tip="&lt;b>1917 · Balfour Declaration&lt;/b>&lt;br>Britain declares support for a Jewish national home in Palestine, weeks before its army takes Jerusalem."/>
+<line class="event-stem" x1="241.52883490554296" x2="241.52883490554296" y1="48" y2="370"/>
+<circle class="event" cx="241.52883490554296" cy="48" r="4" data-tip="&lt;b>1936 · Great Revolt begins&lt;/b>&lt;br>A general strike becomes a three-year revolt against British rule; British forces kill thousands of Palestinians."/>
+<line class="event-stem" x1="348.35343604549865" x2="348.35343604549865" y1="58" y2="370"/>
+<circle class="event" cx="348.35343604549865" cy="58" r="4" data-tip="&lt;b>1947 · UN partition plan&lt;/b>&lt;br>The UN General Assembly votes to partition Palestine; fighting breaks out the next day."/>
+<line class="event-stem" x1="352.5851108843368" x2="352.5851108843368" y1="48" y2="370"/>
+<circle class="event" cx="352.5851108843368" cy="48" r="4" data-tip="&lt;b>1948 · The Nakba&lt;/b>&lt;br>Israel is declared as the Mandate ends; by 1949 about 750,000 Palestinians are expelled or flee and over 500 villages are depopulated."/>
+<line class="event-stem" x1="527.8973542076312" x2="527.8973542076312" y1="58" y2="370"/>
+<circle class="event" cx="527.8973542076312" cy="58" r="4" data-tip="&lt;b>1967 · Occupation of the West Bank and Gaza&lt;/b>&lt;br>In six days Israel occupies the West Bank, East Jerusalem and Gaza; about 300,000 more Palestinians are displaced."/>
+<line class="event-stem" x1="665.9305572840182" x2="665.9305572840182" y1="48" y2="370"/>
+<circle class="event" cx="665.9305572840182" cy="48" r="4" data-tip="&lt;b>1982 · Invasion of Lebanon and siege of Beirut&lt;/b>&lt;br>Israel invades Lebanon and besieges Beirut; Lebanese police count about 19,000 killed by the end of August."/>
+<line class="event-stem" x1="668.49978843617" x2="668.49978843617" y1="58" y2="370"/>
+<circle class="event" cx="668.49978843617" cy="58" r="4" data-tip="&lt;b>1982 · Sabra and Shatila massacre&lt;/b>&lt;br>Israeli-allied Phalange militia kill hundreds to thousands of Palestinian refugees and Lebanese in camps surrounded by the Israeli army."/>
+<line class="event-stem" x1="716.6099011872465" x2="716.6099011872465" y1="48" y2="370"/>
+<circle class="event" cx="716.6099011872465" cy="48" r="4" data-tip="&lt;b>1987 · First Intifada&lt;/b>&lt;br>A mass uprising begins in Gaza and spreads across the occupied territory."/>
+<line class="event-stem" x1="834.4167060756154" x2="834.4167060756154" y1="58" y2="370"/>
+<circle class="event" cx="834.4167060756154" cy="58" r="4" data-tip="&lt;b>2000 · Second Intifada&lt;/b>&lt;br>A second uprising begins; over 4,800 Palestinians are killed by Israeli forces by the end of 2008."/>
+<line class="event-stem" x1="887.640092590288" x2="887.640092590288" y1="48" y2="370"/>
+<circle class="event" cx="887.640092590288" cy="48" r="4" data-tip="&lt;b>2006 · 2006 Lebanon war&lt;/b>&lt;br>A 34-day Israeli assault on Lebanon kills about 1,190 people, most of them civilians."/>
+<line class="event-stem" x1="910.2845906862135" x2="910.2845906862135" y1="58" y2="370"/>
+<circle class="event" cx="910.2845906862135" cy="58" r="4" data-tip="&lt;b>2008 · Cast Lead&lt;/b>&lt;br>A 22-day assault on Gaza kills about 1,400 Palestinians."/>
+<line class="event-stem" x1="961.1402543743933" x2="961.1402543743933" y1="48" y2="370"/>
+<circle class="event" cx="961.1402543743933" cy="48" r="4" data-tip="&lt;b>2014 · Protective Edge&lt;/b>&lt;br>A 51-day assault on Gaza kills over 2,250 Palestinians, including 551 children."/>
+<line class="event-stem" x1="1046.2271448838887" x2="1046.2271448838887" y1="58" y2="370"/>
+<circle class="event" cx="1046.2271448838887" cy="58" r="4" data-tip="&lt;b>2023 · The current war&lt;/b>&lt;br>After the Hamas-led attack, Israel begins the assault on Gaza tracked in detail on this site."/>
+</svg>
+<details><summary>Table view</summary><table><thead><tr><th>Year</th><th>Mandate Palestine / 1948 lines</th><th>Occupied territory (Gaza/WB not split)</th><th>Gaza</th><th>West Bank</th><th>Lebanon</th></tr></thead><tbody><tr><td>1920</td><td>4</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1921</td><td>48</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1929</td><td>116</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1933</td><td>26</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1936</td><td>801</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1937</td><td>1,156</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1938</td><td>1,283</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1939</td><td>842</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1947</td><td>383</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1948</td><td>12,293</td><td>0</td><td>0</td><td>0</td><td>35</td></tr><tr><td>1949</td><td>561</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1950</td><td>529</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1951</td><td>529</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1952</td><td>530</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1953</td><td>529</td><td>0</td><td>0</td><td>69</td><td>0</td></tr><tr><td>1954</td><td>529</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1955</td><td>529</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1956</td><td>487</td><td>0</td><td>184</td><td>0</td><td>0</td></tr><tr><td>1957</td><td>0</td><td>0</td><td>202</td><td>0</td><td>0</td></tr><tr><td>1967</td><td>0</td><td>18</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1968</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1969</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1970</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1971</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1972</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1973</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1974</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1975</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1976</td><td>6</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1977</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1978</td><td>0</td><td>32</td><td>0</td><td>0</td><td>1,100</td></tr><tr><td>1979</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1980</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1981</td><td>0</td><td>32</td><td>0</td><td>0</td><td>300</td></tr><tr><td>1982</td><td>0</td><td>32</td><td>0</td><td>0</td><td>20,475</td></tr><tr><td>1983</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1984</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1985</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1986</td><td>0</td><td>32</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1987</td><td>0</td><td>37</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1988</td><td>0</td><td>117</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1989</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1990</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1991</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1992</td><td>0</td><td>117</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1993</td><td>0</td><td>116</td><td>0</td><td>0</td><td>118</td></tr><tr><td>1994</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1995</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1996</td><td>0</td><td>117</td><td>0</td><td>0</td><td>154</td></tr><tr><td>1997</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1998</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1999</td><td>0</td><td>116</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2000</td><td>0</td><td>240</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2001</td><td>0</td><td>595</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2002</td><td>0</td><td>595</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2003</td><td>0</td><td>595</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2004</td><td>0</td><td>596</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2005</td><td>0</td><td>595</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2006</td><td>0</td><td>595</td><td>0</td><td>0</td><td>1,191</td></tr><tr><td>2007</td><td>0</td><td>595</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2008</td><td>0</td><td>588</td><td>390</td><td>0</td><td>0</td></tr><tr><td>2009</td><td>0</td><td>1,066</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2010</td><td>0</td><td>95</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2011</td><td>0</td><td>124</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2012</td><td>0</td><td>260</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2013</td><td>0</td><td>39</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2014</td><td>0</td><td>2,329</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2015</td><td>0</td><td>170</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2016</td><td>0</td><td>109</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2017</td><td>0</td><td>77</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2018</td><td>0</td><td>299</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2019</td><td>0</td><td>138</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2020</td><td>0</td><td>31</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2021</td><td>0</td><td>349</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2022</td><td>0</td><td>191</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2023</td><td>0</td><td>234</td><td>21,822</td><td>310</td><td>118</td></tr><tr><td>2024</td><td>0</td><td>0</td><td>23,719</td><td>492</td><td>3,929</td></tr><tr><td>2025</td><td>0</td><td>0</td><td>25,728</td><td>237</td><td>0</td></tr><tr><td>2026</td><td>0</td><td>0</td><td>3,271</td><td>85</td><td>4,386</td></tr></tbody></table></details>
+<div id="tip"></div>
+</div>
+<script>
+const tip = document.getElementById("tip");
+document.querySelectorAll("[data-tip]").forEach((el) => {
+  el.addEventListener("mousemove", (e) => { tip.innerHTML = el.dataset.tip; tip.style.display = "block";
+    tip.style.left = Math.min(e.clientX + 14, innerWidth - 340) + "px"; tip.style.top = e.clientY + 14 + "px"; });
+  el.addEventListener("mouseleave", () => { tip.style.display = "none"; });
+});
+</script></body></html>
