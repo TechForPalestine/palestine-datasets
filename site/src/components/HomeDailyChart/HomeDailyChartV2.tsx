@@ -260,7 +260,9 @@ export const HomeDailyChartV2 = () => {
         <h2 className={styles.chartTitle}>The Human Toll</h2>
         <span className={styles.mastLine} aria-hidden="true" />
       </div>
-      <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza, the West Bank and Lebanon</div>
+      <div className={styles.chartSubtitle}>
+        Since October 7, 2023 for Gaza, the West Bank and Lebanon
+      </div>
 
       <div className={styles.chartGrid}>
         <div className={styles.rail}>
