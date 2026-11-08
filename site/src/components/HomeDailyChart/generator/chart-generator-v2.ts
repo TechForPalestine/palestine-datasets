@@ -7,7 +7,6 @@ import gazaDailyTimeSeries from "../../../../../casualties_daily.min.json";
 import westBankDailyTimeSeries from "../../../../../west_bank_daily.min.json";
 import lebanonDailyTimeSeries from "../../../../../lebanon_casualties_daily.min.json";
 import { CasualtyDailyReportV2 } from "../../../../../types/casualties-daily.types";
-import { LebanonDailyReportV3 } from "../../../../../types/lebanon-daily.types";
 import { bindHelpers } from "./svg-helpers-v2";
 
 type SlimData = {
@@ -61,29 +60,27 @@ const getWestBankValue = (
 };
 
 // Lebanon rows exist only on report dates, so each Gaza day takes the latest
-// Lebanon report on or before it (0 before the first one), carried forward
-// through gaps rather than interpolated. A single pointer walks the rows as the
-// Gaza series advances, which relies on both being sorted by date.
-const lebanonReports = lebanonDailyTimeSeries as LebanonDailyReportV3[];
-lebanonReports.forEach((report, index) => {
-  if (index > 0 && report.report_date <= lebanonReports[index - 1].report_date) {
-    throw new Error(`chart-generator-v2: lebanon reports not sorted at ${report.report_date}`);
+// Lebanon report up to and including it (0 before the first one), carried
+// forward through gaps rather than interpolated. Rows are looked up by exact
+// date string, so no ordering or string comparison is involved.
+const lebanonByDate = new Map<string, { killed: number; injured: number }>();
+lebanonDailyTimeSeries.forEach((report) => {
+  lebanonByDate.set(report.report_date, {
+    killed: report.killed_cum,
+    injured: report.injured_cum,
+  });
+});
+const gazaDates = new Set(gazaDailyTimeSeries.map((report) => report.report_date));
+lebanonByDate.forEach((_, date) => {
+  if (!gazaDates.has(date)) {
+    throw new Error(`chart-generator-v2: lebanon report ${date} has no matching Gaza day`);
   }
 });
 
-let lebanonIndex = -1;
+let lastLebanon = { killed: 0, injured: 0 };
 const getLebanonAsOf = (reportDate: string) => {
-  while (
-    lebanonIndex + 1 < lebanonReports.length &&
-    lebanonReports[lebanonIndex + 1].report_date <= reportDate
-  ) {
-    lebanonIndex++;
-  }
-  const report = lebanonReports[lebanonIndex];
-  return {
-    killed: report?.killed_cum ?? 0,
-    injured: report?.injured_cum ?? 0,
-  };
+  lastLebanon = lebanonByDate.get(reportDate) ?? lastLebanon;
+  return lastLebanon;
 };
 
 let lastFamineReport = 0;

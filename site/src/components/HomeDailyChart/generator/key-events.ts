@@ -74,7 +74,7 @@ export const keyEvents: KeyEvent[] = [
     date: "2024-09-17",
     title: "Pager attacks in Lebanon",
     detail:
-      "Pagers, then walkie-talkies, used by Hezbollah members explode across Lebanon, killing 37 and wounding about 3,000 over two days; the attacks are widely attributed to Israel.",
+      "Pagers, then walkie-talkies, used by Hezbollah members explode across Lebanon in homes, shops and streets, wounding about 3,000 and killing dozens over two days, including at least two children; the attacks are widely attributed to Israel.",
   },
   {
     date: "2024-10-01",
