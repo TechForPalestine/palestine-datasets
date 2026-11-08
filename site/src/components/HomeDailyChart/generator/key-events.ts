@@ -74,13 +74,13 @@ export const keyEvents: KeyEvent[] = [
     date: "2024-09-17",
     title: "Pager attacks in Lebanon",
     detail:
-      "Israel detonates thousands of pagers, and the next day walkie-talkies, across Lebanon, killing dozens and wounding thousands.",
+      "Pagers, then walkie-talkies, used by Hezbollah members explode across Lebanon, killing 37 and wounding about 3,000 over two days; the attacks are widely attributed to Israel.",
   },
   {
     date: "2024-10-01",
     title: "Ground invasion of Lebanon",
     detail:
-      "Israeli forces launch a ground invasion of southern Lebanon after a week of intensified airstrikes.",
+      "Israeli forces begin what the military calls limited, targeted ground raids in southern Lebanon, after weeks of airstrikes.",
   },
   {
     date: "2024-10-06",
@@ -142,6 +142,6 @@ export const keyEvents: KeyEvent[] = [
     date: "2026-03-02",
     title: "Renewed war in Lebanon",
     detail:
-      "After Hezbollah rocket fire into Israel amid the wider regional war, Israel launches large-scale strikes across Lebanon.",
+      "After Hezbollah fires on Israel during the US-Israel war on Iran, Israel strikes across Lebanon, including Beirut. The health ministry starts a new count from this day.",
   },
 ];
