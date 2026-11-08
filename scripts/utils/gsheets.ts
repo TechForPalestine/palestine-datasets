@@ -1,6 +1,5 @@
 export enum SheetTab {
   CasualtiesDaily = "casualties_daily",
-  Journalists = "journalists",
   WestBankDaily = "westbank",
   InfrastructureDamaged = "infrastructure",
 }

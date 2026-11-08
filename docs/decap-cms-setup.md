@@ -1,8 +1,9 @@
 # Decap CMS for daily casualties data entry
 
 This repo uses [Decap CMS](https://decapcms.org/) to let collaborators add and
-edit the **Gaza** and **West Bank** daily casualties datasets without touching a
-spreadsheet, and to capture the **original source material** for each report.
+edit the **Gaza**, **West Bank** and **Lebanon** daily casualties datasets and
+the **journalists killed in Gaza** list without touching a spreadsheet, and to
+capture the **original source material** for each entry.
 
 It stays true to the project's "no backend, no database" constraint: Decap is
 git-based and commits directly to this repository. The only externally hosted
@@ -38,9 +39,13 @@ Two workflows drive the source-data pipeline:
   is also the safety net for source data that reaches main any other way (direct
   edits, fork PRs).
 
-Neither needs `TFP_SHEET_KEY`: Gaza and West Bank are now built entirely from
-committed `source_data`. The Google Sheet (and `gen-daily.yml`) still drives the
-other datasets (infrastructure, press-killed).
+Both workflows (and the staging promotion, `promote-staging.yml`) also rebuild
+`press_killed_in_gaza.json` from `source_data/press-killed/`, so journalist
+entries follow the same edit → validate → regenerate path.
+
+None of these need `TFP_SHEET_KEY`: the daily casualties and journalists-killed
+datasets are now built entirely from committed `source_data`. The Google Sheet
+(and `gen-daily.yml`) still drives the infrastructure dataset.
 
 ## Content model
 
@@ -60,6 +65,29 @@ text, links, screenshot references).
 The build (`scripts/data/v2/gaza-daily.ts`, `scripts/data/v2/west-bank-daily.ts`)
 reads these files and produces the exact same JSON the Google Sheet pipeline did.
 Regenerating from the backfilled source data is byte-identical to the committed JSON.
+
+### Journalists killed in Gaza
+
+`source_data/press-killed/NNNN.md` holds one journalist per file and builds
+`press_killed_in_gaza.json` (`bun run gen-killed-press`,
+`scripts/data/v2/press-killed-in-gaza.ts`). The published array is ordered by
+sequence number:
+
+- `seq` — the zero-padded 4-digit position (`"0001"`, `"0002"`, …). It must match
+  the file name; the build fails on a mismatch or a malformed file name. **To add
+  a journalist, use the next number after the current highest** (e.g. `0263`
+  after `0262`) so the new entry is appended to the end of the list. Don't
+  renumber existing entries — that reorders the published dataset.
+- `name` — the Arabic name exactly as reported. The build applies the shared
+  killed-in-gaza Arabic normalisation and generates the English `name_en` from
+  the translation dictionaries, so don't enter a translation.
+- `notes` — published as-is.
+- `source` — optional link to the record the entry is based on (e.g. a CPJ
+  profile). Kept for reference; **not** published in the JSON.
+
+The 262 entries were backfilled from the former Google Sheet's `journalists` tab
+(the machine-translated `name_check` column was not ported); regenerating from
+them is byte-identical to the JSON the sheet pipeline produced.
 
 ### Manual input vs the auto-calculated `ext_` series
 
@@ -226,7 +254,8 @@ directly on GitHub (or a local clone) instead of `/admin`.
 ## Using it
 
 Visit `https://data.techforpalestine.org/admin/`, log in with GitHub, pick the
-Gaza or West Bank collection, and create/edit a report. Saving as "Ready" opens
+Gaza, West Bank, Lebanon or journalists-killed collection, and create/edit an
+entry. Saving as "Ready" opens
 a Pull Request that a maintainer reviews and merges. CI regenerates the JSON.
 
 ## Local development
@@ -235,6 +264,7 @@ a Pull Request that a maintainer reviews and merges. CI regenerates the JSON.
 # regenerate datasets from source data
 bun run gen-daily-v2   # Gaza
 bun run gen-wbdaily    # West Bank
+bun run gen-killed-press # journalists killed in Gaza
 
 # one-time migration from existing JSON into source_data/ (already run)
 bun run scripts/data/common/casualties-daily/backfill.ts
