@@ -194,15 +194,15 @@ export const HomeDailyChartV2 = () => {
     : { top: `${((markY + 22) / chartData.height) * 100}%` };
 
   const railRows = [
-    { label: "Injured", value: railValue(dayData.injured) },
-    { label: "Children killed", value: railValue(dayData.children) },
-    { label: "Women killed", value: railValue(dayData.women) },
-    { label: "Medical personnel killed", value: railValue(dayData.medical) },
+    { label: "Gaza casualties", value: railValue(dayData.gazaCasualties) },
+    { label: "West Bank casualties", value: railValue(dayData.westBankCasualties) },
+    { label: "Lebanon casualties", value: railValue(dayData.lebanonCasualties) },
+    { label: "Medical personnel killed*", value: railValue(dayData.medical) },
     {
-      label: dayData.press === 1 ? "Journalist killed" : "Journalists killed",
+      label: dayData.press === 1 ? "Journalist killed*" : "Journalists killed*",
       value: railValue(dayData.press),
     },
-    { label: "First responders killed", value: railValue(dayData.civdef) },
+    { label: "First responders killed*", value: railValue(dayData.civdef) },
   ];
 
   const calloutBody = (
@@ -277,7 +277,7 @@ export const HomeDailyChartV2 = () => {
               </div>
             ))}
           </div>
-          <div className={styles.railNote}>Breakdowns cover Gaza and the West Bank</div>
+          <div className={styles.railNote}>* Asterisked figures are for Gaza only</div>
           {warningLink}
         </div>
 

@@ -14,8 +14,10 @@ type SlimData = {
   date: CasualtyDailyReportV2["report_date"];
   injured: CasualtyDailyReportV2["ext_injured_cum"];
   civdef: CasualtyDailyReportV2["ext_civdef_killed_cum"];
-  children: CasualtyDailyReportV2["ext_killed_children_cum"];
-  women: CasualtyDailyReportV2["ext_killed_women_cum"];
+  /** killed + injured, per region */
+  gazaCasualties: number;
+  westBankCasualties: number;
+  lebanonCasualties: number;
   killed: CasualtyDailyReportV2["ext_killed_cum"];
   medical: CasualtyDailyReportV2["ext_med_killed_cum"];
   press: CasualtyDailyReportV2["ext_press_killed_cum"];
@@ -84,8 +86,6 @@ const getLebanonAsOf = (reportDate: string) => {
   };
 };
 
-let lastChildrenKilledReportPct = 0;
-let lastWomenKilledReportPct = 0;
 let lastFamineReport = 0;
 let lastSeekingAidReport = 0;
 
@@ -96,52 +96,23 @@ const data = gazaDailyTimeSeries.reduce(
       report_date,
       ext_civdef_killed_cum,
       ext_injured_cum,
-      killed_children_cum,
-      ext_killed_children_cum,
       ext_killed_cum,
-      killed_women_cum,
       famine_cum,
       aid_seeker_killed_cum,
       aid_seeker_injured_cum,
-      ext_killed_women_cum,
       ext_med_killed_cum,
       ext_press_killed_cum,
     },
     day: number,
   ) => {
-    let children =
-      ext_killed_children_cum +
-      getWestBankValue(report_date, ["verified", "killed_children_cum"], "killed_children_cum");
-    let women = ext_killed_women_cum;
-
-    // Children/women estimates are proportions of the Gaza + West Bank total
-    // only; Lebanon has no such breakdown, so it is added after them.
-    const gazaWbKilled =
-      ext_killed_cum + getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
+    const westBankKilled = getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
+    const westBankInjured = getWestBankValue(
+      report_date,
+      ["verified", "injured_cum"],
+      "injured_cum",
+    );
     const lebanon = getLebanonAsOf(report_date);
-    const killed = gazaWbKilled + lebanon.killed;
-
-    if (killed_children_cum) {
-      lastChildrenKilledReportPct =
-        (killed_children_cum +
-          getWestBankValue(
-            report_date,
-            ["verified", "killed_children_cum"],
-            "killed_children_cum",
-          )) /
-        gazaWbKilled;
-    }
-
-    if (killed_women_cum) {
-      lastWomenKilledReportPct = killed_women_cum / gazaWbKilled;
-    }
-
-    if (lastChildrenKilledReportPct > 0) {
-      children = Math.floor(gazaWbKilled * lastChildrenKilledReportPct);
-    }
-    if (lastWomenKilledReportPct > 0) {
-      women = Math.floor(gazaWbKilled * lastWomenKilledReportPct);
-    }
+    const killed = ext_killed_cum + westBankKilled + lebanon.killed;
 
     let starved = lastFamineReport;
     if (famine_cum) {
@@ -161,13 +132,11 @@ const data = gazaDailyTimeSeries.reduce(
       slimData: acc.slimData.concat({
         date: report_date,
         civdef: ext_civdef_killed_cum,
-        injured:
-          ext_injured_cum +
-          getWestBankValue(report_date, ["verified", "injured_cum"], "injured_cum") +
-          lebanon.injured,
-        children,
+        injured: ext_injured_cum + westBankInjured + lebanon.injured,
+        gazaCasualties: ext_killed_cum + ext_injured_cum,
+        westBankCasualties: westBankKilled + westBankInjured,
+        lebanonCasualties: lebanon.killed + lebanon.injured,
         killed,
-        women,
         starved,
         seekingAid,
         medical: ext_med_killed_cum,
