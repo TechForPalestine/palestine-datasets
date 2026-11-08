@@ -41,11 +41,11 @@ jobs:
           bun run gen-killed
           git diff origin/main:killed-in-gaza.json killed-in-gaza.json > ci-tmp/killed-in-gaza-json.diff
 
+      # press names share the translation dictionaries above, so rebuild the press
+      # list (from source_data/press-killed, no sheet access needed) when they change
       - name: run press list script
         run: |
           bun run gen-killed-press
-        env:
-          TFP_SHEET_KEY: ${{ secrets.TFP_SHEET_KEY }}
 
       - name: upload debug artifacts
         uses: actions/upload-artifact@v4
