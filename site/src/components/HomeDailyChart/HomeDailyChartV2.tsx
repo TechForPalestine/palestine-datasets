@@ -197,12 +197,11 @@ export const HomeDailyChartV2 = () => {
     { label: "Gaza casualties", value: railValue(dayData.gazaCasualties) },
     { label: "West Bank casualties", value: railValue(dayData.westBankCasualties) },
     { label: "Lebanon casualties", value: railValue(dayData.lebanonCasualties) },
-    { label: "Medical personnel killed*", value: railValue(dayData.medical) },
+    { label: "Medical & responders killed*", value: railValue(dayData.medical + dayData.civdef) },
     {
       label: dayData.press === 1 ? "Journalist killed*" : "Journalists killed*",
       value: railValue(dayData.press),
     },
-    { label: "First responders killed*", value: railValue(dayData.civdef) },
   ];
 
   const calloutBody = (
