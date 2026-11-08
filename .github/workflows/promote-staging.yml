@@ -18,6 +18,7 @@ on:
       - "scripts/data/v2/gaza-daily.ts"
       - "scripts/data/v2/west-bank-daily.ts"
       - "scripts/data/v3/lebanon-daily.ts"
+      - "scripts/data/v2/press-killed-in-gaza.ts"
       - "scripts/data/common/casualties-daily/**"
 
 permissions:
@@ -81,7 +82,9 @@ jobs:
           bun run gen-daily-v2
           bun run gen-wbdaily
           bun run gen-lbdaily
-          git add casualties_daily.json casualties_daily.min.json west_bank_daily.json west_bank_daily.min.json lebanon_casualties_daily.json lebanon_casualties_daily.min.json
+          # press script fails on a bad filename/seq or a missing name
+          bun run gen-killed-press
+          git add casualties_daily.json casualties_daily.min.json west_bank_daily.json west_bank_daily.min.json lebanon_casualties_daily.json lebanon_casualties_daily.min.json press_killed_in_gaza.json press_killed_in_gaza.min.json
           if ! git diff --cached --quiet; then
             git commit -m "data: regenerate daily datasets from source_data"
           fi
