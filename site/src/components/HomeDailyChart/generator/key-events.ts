@@ -49,6 +49,12 @@ export const keyEvents: KeyEvent[] = [
       "The court finds it plausible that Israel's actions amount to genocide and orders measures to prevent them.",
   },
   {
+    date: "2024-02-15",
+    title: "Nasser hospital raid",
+    detail:
+      "After a weeks-long siege, Israeli forces storm Nasser Medical Complex in Khan Younis, the largest hospital in southern Gaza, forcing it out of service.",
+  },
+  {
     date: "2024-02-29",
     title: "The flour massacre",
     detail: "Over 100 Palestinians are killed near Gaza City while waiting for food aid.",
@@ -65,6 +71,18 @@ export const keyEvents: KeyEvent[] = [
       "Israel orders eastern Rafah to evacuate and takes the crossing into Egypt, closing a main aid route.",
   },
   {
+    date: "2024-09-17",
+    title: "Pager attacks in Lebanon",
+    detail:
+      "Pagers, then walkie-talkies, used by Hezbollah members explode across Lebanon in homes, shops and streets, wounding about 3,000 and killing dozens over two days, including at least two children; the attacks are widely attributed to Israel.",
+  },
+  {
+    date: "2024-10-01",
+    title: "Ground invasion of Lebanon",
+    detail:
+      "Israeli forces begin what the military calls limited, targeted ground raids in southern Lebanon, after weeks of airstrikes.",
+  },
+  {
     date: "2024-10-06",
     title: "Siege of northern Gaza",
     detail:
@@ -75,6 +93,18 @@ export const keyEvents: KeyEvent[] = [
     title: "ICC arrest warrants",
     detail:
       "The International Criminal Court issues arrest warrants for Israel's prime minister and former defence minister.",
+  },
+  {
+    date: "2024-11-27",
+    title: "Lebanon ceasefire",
+    detail:
+      "A ceasefire between Israel and Hezbollah takes effect, though Israeli strikes on Lebanon continue.",
+  },
+  {
+    date: "2024-12-27",
+    title: "Kamal Adwan hospital raid",
+    detail:
+      "Israeli forces storm and burn Kamal Adwan Hospital in Beit Lahia, detaining its director and putting northern Gaza's last major hospital out of service.",
   },
   {
     date: "2025-01-19",
@@ -107,5 +137,11 @@ export const keyEvents: KeyEvent[] = [
     title: "Ceasefire takes effect",
     detail:
       "A US-brokered ceasefire begins and the remaining living hostages are released days later.",
+  },
+  {
+    date: "2026-03-02",
+    title: "Renewed war in Lebanon",
+    detail:
+      "After Hezbollah fires on Israel during the US-Israel war on Iran, Israel strikes across Lebanon, including Beirut. The health ministry starts a new count from this day.",
   },
 ];

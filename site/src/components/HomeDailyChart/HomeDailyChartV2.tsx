@@ -194,15 +194,14 @@ export const HomeDailyChartV2 = () => {
     : { top: `${((markY + 22) / chartData.height) * 100}%` };
 
   const railRows = [
-    { label: "Injured", value: railValue(dayData.injured) },
-    { label: "Children killed", value: railValue(dayData.children) },
-    { label: "Women killed", value: railValue(dayData.women) },
-    { label: "Medical personnel killed", value: railValue(dayData.medical) },
+    { label: "Gaza casualties", value: railValue(dayData.gazaCasualties) },
+    { label: "West Bank casualties", value: railValue(dayData.westBankCasualties) },
+    { label: "Lebanon casualties", value: railValue(dayData.lebanonCasualties) },
+    { label: "Medical & responders killed*", value: railValue(dayData.medical + dayData.civdef) },
     {
-      label: dayData.press === 1 ? "Journalist killed" : "Journalists killed",
+      label: dayData.press === 1 ? "Journalist killed*" : "Journalists killed*",
       value: railValue(dayData.press),
     },
-    { label: "First responders killed", value: railValue(dayData.civdef) },
   ];
 
   const calloutBody = (
@@ -261,13 +260,15 @@ export const HomeDailyChartV2 = () => {
         <h2 className={styles.chartTitle}>The Human Toll</h2>
         <span className={styles.mastLine} aria-hidden="true" />
       </div>
-      <div className={styles.chartSubtitle}>Since October 7, 2023 for Gaza and the West Bank</div>
+      <div className={styles.chartSubtitle}>
+        Since October 7, 2023 for Gaza, the West Bank and Lebanon
+      </div>
 
       <div className={styles.chartGrid}>
         <div className={styles.rail}>
           <div className={styles.railDayLabel}>{dateLabel}</div>
           <div className={styles.railCount}>{numFmt.format(dayData.killed)}</div>
-          <div className={styles.railCaption}>killed in Gaza and the West Bank</div>
+          <div className={styles.railCaption}>killed in Gaza, the West Bank and Lebanon</div>
           <div className={styles.railDivider} aria-hidden="true" />
           <div>
             {railRows.map((row) => (
@@ -277,6 +278,7 @@ export const HomeDailyChartV2 = () => {
               </div>
             ))}
           </div>
+          <div className={styles.railNote}>* Asterisked figures are for Gaza only</div>
           {warningLink}
         </div>
 
