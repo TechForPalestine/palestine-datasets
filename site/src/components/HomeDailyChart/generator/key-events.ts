@@ -23,7 +23,7 @@ export const keyEvents: KeyEvent[] = [
     date: "2023-10-07",
     title: "Attack on southern Israel",
     detail:
-      "Hamas leads an attack from Gaza killing about 1,200 people and taking over 240 hostages. Israel declares war and cuts off water, food, fuel and electricity to Gaza.",
+      "Hamas leads an attack from Gaza killing about 1,200 people and taking over 240 hostages. Israel begins attacks and cuts off water, food, fuel and electricity to Gaza.",
   },
   {
     date: "2023-10-27",
@@ -74,7 +74,7 @@ export const keyEvents: KeyEvent[] = [
     date: "2024-09-17",
     title: "Pager attacks in Lebanon",
     detail:
-      "Pagers, then walkie-talkies, used by Hezbollah members explode across Lebanon in homes, shops and streets, wounding about 3,000 and killing dozens over two days, including at least two children; the attacks are widely attributed to Israel.",
+      "Pagers used by Hezbollah members explode across Lebanon in homes, shops and streets, wounding over 3,000 and killing dozens over two days, including at least two children; the attacks are widely attributed to Israel.",
   },
   {
     date: "2024-10-01",
@@ -142,6 +142,6 @@ export const keyEvents: KeyEvent[] = [
     date: "2026-03-02",
     title: "Renewed war in Lebanon",
     detail:
-      "After Hezbollah fires on Israel during the US-Israel war on Iran, Israel strikes across Lebanon, including Beirut. The health ministry starts a new count from this day.",
+      "After Hezbollah fires on Israel during the US-Israel war on Iran, Israel strikes across Lebanon, including Beirut.",
   },
 ];
