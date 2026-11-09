@@ -24348,7 +24348,9 @@
   {
     "report_date": "2026-11-08",
     "report_source": "missing",
-    "report_period": 0,
+    "report_period": 24,
+    "killed_cum": 74640,
+    "injured_cum": 175947,
     "ext_killed_cum": 74640,
     "ext_injured_cum": 175947,
     "ext_killed_children_cum": 21976,
