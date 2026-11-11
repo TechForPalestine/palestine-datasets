@@ -7,7 +7,7 @@ type D3NodeSvg = {
 type IDScoper = (id: string) => string;
 
 type ChartConstants = {
-  eventDotRadius: number;
+  markerDotRadius: number;
   width: number;
   height: number;
   mobile: boolean;
@@ -32,14 +32,17 @@ const addGradientDefinition = (svg: D3NodeSvg, id: IDScoper) => () => {
     .attr("stop-color", "var(--tfp-chart-gradient-bottom-stop)");
 };
 
-const addMovableDotLine =
-  (svg: D3NodeSvg, id: IDScoper, { width, height, eventDotRadius }: ChartConstants) =>
+// Dashed vertical line + dot marking the day currently under the pointer.
+// Rendered at its default ("today") position at build time; moved client-side
+// via direct attribute updates as the visitor hovers/pans the chart.
+const addMarkerDotLine =
+  (svg: D3NodeSvg, id: IDScoper, { width, height, markerDotRadius }: ChartConstants) =>
   () => {
     svg
       .append("path")
-      .attr("id", id("chartsliderline"))
+      .attr("id", id("chartmarkerline"))
       .attr("d", `M${width} ${0} v${height}`)
-      .attr("opacity", "0.8")
+      .attr("opacity", "0.85")
       .attr("stroke", "var(--tfp-chart-today-line)")
       .attr("stroke-width", "2")
       .attr("stroke-dasharray", "5")
@@ -47,64 +50,14 @@ const addMovableDotLine =
 
     svg
       .append("circle")
-      .attr("id", id("chartsliderdot"))
+      .attr("id", id("chartmarkerdot"))
       .attr("cx", width)
       .attr("cy", 0)
-      .attr("stroke-width", 2)
-      .attr("stroke", "white")
-      .attr("fill", "#CA3A32")
-      .attr("r", eventDotRadius)
+      .attr("stroke-width", 2.5)
+      .attr("stroke", "var(--tfp-chart-gradient-bottom-stop)")
+      .attr("fill", "var(--tfp-chart-today-line)")
+      .attr("r", markerDotRadius)
       .attr("filter", `url(#${id("dotShadow")})`);
-  };
-
-const addAxisTickLabel =
-  (svg: D3NodeSvg, id: IDScoper, { height, mobile }: ChartConstants) =>
-  ({
-    i,
-    x,
-    lastTick,
-    xAxisSteps,
-  }: {
-    i: number;
-    x: number;
-    lastTick: boolean;
-    xAxisSteps: number[];
-  }) => {
-    svg
-      .append("text")
-      .attr("x", x)
-      .attr("y", height + 30)
-      .attr("fill", "#777")
-      .attr("text-anchor", "middle")
-      .attr("font-size", mobile ? "1.2em" : "1em")
-      .text(lastTick ? "TODAY" : xAxisSteps[i]);
-  };
-
-const addKilledCountLabelOverlay =
-  (svg: D3NodeSvg, id: IDScoper, { width, height, mobile }: ChartConstants) =>
-  (latestKilledValue: string) => {
-    const countLabelY = (height * 3) / 5;
-    svg
-      .append("text")
-      .attr("id", id("chartcount"))
-      .attr("text-anchor", "end")
-      .attr("font-size", mobile ? 60 : 80)
-      .attr("font-weight", "bold")
-      .attr("fill", "var(--tfp-chart-killed-count)")
-      .attr("opacity", "0.6")
-      .attr("x", width - 10)
-      .attr("y", countLabelY)
-      .text(latestKilledValue);
-    svg
-      .append("text")
-      .attr("text-anchor", "end")
-      .attr("font-size", mobile ? 35 : 40)
-      .attr("font-weight", "bold")
-      .attr("fill", "var(--tfp-chart-killed-count)")
-      .attr("opacity", "0.6")
-      .attr("x", width - 12)
-      .attr("y", countLabelY + 40)
-      .text("killed");
   };
 
 const addEventDotShadowFilter = (svg: D3NodeSvg, id: IDScoper, _: ChartConstants) => () => {
@@ -120,63 +73,32 @@ const addEventDotShadowFilter = (svg: D3NodeSvg, id: IDScoper, _: ChartConstants
     .attr("floodOpacity", 0.2);
 };
 
-const addEventPoint =
-  (svg: D3NodeSvg, id: IDScoper, { eventDotRadius, height, mobile }: ChartConstants) =>
-  ({
-    eventLabel,
-    eventPoint,
-    dotOffset,
-    eventLineLabelOffset,
-    eventLabelBottomOffset,
-  }: {
-    eventLabel: string;
-    eventPoint: [number, number];
-    dotOffset: number;
-    eventLineLabelOffset: number;
-    eventLabelBottomOffset: number;
-  }) => {
-    const dotX = eventPoint[0];
-    const dotY = eventPoint[1];
-    svg
-      .append("circle")
-      .attr("cx", dotX)
-      .attr("cy", dotY)
-      .attr("stroke-width", 2)
-      .attr("stroke", "white")
-      .attr("fill", "#333")
-      .attr("r", eventDotRadius)
-      .attr("filter", `url(#${id("dotShadow")})`);
-
-    // vertical dash line
+// Faint vertical guide marking a year boundary, with its label sitting just
+// under the axis line.
+const addYearGridline =
+  (svg: D3NodeSvg, id: IDScoper, { height, mobile }: ChartConstants) =>
+  ({ x, label }: { x: number; label: string }) => {
     svg
       .append("path")
-      .attr(
-        "d",
-        `M${dotX} ${dotY + dotOffset} v${
-          height - dotY - dotOffset - eventLineLabelOffset - eventLabelBottomOffset
-        }`,
-      )
-      .attr("stroke", "#AAA")
-      .attr("stroke-width", "2")
-      .attr("stroke-dasharray", "5")
-      .attr("stroke-linecap", "round")
-      .attr("opacity", "0.5");
+      .attr("d", `M${x} 0 v${height}`)
+      .attr("stroke", "var(--tfp-chart-line)")
+      .attr("stroke-width", "1")
+      .attr("opacity", "0.12");
 
     svg
       .append("text")
-      .attr("x", dotX)
-      .attr("y", height - eventLabelBottomOffset)
-      .attr("fill", "#777")
-      .attr("font-size", mobile ? "1.2em" : "1em")
+      .attr("x", x)
+      .attr("y", height + 20)
+      .attr("fill", "var(--tfp-chart-subtitle)")
       .attr("text-anchor", "middle")
-      .text(eventLabel);
+      .attr("font-size", mobile ? "1.2em" : "1em")
+      .attr("font-weight", "600")
+      .text(label);
   };
 
 export const bindHelpers = (svg: D3NodeSvg, id: IDScoper, c: ChartConstants) => ({
-  addEventPoint: addEventPoint(svg, id, c),
-  addAxisTickLabel: addAxisTickLabel(svg, id, c),
-  addMovableDotLine: addMovableDotLine(svg, id, c),
+  addYearGridline: addYearGridline(svg, id, c),
+  addMarkerDotLine: addMarkerDotLine(svg, id, c),
   addGradientDefinition: addGradientDefinition(svg, id),
   addEventDotShadowFilter: addEventDotShadowFilter(svg, id, c),
-  addKilledCountLabelOverlay: addKilledCountLabelOverlay(svg, id, c),
 });

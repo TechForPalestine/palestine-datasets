@@ -2,8 +2,10 @@ import fs from "fs";
 import D3Node from "d3-node";
 import { transform } from "@svgr/core";
 import chartEvents from "./chart_events.json";
+import { keyEvents } from "./key-events";
 import gazaDailyTimeSeries from "../../../../../casualties_daily.min.json";
 import westBankDailyTimeSeries from "../../../../../west_bank_daily.min.json";
+import lebanonDailyTimeSeries from "../../../../../lebanon_casualties_daily.min.json";
 import { CasualtyDailyReportV2 } from "../../../../../types/casualties-daily.types";
 import { bindHelpers } from "./svg-helpers";
 
@@ -11,8 +13,10 @@ type SlimData = {
   date: CasualtyDailyReportV2["report_date"];
   injured: CasualtyDailyReportV2["ext_injured_cum"];
   civdef: CasualtyDailyReportV2["ext_civdef_killed_cum"];
-  children: CasualtyDailyReportV2["ext_killed_children_cum"];
-  women: CasualtyDailyReportV2["ext_killed_women_cum"];
+  /** killed + injured, per region */
+  gazaCasualties: number;
+  westBankCasualties: number;
+  lebanonCasualties: number;
   killed: CasualtyDailyReportV2["ext_killed_cum"];
   medical: CasualtyDailyReportV2["ext_med_killed_cum"];
   press: CasualtyDailyReportV2["ext_press_killed_cum"];
@@ -25,16 +29,6 @@ type MappedData = {
   chart: Array<{ date: Date; value: number }>;
   slimData: SlimData[];
 };
-
-const eventsToSkipOnMobile = [
-  "ICJ",
-  "Thanksgiving",
-  "NYE",
-  "Superbowl",
-  "Easter",
-  "Ramadan",
-  "GHF Start",
-];
 
 const lastWestBankReport = westBankDailyTimeSeries[westBankDailyTimeSeries.length - 1];
 const westBankLookup = westBankDailyTimeSeries.reduce(
@@ -65,8 +59,30 @@ const getWestBankValue = (
   return typeof value === "number" ? value : 0;
 };
 
-let lastChildrenKilledReportPct = 0;
-let lastWomenKilledReportPct = 0;
+// Lebanon rows exist only on report dates, so each Gaza day takes the latest
+// Lebanon report up to and including it (0 before the first one), carried
+// forward through gaps rather than interpolated. Rows are looked up by exact
+// date string, so no ordering or string comparison is involved.
+const lebanonByDate = new Map<string, { killed: number; injured: number }>();
+lebanonDailyTimeSeries.forEach((report) => {
+  lebanonByDate.set(report.report_date, {
+    killed: report.killed_cum,
+    injured: report.injured_cum,
+  });
+});
+const gazaDates = new Set(gazaDailyTimeSeries.map((report) => report.report_date));
+lebanonByDate.forEach((_, date) => {
+  if (!gazaDates.has(date)) {
+    throw new Error(`chart-generator: lebanon report ${date} has no matching Gaza day`);
+  }
+});
+
+let lastLebanon = { killed: 0, injured: 0 };
+const getLebanonAsOf = (reportDate: string) => {
+  lastLebanon = lebanonByDate.get(reportDate) ?? lastLebanon;
+  return lastLebanon;
+};
+
 let lastFamineReport = 0;
 let lastSeekingAidReport = 0;
 
@@ -77,48 +93,23 @@ const data = gazaDailyTimeSeries.reduce(
       report_date,
       ext_civdef_killed_cum,
       ext_injured_cum,
-      killed_children_cum,
-      ext_killed_children_cum,
       ext_killed_cum,
-      killed_women_cum,
       famine_cum,
       aid_seeker_killed_cum,
       aid_seeker_injured_cum,
-      ext_killed_women_cum,
       ext_med_killed_cum,
       ext_press_killed_cum,
     },
     day: number,
   ) => {
-    let children =
-      ext_killed_children_cum +
-      getWestBankValue(report_date, ["verified", "killed_children_cum"], "killed_children_cum");
-    let women = ext_killed_women_cum;
-
-    let killed =
-      ext_killed_cum + getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
-
-    if (killed_children_cum) {
-      lastChildrenKilledReportPct =
-        (killed_children_cum +
-          getWestBankValue(
-            report_date,
-            ["verified", "killed_children_cum"],
-            "killed_children_cum",
-          )) /
-        killed;
-    }
-
-    if (killed_women_cum) {
-      lastWomenKilledReportPct = killed_women_cum / killed;
-    }
-
-    if (lastChildrenKilledReportPct > 0) {
-      children = Math.floor(killed * lastChildrenKilledReportPct);
-    }
-    if (lastWomenKilledReportPct > 0) {
-      women = Math.floor(killed * lastWomenKilledReportPct);
-    }
+    const westBankKilled = getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum");
+    const westBankInjured = getWestBankValue(
+      report_date,
+      ["verified", "injured_cum"],
+      "injured_cum",
+    );
+    const lebanon = getLebanonAsOf(report_date);
+    const killed = ext_killed_cum + westBankKilled + lebanon.killed;
 
     let starved = lastFamineReport;
     if (famine_cum) {
@@ -138,12 +129,11 @@ const data = gazaDailyTimeSeries.reduce(
       slimData: acc.slimData.concat({
         date: report_date,
         civdef: ext_civdef_killed_cum,
-        injured:
-          ext_injured_cum +
-          getWestBankValue(report_date, ["verified", "injured_cum"], "injured_cum"),
-        children,
+        injured: ext_injured_cum + westBankInjured + lebanon.injured,
+        gazaCasualties: ext_killed_cum + ext_injured_cum,
+        westBankCasualties: westBankKilled + westBankInjured,
+        lebanonCasualties: lebanon.killed + lebanon.injured,
         killed,
-        women,
         starved,
         seekingAid,
         medical: ext_med_killed_cum,
@@ -152,8 +142,7 @@ const data = gazaDailyTimeSeries.reduce(
       }),
       chart: acc.chart.concat({
         date: D3Node.d3.timeParse("%Y-%m-%d")(report_date),
-        value:
-          ext_killed_cum + getWestBankValue(report_date, ["verified", "killed_cum"], "killed_cum"),
+        value: killed,
       }),
     };
   },
@@ -163,37 +152,79 @@ const data = gazaDailyTimeSeries.reduce(
   } as MappedData,
 );
 
+// Key dated events, resolved to their index in the daily series. Events whose
+// date has no matching report are dropped rather than silently misplaced.
+type PlottedEvent = {
+  day: number;
+  date: string;
+  title: string;
+  detail: string;
+};
+
+const dayIndexByDate = new Map(data.slimData.map(({ date }, index) => [date, index]));
+
+const plottedEvents: PlottedEvent[] = keyEvents
+  .map((event) => ({ ...event, day: dayIndexByDate.get(event.date) }))
+  .filter((event): event is PlottedEvent => typeof event.day === "number")
+  .sort((a, b) => a.day - b.day);
+
+const missingEventDates = keyEvents.filter((event) => !dayIndexByDate.has(event.date));
+if (missingEventDates.length) {
+  console.warn(
+    `chart-generator: ignoring key events with no matching report date: ${missingEventDates
+      .map((event) => event.date)
+      .join(", ")}`,
+  );
+}
+
+// Markers closer together than this (in svg units) would overlap into an
+// unreadable clump, so the later one renders without a dot. The day is still
+// scrubbable and still names its event in the callout.
+const minMarkerGap = 11;
+
+const thinMarkers = (points: [number, number][]): ([number, number] | null)[] => {
+  let lastKeptX = -Infinity;
+  return points.map((point) => {
+    if (point[0] - lastKeptX < minMarkerGap) {
+      return null;
+    }
+    lastKeptX = point[0];
+    return point;
+  });
+};
+
 const json: {
   data: typeof data.slimData;
   width: number;
   height: number;
   dayPoints: [number, number][];
-  eventDotRadius: number;
+  events: PlottedEvent[];
+  eventPoints: ([number, number] | null)[];
   mobile: {
     width: number;
     height: number;
     dayPoints: [number, number][];
-    eventDotRadius: number;
+    eventPoints: ([number, number] | null)[];
   };
 } = {
   data: data.slimData,
   width: 0,
   height: 0,
   dayPoints: [],
-  eventDotRadius: 0,
+  events: plottedEvents,
+  eventPoints: [],
   mobile: {
     width: 0,
     height: 0,
     dayPoints: [],
-    eventDotRadius: 0,
+    eventPoints: [],
   },
 };
-
-const eventDotRadius = 9;
 
 const render = async ({ mobile } = { mobile: false }) => {
   const width = mobile ? 500 : 1000;
   const height = 300;
+  const markerDotRadius = mobile ? 9 : 7;
   const id = (elementId: string) => `${elementId}${mobile ? "Mobile" : ""}`;
 
   const d3n = new D3Node();
@@ -205,7 +236,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("overflow", "visible");
 
   const helpers = bindHelpers(svg, id, {
-    eventDotRadius,
+    markerDotRadius,
     width,
     height,
     mobile,
@@ -237,6 +268,19 @@ const render = async ({ mobile } = { mobile: false }) => {
     ])
     .range([height, 0]);
 
+  const linePathId = "chartlinepath";
+
+  // Faint vertical guides at each year boundary, drawn beneath the area/line
+  // so they read as a background reference rather than data.
+  const [domainStart, domainEnd] = d3.extent(data.chart, (d: any) => d.date);
+  chartEvents.forEach((yearMark) => {
+    const markDate = D3Node.d3.timeParse("%Y-%m-%d")(yearMark.date);
+    if (!markDate || markDate < domainStart || markDate > domainEnd) {
+      return;
+    }
+    helpers.addYearGridline({ x: x(markDate) as number, label: yearMark.label });
+  });
+
   const pathData = d3
     .area()
     .x(function (d: any) {
@@ -246,10 +290,6 @@ const render = async ({ mobile } = { mobile: false }) => {
     .y1(function (d: any) {
       return y(d.value);
     });
-
-  const days = data.slimData.length;
-
-  const linePathId = "chartlinepath";
 
   // Gradient-filled area (no stroke — rendered below the line)
   const areaPathStr = pathData(data.chart) as string;
@@ -279,90 +319,20 @@ const render = async ({ mobile } = { mobile: false }) => {
     .attr("stroke-linecap", "round")
     .attr("d", lineGenerator(data.chart) as string);
 
-  const desiredTickCount = mobile ? 5 : 10;
-  const xAxisPlan = days / desiredTickCount;
-  const xAxisStep = Math.ceil(xAxisPlan / 5) * 5;
-  const xAxisSteps: number[] = [0];
-  const maxStep = xAxisStep * days;
-  while (xAxisSteps[xAxisSteps.length - 1] < days) {
-    const nextStep = xAxisSteps[xAxisSteps.length - 1] + xAxisStep;
-    if (nextStep < maxStep) {
-      xAxisSteps.push(nextStep);
-    }
-  }
-  xAxisSteps[0] = 1;
-
   // Compute day points directly from d3 scales — no need for point-at-length
   // since d3.line()/d3.area() without curve produces a polyline matching these
-  // coordinates exactly.
+  // coordinates exactly. Used client-side to position the hover/pan marker.
   const dayPoints: [number, number][] = data.chart.map((d) => [
     x(d.date) as number,
     y(d.value) as number,
   ]);
 
-  const axisStepMinDistance = width * 0.1;
-  const xAxisPoints = xAxisSteps.reduce(
-    (points, stepValue) => {
-      const idx = Math.min(stepValue - 1, data.chart.length - 1);
-      const point: [number, number] = [
-        x(data.chart[idx].date) as number,
-        y(data.chart[idx].value) as number,
-      ];
-      const lastPointX = points[points.length - 1]?.[0] ?? -Infinity;
-      // don't allow axis ticks too close together, particularly
-      // near the right-side end where TODAY takes up more space
-      if (point[0] < lastPointX + axisStepMinDistance) {
-        return points;
-      }
-      return points.concat([point]);
-    },
-    [] as [number, number][],
-  );
-
-  const dotOffset = eventDotRadius * 2;
-  const eventLabelBottomOffset = 20;
-  const eventLineLabelOffset = 25;
-
-  chartEvents.forEach((chartEvent) => {
-    if (mobile && eventsToSkipOnMobile.includes(chartEvent.label)) {
-      return;
-    }
-
-    const eventIndex = data.slimData.findIndex(({ date }) => date === chartEvent.date);
-    const eventPoint: [number, number] = [
-      x(data.chart[eventIndex].date) as number,
-      y(data.chart[eventIndex].value) as number,
-    ];
-    helpers.addEventPoint({
-      eventPoint,
-      eventLabel: chartEvent.label,
-      dotOffset,
-      eventLineLabelOffset,
-      eventLabelBottomOffset,
-    });
-  });
+  // Marker positions for the key events, in the same svg coordinate space as
+  // dayPoints so the overlay can place them as a percentage of the chart box.
+  const eventPoints = thinMarkers(plottedEvents.map((event) => dayPoints[event.day]));
 
   helpers.addEventDotShadowFilter();
-
-  // main count label
-  const latestKilledValue = new Intl.NumberFormat().format(
-    data.slimData[data.slimData.length - 1].killed,
-  );
-  helpers.addKilledCountLabelOverlay(latestKilledValue);
-
-  xAxisPoints.forEach((point, i) => {
-    const lastTick = i === xAxisPoints.length - 1;
-    const [x, y] = point;
-    helpers.addAxisTickLabel({ i, x, xAxisSteps, lastTick });
-
-    if (lastTick) {
-      //
-      // movable dot for "TODAY"
-      //
-      helpers.addMovableDotLine();
-    }
-  });
-
+  helpers.addMarkerDotLine();
   helpers.addGradientDefinition();
 
   const svgStr = d3n.svgString();
@@ -391,7 +361,7 @@ const render = async ({ mobile } = { mobile: false }) => {
       width,
       height,
       dayPoints,
-      eventDotRadius,
+      eventPoints,
     };
     // mobile is the last one to render so it renders the data json which backs both
     fs.writeFileSync(`site/src/generated/daily-chart.json`, JSON.stringify(json));
@@ -399,7 +369,7 @@ const render = async ({ mobile } = { mobile: false }) => {
     json.width = width;
     json.height = height;
     json.dayPoints = dayPoints;
-    json.eventDotRadius = eventDotRadius;
+    json.eventPoints = eventPoints;
   }
 };
 
