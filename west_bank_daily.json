@@ -17679,5 +17679,41 @@
     "displaced_persons_cum": 10566,
     "displaced_children_cum": 4380,
     "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-11-24",
+    "killed_cum": 1130,
+    "killed_children_cum": 240,
+    "injured_cum": 12455,
+    "injured_children_cum": 1989,
+    "settler_attacks_cum": 5304,
+    "displaced_households_cum": 1471,
+    "displaced_persons_cum": 10566,
+    "displaced_children_cum": 4380,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-11-25",
+    "killed_cum": 1130,
+    "killed_children_cum": 240,
+    "injured_cum": 12455,
+    "injured_children_cum": 1989,
+    "settler_attacks_cum": 5304,
+    "displaced_households_cum": 1471,
+    "displaced_persons_cum": 10566,
+    "displaced_children_cum": 4380,
+    "flash_source": "fill"
+  },
+  {
+    "report_date": "2026-11-26",
+    "killed_cum": 1130,
+    "killed_children_cum": 240,
+    "injured_cum": 12455,
+    "injured_children_cum": 1989,
+    "settler_attacks_cum": 5304,
+    "displaced_households_cum": 1471,
+    "displaced_persons_cum": 10566,
+    "displaced_children_cum": 4380,
+    "flash_source": "fill"
   }
 ]
