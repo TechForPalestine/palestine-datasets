@@ -1,5 +1,5 @@
 /**
- * Key dated events plotted as markers on the v2 homepage chart.
+ * Key dated events plotted as markers on the homepage chart.
  *
  * Each entry must line up with a `report_date` in the daily casualties series
  * (any date missing from the series is dropped at generate time). Keep the
